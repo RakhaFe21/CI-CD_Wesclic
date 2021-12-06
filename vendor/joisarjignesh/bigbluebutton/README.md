@@ -7,6 +7,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/joisarjignesh/bigbluebutton.svg?style=flat-square)](https://packagist.org/packages/joisarjignesh/bigbluebutton)
 ![Laravel Framework](https://img.shields.io/badge/laravel-%3E%3D5.5-blue)
 
+
 Package that provides easily communicate between BigBlueButton server and laravel framework
 
 * [Requirements](#requirements)
@@ -28,6 +29,7 @@ Package that provides easily communicate between BigBlueButton server and larave
         * [Get recordings](#get-recordings)
         * [Publish recordings](#publish-recordings)
         * [Delete recordings](#delete-recordings)
+        * [Update recordings](#update-recordings)
      * [Config Xml](#config-xml)
         * [Get default config](#get-default-config-xml)
         * [Set config](#set-config-xml)
@@ -83,6 +85,7 @@ php artisan config:clear
 ```php
 dd(\Bigbluebutton::isConnect()); //default 
 dd(\Bigbluebutton::server('server1')->isConnect()); //for specific server 
+dd(bigbluebutton()->isConnect()); //using helper method 
 ```
  
  ### Meeting
@@ -205,7 +208,8 @@ return redirect()->to(
 #### Get a list of meetings
 - Get all meetings  [document](https://docs.bigbluebutton.org/dev/api.html#getmeetings)
 ```php
-\Bigbluebutton::all();
+\Bigbluebutton::all(); //using facade
+bigbluebutton()->all(); //using helper method 
 ```
 
 #### Get meeting info
@@ -267,6 +271,14 @@ Bigbluebutton::close([
 - Delete recordings [document](https://docs.bigbluebutton.org/dev/api.html#deleterecordings)
 ```php
 \Bigbluebutton::deleteRecordings([
+    //'recordID' => 'a3f1s',
+    'recordID' => ['a3f1s','a4ff2'] //pass array if multiple delete recordings
+]);
+```
+#### Update recordings
+- Update recordings [document](https://docs.bigbluebutton.org/dev/api.html#updaterecordings)
+```php
+\Bigbluebutton::updateRecordings([
     //'recordID' => 'a3f1s',
     'recordID' => ['a3f1s','a4ff2'] //pass array if multiple delete recordings
 ]);
@@ -339,6 +351,14 @@ return redirect()->to($url);
 ### More Information Read This [wiki](https://github.com/bigbluebutton/bigbluebutton-api-php/wiki) 
 ### For Bigbluebutton Api Testing See This [ApiMate](https://mconf.github.io/api-mate/) 
 ### See Bigbluebutton Official dev Api   [Bigbluebutton](https://docs.bigbluebutton.org/dev/api.html) 
+
+### Support
+
+<a href="https://www.buymeacoffee.com/joisarjignesh" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+<a href="https://www.paypal.me/joisarjignesh" target="_blank">
+  <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="Donate" ></a>
 
 ### Changelog
 

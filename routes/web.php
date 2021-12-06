@@ -148,8 +148,8 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::post('app/setting/update', 'Setting\SettingController@appSettingUpdate')->name('app.update')->middleware('demo');
 
     /*other settings here*/
-    Route::get('other/settings','Setting\SettingController@otherSetting')->name('other.setting');
-    Route::post('other/setting','Setting\SettingController@otherSettingUpdate')->name('other.update');
+    Route::get('other/settings', 'Setting\SettingController@otherSetting')->name('other.setting');
+    Route::post('other/setting', 'Setting\SettingController@otherSettingUpdate')->name('other.update');
 
     //Language Setting
     Route::get('language/index', 'Setting\LanguageController@index')
@@ -256,13 +256,13 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::post('theme/store', 'Module\ThemesController@store')->name('themes.store')->middleware('demo');
 
     /*affiliate setup*/
-    if (affiliateStatus()){
-        Route::get('affiliate/setting','Module\AffiliateController@settingCreate')->name('affiliate.setting.create');
-        Route::post('affiliate/setting/update','Module\AffiliateController@settingStore')->name('affiliate.setting.update');
-        Route::get('affiliate/index','Module\AffiliateController@requestList')->name('affiliate.request.list');
-        Route::get('affiliate/reject/{id}','Module\AffiliateController@reject')->name('affiliate.reject');
-        Route::get('affiliate/active/{id}','Module\AffiliateController@active')->name('affiliate.active');
-        Route::get('affiliate/payment/request','Module\AffiliateController@paymentRequest')->name('affiliate.payment.request');
+    if (affiliateStatus()) {
+        Route::get('affiliate/setting', 'Module\AffiliateController@settingCreate')->name('affiliate.setting.create');
+        Route::post('affiliate/setting/update', 'Module\AffiliateController@settingStore')->name('affiliate.setting.update');
+        Route::get('affiliate/index', 'Module\AffiliateController@requestList')->name('affiliate.request.list');
+        Route::get('affiliate/reject/{id}', 'Module\AffiliateController@reject')->name('affiliate.reject');
+        Route::get('affiliate/active/{id}', 'Module\AffiliateController@active')->name('affiliate.active');
+        Route::get('affiliate/payment/request', 'Module\AffiliateController@paymentRequest')->name('affiliate.payment.request');
         Route::get('affiliate/student/account/{id}/{userId}/{method}/{payId}', 'Module\AffiliateController@accountDetails')
             ->name('student.account.details');
         Route::get('affiliate/payments/status/{id}', 'Module\AffiliateController@affiliateStatus')->name('affiliate.payments.status');
@@ -270,32 +270,29 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     }
 
 
-    if (themeManager() == "rumbok"){
+    if (themeManager() == "rumbok") {
 
         /*know about module*/
-        Route::get('know/index','KnowAboutController@index')->name('know.index');
-        Route::get('know/create','KnowAboutController@create')->name('know.create');
-        Route::post('know/store','KnowAboutController@store')->name('know.store');
-        Route::get('know/edit/{id}','KnowAboutController@edit')->name('know.edit');
-        Route::post('know/update','KnowAboutController@update')->name('know.update');
-        Route::get('know/delete/{id}','KnowAboutController@destroy')->name('know.destroy');
+        Route::get('know/index', 'KnowAboutController@index')->name('know.index');
+        Route::get('know/create', 'KnowAboutController@create')->name('know.create');
+        Route::post('know/store', 'KnowAboutController@store')->name('know.store');
+        Route::get('know/edit/{id}', 'KnowAboutController@edit')->name('know.edit');
+        Route::post('know/update', 'KnowAboutController@update')->name('know.update');
+        Route::get('know/delete/{id}', 'KnowAboutController@destroy')->name('know.destroy');
 
         /*blog*/
-        Route::get('blog/index','BlogController@index')->name('blog.index');
-        Route::get('blog/create','BlogController@create')->name('blog.create');
-        Route::post('blog/store','BlogController@store')->name('blog.store');
-        Route::get('blog/edit/{id}','BlogController@edit')->name('blog.edit');
-        Route::post('blog/update','BlogController@update')->name('blog.update');
-        Route::get('blog/delete/{id}','BlogController@destroy')->name('blog.destroy');
-        Route::get('blog/publish','BlogController@isActive')->name('blog.active');
-
-
-
+        Route::get('blog/index', 'BlogController@index')->name('blog.index');
+        Route::get('blog/create', 'BlogController@create')->name('blog.create');
+        Route::post('blog/store', 'BlogController@store')->name('blog.store');
+        Route::get('blog/edit/{id}', 'BlogController@edit')->name('blog.edit');
+        Route::post('blog/update', 'BlogController@update')->name('blog.update');
+        Route::get('blog/delete/{id}', 'BlogController@destroy')->name('blog.destroy');
+        Route::get('blog/publish', 'BlogController@isActive')->name('blog.active');
     }
 });
 
 
 
-        Route::get('/toko', function () {
-            return view('demo');
-        });
+Route::get('/toko', function () {
+    return view('demo');
+});

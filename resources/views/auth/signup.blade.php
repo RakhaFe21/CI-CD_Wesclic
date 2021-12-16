@@ -166,12 +166,12 @@
                                             @endif
                                             <div class="col-lg-12 ">
                                                 <div class="input-box">
-                                                    <label class="label-text">@translate(Full Name)<span
+                                                    <label class="label-text">@translate(Nama Lengkap)<span
                                                             class="primary-color-2 ml-1">*</span></label>
                                                     <div class="form-group">
                                                         <input class="form-control @error('name') is-invalid @enderror"
                                                                type="text" name="name"
-                                                               placeholder="@translate(Full name)"
+                                                               placeholder="@translate(Nama Lengkap)"
                                                                required value="{{ old('name') }}">
                                                         <span class="la la-user input-icon"></span>
 
@@ -184,17 +184,56 @@
                                                     </div>
                                                 </div>
                                             </div><!-- end col-md-12 -->
+                                            <div class="col-lg-12 ">
+                                                <div class="input-box">
+                                                    <label class="label-text">@translate(NIK)<span
+                                                            class="primary-color-2 ml-1">*</span></label>
+                                                    <div class="form-group">
+                                                        <input class="form-control @error('nik') is-invalid @enderror"
+                                                               type="number" name="nik"
+                                                               placeholder="@translate(Nik)"
+                                                               required value="{{ old('nik') }}">
+                                                        <span class="la la-book input-icon"></span>
 
+                                                        @error('name')
+                                                        <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                  </span>
+                                                        @enderror
+
+                                                    </div>
+                                                </div>
+                                            </div><!-- end col-md-12 -->
                                             <div class="col-lg-12">
                                                 <div class="input-box">
-                                                    <label class="label-text">@translate(Email Address)<span
+                                                    <label class="label-text">@translate(Username)<span
                                                             class="primary-color-2 ml-1">*</span></label>
                                                     <div class="form-group">
                                                         <input class="form-control @error('email') is-invalid @enderror"
-                                                               type="email" name="email"
-                                                               placeholder="@translate(Email address)" required
+                                                               type="text" name="email"
+                                                               placeholder="@translate(Username)" required
                                                                value="{{ old('email') }}">
                                                         <span class="la la-envelope input-icon"></span>
+
+                                                        @error('email')
+                                                        <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                  </span>
+                                                        @enderror
+
+                                                    </div>
+                                                </div>
+                                            </div><!-- end col-md-12 -->
+                                            <div class="col-lg-12">
+                                                <div class="input-box">
+                                                    <label class="label-text">@translate(Telepon)<span
+                                                            class="primary-color-2 ml-1">*</span></label>
+                                                    <div class="form-group">
+                                                        <input class="form-control @error('phone') is-invalid @enderror"
+                                                               type="text" name="phone"
+                                                               placeholder="@translate(Telepon)" required
+                                                               value="{{ old('telp') }}">
+                                                        <span class="la la-phone input-icon"></span>
 
                                                         @error('email')
                                                         <span class="invalid-feedback" role="alert">
@@ -254,9 +293,8 @@
                                                 </div>
                                             </div><!-- end col-md-12 -->
                                             <div class="col-lg-12">
-                                                <p class="mt-4">@translate(Already have an account)? <a
-                                                        href="{{ route('login') }}" class="primary-color-2">@translate(Log
-                                                        in)</a></p>
+                                                <p class="mt-4">@translate(Sudah memiliki akun)? <a
+                                                        href="{{ route('login') }}" class="primary-color-2">@translate(Masuk)</a></p>
                                             </div><!-- end col-md-12 -->
                                         </div><!-- end row -->
                                     </form>

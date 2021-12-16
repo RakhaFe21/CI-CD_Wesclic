@@ -9,7 +9,7 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb-content my-courses-bread-content">
                         <div class="section-heading">
-                            <h2 class="section__title">@translate(My courses)</h2>
+                            <h2 class="section__title">@translate(Pelatihan saya)</h2>
                         </div>
                     </div><!-- end breadcrumb-content -->
                     <div class="my-courses-tab">

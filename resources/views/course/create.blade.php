@@ -16,7 +16,7 @@
             {{-- Course Title --}}
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="val-title">
-                    @translate(Course Title) <span class="text-danger">*</span></label>
+                    @translate(Nama Pelatihan) <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
                     <input type="text" required
                            value="{{ old('title') }}"
@@ -40,42 +40,13 @@
                 </div>
             </div>
 
-            {{-- Provider --}}
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label" for="val-provider">
-                    @translate(Course Level) <span class="text-danger">*</span></label>
-                <div class="col-lg-9">
-                    <select  class="form-control lang @error('level') is-invalid @enderror" id="val-provider" name="level" required>
-                        <option value="">
-                            @translate(Select Level)</option>
-                        <option value="Beginner">
-                            @translate(Beginner)</option>
-                        <option value="Advanced">
-                            @translate(Advanced)</option>
-                        <option value="All Levels">
-                            @translate(All Levels)</option>
-                    </select>
-                </div>
-                @error('level') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
-            </div>
-
             {{-- Description --}}
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="val-suggestions">
-                    @translate(Short Description)</label>
+                    @translate(Description)</label>
                 <div class="col-lg-9">
                     <textarea required="required" class="form-control summernote @error('short_description') is-invalid @enderror" name="short_description" rows="5" aria-required="true">{!! old('short_description') !!}</textarea>
                       @error('short_description') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
-                </div>
-            </div>
-
-            {{-- Big description --}}
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label" for="val-suggestions">
-                    @translate(Details)</label>
-                <div class="col-lg-9">
-                    <textarea required="required" class="form-control summernote @error('big_description') is-invalid @enderror" name="big_description" rows="5">{{ old('big_description') }}</textarea>
-                      @error('big_description') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                 </div>
             </div>
 
@@ -98,12 +69,65 @@
                 </div>
             </div>
 
-            {{-- Overview URL --}}
+            {{-- Category --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-category_id">
+                    @translate(Category) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select class="form-control lang @error('category_id') is-invalid @enderror" id="val-category_id" name="category_id" required>
+                        <option value="" class="mb-2">
+                            @translate(Please Category)</option>
+                        @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('category_id') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+            </div>
+
+            {{-- tahapan & jadwal seleksi --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-suggestions">
+                    @translate(tahapan & jadwal seleksi)</label>
+                <div class="col-lg-9">
+                    <textarea required="required" class="form-control summernote @error('big_description') is-invalid @enderror" name="big_description" rows="5">{{ old('big_description') }}</textarea>
+                      @error('big_description') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                </div>
+            </div>
+
+            {{-- tahapan pelatihan --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-suggestions">
+                    @translate(tahapan pelatihan)</label>
+                <div class="col-lg-9">
+                    <textarea required="required" class="form-control summernote @error('tahapan_pelatihan') is-invalid @enderror" name="tahapan_pelatihan" rows="5">{{ old('tahapan_pelatihan') }}</textarea>
+                      @error('tahapan_pelatihan') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                </div>
+            </div>
+
+            {{-- Type pelatihan --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-provider">
+                    @translate(Type pelatihan) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select  class="form-control lang @error('level') is-invalid @enderror" id="val-provider" name="level" required>
+                        <option value="">
+                            @translate(Select Level)</option>
+                        <option value="Terbuka">
+                            @translate(Terbuka)</option>
+                        <option value="Tertutup">
+                            @translate(Tertutup)</option>
+                    </select>
+                </div>
+                @error('level') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+            </div>
+
+            <!-- {{-- Overview URL --}}
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="val-website">
                     @translate(Overview URL) <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <input type="url" required value="{{ old('overview_url') }}" class="form-control @error('overview_url') is-invalid @enderror" id="val-website" name="overview_url" placeholder="Overview URL" aria-required="true">
+                    <input type="url"  value="{{ old('overview_url') }}" class="form-control @error('overview_url') is-invalid @enderror" id="val-website" name="overview_url" placeholder="Overview URL" aria-required="true">
                       @error('overview_url') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                 </div>
             </div>
@@ -113,7 +137,7 @@
                 <label class="col-lg-3 col-form-label" for="val-provider">
                     @translate(Provider) <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                    <select class="form-control lang @error('provider') is-invalid @enderror" id="val-provider" name="provider" required>
+                    <select class="form-control lang @error('provider') is-invalid @enderror" id="val-provider" name="provider" >
                         <option value="">
                             @translate(Select Provider)</option>
                         <option value="Youtube">
@@ -231,7 +255,7 @@
                 <label class="col-lg-3 col-form-label" for="language">
                     @translate(Language) <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
-                  <select class="form-control lang @error('language') is-invalid @enderror" id="language" name="language" required>
+                  <select class="form-control lang @error('language') is-invalid @enderror" id="language" name="language" >
                       <option value="">@translate(Select Provider)</option>
                       @foreach ($languages as $language)
                         <option value="{{ $language->name }}">{{ $language->name }}</option>
@@ -262,23 +286,7 @@
                     <textarea id="val-meta_description" name="meta_description" class="form-control @error('meta_description') is-invalid @enderror" data-role="tagsinput"> {!! old('meta_description') !!}</textarea>
                       @error('meta_description') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                 </div>
-            </div>
-
-            {{-- Category --}}
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label" for="val-category_id">
-                    @translate(Category) <span class="text-danger">*</span></label>
-                <div class="col-lg-9">
-                    <select class="form-control lang @error('category_id') is-invalid @enderror" id="val-category_id" name="category_id" required>
-                        <option value="" class="mb-2">
-                            @translate(Please Category)</option>
-                        @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                @error('category_id') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
-            </div>
+            </div> -->
 
             {{-- Submit --}}
             <div class="form-group row">

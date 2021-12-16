@@ -20,7 +20,7 @@
                 <div class="col-lg-6">
                     <div class="header-widget header-widget2 d-flex align-items-center justify-content-end">
                         <div class="header-right-info">
-                            <ul class="social-profile d-flex align-items-center social-margin">
+                            <!-- <ul class="social-profile d-flex align-items-center social-margin">
                                 @if(getSystemSetting('type_fb')->value != null)
                                     <li><a href="{{getSystemSetting('type_fb')->value}}" target="_blank"><i
                                                 class="fa fa-facebook"></i></a></li>
@@ -35,7 +35,7 @@
                                     <li><a href="{{getSystemSetting('type_google')->value}}" target="_blank"><i
                                                 class="fa fa-google-plus"></i></a></li>
                                 @endif
-                            </ul>
+                            </ul> -->
                         </div>
                         <div class="header-right-info d-flex align-items-center">
                             @guest()

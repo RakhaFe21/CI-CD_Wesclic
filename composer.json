@@ -15,7 +15,7 @@
         "beyondcode/laravel-vouchers": "^1.3",
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^1.0.6",
-        "guzzlehttp/guzzle": "^6.5.5",
+        "guzzlehttp/guzzle": "^7.4",
         "intervention/image": "^2.5.1",
         "joisarjignesh/bigbluebutton": "^1.1.6",
         "laravel/framework": "^7.30.0",

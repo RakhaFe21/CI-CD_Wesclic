@@ -59,14 +59,16 @@
                                         class="profile-desc">{{ $student->email }}</span></li>
                                 <li><span class="profile-name">@translate(Phone Number):</span><span
                                         class="profile-desc">{{ $student->student->phone ?? '' }}</span></li>
-                                <li><span class="profile-name">@translate(Address):</span><span
+                                <li><span class="profile-name">@translate(Provinsi):</span><span
                                         class="profile-desc">{{ $student->student->address ?? '' }}</span></li>
-                                <li><span class="profile-name">@translate(Facebook):</span><span
+                                <li><span class="profile-name">@translate(Kab/Kota):</span><span
+                                        class="profile-desc">{{ $student->student->address ?? '' }}</span></li>
+                                <li><span class="profile-name">@translate(Kecamatan):</span><span
                                         class="profile-desc">{{ $student->student->fb ?? '' }}</span></li>
-                                <li><span class="profile-name">@translate(Twitter):</span><span
+                                <li><span class="profile-name">@translate(Kelurahan):</span><span
                                         class="profile-desc">{{ $student->student->tw ?? '' }}</span></li>
-                                <li><span class="profile-name">@translate(Linked in):</span><span
-                                        class="profile-desc">{{ $student->student->linked ?? '' }}</span></li>
+                                <li><span class="profile-name">@translate(Alamat):</span><span
+                                        class="profile-desc">{{ $student->student->tw ?? '' }}</span></li>
                                 <li><span class="profile-name">@translate(About):</span><span
                                         class="profile-desc">{!! $student->student->about !!}</span></li>
 

@@ -42,7 +42,7 @@ class Course extends Model
     public function relationBetweenInstructorUser()
     {
 
-        return $this->belongsTo(User::class, 'user_id', 'id')->where('user_type', 'Instructor');
+        return $this->belongsTo(User::class, 'user_id', 'id')->where('user_type', 'Admin');
     }
 
     // classes

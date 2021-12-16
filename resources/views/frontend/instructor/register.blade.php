@@ -121,7 +121,7 @@
                                         </div>
                                     </div><!-- end col-md-12 -->
                                     <div class="col-lg-12">
-                                        <p class="mt-4">@translate(Already have an account)? <a href="{{ route('login') }}" class="primary-color-2">@translate(Log in)</a></p>
+                                        <p class="mt-4">@translate(udah memiliki akun)? <a href="{{ route('login') }}" class="primary-color-2">@translate(Masuk)</a></p>
                                     </div><!-- end col-md-12 -->
                                 </div><!-- end row -->
                             </form>

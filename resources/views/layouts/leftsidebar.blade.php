@@ -69,7 +69,7 @@
                                    || request()->is('dashboard/category*') ? 'active' : null}}">
                                 <a href="javaScript:void();">
                                     <i class="fa fa-book"></i>
-                                    <span>@translate(Courses) @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                                    <span>@translate(Pelatihan) @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                             <sup
                                                 class="badge badge-info">{{\App\Model\Course::where('is_published',false)->count() > 0 ? "@translate(Unpublished)":null}}</sup>
                                         @endif</span>
@@ -86,13 +86,12 @@
                                     @else
                                         {{-- admin's Nav --}}
                                         <li><a href="{{route('categories.index')}}"
-                                               class="{{request()->is('dashboard/category*') ?'active':null}}">@translate(Categories)</a>
+                                               class="{{request()->is('dashboard/category*') ?'active':null}}">@translate(Kategori)</a>
                                         </li>
                                     @endif
 
                                     <li><a href="{{route('course.index')}}"
-                                           class="{{request()->is('dashboard/course/index*') ?'active':null}}">@translate(All
-                                            Courses) @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                                           class="{{request()->is('dashboard/course/index*') ?'active':null}}">@translate(Semua Pelatihan) @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                                 <sup
                                                     class="badge badge-info">{{\App\Model\Course::where('is_published',false)->count() > 0 ? \App\Model\Course::where('is_published',false)->count():null}}</sup>
                                             @endif</a></li>

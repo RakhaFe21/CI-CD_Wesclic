@@ -21,7 +21,7 @@
                             <li>{{getSystemSetting('type_address')->value}}</li>
                         </ul>
                         <h3 class="widget-title font-size-17 mt-4">@translate(We are on)</h3>
-                        <ul class="social-profile">
+                        <!-- <ul class="social-profile">
                             @if(getSystemSetting('type_fb')->value != null)
                                 <li><a href="{{getSystemSetting('type_fb')->value}}" target="_blank"><i
                                             class="fa fa-facebook"></i></a></li>
@@ -34,7 +34,7 @@
                                 <li><a href="{{getSystemSetting('type_google')->value}}" target="_blank"><i
                                             class="fa fa-google-plus"></i></a></li>
                             @endif
-                        </ul>
+                        </ul> -->
                     </div><!-- end footer-widget -->
                 </div><!-- end col-lg-4 -->
                 <div class="{{ request()->is('student/*') ? 'col-lg-3' : 'col-lg-4' }} column-td-half">

@@ -92,8 +92,8 @@
                                           </div>
                                       </div>
                                       <div class="login-button margin-top-20">
-                                          <button class="template-button" id="loginBtn" type="submit">@translate(login account)</button>
-                                          <span>@translate(Create an account)? <a href="{{route('student.register')}}">@translate(register)</a></span>
+                                          <button class="template-button" id="loginBtn" type="submit">@translate(Masuk akun)</button>
+                                          <span>@translate(Buat akun)? <a href="{{route('student.register')}}">@translate(register)</a></span>
                                       </div>
                                   </form>
                               </div>
@@ -112,7 +112,7 @@
                   <div class="col-lg-7 mx-auto">
                       <div class="card-box-shared">
                           <div class="card-box-shared-title text-center">
-                              <h3 class="widget-title font-size-35">@translate(Login to Your Account)!</h3>
+                              <h3 class="widget-title font-size-35">@translate(Masuk ke akun Anda)!</h3>
                           </div>
 
                           {{-- Flash message after successful registration --}}
@@ -160,9 +160,9 @@
                                               @endif
                                           <div class="col-lg-12">
                                               <div class="input-box">
-                                                  <label class="label-text">@translate(Email)<span class="primary-color-2 ml-1">*</span></label>
+                                                  <label class="label-text">@translate(Username)<span class="primary-color-2 ml-1">*</span></label>
                                                   <div class="form-group">
-                                                      <input class="form-control @error('email') is-invalid @enderror" id="email" type="email" name="email" placeholder="@translate(Email)" required value="{{ old('email') }}">
+                                                      <input class="form-control @error('email') is-invalid @enderror" id="email" type="text" name="email" placeholder="@translate(Username)" required value="{{ old('email') }}">
                                                       <span class="la la-envelope input-icon"></span>
 
                                                       @error('email')
@@ -194,18 +194,18 @@
                                               <div class="form-group">
                                                   <div class="custom-checkbox d-flex justify-content-between">
                                                       <input type="checkbox" id="chb1" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                      <label for="chb1">@translate(Remember Me)</label>
-                                                      <a href="{{route('student.password.reset')}}" class="primary-color-2"> @translate(Forgot my password)?</a>
+                                                      <label for="chb1">@translate(Ingat Saya)</label>
+                                                      <a href="{{route('student.password.reset')}}" class="primary-color-2"> @translate(Lupa password)?</a>
                                                   </div>
                                               </div>
                                           </div><!-- end col-md-12 -->
                                           <div class="col-lg-12 ">
                                               <div class="btn-box">
-                                                  <button class="theme-btn" id="loginBtn" type="submit">@translate(login account)</button>
+                                                  <button class="theme-btn" id="loginBtn" type="submit">@translate(masuk akun)</button>
                                               </div>
                                           </div><!-- end col-md-12 -->
                                           <div class="col-lg-12">
-                                              <p class="mt-4">@translate(Don't have an account)? <a href="{{ route('student.register') }}" class="primary-color-2">@translate(Register)</a></p>
+                                              <p class="mt-4">@translate(Belom punya akun)? <a href="{{ route('student.register') }}" class="primary-color-2">@translate(Daftar)</a></p>
                                           </div><!-- end col-md-12 -->
                                       </div><!-- end row -->
                                   </form>

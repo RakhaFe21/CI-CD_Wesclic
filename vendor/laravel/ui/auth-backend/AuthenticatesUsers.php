@@ -150,7 +150,14 @@ trait AuthenticatesUsers
      */
     public function username()
     {
-        return 'email';
+        // return 'email';
+        $login = request()->input('email');
+        $field = 'email';
+        if(is_numeric($login)){
+            $field = 'nik';
+        }
+        request()->merge([$field => $login]);
+        return $field;
     }
 
     /**

@@ -61,7 +61,7 @@
 
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Email Address)<span class="primary-color-2 ml-1">*</span></label>
+                                                                <label class="label-text">@translate(Username)<span class="primary-color-2 ml-1">*</span></label>
                                                                 <div class="form-group">
                                                                     <input class="form-control" type="email" readonly name="email" value="{{ $student->email }}">
                                                                     <span class="la la-envelope input-icon"></span>
@@ -79,34 +79,58 @@
                                                         </div><!-- end col-lg-6 -->
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Facebook)</label>
+                                                                <label class="label-text">@translate(Provinces)</label>
                                                                 <div class="form-group">
-                                                                    <input class="form-control" type="text" name="fb" value="{{ $student->student->fb ?? '' }}">
-                                                                    <span class="la la-phone input-icon"></span>
+                                                                <select class="form-control provinsi-asal" name="province_origin">
+                                                                    <option value="0">-- select provinces --</option>
+                                                                    @foreach ($provinsi as $provinsis)
+                                                                        <option value="{{ $provinsis['id']  }}">{{  $provinsis['name'] }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <!-- <select id="select_province" name="province_origin" data-placeholder="Select" class="custom-select w-100">
+              
+                                                                    @foreach ($provinsi as $provinsis)
+                                                                        <option
+                                                                            value="{{ $provinsis['id']}}">{{ $provinsis['name']}}</option>
+                                                                    @endforeach
+                                                                </select> -->
+                                                                <span class="la la-map-marker input-icon"></span>
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-6 -->
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Twitter)</label>
+                                                                <label class="label-text">@translate(Regencies)</label>
                                                                 <div class="form-group">
-                                                                    <input class="form-control" type="text" name="tw" value="{{ $student->student->tw ?? '' }}">
-                                                                    <span class="la la-phone input-icon"></span>
+                                                                <select class="form-control kota-asal" name="city_origin">
+                                                                    <option value="">-- select regencies --</option>
+                                                                </select>
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-6 -->
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Linked In)</label>
+                                                                <label class="label-text">@translate(Districts)</label>
                                                                 <div class="form-group">
-                                                                    <input class="form-control" type="text" name="linked" value="{{ $student->student->linked ?? '' }}">
-                                                                    <span class="la la-phone input-icon"></span>
+                                                                <select class="form-control kota-asal" name="kecamatan">
+                                                                    <option value="">-- select districts --</option>
+                                                                </select>
                                                                 </div>
                                                             </div>
-                                                        </div><!-- end col-lg-6 -->
+                                                        </div>
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text">@translate(Villages)</label>
+                                                                <div class="form-group">
+                                                                <select class="form-control kota-asal" name="kelurahan">
+                                                                    <option value="">-- select villages --</option>
+                                                                </select>
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- end col-lg-6 --><!-- end col-lg-6 -->
                                                         <div class="col-lg-12">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(About)</label>
+                                                                <label class="label-text">@translate(Adress)</label>
                                                                 <div class="form-group">
                                                                     <textarea class="message-control form-control" name="about">{!! $student->student->about !!}</textarea>
                                                                     <span class="la la-pencil input-icon"></span>
@@ -251,3 +275,40 @@
       END DASHBOARD AREA
   ================================= -->
 @endsection
+@push('javascript-internal')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function(){
+        //active select2
+        $(".provinsi-asal , .kota-asal, .provinsi-tujuan, .kota-tujuan").select2({
+            theme:'bootstrap4',width:'style',
+        });
+        //ajax select kota asal
+        $('select[name="province_origin"]').on('change', function () {
+            let provindeId = $(this).val();
+            if (provindeId) {
+                jQuery.ajax({
+                    url: 'https://emsifa.github.io/api-wilayah-indonesia/api/regency/3.json',
+                    type: "GET",
+                    dataType: "json",
+                    data: JSON.stringify(body),
+                    success: function (response) {
+                        $('select[name="city_origin"]').empty();
+                        $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
+                        $.each(response, function (id, name) {
+                            $('select[name="city_origin"]').append('<option value="' + id + '">' + name + '</option>');
+                        });
+                    },
+                });
+            } else {
+                $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
+            }
+        });
+        //ajax select kota tujuan
+    });
+</script>
+
+@endpush    

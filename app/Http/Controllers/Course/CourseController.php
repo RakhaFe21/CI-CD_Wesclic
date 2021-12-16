@@ -69,7 +69,6 @@ class CourseController extends Controller
     // course.store
     public function store(Request $request)
     {
-
         if (env('DEMO') === "YES") {
         Alert::warning('warning', 'This is demo purpose only');
         return back();
@@ -78,24 +77,12 @@ class CourseController extends Controller
         $request->validate([
             'title' => 'required|unique:courses',
             'image' => 'required',
-            'overview_url' => 'required',
-            'provider' => 'required',
-            'requirement' => 'required',
-            'outcome' => 'required',
-            'tag' => 'required',
-            'language' => 'required',
             'category_id' => 'required',
             'level' => 'required',
         ], [
             'title.required' => translate('Title is required'),
             'level.required' => translate('Course Level is required'),
             'title.unique' => translate('Course title must be unique'),
-            'overview_url.required' => translate('Overview Url is required'),
-            'provider.required' => translate('Provider is required'),
-            'requirement.required' => translate('Requirement is required'),
-            'outcome.required' => translate('Outcome is required'),
-            'tag.required' => translate('Tag is required'),
-            'language.required' => translate('Language is required'),
             'category_id.required' => translate('You must choose a category'),
             'image.required' => translate('Course thumbnail is required'),
         ]);
@@ -105,6 +92,7 @@ class CourseController extends Controller
         $courses->slug = Str::slug($request->title);
         $courses->short_description = $request->short_description;
         $courses->big_description = $request->big_description;
+        $courses->tahapan_pelatihan = $request->tahapan_pelatihan;
         if ($request->has('image')) {
             $courses->image = $request->image;
         }
@@ -234,24 +222,13 @@ class CourseController extends Controller
       }
 
         $request->validate([
-            'title' => 'required|unique:courses',
-            'overview_url' => 'required',
-            'provider' => 'required',
-            'requirement' => 'required',
-            'outcome' => 'required',
-            'tag' => 'required',
-            'language' => 'required',
+            'title' => 'required',
+            'image' => 'required',
             'category_id' => 'required',
             'level' => 'required',
         ], [
             'title.required' => translate('Title is required'),
             'level.required' => translate('Level is required'),
-            'overview_url.required' => translate('Overview Url is required'),
-            'provider.required' => translate('Provider is required'),
-            'requirement.required' => translate('Requirement is required'),
-            'outcome.required' => translate('Outcome is required'),
-            'tag.required' => translate('Tag is required'),
-            'language.required' => translate('Language is required'),
             'category_id.required' => translate('You must choose a category'),
 
         ]);
@@ -261,6 +238,8 @@ class CourseController extends Controller
         $courses->title = $request->title;
         $courses->short_description =$request->short_description;
         $courses->big_description = $request->big_description;
+        $courses->tahapan_pelatihan = $request->tahapan_pelatihan;
+
         if ($request->has('image')) {
             $courses->image = $request->image;
         }
@@ -316,7 +295,7 @@ class CourseController extends Controller
         $courses->save();
 
         notify()->success(translate('Course Updated'));
-        return back();
+        return redirect()->route('course.index');
 
     }
 

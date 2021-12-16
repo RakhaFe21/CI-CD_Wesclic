@@ -11,13 +11,13 @@
     <div class="card m-b-30">
         <div class="row px-3 pt-3">
             <h3 class="col-md-6">
-                @translate(All Courses)
+                @translate(List Pelatihan)
             </h3>
             <div class="col-md-6">
                 <form method="get" action="">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control"
-                               placeholder="@translate(Search Courses)" value="{{Request::get('search')}}">
+                               placeholder="@translate(Cari Pelatihan)" value="{{Request::get('search')}}">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">
                                 @translate(Search)
@@ -36,27 +36,31 @@
                             @translate(S/L)
                         </th>
                         <th>
-                            @translate(Title)
+                            @translate(Judul)
                         </th>
                         <th>
-                            @translate(Category)
+                            @translate(Kategori)
                         </th>
                         <th data-breakpoints="xs">
                             @translate(Info)
                         </th>
                         @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                            <th>@translate(Published)</th>
+                            <th>@translate(Siswa terdaftar)</th>
                         @endif
                         <th data-breakpoints="xs">
-                            @translate(Enrolled Students)
+                            @translate(Menerbitkan)
                         </th>
-                        @if(\Illuminate\Support\Facades\Auth::user()->user_type != "Admin")
                             <th>@translate(Action)</th>
-                        @endif
 
                     </tr>
                     </thead>
                     <tbody>
+                    <div class="float-right">
+                        <a href="{{ route('course.create') }}" class="btn btn-primary">
+                            <i class="la la-plus"></i>
+                            @translate(Tambah data baru)
+                        </a>
+                    </div>
                     @forelse ($courses as $course)
                         <tr>
                             <td class="footable-first-visible">
@@ -74,7 +78,7 @@
                                                 <div class="card-body">
                                                     <h5 class="card-title font-16">{{ $course->title }}</h5>
                                                     <p class="text-secondary">{{$course->level}}</p>
-                                                    <p class="card-text">{{ $course->relationBetweenInstructorUser->name }}</p>
+                                                
                                                     <div class="d-flex justify-content-between">
                                                         <span
                                                             class="badge badge-{{ $course->is_published == true ? 'success'  : 'primary' }} p-2">{{ $course->is_published == true ? 'Published'  : 'Not Published' }}</span>
@@ -103,6 +107,7 @@
                                 <br>
                                 @translate(Contents)- {{ $total_count }}
                             </td>
+                            <td>{{ $s = App\Model\Enrollment::where('course_id' , $course->id)->count() }} </td>
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                @if(App\Model\Enrollment::where('course_id' , $course->id)->count() > 0 )
                                     <td>
@@ -118,8 +123,30 @@
                                         </div>
                                     </td>
                                 @endif
+                                <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-link p-0 font-18 float-right" type="button"
+                                            id="widgetRevenue" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        <i class="feather icon-more-horizontal-"></i></button>
+                                    <div class="dropdown-menu dropdown-menu-right st-drop"
+                                         aria-labelledby="widgetRevenue" x-placement="bottom-end">
+                                        <a class="dropdown-item font-13"
+                                           href="{{ route('course.show',[$course->id,$course->slug])}}">
+                                            @translate(Details)
+                                        </a>
+                                        <a class="dropdown-item font-13"
+                                           href="{{ route('course.edit',[$course->id,$course->slug])}}">
+                                            @translate(Edit)
+                                        </a>
+                                        <a class="dropdown-item font-13"
+                                           onclick="confirm_modal('{{ route('course.destroy',[$course->id,$course->slug]) }}')"
+                                           href="#!">
+                                            <i class="feather icon-trash mr-2"></i>@translate(Delete)</a>
+                                    </div>
+                                </div>
+                            </td>
                             @endif
-                            <td>{{ $s = App\Model\Enrollment::where('course_id' , $course->id)->count() }} </td>
 
                              @if(\Illuminate\Support\Facades\Auth::user()->user_type != "Admin")
                             <td>

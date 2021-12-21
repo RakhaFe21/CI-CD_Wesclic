@@ -5,7 +5,7 @@
     <div class="card m-2">
         <div class="card-header">
             <div class="float-left">
-                <h3>@translate(All Categories)</h3>
+                <h3>@translate(Semua Kategori)</h3>
             </div>
             <div class="float-right">
                 <div class="row">
@@ -22,7 +22,7 @@
                     </div>
                     <div class="col">
                         <a href="#!"
-                           onclick="forModal('{{ route("categories.create") }}', '@translate(Category Create)')"
+                           onclick="forModal('{{ route('categories.create') }}', '@translate(Category Create)')"
                            class="btn btn-primary">
                             <i class="la la-plus"></i>
                             @translate(Add New Category)

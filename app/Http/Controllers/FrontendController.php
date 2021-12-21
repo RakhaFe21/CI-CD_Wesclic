@@ -50,10 +50,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Hash;
 use Alert;
+use Validator;
 
 class FrontendController extends Controller
 {
@@ -217,21 +219,20 @@ class FrontendController extends Controller
         }
         $top_courses = $courses->take(6);
 
-
         //here the calculation for top category with top courses
         $course = collect();
         $cat = collect();
         if (env('ACTIVE_THEME') == 'frontend'){
             $course->push($top_courses->take(6));
         }
-        $cat->push('Best Selling');
-
+        $cat->push('Pelatihan Terpopuler');
+        
         foreach (Category::Published()->where('top', 1)->get() as $item) {
             $cat->push($item->name);
             $course->push($courses->where('category_id', $item->id)->take(6));
 
         }
-
+     
         //trading course week
         $start = Carbon::today()->toDateTimeString();
         $end = Carbon::today()->subDays(7)->toDateTimeString();
@@ -241,16 +242,16 @@ class FrontendController extends Controller
         if ($trading_courses->count() == 0) {
             $trading_courses = $courses->shuffle()->take(12);
         }
-
+      
 
         $packages = Package::where('is_published', true)->get();
-
+      
 
         $latestCourses = Course::Published()->with('relationBetweenInstructorUser')->latest()->take(10)->get();
 
         $subscriptions = Subscription::Published()->get();
 
-
+// dd($latestCourses);
         return view($this->theme.'.homepage.index', compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count'));
     }
 
@@ -309,7 +310,6 @@ class FrontendController extends Controller
         $l_courses = Course::Published()->latest()->take(3)->get(); // single course details
         $sug_courses = Course::Published()->take(8)->get()->shuffle(); // suggession courses
         $s_course = Course::Published()->where('slug', $slug)->with('classes')->first(); // single course details
-
         return view($this->theme.'.course.course_details', compact('s_course', 'l_courses', 'sug_courses'));
 
     }
@@ -375,7 +375,14 @@ class FrontendController extends Controller
     public function my_profile()
     {
         $student = User::where('id', Auth::user()->id)->with('student')->first();
-        return view($this->theme.'.profile.index', compact('student'));
+        $url ='https://wilayah.conect.id/static/api/provinces.json';
+        $options = array('http' => array(
+            'method'  => 'GET'
+        ));
+        $context  = stream_context_create($options);
+        $response1 = file_get_contents($url, false, $context);
+        $provinsi = json_decode($response1, TRUE); 
+        return view($this->theme.'.profile.index', compact('student','provinsi'));
     }
 
     //enrolled_course
@@ -408,7 +415,9 @@ class FrontendController extends Controller
     //register
     public function create(Request $request)
     {
-
+        Validator::extend('without_spaces', function($attr, $value){
+            return preg_match('/^\S*$/u', $value);
+        });
         if (env('DEMO') === "YES") {
         Alert::warning('warning', 'This is demo purpose only');
         return back();
@@ -418,7 +427,7 @@ class FrontendController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'email' => ['required', 'string', 'without_spaces', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8'],
                 'confirmed' => 'required|required_with:password|same:password',
             ],
@@ -426,6 +435,7 @@ class FrontendController extends Controller
                 'name.required' => translate('Name is required'),
                 'email.required' => translate('Email is required'),
                 'email.unique' => translate('Email is already register'),
+                'email.without_spaces' => translate('Username cannot contain spaces'),
                 'password.required' => translate('Password is required'),
                 'password.min' => translate('Password  must be 8 character '),
                 'password.string' => translate('Password is required'),
@@ -437,18 +447,21 @@ class FrontendController extends Controller
 
         //create user for login
         $user = new User();
-        $user->name = $request->name;
-        $user->slug = Str::slug($request->name);
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->user_type = 'Student';
+        $user->name         = $request->name;
+        $user->slug         = Str::slug($request->name);
+        $user->nik          = $request->nik;
+        $user->email        = $request->email;
+        $user->verified     = 1;
+        $user->password     = Hash::make($request->password);
+        $user->user_type    = 'Student';
         $user->save();
 
         //create student
-        $student = new Student();
-        $student->name = $request->name;
-        $student->email = $request->email;
-        $student->user_id = $user->id;
+        $student            = new Student();
+        $student->name      = $request->name;
+        $student->email     = $request->email;
+        $student->phone     = $request->phone;
+        $student->user_id   = $user->id;
         $student->save();
 
         /*here is the student */
@@ -468,7 +481,7 @@ class FrontendController extends Controller
         } catch (\Exception $exception) {
         }
 
-        Session::flash('message', translate("Registration done successfully. Please verify your email."));
+        Session::flash('message', translate("Registration done successfully. Please login."));
         return redirect()->route('login');
 
 
@@ -491,7 +504,14 @@ class FrontendController extends Controller
     public function student_edit()
     {
         $student = User::where('id', Auth::user()->id)->first();
-        return view($this->theme.'.profile.update', compact('student'));
+        $url ='https://wilayah.conect.id/static/api/provinces.json';
+        $options = array('http' => array(
+            'method'  => 'GET'
+        ));
+        $context  = stream_context_create($options);
+        $response1 = file_get_contents($url, false, $context);
+        $provinsi = json_decode($response1, TRUE); 
+        return view($this->theme.'.profile.update', compact('student','provinsi'));
     }
 
     // update
@@ -1117,8 +1137,8 @@ if (walletActive()) {
     /*instructor traits*/
     // Instructor details
     public function instructorDetails($slug)
-    {
-        $user = User::where('slug', $slug)->where('user_type', 'Instructor')->first();
+    {dd($slug);
+        $user = User::where('slug', $slug)->where('user_type', 'Admin')->first();
 
         if ($user == null) {
             Session::flash('message', translate('404 Not Found'));

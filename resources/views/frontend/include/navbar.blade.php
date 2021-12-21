@@ -12,7 +12,7 @@
                         <div class="header-category">
                             <ul>
                                 <li>
-                                    <a href="{{ route('course.filter') }}"><i class="fa fa-th p-2"></i>@translate(Categories)</a>
+                                    <a href="{{ route('course.filter') }}"><i class="fa fa-th p-2"></i>@translate(Kategori)</a>
                                     <ul class="dropdown-menu-item">
                                         @foreach(categories() as $item)
                                             <li>
@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <!-- Search bar -->
                                         <input class="form-control" id="search" type="text" name="search"
-                                               placeholder="@translate(Search for anything)">
+                                               placeholder="@translate(Pencarian untuk apapun)">
                                         <span class="la la-search search-icon"></span>
 
                                         <!-- Search bar END - -->
@@ -82,7 +82,7 @@
                                             <ul class="user-cart d-flex align-items-center ">
                                                 <li class="p-50p">
                                                     <a href="{{route('my.courses')}}"
-                                                       class="btn btn-success text-white my-course-btn">@translate(My courses)</a>
+                                                       class="theme-btn text-white ">@translate(Pelatihan saya)</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -314,7 +314,7 @@
 
                                                                 <li class="mb-0">
                                                                     <a href="{{route('my.courses')}}" class="d-block">
-                                                                        <i class="la la-file-video-o"></i> @translate(My courses)
+                                                                        <i class="la la-file-video-o"></i> @translate(Pelatihan saya)
                                                                     </a>
                                                                 </li>
 
@@ -381,7 +381,7 @@
 
                                                                 <li class="mb-0">
                                                                     <a href="{{route('my.courses')}}" class="d-block">
-                                                                        <i class="la la-file-video-o"></i> @translate(My courses)
+                                                                        <i class="la la-file-video-o"></i> @translate(Pelatihan saya)
                                                                     </a>
                                                                 </li>
 
@@ -424,7 +424,7 @@
                                             <ul class="user-cart d-flex align-items-center ">
                                                 <li class="p-50p">
                                                     <a href="{{route('dashboard')}}"
-                                                       class="btn btn-success text-white my-course-btn">@translate(Go To Dashboard)</a>
+                                                       class="theme-btn text-white ">@translate(Go To Dashboard)</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -581,9 +581,9 @@
                         @guest
                             <div class="logo-right-button">
                                 <ul id="custom_toggle_bar" class="d-flex">
-                                    <li class="pr-2"><a href="{{route('instructor.register')}}"
-                                                        class="theme-btn instructor-btn">@translate(Instructor)</a></li>
-                                    <li><a href="{{route('student.register')}}" class="theme-btn student-btn">@translate(Become Student)</a></li>
+                                    <!-- <li class="pr-2"><a href="{{route('instructor.register')}}"
+                                                        class="theme-btn instructor-btn">@translate(Instructor)</a></li> -->
+                                    <li><a href="{{route('student.register')}}" class="theme-btn student-btn">@translate(Daftar Peserta)</a></li>
                                 </ul>
                                 <div class="side-menu-open">
                                     <i class="la la-bars"></i>
@@ -612,7 +612,7 @@
                                     </li>
 
                                     <li class="sidenav__item">
-                                        <a href="{{ route('course.filter') }}">@translate(Categories)</a>
+                                        <a href="{{ route('course.filter') }}">@translate(Kategori)</a>
                                         <span class="menu-plus-icon"></span>
                                         <ul class="side-sub-menu">
                                             @foreach(categories() as $item)
@@ -635,7 +635,7 @@
 
                                     @auth
                                         <li class="sidenav__item">
-                                            <a href="{{route('my.courses')}}">@translate(My courses)</a>
+                                            <a href="{{route('my.courses')}}">@translate(Pelatihan saya)</a>
                                         </li>
                                         <li class="sidenav__item">
                                             <a href="{{route('student.dashboard')}}">@translate(Dashboard)</a>

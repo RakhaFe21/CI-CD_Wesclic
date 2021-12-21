@@ -29,7 +29,7 @@
                                                             <!-- Search bar -->
                                                             <input class="form-control" id="slider-search" type="text"
                                                                    name="search"
-                                                                   placeholder="@translate(Search for anything)">
+                                                                   placeholder="@translate(Pencarian untuk apapun)">
                                                             <span class="la la-search search-icon"></span>
 
                                                             <!-- Search bar END - -->
@@ -61,8 +61,8 @@
                                                     <i class="la la-mouse-pointer icon-element"></i>
                                                     <div class="our__text">
                                                         <h4 class="widget-title">{{number_format(\App\Model\Course::Published()->where('is_published',true)->count())}}
-                                                            @translate(Online courses)</h4>
-                                                        <p>@translate(Explore a variety of fresh topics)</p>
+                                                            @translate(pelatihan online)</h4>
+                                                        <p>@translate(Jelajahi berbagai topik terbaru)</p>
                                                     </div><!-- our__text -->
                                                 </div><!-- our-post-item -->
                                             </div><!-- col-lg-4 -->
@@ -70,8 +70,8 @@
                                                 <div class="our-post-item">
                                                     <i class="la la-users icon-element"></i>
                                                     <div class="our__text">
-                                                        <h4 class="widget-title">@translate(Expert Instruction)</h4>
-                                                        <p>@translate(Find the right instructor for you)</p>
+                                                        <h4 class="widget-title">@translate(Pengajar ahli)</h4>
+                                                        <p>@translate(emukan instruktur yang tepat untuk Anda)</p>
                                                     </div><!-- our__text -->
                                                 </div><!-- our-post-item -->
                                             </div><!-- col-lg-4 -->
@@ -79,8 +79,8 @@
                                                 <div class="our-post-item">
                                                     <i class="fa fa-history icon-element"></i>
                                                     <div class="our__text">
-                                                        <h4 class="widget-title">@translate(Lifetime access)</h4>
-                                                        <p>@translate(Learn on your schedule)</p>
+                                                        <h4 class="widget-title">@translate(Akses seumur hidup)</h4>
+                                                        <p>@translate(Pelajari sesuai jadwal Anda)</p>
                                                     </div><!-- our__text -->
                                                 </div><!-- our-post-item -->
                                             </div><!-- col-lg-4 -->
@@ -108,8 +108,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-heading text-center">
-                            <h5 class="section__meta">@translate(Our New Courses For You)</h5>
-                            <h2 class="section__title">@translate(Latest Courses)</h2>
+                            <h5 class="section__meta">@translate(Kursus Baru Kami Untuk Anda)</h5>
+                            <h2 class="section__title">@translate(Pelatihan Terbaru)</h2>
                             <span class="section-divider"></span>
                         </div><!-- end section-heading -->
                     </div><!-- end col-lg-12 -->
@@ -155,7 +155,7 @@
                                                 <a href="{{route('course.single',$l_course->slug)}}">{{\Illuminate\Support\Str::limit($l_course->title,58)}}</a>
                                             </h3>
                                             <p class="card__author">
-                                                <a href="{{route('single.instructor',$l_course->relationBetweenInstructorUser->slug)}}">{{$l_course->relationBetweenInstructorUser->name}}</a>
+                                            
                                             </p>
                                             <div class="rating-wrap d-flex mt-2 mb-3">
                                                     <span class="star-rating-wrap">
@@ -230,8 +230,8 @@
                 <div class="card-item">
                     <div class="card-content">
                         <p class="card__author">
-                            @translate(By) <a
-                                href="{{route('single.instructor',$l_c_tooltip->relationBetweenInstructorUser->slug)}}">{{$l_c_tooltip->relationBetweenInstructorUser->name}}</a>
+                            @translate(By) <a>
+                             </a>
                         </p>
                         <h3 class="card__title">
                             <a href="{{route('course.single',$l_c_tooltip->slug)}}">{{\Illuminate\Support\Str::limit($l_c_tooltip->title,58)}}</a>
@@ -294,14 +294,14 @@
             <div class="row">
                 <div class="col-lg-9">
                     <div class="section-heading">
-                        <h5 class="section__meta">@translate(Categories)</h5>
-                        <h2 class="section__title">@translate(Popular Categories)</h2>
+                        <h5 class="section__meta">@translate(Kategori)</h5>
+                        <h2 class="section__title">@translate(Kategori Terpopuler)</h2>
                         <span class="section-divider"></span>
                     </div><!-- end section-heading -->
                 </div><!-- end col-lg-9 -->
                 <div class="col-lg-3">
                     <div class="btn-box h-100 d-flex align-items-center justify-content-end">
-                        <a href="{{route('course.filter')}}" class="theme-btn">@translate(all Categories)</a>
+                        <a href="{{route('course.filter')}}" class="theme-btn">@translate(Semua Kategori)</a>
                     </div><!-- end btn-box-->
                 </div>
             </div><!-- end row -->
@@ -595,8 +595,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-heading text-center">
-                            <h5 class="section__meta">@translate(Learn on your schedule)</h5>
-                            <h2 class="section__title">@translate(Trending Courses)</h2>
+                            <h5 class="section__meta">@translate(Pelajari Sesuai Jadwal Anda)</h5>
+                            <h2 class="section__title">@translate(Pelatihan yang sedang tren)</h2>
                             <span class="section-divider"></span>
                         </div><!-- end section-heading -->
                     </div><!-- end col-lg-12 -->
@@ -781,28 +781,28 @@
                     <div class="counter-item">
                         <span class="la la-bullhorn count__icon"></span>
                         <h4 class="count__title text-color-2 count-up" data-from="0" data-to="{{\App\User::where('user_type','Instructor')->get()->count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(expert instructors)</p>
+                        <p class="count__meta">@translate(Instuktur ahli)</p>
                     </div><!-- end counter-item -->
                 </div><!-- end col-lg-3 -->
                 <div class="col-lg-3 column-td-half">
                     <div class="counter-item">
                         <span class="la la-globe count__icon"></span>
                         <h4 class="count__title  count__title text-color-2 count-up1" data-from="0" data-to="{{\App\User::where('user_type','Student')->get()->count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(Students)</p>
+                        <p class="count__meta">@translate(peserta)</p>
                     </div><!-- end counter-item -->
                 </div><!-- end col-lg-3 -->
                 <div class="col-lg-3 column-td-half">
                     <div class="counter-item">
                         <span class="la la-users count__icon"></span>
                         <h4 class="count__title  count__title text-color-2 count-up2" data-from="0" data-to="{{\App\Model\Enrollment::count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(Total enrolled)</p>
+                        <p class="count__meta">@translate(jumlah terdaftar)</p>
                     </div><!-- end counter-item -->
                 </div><!-- end col-lg-3 -->
                 <div class="col-lg-3 column-td-half">
                     <div class="counter-item">
                         <span class="la la-certificate count__icon"></span>
                         <h4 class="count__title count__title text-color-2 count-up3" data-from="0" data-to="{{\App\Model\Course::Published()->count()}}" data-time="1000" >0</h4>
-                        <p class="count__meta">@translate(Total Course)</p>
+                        <p class="count__meta">@translate(Jumlah Pelatihan)</p>
                     </div><!-- end counter-item -->
                 </div><!-- end col-lg-3 -->
             </div><!-- end row -->
@@ -823,7 +823,7 @@
                 <div class="col-lg-12">
                     <div class="section-heading">
                         <h5 class="section__meta">@translate(become an instructor)</h5>
-                        <h2 class="section__title">@translate(Available) {{getSystemSetting('type_name')->value}}
+                        <h2 class="section__title">@translate(Tersedia) {{getSystemSetting('type_name')->value}}
                             @translate(Packages)</h2>
                         <span class="section-divider"></span>
                     </div><!-- end section-heading -->
@@ -858,7 +858,7 @@
                         @guest
                             <div class="btn-box-inner">
                                 <span class="d-block mb-2 font-weight-semi-bold">@translate(Are you student?)</span>
-                                <a href="{{route('login')}}" class="theme-btn line-height-40 text-capitalize">@translate(Start learning)</a>
+                                <a href="{{route('login')}}" class="theme-btn line-height-40 text-capitalize">@translate(Mulai Belajar)</a>
                             </div>
                         @endguest
                     </div>

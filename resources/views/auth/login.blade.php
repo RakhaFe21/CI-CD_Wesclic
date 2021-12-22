@@ -163,7 +163,7 @@
                                                   <label class="label-text">@translate(Username)<span class="primary-color-2 ml-1">*</span></label>
                                                   <div class="form-group">
                                                       <input class="form-control @error('email') is-invalid @enderror" id="email" type="text" name="email" placeholder="@translate(Username)" required value="{{ old('email') }}">
-                                                      <span class="la la-envelope input-icon"></span>
+                                                      <span class="la la-user input-icon"></span>
 
                                                       @error('email')
                                                       <span class="invalid-feedback" role="alert">

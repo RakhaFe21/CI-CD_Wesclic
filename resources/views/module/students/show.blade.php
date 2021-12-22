@@ -15,7 +15,7 @@
 <div class="card mb-3">
     <div class="py-2 px-3">
         <div class="float-left">
-            <h3>@translate(Student Details)</h3>
+            <h3>@translate(Detail Peserta)</h3>
         </div>
     </div>
     <div class="card-body">
@@ -47,7 +47,7 @@
                                     <tbody>
 
                                     <tr class="text-center">
-                                        <td>@translate(Email)</td>
+                                        <td>@translate(Username)</td>
                                         <td>{{ $each_student->email }}</td>
                                     </tr>
                                     <tr class="text-center">

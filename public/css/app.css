@@ -2778,8 +2778,8 @@ fieldset:disabled a.btn {
 
 .btn-success {
   color: #fff;
-  background-color: #38c172;
-  border-color: #38c172;
+  background-color: #ff6d00;
+  border-color: #ff6d00;
 }
 
 .btn-success:hover {
@@ -3095,8 +3095,8 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-success {
-  color: #38c172;
-  border-color: #38c172;
+  color: #ff6d00;
+  border-color: #ff6d00;
 }
 
 .btn-outline-success:hover {

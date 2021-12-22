@@ -361,7 +361,7 @@ body {
 }
 
 .bg-color-5 {
-    background-color: #38bb0c !important
+    background-color: #ff6d00 !important
 }
 
 .bg-color-6 {
@@ -7674,7 +7674,7 @@ body {
 }
 
 .success-message {
-    background-color: #38bb0c;
+    background-color: #ff6d00;
     color: #fff;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -7713,7 +7713,7 @@ body {
     -ms-transform: translateX(-50%) rotate(45deg);
     -o-transform: translateX(-50%) rotate(45deg);
     transform: translateX(-50%) rotate(45deg);
-    background-color: #38bb0c;
+    background-color: #ff6d00;
     width: 8px;
     height: 8px
 }
@@ -11130,7 +11130,7 @@ body {
 }
 
 .dashboard-sidebar .dashboard-nav-container .side-menu-ul .sidenav__item:hover>a {
-    color: #51be78;
+    color: #ff6d00;
     background-color: inherit
 }
 
@@ -11710,7 +11710,7 @@ body {
 }
 
 .msg-sent .mess__item .content {
-    background-color: #51be78
+    background-color: #ff6d00
 }
 
 .msg-sent .mess__item .content .time .fa-check {
@@ -11830,7 +11830,7 @@ body {
 }
 
 .message-reply-input .contact-form-action .form-group .submit-btn {
-    background-color: #51be78;
+    background-color: #ff6d00;
     color: #fff;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -11924,7 +11924,7 @@ body {
 }
 
 .data-list .theme-btn.active {
-    background-color: #51be78;
+    background-color: #ff6d00;
     color: #fff
 }
 
@@ -12006,7 +12006,7 @@ body {
 
 .progress_bg .progress_bar {
     height: 10px;
-    background-color: #51be78;
+    background-color: #ff6d00;
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
     border-radius: 30px;
@@ -12020,7 +12020,7 @@ body {
     right: -1px;
     width: 18px;
     height: 18px;
-    background-color: #51be78;
+    background-color: #ff6d00;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
@@ -12098,7 +12098,7 @@ body {
 }
 
 .skillbar-bar-1 {
-    background-color: #51be78
+    background-color: #ff6d00
 }
 
 .skillbar-bar-2 {
@@ -12114,7 +12114,7 @@ body {
 }
 
 .skillbar-bar-5 {
-    background-color: #38bb0c
+    background-color: #ff6d00
 }
 
 .skillbar-bar-6 {
@@ -12209,7 +12209,7 @@ body {
 }
 
 .slider-area .owl-nav div:hover {
-    background-color: #51be78;
+    background-color: #ff6d00;
     color: #fff
 }
 
@@ -12248,8 +12248,8 @@ body {
 }
 
 .slider-area .owl-dots div.active, .slider-area .owl-dots div:hover {
-    background-color: #51be78;
-    border-color: #51be78
+    background-color: #ff6d00;
+    border-color: #ff6d00
 }
 
 .slider-area:hover .owl-nav div {
@@ -12600,7 +12600,7 @@ body {
 }
 
 .hero-category .category-item:hover {
-    background-color: #51be78
+    background-color: #ff6d00
 }
 
 .hero-category .col-lg-4 {
@@ -12763,7 +12763,7 @@ body {
 
 .our-post-item:hover .icon-element {
     background-color: #fff;
-    color: #51be78
+    color: #ff6d00
 }
 
 .breadcrumb-area {
@@ -12892,7 +12892,7 @@ body {
 }
 
 .breadcrumb-content .breadcrumb__list li a:hover {
-    color: #51be78
+    color: #ff6d00
 }
 
 .breadcrumb-content .breadcrumb__list li.active__list-item:after {
@@ -13053,7 +13053,7 @@ body {
 }
 
 .breadcrumb-content.about-breadcrumb-content .btn-box .video-play-btn:hover {
-    color: #51be78
+    color: #ff6d00
 }
 
 .breadcrumb-content.about-breadcrumb-content .btn-box .watch-video-btn {
@@ -13065,11 +13065,11 @@ body {
 }
 
 .breadcrumb-content.about-breadcrumb-content .btn-box .watch-video-btn:hover {
-    color: #51be78
+    color: #ff6d00
 }
 
 .breadcrumb-content.about-breadcrumb-content .btn-box .watch-video-btn:hover span {
-    color: #51be78
+    color: #ff6d00
 }
 
 .my-courses-bread {
@@ -13124,7 +13124,7 @@ body {
 }
 
 .my-courses-tab .section-tab-2 .nav-tabs li a.active {
-    color: #51be78
+    color: #ff6d00
 }
 
 .error-area {
@@ -13307,9 +13307,9 @@ body {
 }
 
 .tag-widget .list-items li a:hover {
-    background-color: #51be78;
+    background-color: #ff6d00;
     color: #fff;
-    border-color: #51be78
+    border-color: #ff6d00
 }
 
 .instructor-widget .button-shared {
@@ -13336,9 +13336,9 @@ body {
 }
 
 .instructor-widget .button-shared .theme-btn:hover {
-    background-color: #51be78;
+    background-color: #ff6d00;
     color: #fff;
-    border-color: #51be78
+    border-color: #ff6d00
 }
 
 .recent-item {
@@ -13398,7 +13398,7 @@ body {
 }
 
 .recent-item .recentpost-body .recent__meta a:hover {
-    color: #51be78
+    color: #ff6d00
 }
 
 .recent-item .recentpost-body .recent__link {
@@ -13419,7 +13419,7 @@ body {
 }
 
 .recent-item .recentpost-body .recent__link a:hover {
-    color: #51be78
+    color: #ff6d00
 }
 
 .recent-item .recentpost-body .recent-course__price {

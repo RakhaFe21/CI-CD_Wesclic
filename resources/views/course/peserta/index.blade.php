@@ -5,7 +5,7 @@
     <div class="card mx-2 mb-3">
         <div class="card-header">
             <div class="float-left">
-                <h3>@translate(Data Peserta)</h3>
+                <h3>@translate(Peserta Baru)</h3>
             </div>
             <div class="float-right">
                 <div class="row">
@@ -27,7 +27,7 @@
                            onclick="forModal('{{ route("student.create.modal") }}', '@translate(Student Create)')"
                            class="btn btn-primary">
                             <i class="la la-plus"></i>
-                            @translate(Tambah Siswa Baru)
+                            @translate(Tambah Ke Palatihan tertutup)
                         </a>
                     </div>
 
@@ -50,7 +50,15 @@
                 <tbody>
                 @forelse($students as  $item)
                     <tr>
-                        <td>{{ ($loop->index+1) + ($students->currentPage() - 1)*$students->perPage() }}</td>
+                        <td><input type="checkbox" 
+                        name="course_id[]" 
+                        value="{{ $item->id }}" 
+                        class="form-check-input" 
+                        id="exampleCheck-{{ $item->id }}"
+                        
+                     
+                        
+                        ></td>
                         <td>
                             @if($item->image != null)
                                 <img src="{{filePath($item->image)}}" class="img-thumbnail rounded-circle avatar-lg"><br />
@@ -70,47 +78,11 @@
                         </td>
 
                         <td>
-                        <div class="dropdown">
-                                <a class="dropdown-toggle" href="#" role="button" id="profilelink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                   
-                                    <span class="live-icon">Pendaftaran</span>
-                                   </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profilelink">
-                                   
-                                   
-                                    
-                                    <div class="userbox">
-                                        <ul class="list-unstyled mb-0">
-
-                                         
-                                                <li class="media dropdown-item">
-                                                    <a href=""
-                                                       class="profile-icon">
-                                                      
-
-                                                        @translate(Pendaftaran)</a>
-                                                </li>
-                                         
-                                            <li class="media dropdown-item">
-                                                {{-- Todo::raw logout script code--}}
-                                                <a href=""
-                                                  
-                                                   class="profile-icon">
-                                                    
-                                                    @translate(Pelatihan)
-                                                    
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="kanban-menu"> -->
-                                <!-- <div class="dropdown">
-                                    <button class="btn btn-primary" type="button"
+                            <div class="kanban-menu">
+                                <div class="dropdown">
+                                    <button class="btn btn-link p-0 m-0 border-0 l-h-20 font-16" type="button"
                                             id="KanbanBoardButton1" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">Pendaftaran</button>
+                                            aria-expanded="false"><i class="feather icon-more-vertical-"></i></button>
                                     <div class="dropdown-menu dropdown-menu-right action-btn"
                                          aria-labelledby="KanbanBoardButton1" x-placement="bottom-end">
                                         <a class="dropdown-item" href="{{ route('students.show', $item->user_id) }}">
@@ -122,8 +94,8 @@
                                             <i class="feather icon-edit-2 mr-2"></i>@translate(Pelatihan)</a>
                                     </div>
 
-                                </div> -->
-                            <!-- </div> -->
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @empty

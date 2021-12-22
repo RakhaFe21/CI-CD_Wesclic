@@ -85,7 +85,7 @@
                                                                 <a href="{{route('course.single',$item->enrollCourse->slug)}}">{{Str::limit($item->enrollCourse->title,58)}}</a>
                                                             </h3>
                                                             <p class="card__author">
-                                                                <a href="{{route('single.instructor',$item->enrollCourse->relationBetweenInstructorUser->slug)}}">{{$item->enrollCourse->relationBetweenInstructorUser->name}}</a>
+                                                                <a href="{{route('single.instructor',$item->enrollCourse->slug)}}">{{$item->enrollCourse->name}}</a>
                                                             </p>
                                                             <div class="course-complete-bar-2 mt-2">
                                                                 <div class="progress-item mb-0">
@@ -106,11 +106,11 @@
                                                                 <div class="row">
                                                                     <div class="col-md-6">
                                                                         <a href="{{route('course.single',$item->enrollCourse->slug) }}"
-                                                                           class="btn btn-outline-success mt-2">@translate(Course details)</a>
+                                                                           class="btn btn-outline-success mt-2">@translate(Detail Pelatihan)</a>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <a href="{{ route('lesson_details',$item->enrollCourse->slug) }}"
-                                                                           class="btn btn-success mt-2">@translate(Start lesson)</a>
+                                                                           class="btn btn-success mt-2">@translate(Mulai Belajar)</a>
                                                                     </div>
                                                                 </div>
                                                             </div>

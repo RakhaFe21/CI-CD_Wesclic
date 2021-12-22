@@ -4,7 +4,7 @@
 
         @forelse (course() as $course)
             <div class="form-check">
-                <input type="checkbox" 
+                <input disabled type="checkbox" 
                         name="course_id[]" 
                         value="{{ $course->id }}" 
                         class="form-check-input" 
@@ -24,9 +24,9 @@
         @endforelse
         
           
-        <div class="float-right">
+        <!-- <div class="float-right">
             <button class="btn btn-primary float-right" type="submit">@translate(Save)</button>
-        </div>
+        </div> -->
 
     </form>
 </div>

@@ -5,7 +5,7 @@
     <div class="card m-2">
         <div class="card-header">
             <div class="float-left">
-                <h3>@translate(Semua Kategori)</h3>
+                <h3>@translate(Data Kategori)</h3>
             </div>
             <div class="float-right">
                 <div class="row">
@@ -13,9 +13,9 @@
                         <form method="get" action="">
                             <div class="input-group">
                                 <input type="text" name="search" class="form-control col-12"
-                                       placeholder="@translate(Category Name)" value="{{Request::get('search')}}">
+                                       placeholder="@translate(Nama Kategori)" value="{{Request::get('search')}}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">@translate(Search)</button>
+                                    <button class="btn btn-primary" type="submit">@translate(Cari)</button>
                                 </div>
                             </div>
                         </form>
@@ -25,7 +25,7 @@
                            onclick="forModal('{{ route('categories.create') }}', '@translate(Category Create)')"
                            class="btn btn-primary">
                             <i class="la la-plus"></i>
-                            @translate(Add New Category)
+                            @translate(Tambah Kategori Baru)
                         </a>
                     </div>
                 </div>
@@ -37,9 +37,9 @@
                 <thead>
                 <tr>
                     <th>S/L</th>
-                    <th>@translate(Icon)</th>
-                    <th>@translate(Category)</th>
-                    <th>@translate(Parent Category)</th>
+                    <th>@translate(Ikon)</th>
+                    <th>@translate(Kategori)</th>
+                    <th>@translate(Kategori Induk)</th>
                     <th>@translate(Popular)</th>
                     <th>@translate(Top)</th>
                     <th>@translate(Publish)</th>

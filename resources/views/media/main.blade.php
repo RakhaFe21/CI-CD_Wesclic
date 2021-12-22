@@ -9,8 +9,8 @@
                 <div class="col-md-10">
                     <nav class="navbar">
                         <form class="form-inline">
-                            <input class="form-control mr-sm-2 myInput border border-primary" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            <input class="form-control mr-sm-2 myInput border border-primary" type="search" placeholder="Cari" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cari</button>
                         </form>
                     </nav>
                 </div>
@@ -30,14 +30,14 @@
                     </div>
                     <div class="col-md-9 text-right">
 
-                        <a href="#!" data-url="{{ route('media.filter', 'all') }}" data-value="all" onclick="filterMedia(this)" class="all_media p-3">All Media</a>
+                        <a href="#!" data-url="{{ route('media.filter', 'all') }}" data-value="all" onclick="filterMedia(this)" class="all_media p-3">Semua Media</a>
                         @if (Auth::user()->user_type == 'Admin')
-                        <a href="#!" data-url="{{ route('media.filter', 'category') }}" data-value="category" onclick="filterMedia(this)" class="category_media p-3">Category</a>
+                        <a href="#!" data-url="{{ route('media.filter', 'category') }}" data-value="category" onclick="filterMedia(this)" class="category_media p-3">Kategori</a>
                         <a href="#!" data-url="{{ route('media.filter', 'slider') }}" data-value="slider" onclick="filterMedia(this)" class="slider_media p-3">Slider</a>
-                        <a href="#!" data-url="{{ route('media.filter', 'organization') }}" data-value="organization" onclick="filterMedia(this)" class="organizer_media p-3">Organization</a>
-                        <a href="#!" data-url="{{ route('media.filter', 'package') }}" data-value="package" onclick="filterMedia(this)" class="package_media p-3">Package</a>
+                        <a href="#!" data-url="{{ route('media.filter', 'organization') }}" data-value="organization" onclick="filterMedia(this)" class="organizer_media p-3">Organisasi</a>
+                        <a href="#!" data-url="{{ route('media.filter', 'package') }}" data-value="package" onclick="filterMedia(this)" class="package_media p-3">Paket</a>
                         @endif
-                        <a href="#!" data-url="{{ route('media.filter', 'source_code') }}" data-value="source_code" onclick="filterMedia(this)" class="source_code_media p-3">Source Code</a>
+                        <a href="#!" data-url="{{ route('media.filter', 'source_code') }}" data-value="source_code" onclick="filterMedia(this)" class="source_code_media p-3">Sumber Kode</a>
                         <a href="#!" data-url="{{ route('media.filter', 'thumbnail') }}" data-value="thumbnail" onclick="filterMedia(this)" class="thumbnail_media p-3">Thumbnail</a>
                         <a href="#!" data-url="{{ route('media.filter', 'file') }}" data-value="file" onclick="filterMedia(this)" class="file_media p-3">File</a>
 

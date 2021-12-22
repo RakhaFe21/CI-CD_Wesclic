@@ -2707,8 +2707,8 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-success {
     color: #fff;
-    background-color: #28a745;
-    border-color: #28a745
+    background-color: #ff6d00;
+    border-color: #mt-2
 }
 
 .btn-success:hover {
@@ -2976,8 +2976,8 @@ a.btn.disabled, fieldset:disabled a.btn {
 }
 
 .btn-outline-success {
-    color: #28a745;
-    border-color: #28a745
+    color: #ff6d00;
+    border-color: #ff6d00
 }
 
 .btn-outline-success:hover {

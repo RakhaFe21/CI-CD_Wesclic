@@ -26,25 +26,29 @@
                                     ? 'active' : null}}">
                                     <a href="javaScript:void();">
                                         <i class="fa fa-users"></i>
-                                        <span>@translate(User Management)</span><i
+                                        <span>@translate(Management Pengguna)</span><i
                                             class="feather icon-chevron-right"></i>
                                     </a>
                                     <ul class="vertical-submenu">
                                         <li><a href="{{route('users.index')}}"
-                                               class="{{request()->is('dashboard/user*')  ?'active':null}}">@translate(Admins)</a>
+                                               class="{{request()->is('dashboard/user*')  ?'active':null}}">@translate(Admin)</a>
                                         </li>
 
                                         <li><a href="{{route('instructors.index')}}"
-                                               class="{{request()->is('dashboard/instructor*') ?'active':null}}">@translate(Instructors)</a>
+                                               class="{{request()->is('dashboard/instructor*') ?'active':null}}">@translate(Instruktur)</a>
                                         </li>
                                         <li><a href="{{route('students.index')}}"
-                                               class="{{request()->is('dashboard/student*')  ?'active':null}}">@translate(Students)</a>
+                                               class="{{request()->is('dashboard/student*')  ?'active':null}}">@translate(Siswa)</a>
                                         </li>
 
                                     </ul>
                                 </li>
                             @endif
-
+                            <li><a href="javaScript:void();">
+                                        <i class="fa fa-user"></i>
+                                        <span>@translate(Pendaftar Baru)</span>
+                                    </a>
+                            </li>
 
                             <li class="{{request()->is('dashboard/media/manager*')
                                     ? 'active' : null}}">
@@ -58,7 +62,7 @@
                                         <a href="{{route('media.index')}}"
                                            class="{{request()->is('dashboard/media/manager*')
                                                 ?'active':null}}">
-                                            @translate(Add Media)
+                                            @translate(Tambah Media)
                                         </a>
                                     </li>
                                 </ul>
@@ -95,7 +99,9 @@
                                                 <sup
                                                     class="badge badge-info">{{\App\Model\Course::where('is_published',false)->count() > 0 ? \App\Model\Course::where('is_published',false)->count():null}}</sup>
                                             @endif</a></li>
-
+                                    <li><a href="{{route('peserta.index')}}"
+                                               class="{{request()->is('dashboard/category*') ?'active':null}}">@translate(Peserta Pelatihan)</a>
+                                        </li>
                                 </ul>
                             </li>
 
@@ -210,13 +216,13 @@
                                 {{-- Package area --}}
                                 <li><a href="{{route('packages.index')}}"
                                        class="{{request()->is('dashboard/package*') ?'active':null}}">
-                                        <i class="fa fa-briefcase"></i> <span>@translate(Instructor Package)</span></a>
+                                        <i class="fa fa-briefcase"></i> <span>@translate(Paket Instuktur)</span></a>
                                 </li>
 
                                 <li><a href="{{route('payments.index')}}"
                                        class="{{request()->is('dashboard/payment*') ?'active':null}}">
                                         <i class="fa fa-money"></i>
-                                        <span>@translate(Instructor's Payment)
+                                        <span>@translate(Pembayaran Instuktur)
                                             @if(\App\Model\Payment::where('status','Request')->count() > 0)
                                                 <sup
                                                     class="badge badge-info">{{\App\Model\Payment::where('status','Request')->count()}}
@@ -275,7 +281,7 @@
                                 <li class="{{request()->is('dashboard/affiliate*') ? 'active' : null}}">
                                     <a href="javaScript:void();">
                                         <i class="la la-adn"></i>
-                                        <span>@translate(Affiliate Area)</span>
+                                        <span>@translate(Area Afiliasi)</span>
                                         @if(\App\Model\Affiliate::where('is_confirm',false)->where('is_cancel',false)->count() >0 || \App\Model\AffiliatePayment::where('status','Request')->count() > 0)
                                             <sup
                                                 class="badge badge-info">{{(int)\App\Model\Affiliate::where('is_confirm',false)->where('is_cancel',false)->count() + (int)\App\Model\AffiliatePayment::where('status','Request')->count()}}</sup>
@@ -318,7 +324,7 @@
                                 {{-- Admin Earning area --}}
                                 <li><a href="{{route('admin.earning.index')}}"
                                        class="{{request()->is('dashboard/admin*') ?'active':null}}">
-                                        <i class="fa fa-history"></i> <span>@translate(Admin's Earning)</span>
+                                        <i class="fa fa-history"></i> <span>@translate(Penghasilan Admin)</span>
                                     </a>
                                 </li>
 
@@ -341,7 +347,7 @@
                             {{-- Support Ticket --}}
                             <li><a href="{{route('tickets.index')}}"
                                    class="{{request()->is('dashboard/ticket*') ?'active':null}}">
-                                    <i class="fa fa-envelope-open-o"></i> <span>@translate(Support Ticket)</span>
+                                    <i class="fa fa-envelope-open-o"></i> <span>@translate(Tiket Dukungan)</span>
                                 </a>
                             </li>
 
@@ -357,40 +363,40 @@
                                    || request()->is('dashboard/currencies*') ? 'active' : null}}">
                                 <a href="javaScript:void();">
                                     <i class="fa fa-gear"></i>
-                                    <span>@translate(Settings)</span><i class="feather icon-chevron-right"></i>
+                                    <span>@translate(Pengaturan)</span><i class="feather icon-chevron-right"></i>
                                 </a>
                                 <ul class="vertical-submenu">
                                     @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                         <li><a href="{{route('app.setting')}}"
-                                               class="{{request()->is('dashboard/app*') ?'active':null}}">@translate(Gateway
-                                                Settings)</a></li>
+                                               class="{{request()->is('dashboard/app*') ?'active':null}}">@translate(Pengaturan Gerbang
+                                                )</a></li>
                                         <li><a href="{{route('currencies.index')}}"
-                                               class="{{request()->is('dashboard/currency*') ?'active':null}}">@translate(Currency
-                                                Settings)</a>
+                                               class="{{request()->is('dashboard/currency*') ?'active':null}}">@translate(Pengaturan Mata Uang
+                                                )</a>
                                         </li>
                                         <li><a href="{{route('language.index')}}"
-                                               class="{{request()->is('dashboard/language*') ?'active':null}}">@translate(Language
-                                                Settings)</a></li>
+                                               class="{{request()->is('dashboard/language*') ?'active':null}}">@translate(Pengaturan Bahasa
+                                                )</a></li>
                                         <li><a href="{{route('smtp.create')}}"
-                                               class="{{request()->is('dashboard/smtp*') ?'active':null}}">@translate(SMTP
-                                                Settings)</a></li>
+                                               class="{{request()->is('dashboard/smtp*') ?'active':null}}">@translate(Pengaturan SMTP
+                                                )</a></li>
 
                                         <li><a href="{{route('sliders.index')}}"
-                                               class="{{request()->is('dashboard/slider*') ?'active':null}}">@translate(Slider
-                                                Settings)</a></li>
+                                               class="{{request()->is('dashboard/slider*') ?'active':null}}">@translate(Pengaturan Slide
+                                                )</a></li>
 
                                         <li><a href="{{route('pages.index')}}"
-                                               class="{{request()->is('dashboard/pages*') ?'active':null}}">@translate(Pages)</a>
+                                               class="{{request()->is('dashboard/pages*') ?'active':null}}">@translate(Halaman)</a>
                                         </li>
 
 
                                         <li><a href="{{route('site.setting')}}"
-                                               class="{{request()->is('dashboard/site*') ?'active':null}}">@translate(Organization
-                                                Settings)</a></li>
+                                               class="{{request()->is('dashboard/site*') ?'active':null}}">@translate(Pengaturan Organisasi
+                                                )</a></li>
 
                                         <li><a href="{{route('other.setting')}}"
-                                               class="{{request()->is('dashboard/other*') ?'active':null}}">@translate(Other
-                                                Settings)</a></li>
+                                               class="{{request()->is('dashboard/other*') ?'active':null}}">@translate(Pengaturan Lainnya
+                                                )</a></li>
 
 
                                     @else
@@ -532,7 +538,7 @@
                                     {{-- Addons manager --}}
                                     <li><a href="{{route('addons.manager.index')}}"
                                            class="{{request()->is('dashboard/addon*') ?'active':null}}">
-                                            <i class="fa fa-puzzle-piece"></i> <span>@translate(Addon Manager)</span>
+                                            <i class="fa fa-puzzle-piece"></i> <span>@translate(Manajer Addon)</span>
                                         </a>
                                     </li>
                                 @endif
@@ -565,7 +571,7 @@
                                     {{-- THEME manager --}}
                                     <li><a href="{{route('theme.manager.index')}}"
                                            class="{{request()->is('dashboard/theme*') ?'active':null}}">
-                                            <i class="fa  fa-pie-chart"></i> <span>@translate(Theme Manager)</span>
+                                            <i class="fa  fa-pie-chart"></i> <span>@translate(Manajer Tema)</span>
                                         </a>
                                     </li>
                                 @endif
@@ -577,7 +583,7 @@
                                 <li class="{{request()->is('dashboard/forum*') ? 'active' : null}}">
                                     <a href="javaScript:void();">
                                         <i class="fa fa-bus"></i>
-                                        <span>@translate(Activity Log Manager)</span>
+                                        <span>@translate(Manajer log aktivitas)</span>
                                         <i class="feather icon-chevron-right"></i>
                                     </a>
                                     <ul class="vertical-submenu">

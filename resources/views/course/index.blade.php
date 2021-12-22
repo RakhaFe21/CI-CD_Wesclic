@@ -133,16 +133,20 @@
                                          aria-labelledby="widgetRevenue" x-placement="bottom-end">
                                         <a class="dropdown-item font-13"
                                            href="{{ route('course.show',[$course->id,$course->slug])}}">
-                                            @translate(Details)
+                                           <i class="feather flaticon-earth-globe mr-2"></i>@translate(Details)
                                         </a>
                                         <a class="dropdown-item font-13"
                                            href="{{ route('course.edit',[$course->id,$course->slug])}}">
-                                            @translate(Edit)
+                                           <i class="feather icon-edit-2 mr-2"></i>@translate(Edit)
                                         </a>
                                         <a class="dropdown-item font-13"
                                            onclick="confirm_modal('{{ route('course.destroy',[$course->id,$course->slug]) }}')"
                                            href="#!">
                                             <i class="feather icon-trash mr-2"></i>@translate(Delete)</a>
+                                            <a class="dropdown-item font-13"
+                                           onclick="confirm_modal('{{ route('course.destroy',[$course->id,$course->slug]) }}')"
+                                           href="#!">
+                                            <i class="feather icon-nama mr-2"></i>@translate(Peserta)</a>
                                     </div>
                                 </div>
                             </td>

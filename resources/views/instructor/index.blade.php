@@ -5,17 +5,17 @@
 <div class="card mx-2 mb-3">
     <div class="card-header">
         <div class="float-left">
-            <h3>@translate(All Instructors)</h3>
+            <h3>@translate(Data Instuktur)</h3>
         </div>
         <div class="float-right">
             <div class="row">
                 <div class="col">
                     <form method="get" action="">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control col-12" placeholder="@translate(Search by name)" value="{{Request::get('search')}}">
+                            <input type="text" name="search" class="form-control col-12" placeholder="@translate(Cari menurut nama)" value="{{Request::get('search')}}">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
-                                    @translate(Search)</button>
+                                    @translate(Cari)</button>
                             </div>
                         </div>
                     </form>
@@ -26,7 +26,7 @@
                         onclick="forModal('{{ route("instructor.create.modal") }}', '@translate(Create Instructor)')"
                         class="btn btn-primary">
                         <i class="la la-plus"></i>
-                        @translate(Add New Instructor)
+                        @translate(Tambah Instuktur Baru)
                     </a>
                 </div>
 
@@ -43,15 +43,15 @@
                         @translate(Photo)
                     </th>
                     <th>
-                        @translate(Name)</th>
+                        @translate(Nama)</th>
                     <th>
                         @translate(Email)</th>
                     <th>
-                        @translate(Phone)</th>
+                        @translate(Telepon)</th>
                     <th>
-                        @translate(Balance)</th>
+                        @translate(Keseimbangan)</th>
                     <th>
-                        @translate(About)</th>
+                        @translate(Tentang)</th>
                     <th>
                         @translate(Action)</th>
                 </tr>

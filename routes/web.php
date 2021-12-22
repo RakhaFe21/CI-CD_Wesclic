@@ -228,6 +228,8 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
 
     //student
     Route::get('student/index', 'Module\StudentController@index')->name('students.index');
+    Route::get('peserta/index', 'Module\StudentController@index')->name('peserta.index');
+    Route::get('peserta/baru', 'Module\StudentController@peserta_baru')->name('peserta.baru');
     Route::get('student/show/{id}', 'Module\StudentController@show')->name('students.show');
     Route::get('student/create/modal', 'Module\StudentController@create')->name('student.create.modal');
     Route::post('student/create/modal/store', 'Module\StudentController@student_store')->name('student.store.modal');

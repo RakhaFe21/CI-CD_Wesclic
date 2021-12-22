@@ -65,6 +65,22 @@ class StudentController extends Controller
 
     /*This function show all instructor related history
     like Package, Course , Enrolment Student list Get Payment History*/
+
+    public function peserta_baru(Request $request)
+    {
+        if (Auth::user()->user_type == "Admin") {
+            /*if Authenticated  user is admin , admin can show all students */
+            if ($request->get('search')) {
+                $students = Student::where('name', 'like', '%' . $request->get('search') . '%')
+                    ->orWhere('email', 'like', '%' . $request->get('search') . '%')
+                    ->orderBydesc('id')->paginate(10);
+            } else {
+                $students = Student::leftjoin('users AS b', 'students.user_id', 'b.id')->orderBydesc('students.id')->paginate(10);
+            }
+        } 
+        return view('course.peserta.index', compact('students'));
+    }
+
     public function show($id)
     {
         $each_student = Student::where('user_id', $id)->first();

@@ -27964,8 +27964,8 @@ mark {
 /* -- Success Button -- */
 .btn-success {
   color: #ffffff;
-  background-color: #43d187;
-  border-color: #43d187;
+  background-color: #ff6d00;
+  border-color: #ff6d00;
   box-shadow: none;
 }
 .btn-success .disabled {
@@ -27979,7 +27979,7 @@ mark {
   border-color: #43d187;
 }
 .btn-success:active {
-  background-color: #31c97a;
+  background-color: #ff6d00;
   border-color: #31c97a;
 }
 .btn-success:hover {
@@ -27990,13 +27990,13 @@ mark {
   color: #ffffff;
   background-color: #31c97a;
   border-color: #31c97a;
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 .btn-success:focus {
   color: #ffffff;
   background-color: #31c97a;
   border-color: #31c97a;
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 .btn-success:visited {
   background-color: #31c97a;
@@ -28011,49 +28011,49 @@ mark {
   border-color: #31c97a;
 }
 .btn-success:not(:disabled):not(.disabled).active:focus {
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 .btn-success:not(:disabled):not(.disabled):active:focus {
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 
 /* -- Success Button Outline -- */
 .btn-outline-success {
-  color: #43d187;
-  border-color: #43d187;
+  color: #ff6d00;
+  border-color: #ff6d00;
 }
 .btn-outline-success:active {
-  background-color: #31c97a;
-  border-color: #31c97a;
+  background-color: #ff6d00;
+  border-color: #ff6d00;
 }
 .btn-outline-success:hover {
   color: #ffffff;
-  background-color: #31c97a;
-  border-color: #31c97a;
+  background-color: #ff6d00;
+  border-color: #ff6d00;
 }
 .btn-outline-success.focus {
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 .btn-outline-success:focus {
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 .btn-outline-success:visited {
-  background-color: #31c97a;
-  border-color: #31c97a;
+  background-color: #ff6d00;
+  border-color: #ff6d00;
 }
 .btn-outline-success:not(:disabled):not(.disabled).active {
-  background-color: #31c97a;
-  border-color: #31c97a;
+  background-color: #ff6d00;
+  border-color: #ff6d00;
 }
 .btn-outline-success:not(:disabled):not(.disabled):active {
-  background-color: #31c97a;
-  border-color: #31c97a;
+  background-color: #ff6d00;
+  border-color: #ff6d00;
 }
 .btn-outline-success:not(:disabled):not(.disabled).active:focus {
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 .btn-outline-success:not(:disabled):not(.disabled):active:focus {
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 
 .open > .dropdown-toggle.btn-success {
@@ -28062,18 +28062,18 @@ mark {
 }
 
 .show > .btn-outline-success.dropdown-toggle {
-  background-color: #31c97a;
-  border-color: #31c97a;
+  background-color: #ff6d00;
+  border-color: #ff6d00;
 }
 .show > .btn-outline-success.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 .show > .btn-success.dropdown-toggle {
   background-color: #31c97a;
   border-color: #31c97a;
 }
 .show > .btn-success.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 
 /* -- Danger Button -- */
@@ -28833,7 +28833,7 @@ mark {
   background-color: #43d187;
   border: none;
   color: #ffffff;
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 
 .btn-danger-rgba {
@@ -31978,7 +31978,7 @@ input[type=range]:focus {
 }
 .jconfirm .jconfirm-box .jconfirm-buttons button.btn-green:focus {
   background-color: #31c97a;
-  box-shadow: 0 0 0 0.2rem #95e5bb;
+  box-shadow: 0 0 0 0.2rem #ff8333;
 }
 .jconfirm .jconfirm-box .jconfirm-buttons button.btn-red {
   background-color: #f9616d;

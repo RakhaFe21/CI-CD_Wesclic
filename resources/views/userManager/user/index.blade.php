@@ -20,13 +20,13 @@
         <div class="card-header">
 
             <div class="float-left">
-                <h3>@translate(All Admins)</h3>
+                <h3>@translate(Data Admin)</h3>
             </div>
 
             <div class="float-right">
                 <a href="{{ route("users.create") }}" class="btn btn-primary">
                     <i class="la la-plus"></i>
-                    @translate(Add New Admin User)
+                    @translate(Tambah Admin Baru)
                 </a>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <thead>
                 <tr>
                     <th>S/L</th>
-                    <th>@translate(Name)</th>
+                    <th>@translate(Nama)</th>
 
                     <th>@translate(Action)</th>
                 </tr>
@@ -46,7 +46,7 @@
                 @foreach($users as $item)
                     <tr>
                         <td>{{$loop->index+1}}</td>
-                        <td>@translate(Name) : {{$item->name}} <br> @translate(Email) : {{$item->email}}</td>
+                        <td>@translate(Nama) : {{$item->name}} <br> @translate(Email) : {{$item->email}}</td>
 
                         <td>
                             <div class="kanban-menu">

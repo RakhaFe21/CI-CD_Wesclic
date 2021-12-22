@@ -15,7 +15,7 @@
                             <div class="row align-items-center">
                                 <div class="col-7">
                                     <h4>{{formatPrice($this_earning)}}</h4>
-                                    <p class="font-14 mb-0">@translate(This Month Revenue)</p>
+                                    <p class="font-14 mb-0">@translate(Pendapatan Bulan Ini)</p>
                                 </div>
                                 <div class="col-5 text-right">
                                     <div id="apex-area3-chart"></div>
@@ -30,7 +30,7 @@
                             <div class="row align-items-center">
                                 <div class="col-7">
                                     <h4>{{formatPrice($prev_earning)}}</h4>
-                                    <p class="font-14 mb-0">@translate(Last Month Revenue)</p>
+                                    <p class="font-14 mb-0">@translate(Pendapatan Bulan Lalu)</p>
                                 </div>
                                 <div class="col-5 text-right">
                                     <div id="apex-area2-chart"></div>
@@ -46,7 +46,8 @@
                             <div class="row align-items-center">
                                 <div class="col-7">
                                     <h4>{{formatPrice($total_earning)}}</h4>
-                                    <p class="font-14 mb-0">@translate(Total) <br> @translate(Revenue) </p>
+                                    <p class="font-14 mb-0">@translate(Total) <br> @translate(Total
+Pendapatan) </p>
                                 </div>
                                 <div class="col-5 text-right">
                                     <div id="apex-area1-chart"></div>
@@ -75,22 +76,22 @@
                                            aria-selected="true"><i
                                                 class="feather icon-circle font-12 mr-1">
 
-                                            </i>@translate(Courses)<span
+                                            </i>@translate(Pelatihan)<span
                                                 class="float-right font-14 text-muted">{{$total_course}}</span></a>
                                         <a class="nav-link" id="v-pills-sales-tab" data-toggle="pill"
                                            href="#v-pills-sales" role="tab" aria-controls="v-pills-sales"
                                            aria-selected="false">
-                                            <i class="feather icon-circle font-12 mr-1"></i>@translate(Enrollments)<span
+                                            <i class="feather icon-circle font-12 mr-1"></i>@translate(Pendaftaran)<span
                                                 class="float-right font-14 text-muted">{{$total_enrollments}}</span></a>
                                         <a class="nav-link" id="v-pills-product-tab" data-toggle="pill"
                                            href="#v-pills-product" role="tab" aria-controls="v-pills-product"
                                            aria-selected="false">
-                                            <i class="feather icon-circle font-12 mr-1"></i>@translate(Instructors)<span
+                                            <i class="feather icon-circle font-12 mr-1"></i>@translate(Instuktur)<span
                                                 class="float-right font-14 text-muted">{{$total_instructor}}</span></a>
                                         <a class="nav-link" id="v-pills-hiring-tab" data-toggle="pill"
                                            href="#v-pills-hiring" role="tab" aria-controls="v-pills-hiring"
                                            aria-selected="false">
-                                            <i class="feather icon-circle font-12 mr-1"></i>@translate(Students)<span
+                                            <i class="feather icon-circle font-12 mr-1"></i>@translate(Siswa)<span
                                                 class="float-right font-14 text-muted">{{$total_students}}</span></a>
                                     </div>
                                 </div>
@@ -127,7 +128,7 @@
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col-9">
-                            <h5 class="card-title mb-0">@translate(Top Instructor)</h5>
+                            <h5 class="card-title mb-0">@translate(Instruktur Top)</h5>
                         </div>
                     </div>
                 </div>
@@ -165,7 +166,7 @@
                             </div>
                         </div>
                         @empty
-                            <h3 class="text-center mt-3">@translate(No top instructor)</h3>
+                            <h3 class="text-center mt-3">@translate(Tidak ada instuktur top)</h3>
                         @endforelse
                 </div>
             </div>
@@ -178,7 +179,7 @@
             <div class="card-header">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h5 class="card-title mb-0">@translate(This Year Revenue)</h5>
+                        <h5 class="card-title mb-0">@translate(Pendapatan Tahun Ini)</h5>
                     </div>
                 </div>
             </div>
@@ -312,7 +313,7 @@
             },
             colors:["#506fe4"],
             series: [{{$total_course}}],
-            labels: ['@translate(Total Courses)'],
+            labels: ['@translate(Total Pelatihan)'],
         }
         var chart = new ApexCharts(
             document.querySelector("#apex-operation-course-chart"),

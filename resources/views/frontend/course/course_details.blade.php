@@ -117,13 +117,13 @@
                         @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                             <a href="#!"
                                class="theme-btn w-100 mb-3 addToCart-{{$s_course->id}}"
-                               onclick="addToCart({{$s_course->id}},'{{route('add.to.cart')}}')">@translate(Add to cart)</a>
+                               onclick="addToCart({{$s_course->id}},'{{route('add.to.cart')}}')">@translate(Daftar)</a>
                         @else
-                            <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Add to cart)</a>
+                            <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Daftar)</a>
                         @endif
                     @endauth
                     @guest
-                        <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Add to cart)</a>
+                        <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Daftar)</a>
 
                     @endguest
                 </div>
@@ -206,7 +206,7 @@
                         <div class="curriculum-wrap margin-bottom-60px">
                             <div class="curriculum-header d-flex align-items-center justify-content-between">
                                 <div class="curriculum-header-left">
-                                    <h3 class="widget-title">@translate(Curriculum)</h3>
+                                    <h3 class="widget-title">@translate(Kurikulum)</h3>
                                 </div>
                                 <div class="curriculum-header-right">
                                     <span class="curriculum-total__text"><strong>@translate(Total):</strong>
@@ -301,7 +301,7 @@
 
                         <div class="section-block"></div>
                         <div class="view-more-courses mt-5">
-                            <h3 class="widget-title">@translate(Students also bought)</h3>
+                            <h3 class="widget-title">@translate(Siswa juga membeli)</h3>
                             <div class="view-more-carousel margin-top-30px margin-bottom-50px">
                                 @foreach ($sug_courses as $course)
                                     <div class="column-td-half">
@@ -475,7 +475,7 @@
 
                         <div class="section-block"></div>
                         <div class="instructor-wrap padding-top-50px padding-bottom-45px">
-                            <h3 class="widget-title">@translate(About the instructor)</h3>
+                            <h3 class="widget-title">@translate(Tentang penyelenggara)</h3>
                             <div class="instructor-content margin-top-30px d-flex">
                                 <div class="instructor-img">
                                     <a href="{{route('single.instructor',$s_course->slug)}}"
@@ -513,7 +513,7 @@
                                             <a class="collapsed link-collapsed" data-toggle="collapse"
                                                href="#show-more-content" role="button" aria-expanded="false"
                                                aria-controls="show-more-content">
-                                                <span class="link-collapse-read-more">@translate(Read more)</span>
+                                                <span class="link-collapse-read-more">@translate(Baca selengkapnya)</span>
                                                 <span class="link-collapse-active">@translate(Read less)</span>
                                                 <div class="ml-1">
                                                     <i class="la la-plus"></i>
@@ -530,7 +530,7 @@
                         </div><!-- end instructor-wrap -->
 
                         <div class="view-more-courses mt-5">
-                            <h3 class="widget-title">@translate(More Courses by) {{ $s_course->name }}</h3>
+                            <h3 class="widget-title">@translate(pelatihan lainnya oleh) {{ $s_course->name }}</h3>
                             <div class="view-more-carousel margin-top-30px margin-bottom-50px">
                                 @foreach (App\Model\Course::Published()->where('user_id',$s_course->user_id)->latest()->take(6)->get() as $moreCourseItem)
                                     <div class="column-td-half">
@@ -772,13 +772,13 @@
                                                 @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                                                     <a href="#!"
                                                        class="theme-btn w-100 mb-3 addToCart-{{$s_course->id}}"
-                                                       onclick="addToCart({{$s_course->id}},'{{route('add.to.cart')}}')">@translate(Add to cart)</a>
+                                                       onclick="addToCart({{$s_course->id}},'{{route('add.to.cart')}}')">@translate(Daftar)</a>
                                                 @else
-                                                    <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Add to cart)</a>
+                                                    <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Daftar)</a>
                                                 @endif
                                             @endauth
                                             @guest
-                                                <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Add to cart)</a>
+                                                <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Daftar)</a>
 
                                             @endguest
                                         </div>
@@ -868,7 +868,7 @@
                                 {{-- latest courses: END --}}
 
                                 <div class="btn-box text-center">
-                                    <a href="{{route('course.filter')}}" class="theme-btn d-block">@translate(view all courses)</a>
+                                    <a href="{{route('course.filter')}}" class="theme-btn d-block">@translate(Liat semua pelatihan)</a>
                                 </div><!-- end btn-box -->
                             </div><!-- end sidebar-widget -->
                             <div class="sidebar-widget tag-widget">

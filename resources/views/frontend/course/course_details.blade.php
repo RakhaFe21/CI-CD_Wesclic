@@ -475,7 +475,7 @@
 
                         <div class="section-block"></div>
                         <div class="instructor-wrap padding-top-50px padding-bottom-45px">
-                            <h3 class="widget-title">@translate(Tentang instuktur)</h3>
+                            <h3 class="widget-title">@translate(Tentang penyelenggara)</h3>
                             <div class="instructor-content margin-top-30px d-flex">
                                 <div class="instructor-img">
                                     <a href="{{route('single.instructor',$s_course->slug)}}"

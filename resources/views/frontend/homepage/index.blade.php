@@ -781,7 +781,7 @@
                     <div class="counter-item">
                         <span class="la la-bullhorn count__icon"></span>
                         <h4 class="count__title text-color-2 count-up" data-from="0" data-to="{{\App\User::where('user_type','Instructor')->get()->count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(Instuktur ahli)</p>
+                        <p class="count__meta">@translate(penyelenggara)</p>
                     </div><!-- end counter-item -->
                 </div><!-- end col-lg-3 -->
                 <div class="col-lg-3 column-td-half">
@@ -817,55 +817,7 @@
     <!--======================================
             START PACKAGE AREA
     ======================================-->
-    <section class="choose-area section-padding text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-heading">
-                        <h5 class="section__meta">@translate(become an instructor)</h5>
-                        <h2 class="section__title">@translate(Tersedia) {{getSystemSetting('type_name')->value}}
-                            @translate(Packages)</h2>
-                        <span class="section-divider"></span>
-                    </div><!-- end section-heading -->
-                </div><!-- end col-md-12 -->
-            </div><!-- end row -->
-            <div class="row margin-top-100px">
-                @foreach($packages as $item)
-                    <div class="col-lg-4 column-td-half">
-                        <div class="post-card">
-                            <div class="post-card-content">
-                                <img data-original="{{filePath($item->image)}}" alt="" class="img-fluid"/>
-                                <h2 class="widget-title mt-4 mb-2">
-                                    {{formatPrice($item->price)}}
-                                </h2>
-                                <div>
-                                    @translate(If you buy this package, admin will get)
-                                    <h3 class="text-info"> {{$item->commission}} % </h3>
-                                    @translate(of the course price for each enrollment of that course)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div><!-- end row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="btn-box mt-3 d-flex align-items-center justify-content-center text-left">
-                        <div class="btn-box-inner mr-3">
-                            <span class="d-block mb-2 font-weight-semi-bold">@translate(Are you instructor?)</span>
-                            <a href="{{route('instructor.register')}}" class="theme-btn line-height-40 text-capitalize">@translate(Start teaching)</a>
-                        </div>
-                        @guest
-                            <div class="btn-box-inner">
-                                <span class="d-block mb-2 font-weight-semi-bold">@translate(Are you student?)</span>
-                                <a href="{{route('login')}}" class="theme-btn line-height-40 text-capitalize">@translate(Mulai Belajar)</a>
-                            </div>
-                        @endguest
-                    </div>
-                </div><!-- end col-lg-12 -->
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </section><!-- end package-area -->
+  <!-- end package-area -->
     <!--======================================
             END PACKAGE AREA
     ======================================-->

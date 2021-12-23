@@ -530,19 +530,6 @@
                                 @endif
                             @endif
 
-                            @if(env('ADDONS_MANAGER') == "YES")
-                                {{-- Zoom manager --}}
-                                @if(Auth::user()->user_type === "Admin")
-
-
-                                    {{-- Addons manager --}}
-                                    <li><a href="{{route('addons.manager.index')}}"
-                                           class="{{request()->is('dashboard/addon*') ?'active':null}}">
-                                            <i class="fa fa-puzzle-piece"></i> <span>@translate(Manajer Addon)</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endif
 
                             @if(env('WALLET_ACTIVE') == "YES")
                                 {{-- Forum manager --}}
@@ -564,19 +551,6 @@
                                     </li>
                                 @endif
                             @endif
-
-
-                            @if(env('THEME_MANAGER') == "YES")
-                                @if(Auth::user()->user_type === "Admin")
-                                    {{-- THEME manager --}}
-                                    <li><a href="{{route('theme.manager.index')}}"
-                                           class="{{request()->is('dashboard/theme*') ?'active':null}}">
-                                            <i class="fa  fa-pie-chart"></i> <span>@translate(Manajer Tema)</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endif
-
 
                             {{-- Activity Log Manager --}}
                             @if(Auth::user()->user_type === "Admin" || Auth::user()->user_type === "Instructor")

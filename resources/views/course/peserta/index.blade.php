@@ -3,6 +3,8 @@
 @section('parentPageTitle', 'All Student')
 @section('content')
     <div class="card mx-2 mb-3">
+    <form action="" method="post" enctype="multipart/form-data">
+        @csrf
         <div class="card-header">
             <div class="float-left">
                 <h3>@translate(Peserta Baru)</h3>
@@ -23,12 +25,9 @@
                     </div>
 
                     <div class="col">
-                        <a href="#!"
-                           onclick="forModal('{{ route("student.create.modal") }}', '@translate(Student Create)')"
-                           class="btn btn-primary">
-                            <i class="la la-plus"></i>
-                            @translate(Tambah Ke Palatihan tertutup)
-                        </a>
+                        <button class="btn btn-primary float-right" type="submit">
+                            @translate(Tambah Ke Pelatihan tertutup)
+                        </button>
                     </div>
 
                 </div>
@@ -39,7 +38,7 @@
             <table class="table table-bordered table-hover text-center">
                 <thead>
                 <tr>
-                    <th>S/L</th>
+                    <th> </th>
                     <th>@translate(Gambar)</th>
                     <th>@translate(Nama)</th>
                     <th>@translate(Nik)</th>
@@ -114,6 +113,7 @@
                 </div>
             </table>
         </div>
+    </form>
     </div>
 
 @endsection

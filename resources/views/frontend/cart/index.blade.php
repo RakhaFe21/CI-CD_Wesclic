@@ -33,7 +33,7 @@
                                                class="widget-title">{{$item->course->title}}</a>
                                             <p>
                                                 By <a
-                                                    href="#!">{{$item->course->relationBetweenInstructorUser->name}}</a>
+                                                    href="#!">{{$item->course->name}}</a>
                                             </p>
                                         </div>
                                     </td>

@@ -87,8 +87,6 @@
                                                 <li class="media dropdown-item">
                                                     <a href=""
                                                        class="profile-icon">
-                                                      
-
                                                         @translate(Pendaftaran)</a>
                                                 </li>
                                          

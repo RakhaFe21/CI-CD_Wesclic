@@ -184,7 +184,7 @@
 
                                         </h3>
                                         <p class="card__author">
-                                            <a href="{{route('single.instructor',$i_course->relationBetweenInstructorUser->slug)}}">{{$i_course->relationBetweenInstructorUser->name}}</a>
+                                            <a href="{{route('single.instructor',$i_course->slug)}}">{{$i_course->name}}</a>
                                         </p>
                                         <div class="rating-wrap d-flex mt-2 mb-3">
                                                     <span class="star-rating-wrap">
@@ -259,7 +259,7 @@
                                     <div class="card-content">
                                         <p class="card__author">
                                             By <a
-                                                href="{{route('single.instructor',$i_tooltip->relationBetweenInstructorUser->slug)}}">{{$i_tooltip->relationBetweenInstructorUser->name}}</a>
+                                                href="{{route('single.instructor',$i_tooltip->slug)}}">{{$i_tooltip->name}}</a>
                                         </p>
                                         <h3 class="card__title">
                                             <a href="{{route('course.single',$i_tooltip->slug)}}">{{\Illuminate\Support\Str::limit($i_tooltip->title,58)}}</a>

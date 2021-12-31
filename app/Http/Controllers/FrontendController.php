@@ -1137,9 +1137,8 @@ if (walletActive()) {
     /*instructor traits*/
     // Instructor details
     public function instructorDetails($slug)
-    {dd($slug);
-        $user = User::where('slug', $slug)->where('user_type', 'Admin')->first();
-
+    {
+        $user = User::where('id', $slug)->first(); 
         if ($user == null) {
             Session::flash('message', translate('404 Not Found'));
             return back();

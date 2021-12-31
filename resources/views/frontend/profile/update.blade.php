@@ -67,7 +67,7 @@
                                                                     <span class="la la-envelope input-icon"></span>
                                                                 </div>
                                                             </div>
-                                                        </div><!-- end col-lg-6 -->
+                                                        </div>end col-lg-6
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(Phone Number)</label>
@@ -158,7 +158,7 @@
                                               <form method="POST" action="{{ route('password.update') }}">
                                                   @csrf
                                                     <div class="row">
-                                                        <div class="col-lg-4 col-sm-4">
+                                                        <!-- <div class="col-lg-4 col-sm-4">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(E-Mail Address)<span class="primary-color-2 ml-1">*</span></label>
                                                                 <div class="form-group">
@@ -177,7 +177,7 @@
 
                                                                 </div>
                                                             </div>
-                                                        </div><!-- end col-lg-4 -->
+                                                        </div>end col-lg-4 -->
                                                         <div class="col-lg-4 col-sm-4">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(New Password)<span class="primary-color-2 ml-1">*</span></label>
@@ -222,41 +222,7 @@
                                             </div>
                                         </div>
                                         <div class="section-block"></div>
-                                        <div class="user-form padding-top-60px">
-                                            <div class="user-profile-action-wrap padding-bottom-20px">
-                                                <h3 class="widget-title font-size-18 padding-bottom-10px">@translate(Forgot Password then Recover Password)</h3>
-                                                <p class="line-height-26">@translate(Enter the email of your account to reset password. Then you will receive a link to email)
-                                                    <br> @translate(to reset the password.If you have any issue about reset password)</p>
-                                            </div><!-- end user-profile-action-wrap -->
-                                            <div class="contact-form-action">
-
-                                              @if (session('status'))
-                                                  <div class="alert alert-success" role="alert">
-                                                      {{ session('status') }}
-                                                  </div>
-                                              @endif
-
-                                                <form method="post" action="{{ route('password.email') }}">
-                                                  @csrf
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="input-box">
-                                                                <label class="label-text">@translate(Email Address)<span class="primary-color-2 ml-1">*</span></label>
-                                                                <div class="form-group">
-                                                                    <input class="form-control @error('email') is-invalid @enderror" type="email" name="email" value="{{ old('email') }}" placeholder="@translate(Enter email address)" required autocomplete="email">
-                                                                    <span class="la la-lock input-icon"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- end col-lg-6 -->
-                                                        <div class="col-lg-12">
-                                                            <div class="btn-box">
-                                                                <button class="theme-btn" type="submit">@translate(recover password)</button>
-                                                            </div>
-                                                        </div><!-- end col-lg-12 -->
-                                                    </div><!-- end row -->
-                                                </form>
-                                            </div>
-                                        </div>
+                                        <!--  -->
                                     </div><!-- end tab-pane-->
 
                                 </div><!-- end tab-content -->

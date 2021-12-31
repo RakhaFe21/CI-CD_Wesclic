@@ -159,28 +159,93 @@
                                             </p>
                                             <div class="rating-wrap d-flex mt-2 mb-3">
                                                     <span class="star-rating-wrap">
-                                                     @translate(Enrolled) <span
-                                                            class="star__count">{{\App\Model\Enrollment::where('course_id',$l_course->id)->count()}}</span>
+                                                     @translate(Kategori) <span
+                                                            class="star__count">{{\Illuminate\Support\Str::limit($l_course->category_id,58)}}</span>
                                                   </span>
                                             </div><!-- end rating-wrap -->
+                                            </p>
+                                            <div class="rating-wrap d-flex mt-2 mb-3">
+                                                    <span class="star-rating-wrap">
+                                                    @translate(Peserta Terdaftar : ) <span
+                                                            class="star__count">{{$l_course->classes->count()}}</span>
+                                                  </span>
+                                            </div><!-- end rating-wrap -->
+                                            <div class="rating-wrap d-flex mt-2 mb-3">
+                                                <div class="card-price-wrap d-flex justify-content-between align-items-center">
+                                                    <span class="card__price">
+                                                    @translate(Jadwal Pendaftaran)
+                                                  </span>
+                                                </div>
+                                            </div><!-- end rating-wrap -->
+                                            <div class="rating-wrap d-flex mt-2 mb-3">
+                                                    <span class="star-rating-wrap">
+                                                    {{\Carbon\Carbon::parse($l_course->mulai)->format('d F Y')}} - <span
+                                                            class="star__count">{{\Carbon\Carbon::parse($l_course->berakhir)->format('d F Y')}}</span>
+                                                  </span>
+                                            </div><!-- end rating-wrap -->
+                                            <div class="rating-wrap d-flex mt-2 mb-3">
+                                                <div class="card-price-wrap d-flex justify-content-between align-items-center">
+                                                    <span class="card__price">
+                                                    @translate(Jadwal Seleksi)
+                                                  </span>
+                                                </div>
+                                            </div><!-- end rating-wrap -->
+                                            <!-- <div class="card-price-wrap d-flex justify-content-between align-items-center">
+                                                <span class="card__price">@translate(Jadwal Seleksi)</span>
+                                            </div>end rating-wrap -->
                                             <div class="card-action">
                                                 <ul class="card-duration d-flex justify-content-between align-items-center">
                                                     <li>
                                                           <span class="meta__date">
-                                                              <i class="la la-play-circle"></i> {{$l_course->classes->count()}} @translate(Classes)
+                                                              Tes Tulis
                                                           </span>
                                                     </li>
                                                     <li>
+                                                        <span class="meta__date">
+                                                            Wawancara
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div><!-- end card-action -->
+                                            <div class="card-action">
+                                                <ul class="card-duration d-flex justify-content-between align-items-center">
+                                                    <li>
                                                           <span class="meta__date">
-                                                              @php
-                                                                  $total_duration = 0;
-                                                                  foreach ($l_course->classes as $item){
-                                                                      $total_duration +=$item->contents->sum('duration');
-                                                                  }
-                                                              @endphp
-                                                              <i class="la la-clock-o"></i>{{duration($total_duration)}}
-
+                                                              <i class="la la-calendar"></i> {{\Carbon\Carbon::parse($l_course->tanggaltulis)->format('d F Y')}}
                                                           </span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="meta__date">
+                                                            <i class="la la-calendar"></i> {{\Carbon\Carbon::parse($l_course->tanggalwawancara)->format('d F Y')}}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div><!-- end card-action -->
+                                            <div class="card-action">
+                                                <ul class="card-duration d-flex justify-content-between align-items-center">
+                                                    <li>
+                                                          <span class="meta__date">
+                                                              <i class="la la-clock-o"></i> {{\Carbon\Carbon::parse($l_course->jamtulis)->format('H:i')}}
+                                                          </span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="meta__date">
+                                                            <i class="la la-clock-o"></i> {{\Carbon\Carbon::parse($l_course->jamwawancara)->format('H:i')}}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div><!-- end card-action -->
+                                            <div class="card-action">
+                                                <ul class="card-duration d-flex justify-content-between align-items-center">
+                                                    <li>
+                                                          <span class="meta__date">
+                                                              <i class="la la-map-marker"></i> {{$l_course->lokasitulis}}
+                                                          </span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="meta__date">
+                                                            <i class="la la-map-marker"></i> {{$l_course->lokasiwawancara}}
+                                                        </span>
                                                     </li>
                                                 </ul>
                                             </div><!-- end card-action -->
@@ -202,7 +267,7 @@
                                                 @auth()
                                                     @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                                                         <a href="#!" class="text-btn addToCart-{{$l_course->id}}"
-                                                           onclick="addToCart({{$l_course->id}},'{{route('add.to.cart')}}')">@translate(Add to cart)</a>
+                                                           onclick="addToCart({{$l_course->id}},'{{route('add.to.cart')}}')">@translate(Daftar)</a>
                                                     @else
                                                         <a href="{{route('login')}}" class="text-btn">@translate(Add to cart)</a>
                                                     @endif
@@ -244,7 +309,7 @@
                         <div class="rating-wrap d-flex mt-2 mb-3">
 
                                                                     <span class="star-rating-wrap">
-                                                             @translate(Enrolled) <span
+                                                             @translate(Kategori) <span
                                                                             class="star__count">{{\App\Model\Enrollment::where('course_id',$l_c_tooltip->id)->count()}}</span>
                                                         </span>
                         </div><!-- end rating-wrap -->
@@ -274,7 +339,7 @@
                         <div class="btn-box w-100 text-center mb-3">
                             <a href="{{route('course.single',$l_c_tooltip->slug)}}"
                                class="theme-btn d-block">
-                                @translate(Preview this course)</a>
+                                @translate(Lihat pelatihan ini)</a>
                         </div>
                     </div><!-- end card-content -->
                 </div><!-- end card-item -->
@@ -426,7 +491,7 @@
                                                                 </p>
                                                                 <div class="rating-wrap d-flex mt-2 mb-3">
                                                                 <span class="star-rating-wrap">
-                                                                 @translate(Enrolled) <span
+                                                                 @translate(Kategori) <span
                                                                         class="star__count">{{\App\Model\Enrollment::where('course_id',$course->id)->count()}}</span>
                                                               </span>
                                                                 </div><!-- end rating-wrap -->
@@ -511,7 +576,7 @@
 
                                                                                                                         <span
                                                                                                                             class="star-rating-wrap">
-                                                                                                                 @translate(Enrolled) <span
+                                                                                                                 @translate(Kategori) <span
                                                                                                                                 class="star__count">{{\App\Model\Enrollment::where('course_id',$c_tooltip->id)->count()}}</span>
                                                                                                             </span>
                                                                 </div><!-- end rating-wrap -->
@@ -646,7 +711,7 @@
                                             </p>
                                             <div class="rating-wrap d-flex mt-2 mb-3">
                                                         <span class="star-rating-wrap">
-                                                         @translate(Enrolled) <span
+                                                         @translate(Kategori) <span
                                                                 class="star__count">{{\App\Model\Enrollment::where('course_id',$t_courses->id)->count()}}</span>
                                                       </span>
                                             </div><!-- end rating-wrap -->
@@ -731,7 +796,7 @@
                         <div class="rating-wrap d-flex mt-2 mb-3">
 
                                                                     <span class="star-rating-wrap">
-                                                             @translate(Enrolled) <span
+                                                             @translate(Kategori) <span
                                                                             class="star__count">{{\App\Model\Enrollment::where('course_id',$t_tooltip->id)->count()}}</span>
                                                         </span>
                         </div><!-- end rating-wrap -->

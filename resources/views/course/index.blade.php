@@ -107,13 +107,9 @@
                                 <br>
                                 @translate(Contents)- {{ $total_count }}
                             </td>
-                            <td>{{ $s = App\Model\Enrollment::where('course_id' , $course->id)->count() }} </td>
+                            <td>  <a href="{{ route('course.pel',[$course->id,$course->slug])}}">{{ $s = App\Model\Enrollment::where('course_id' , $course->id)->count() }} </td>
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                               @if(App\Model\Enrollment::where('course_id' , $course->id)->count() > 0 )
-                                    <td>
-                                         <p class="text-primary">@translate(Enrolled)</p>
-                                    </td>
-                                @else
+                              
                                     <td>
                                         <div class="switchery-list">
                                             <input type="checkbox" data-url="{{route('course.publish')}}"
@@ -122,7 +118,7 @@
                                                    id="category-switch" {{$course->is_published == true ? 'checked' : null}} />
                                         </div>
                                     </td>
-                                @endif
+                              
                                 <td>
                                 <div class="dropdown">
                                     <button class="btn btn-link p-0 font-18 float-right" type="button"

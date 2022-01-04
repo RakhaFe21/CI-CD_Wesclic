@@ -12,14 +12,14 @@
                 <div class="col-lg-12">
                     <div class="card-box-shared">
                         <div class="card-box-shared-title">
-                            <h3 class="widget-title">@translate(Settings info)</h3>
+                            <h3 class="widget-title">Nama Siswa : </h3>
                         </div>
                         <div class="card-box-shared-body">
                             <div class="section-tab section-tab-2">
                                 <ul class="nav nav-tabs" role="tablist" id="review">
                                     <li role="presentation">
                                         <a >
-                                             @translate(Password)
+                                        {{$student->name}}
                                         </a>
                                     </li>
                                 </ul>
@@ -32,7 +32,7 @@
                                                 <h3 class="widget-title font-size-18 padding-bottom-40px">@translate(Change Password)</h3>
                                             </div><!-- end user-profile-action-wrap -->
                                             <div class="contact-form-action">
-                                              <form method="POST" action="{{  route('student.reset_password')}}">
+                                              <form method="POST" action="{{ route('student.reset_password')}}">
                                                   @csrf
                                                     <div class="row">
                                                     <input type="hidden" name="user_id" value="{{ $student->id }}"> 

@@ -505,7 +505,7 @@ class FrontendController extends Controller
     }
 
     public function ganti_password($id)
-    {
+    { 
         $student = User::where('id',$id)->first();
         
         return view($this->theme.'.profile.reset_password', compact('student'));

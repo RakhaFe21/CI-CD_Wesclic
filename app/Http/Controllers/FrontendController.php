@@ -414,7 +414,7 @@ class FrontendController extends Controller
 
     //register
     public function create(Request $request)
-    {
+    { 
         Validator::extend('without_spaces', function($attr, $value){
             return preg_match('/^\S*$/u', $value);
         });
@@ -465,21 +465,11 @@ class FrontendController extends Controller
         $student->save();
 
         /*here is the student */
-        try {
-            $user->notify(new StudentRegister());
-
             VerifyUser::create([
                 'user_id' => $user->id,
                 'token' => sha1(time())
             ]);
             
-            
-
-            // send verify mail
-            $user->notify(new VerifyNotifications($user));
-
-        } catch (\Exception $exception) {
-        }
 
         Session::flash('message', translate("Registration done successfully. Please login."));
         return redirect()->route('login');
@@ -512,6 +502,13 @@ class FrontendController extends Controller
         $response1 = file_get_contents($url, false, $context);
         $provinsi = json_decode($response1, TRUE); 
         return view($this->theme.'.profile.update', compact('student','provinsi'));
+    }
+
+    public function ganti_password($id)
+    {
+        $student = User::where('id',$id)->first();
+        
+        return view($this->theme.'.profile.reset_password', compact('student'));
     }
 
     // update
@@ -563,6 +560,25 @@ class FrontendController extends Controller
 
         return back();
 
+    }
+
+    public function student_reset_password(Request $request)
+    { 
+          /*User*/
+          $user = User::findOrFail($request->user_id);
+          $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+
+          $user->save();
+
+          $details = [
+            'body' => $user->name . translate(' password updated '),
+        ];
+
+        /* sending instructor notification */
+        $notify = $this->userNotify(Auth::user()->id,$details);
+
+          notify()->success(translate('Profile updated successfully'));
+          return redirect('/');
     }
 
 

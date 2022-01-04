@@ -128,6 +128,10 @@
                                     <div class="dropdown-menu dropdown-menu-right st-drop"
                                          aria-labelledby="widgetRevenue" x-placement="bottom-end">
                                         <a class="dropdown-item font-13"
+                                            href="{{ route('course.pel',[$course->id,$course->slug])}}">
+                                            <i class="feather icon-users mr-2"></i>@translate(Peserta)
+                                        </a>
+                                        <a class="dropdown-item font-13"
                                            href="{{ route('course.show',[$course->id,$course->slug])}}">
                                            <i class="feather flaticon-earth-globe mr-2"></i>@translate(Details)
                                         </a>
@@ -139,10 +143,6 @@
                                            onclick="confirm_modal('{{ route('course.destroy',[$course->id,$course->slug]) }}')"
                                            href="#!">
                                             <i class="feather icon-trash mr-2"></i>@translate(Delete)</a>
-                                            <a class="dropdown-item font-13"
-                                           onclick="confirm_modal('{{ route('course.destroy',[$course->id,$course->slug]) }}')"
-                                           href="#!">
-                                            <i class="feather icon-nama mr-2"></i>@translate(Peserta)</a>
                                     </div>
                                 </div>
                             </td>

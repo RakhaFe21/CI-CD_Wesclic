@@ -44,6 +44,7 @@
                     <th>@translate(Nama)</th>
                     <th>@translate(Nik)</th>
                     <th>@translate(Pelatihan)</th>
+                    <th>@translate(ubah password)</th>
                     <th>@translate(Status)</th>
                 </tr>
                 </thead>
@@ -68,7 +69,11 @@
                                 onclick="forModal('{{ route('student.enroll.courses.modal', $item->user_id) }}', '@translate(Pelatihan yang diikuti)')">
                             @translate(Lihat)</a>
                         </td>
-
+                        <td>
+                            <a class="btn btn-primary" 
+                                href="{{ route('student.ganti_password', $item->user_id) }}">
+                            @translate(ubah password)</a>
+                        </td>
                         <td>
                         <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" id="profilelink"

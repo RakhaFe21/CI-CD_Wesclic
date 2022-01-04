@@ -86,6 +86,7 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::get('instructor/index', 'Instructor\InstructorController@index')->name('instructors.index');
     Route::get('instructor/show/{id}', 'Instructor\InstructorController@show')->name('instructors.show');
     Route::get('/profile/{id}', 'Instructor\InstructorController@edit')->name('instructors.edit');
+    Route::get('/profile/delete/{id}', 'Instructor\InstructorController@delete')->name('instructors.delete');
     Route::post('/profile/update', 'Instructor\InstructorController@update')->name('instructors.update')->middleware('demo');
     Route::post('/users/banned', 'Instructor\InstructorController@banned')->name('users.banned')->middleware('demo');
 

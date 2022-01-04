@@ -132,7 +132,7 @@
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(Adress)</label>
                                                                 <div class="form-group">
-                                                                    <textarea class="message-control form-control" name="about">{!! $student->student->about !!}</textarea>
+                                                                    <textarea class="message-control form-control" name="about">{!! $student->about !!}</textarea>
                                                                     <span class="la la-pencil input-icon"></span>
                                                                 </div>
                                                             </div>
@@ -155,9 +155,10 @@
                                                 <h3 class="widget-title font-size-18 padding-bottom-40px">@translate(Change Password)</h3>
                                             </div><!-- end user-profile-action-wrap -->
                                             <div class="contact-form-action">
-                                              <form method="POST" action="{{ route('password.update') }}">
+                                              <form method="POST" action="{{  route('student.reset_password')}}">
                                                   @csrf
                                                     <div class="row">
+                                                    <input type="hidden" name="user_id" value="{{ $student->id }}"> 
                                                         <!-- <div class="col-lg-4 col-sm-4">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(E-Mail Address)<span class="primary-color-2 ml-1">*</span></label>

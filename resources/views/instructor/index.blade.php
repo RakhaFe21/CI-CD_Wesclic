@@ -85,6 +85,9 @@
                                         <a class="dropdown-item" href="{{ route('instructors.edit', $item->user_id) }}">
                                         <i class="feather icon-edit-2 mr-2"></i>
                                         @translate(Edit)</a>
+                                        <a class="dropdown-item" href="{{ route('instructors.delete', $item->user_id) }}">
+                                        <i class="feather icon-trash-2 mr-2"></i>
+                                        @translate(Delete)</a>
                                 </div>
                             </div>
                         </div>

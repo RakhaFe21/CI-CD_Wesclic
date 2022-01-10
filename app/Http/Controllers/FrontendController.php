@@ -759,7 +759,7 @@ class FrontendController extends Controller
         if ($wishlist != null) {
             $wishlist->delete();
         }
-        return $cart;
+        return redirect()->route('free.payment');
     }
 
     /*add to cart remove*/

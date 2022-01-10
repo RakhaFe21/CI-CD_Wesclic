@@ -84,7 +84,7 @@
                                                                 <select class="form-control provinsi-asal" name="province_origin">
                                                                     <option value="0">-- select provinces --</option>
                                                                     @foreach ($provinsi as $provinsis)
-                                                                        <option value="{{ $provinsis['id']  }}">{{  $provinsis['name'] }}</option>
+                                                                        <option value="{{ $provinsis['id']  }}">{{ $provinsis['name'] }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <!-- <select id="select_province" name="province_origin" data-placeholder="Select" class="custom-select w-100">
@@ -137,7 +137,27 @@
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-12 -->
-
+                                                        <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">Select State and get bellow Related City</div>
+      <div class="panel-body">
+            <div class="form-group">
+                <label for="title">Select State:</label>
+                <select name="state" class="form-control" style="width:350px">
+                    <option value="">--- Select State ---</option>
+                    @foreach ($provinsi as $provinsis)
+                                                                        <option value="{{ $provinsis['id']  }}">{{ $provinsis['name'] }}</option>
+                                                                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="title">Select City:</label>
+                <select name="city" class="form-control" style="width:350px">
+                </select>
+            </div>
+      </div>
+    </div>
+</div>
 
                                                         <div class="col-lg-12">
                                                             <div class="btn-box">
@@ -243,39 +263,33 @@
   ================================= -->
 @endsection
 @push('javascript-internal')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-<script>
-    $(document).ready(function(){
-        //active select2
-        $(".provinsi-asal , .kota-asal, .provinsi-tujuan, .kota-tujuan").select2({
-            theme:'bootstrap4',width:'style',
-        });
-        //ajax select kota asal
-        $('select[name="province_origin"]').on('change', function () {
-            let provindeId = $(this).val();
-            if (provindeId) {
-                jQuery.ajax({
-                    url: 'https://emsifa.github.io/api-wilayah-indonesia/api/regency/3.json',
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select[name="state"]').on('change', function() {
+            var stateID = $(this).val();
+            if(stateID) {
+                $.ajax({
+                    url: 'https://emsifa.github.io/api-wilayah-indonesia/api/regencies/11'.json',
                     type: "GET",
                     dataType: "json",
-                    data: JSON.stringify(body),
-                    success: function (response) {
-                        $('select[name="city_origin"]').empty();
-                        $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
-                        $.each(response, function (id, name) {
-                            $('select[name="city_origin"]').append('<option value="' + id + '">' + name + '</option>');
+                    success:function(data) {
+
+                        
+                        $('select[name="city"]').empty();
+                        $.each(data, function(key, value) {
+                            $('select[name="city"]').append('<option value="'+ name +'">'+ name +'</option>');
                         });
-                    },
+
+
+                    }
                 });
-            } else {
-                $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
+            }else{
+                $('select[name="city"]').empty();
             }
         });
-        //ajax select kota tujuan
     });
 </script>
+
 
 @endpush    

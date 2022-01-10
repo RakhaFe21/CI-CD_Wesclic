@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Exception;
 use App\Model\Course;
+use App\Model\Logbook;
 use Auth;
 use Alert;
 use App\Model\Category;
@@ -18,6 +19,7 @@ use App\Model\Enrollment;
 use App\Model\Student;
 use Carbon\Carbon;
 use App\NotificationUser;
+use DB;
 
 
 class CourseController extends Controller
@@ -127,7 +129,7 @@ class CourseController extends Controller
             array_push($tagC,$itemt);
         }
         $courses->tag = json_encode($tagC);
-        $courses->is_free = $request->is_free == "on" ? true : false;
+        $courses->is_free = 1;
 
         if ($courses->is_free) {
             $courses->tanggaltulis = $request->tanggaltulis;
@@ -156,6 +158,17 @@ class CourseController extends Controller
         $courses->is_published = $request->is_published == "on" ? true : false;
         $courses->user_id = Auth::user()->id;
         $courses->save();
+
+        $couerses        = DB::table('courses')->select('id')->orderby('id', 'DESC')->get();
+        $id_couerses     = $couerses[0]->id; 
+        foreach ($request->logbook as $data) {
+            $logbook = new logbook();
+            $logbook->name       = $data;
+            $logbook->course_id  = $id_couerses;
+            $logbook->created_at = date('Y-m-d H:i:s');
+
+            $logbook->save();
+        }
 
         $details = [
             'body' => translate($request->title . ' new course uploaded by ' . Auth::user()->name),

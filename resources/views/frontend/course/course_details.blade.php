@@ -77,10 +77,10 @@
 
                         <p class="preview-course__price d-flex align-items-center">
 
-                            @if($s_course->is_free)
-                                {{-- free price --}}
+                            <!-- @if($s_course->is_free)
+                                {{-- free price --}} -->
                                 <span class="price-current">@translate(Free)</span>
-                            @else
+                            <!-- @else
                                 @if($s_course->is_discount)
                                     {{-- discounted price --}}
                                     <span class="price-current f-24">{{formatPrice($s_course->discount_price)}}</span>
@@ -91,15 +91,15 @@
                                     {{-- actual price --}}
                                     <span class="price-current f-24">{{formatPrice($s_course->price)}}</span>
                                 @endif
-                            @endif
+                            @endif -->
                         </p>
 
-                        @auth()
+                        <!-- @auth()
                             <a href="#!"
                                onclick="addToCart({{$s_course->id}},'{{route('add.to.wishlist')}}')"
                                class="card__collection-icon love-{{$s_course->id}}"><span
                                     class="la la-heart-o love-span-{{$s_course->id}}"></span></a>
-                        @endauth
+                        @endauth -->
 
                         @guest()
                             <a href="{{route('login')}}"
@@ -322,13 +322,13 @@
                                             <div class="card-content">
                                                 <p class="card__label">
                                                     <span class="card__label-text">{{$course->level}}</span>
-                                                    @auth()
+                                                    <!-- @auth()
                                                         <a href="#!"
                                                            onclick="addToCart({{$course->id}},'{{route('add.to.wishlist')}}')"
                                                            class="card__collection-icon love-{{$course->id}}"><span
 
                                                                 class="la la-heart-o love-span-{{$course->id}}"></span></a>
-                                                    @endauth
+                                                    @endauth -->
 
                                                     @guest()
                                                         <a href="{{route('login')}}"
@@ -551,12 +551,12 @@
                                             <div class="card-content">
                                                 <p class="card__label">
                                                     <span class="card__label-text">{{$moreCourseItem->level}}</span>
-                                                    @auth()
+                                                    <!-- @auth()
                                                         <a href="#!"
                                                            onclick="addToCart({{$moreCourseItem->id}},'{{route('add.to.wishlist')}}')"
                                                            class="card__collection-icon love-{{$moreCourseItem->id}}"><span
                                                                 class="la la-heart-o love-span-{{$moreCourseItem->id}}"></span></a>
-                                                    @endauth
+                                                    @endauth -->
 
                                                     @guest()
                                                         <a href="{{route('login')}}"
@@ -731,10 +731,10 @@
 
                                                 <p class="preview-course__price d-flex align-items-center">
 
-                                                    @if($s_course->is_free)
+                                                    <!-- @if($s_course->is_free) -->
                                                         {{-- free price --}}
                                                         <span class="price-current">@translate(Free)</span>
-                                                    @else
+                                                    <!-- @else
                                                         @if($s_course->is_discount)
                                                             {{-- discounted price --}}
                                                             <span class="price-current f-24">{{formatPrice($s_course->discount_price)}}</span>
@@ -745,15 +745,15 @@
                                                             {{-- actual price --}}
                                                             <span class="price-current f-24">{{formatPrice($s_course->price)}}</span>
                                                         @endif
-                                                    @endif
+                                                    @endif -->
                                                 </p>
 
-                                                @auth()
+                                                <!-- @auth()
                                                     <a href="#!"
                                                        onclick="addToCart({{$s_course->id}},'{{route('add.to.wishlist')}}')"
                                                        class="card__collection-icon love-{{$s_course->id}}"><span
                                                             class="la la-heart-o love-span-{{$s_course->id}}"></span></a>
-                                                @endauth
+                                                @endauth -->
 
                                                 @guest()
                                                     <a href="{{route('login')}}"
@@ -772,7 +772,7 @@
                                                 @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                                                     <a href="#!"
                                                        class="theme-btn w-100 mb-3 addToCart-{{$s_course->id}}"
-                                                       onclick="addToCart({{$s_course->id}},'{{route('add.to.cart')}}')">@translate(Daftar)</a>
+                                                       onclick="addToCart({{$s_course->id}},'{{route('add.to.cart')}}')">@translate(Daftarrr)</a>
                                                 @else
                                                     <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Daftar)</a>
                                                 @endif

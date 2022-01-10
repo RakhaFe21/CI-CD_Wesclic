@@ -9,10 +9,11 @@
 @section('content')
 <!-- BEGIN:content -->
 <div class="card m-b-30">
-    <h4 class="card-header">@translate(Add new course)</h4>
+    <h4 class="card-header">@translate(Tambah pelatihan baru)</h4>
     <div class="card-body mx-3">
         <form action="{{ route('course.store') }}" method="post"  enctype="multipart/form-data">
             @csrf
+           
             {{-- Course Title --}}
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="val-title">
@@ -390,6 +391,22 @@
                 </div> -->
 
             </div>
+            <div class="field_wrapper">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-title">
+                    @translate(Logbook) <span class="text-danger">*</span></label>
+                <div class="col-lg-8">
+                    <input type="text" required
+                           value="{{ old('logbook') }}"
+                           class="form-control @error('logbook') is-invalid @enderror"
+                           id="val-logbook" name="logbook[]" aria-required="true" autofocus> 
+                      @error('logbook') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                </div><div class="col-lg-1"> <a class="btn btn-success" href="javascript:void(0);" id="add_button" title="Add field">
+              <i class="la la-plus"></i></a>
+            </div>
+            </div>
+            </div>
+        </div>
             <!-- {{-- language --}}
 
             <div class="form-group row">
@@ -437,7 +454,46 @@
                         @translate(Submit)</button>
                 </div>
             </div>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    var maxField = 10; //Input fields increment limitation
+                    var addButton = $('#add_button'); //Add button selector
+                    var wrapper = $('.field_wrapper'); //Input field wrapper
+                    var fieldHTML = '<div class="form-group row"><label class="col-lg-3 col-form-label" for="val-title"></label>';
+                    fieldHTML=fieldHTML + '<div class="col-lg-8"><input type="text" required value="{{ old('logbook') }}" class="form-control @error('logbook') is-invalid @enderror" id="val-logbook" name="logbook[]" aria-required="true" autofocus> @error('logbook') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror </div>';
+                    fieldHTML=fieldHTML + '<div class="col-lg-1"><a href="javascript:void(0);" class="remove_button btn btn-danger"><i class="la la-trash"></i></a></div>';
+                    fieldHTML=fieldHTML + '</div>'; 
+                    var x = 1; //Initial field counter is 1
+                    
+                    //Once add button is clicked
+                    $(addButton).click(function(){
+                        //Check maximum number of input fields
+                        if(x < maxField){ 
+                            x++; //Increment field counter
+                            $(wrapper).append(fieldHTML); //Add field html
+                        }
+                    });
+                    
+                    //Once remove button is clicked
+                    $(wrapper).on('click', '.remove_button', function(e){
+                        e.preventDefault();
+                        $(this).parent('').parent('').remove(); //Remove field html
+                        x--; //Decrement field counter
+                    });
+                });
+            </script>
         </form>
+            <div class="form-group row" style="display: none;">
+            <label class="col-lg-3 col-form-label" for="val-title"></label>
+            <div class="col-lg-8">
+                <input type="text" required
+                        value="{{ old('logbook') }}"
+                        class="form-control @error('logbook') is-invalid @enderror"
+                        id="val-logbook" name="logbook" aria-required="true" autofocus> 
+                    @error('logbook') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+            </div>
+            <div class="col-lg-1"><button class="btn btn-success add-more" type="button"><i class="la la-trash"></i></button>
+            </div>
     </div>
 </div>
 <!-- END:content -->

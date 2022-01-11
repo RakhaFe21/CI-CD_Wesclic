@@ -139,33 +139,38 @@
                                                         </div><!-- end col-lg-12 -->
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Ktp)</label>
+                                                                <label class="label-text">@translate(Difable)</label>
                                                                 <div class="form-group">
-                                                                    <input type="file" name="ktp" value="{{ $student->email }}">
+                                                                    <div class="switchery-list">
+                                                                        <input type="checkbox"   name="difable" class="js-switch-success" id="val-is_free3"/>
+                                                                        @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="auto_hide3">
+                                                            <div class="col-lg-6 col-sm-6">
+                                                                <div class="input-box">
+                                                                    <label class="label-text"></label>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="npwp" value="">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Npwp)</label>
+                                                                <label class="label-text">@translate(Dtks)</label>
                                                                 <div class="form-group">
-                                                                    <input type="file" name="npwp" value="{{ $student->email }}">
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- end col-lg-6 -->
-                                                        <div class="col-lg-6 col-sm-6">
-                                                            <div class="input-box">
-                                                                <label class="label-text">@translate(Ijazah)</label>
-                                                                <div class="form-group">
-                                                                    <input type="file" name="ijazah" value="{{ $student->email }}">
+                                                                    <input class="form-control" type="text" name="tks" value="{{ $student->dtks }}">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Skck)</label>
+                                                                <label class="label-text"></label>
                                                                 <div class="form-group">
-                                                                    <input type="file" name="skck" value="{{ $student->email }}">
+                                                        
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-6 -->
@@ -273,7 +278,7 @@
   ================================= -->
 @endsection
 @push('javascript-internal')
-
+<script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('select[name="state"]').on('change', function() {

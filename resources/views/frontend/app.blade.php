@@ -26,7 +26,9 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/owl.theme.default.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-select.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.css') }}">
-
+    <!-- Switchery css -->
+    <link href="{{asset('assets/plugins/switchery/switchery.css')}}" rel="stylesheet">
+    <!-- Slick css -->
     <link rel="stylesheet" href="{{ asset('frontend/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/fancybox.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/tooltipster.bundle.css') }}">
@@ -102,6 +104,9 @@
 <script src="{{ asset('frontend/js/main.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.js') }}"></script>
+<!-- Switchery js -->
+<script src="{{asset('assets/plugins/switchery/switchery.js')}}"></script>
+<script src="{{asset('assets/js/custom/custom-switchery.js')}}"></script>
 <script src="{{ asset('js/jquery.lazyload.min.js') }}"></script>
 <script src="{{ asset('frontend/js/custom.js') }}"></script>
 <script src="{{ asset('js/frontend.js') }}"></script>

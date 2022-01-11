@@ -68,6 +68,27 @@
             });
         });
 
+        $(function () {
+
+            $("#val-is_free3").ready(function () {
+               var att = $('#val-is_free3').is(":checked");
+                if (att) {
+                    $("#auto_hide3").show();
+                } else {
+                    $("#auto_hide3").hide();
+                }
+
+            });
+
+            $("#val-is_free3").change(function () {
+                if ($(this).is(":checked")) {
+                    $("#auto_hide3").show();
+                } else {
+                    $("#auto_hide3").hide();
+                }
+            });
+        });
+
         /*
         |--------------------------------------------------------------------------
         | If Discound is being clicked, discount price feild appear

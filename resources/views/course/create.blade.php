@@ -433,11 +433,9 @@
             </div>
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="">
-                    @translate(Skck)</label>
+                  </label>
                 <div class="col-lg-9">
                   <div class="switchery-list">
-                      <input type="checkbox"   name="npwp" class="js-switch-success" id="npwp"/>
-                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                   </div>
                 </div>
             </div>

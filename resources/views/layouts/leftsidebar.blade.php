@@ -212,29 +212,7 @@
 
 
 
-                            @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                                {{-- Package area --}}
-                                <li><a href="{{route('packages.index')}}"
-                                       class="{{request()->is('dashboard/package*') ?'active':null}}">
-                                        <i class="fa fa-briefcase"></i> <span>@translate(Paket Instuktur)</span></a>
-                                </li>
-
-                                <li><a href="{{route('payments.index')}}"
-                                       class="{{request()->is('dashboard/payment*') ?'active':null}}">
-                                        <i class="fa fa-money"></i>
-                                        <span>@translate(Pembayaran Instuktur)
-                                            @if(\App\Model\Payment::where('status','Request')->count() > 0)
-                                                <sup
-                                                    class="badge badge-info">{{\App\Model\Payment::where('status','Request')->count()}}
-                                                </sup>
-
-                                            @endif
-                                        </span>
-                                    </a>
-                                </li>
-
-                            @endif
-
+                          
 
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Instructor")
 
@@ -277,7 +255,7 @@
 
 
                             {{--affiliate--}}
-                            @if(affiliateStatus() && \Illuminate\Support\Facades\Auth::user()->user_type == 'Admin')
+                            <!-- @if(affiliateStatus() && \Illuminate\Support\Facades\Auth::user()->user_type == 'Admin')
                                 <li class="{{request()->is('dashboard/affiliate*') ? 'active' : null}}">
                                     <a href="javaScript:void();">
                                         <i class="la la-adn"></i>
@@ -317,10 +295,10 @@
 
                                     </ul>
                                 </li>
-                            @endif
+                            @endif -->
 
 
-                            @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                            <!-- @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                 {{-- Admin Earning area --}}
                                 <li><a href="{{route('admin.earning.index')}}"
                                        class="{{request()->is('dashboard/admin*') ?'active':null}}">
@@ -342,7 +320,7 @@
                                         </li>
                                     @endif
                                 @endif
-                            @endif
+                            @endif -->
 
                             {{-- Support Ticket --}}
                             <li><a href="{{route('tickets.index')}}"

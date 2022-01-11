@@ -67,13 +67,13 @@
                                                                     <span class="la la-envelope input-icon"></span>
                                                                 </div>
                                                             </div>
-                                                        </div>end col-lg-6
+                                                        </div>
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Phone Number)</label>
+                                                                <label class="label-text">@translate(Full Name)<span class="primary-color-2 ml-1">*</span></label>
                                                                 <div class="form-group">
-                                                                    <input class="form-control" type="number" name="phone" value="{{ $student->student->phone  ?? '' }}">
-                                                                    <span class="la la-phone input-icon"></span>
+                                                                    <input class="form-control" type="text" name="name" value="{{ $student->name }}">
+                                                                    <span class="la la-user input-icon"></span>
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-6 -->
@@ -137,28 +137,38 @@
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-12 -->
-                                                        <div class="container">
-    <div class="panel panel-default">
-      <div class="panel-heading">Select State and get bellow Related City</div>
-      <div class="panel-body">
-            <div class="form-group">
-                <label for="title">Select State:</label>
-                <select name="state" class="form-control" style="width:350px">
-                    <option value="">--- Select State ---</option>
-                    @foreach ($provinsi as $provinsis)
-                                                                        <option value="{{ $provinsis['id']  }}">{{ $provinsis['name'] }}</option>
-                                                                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="title">Select City:</label>
-                <select name="city" class="form-control" style="width:350px">
-                </select>
-            </div>
-      </div>
-    </div>
-</div>
-
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text">@translate(Ktp)</label>
+                                                                <div class="form-group">
+                                                                    <input type="file" name="ktp" value="{{ $student->email }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text">@translate(Npwp)</label>
+                                                                <div class="form-group">
+                                                                    <input type="file" name="npwp" value="{{ $student->email }}">
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- end col-lg-6 -->
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text">@translate(Ijazah)</label>
+                                                                <div class="form-group">
+                                                                    <input type="file" name="ijazah" value="{{ $student->email }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text">@translate(Skck)</label>
+                                                                <div class="form-group">
+                                                                    <input type="file" name="skck" value="{{ $student->email }}">
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- end col-lg-6 -->
                                                         <div class="col-lg-12">
                                                             <div class="btn-box">
                                                                 <button class="theme-btn" type="submit">@translate(Save Changes)</button>

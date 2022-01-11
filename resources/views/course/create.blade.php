@@ -391,6 +391,56 @@
                 </div> -->
 
             </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    <strong>@translate(Persyaratan Dokumen :)</label></strong>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                 
+                  </div>
+                </div>
+            </div>
+            {{-- Tes Tulis --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(KTP)</label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                      <input type="checkbox"   name="ktp" class="js-switch-success" id="ktp"/>
+                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Npwp)</label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                      <input type="checkbox"   name="npwp" class="js-switch-success" id="npwp"/>
+                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Ijazah)</label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                      <input type="checkbox"   name="ktp" class="js-switch-success" id="ktp"/>
+                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Skck)</label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                      <input type="checkbox"   name="npwp" class="js-switch-success" id="npwp"/>
+                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                  </div>
+                </div>
+            </div>
             <div class="field_wrapper">
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="val-title">

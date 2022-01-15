@@ -9,10 +9,11 @@
 @section('content')
 <!-- BEGIN:content -->
 <div class="card m-b-30">
-    <h4 class="card-header">@translate(Add new course)</h4>
+    <h4 class="card-header">@translate(Tambah pelatihan baru)</h4>
     <div class="card-body mx-3">
         <form action="{{ route('course.store') }}" method="post"  enctype="multipart/form-data">
             @csrf
+           
             {{-- Course Title --}}
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="val-title">
@@ -185,12 +186,49 @@
                           @error('tag') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                     </div>
                 </div>
-            </div>
-
-            {{-- Free --}}
+            </div> -->
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="">
-                    @translate(Free Course)</label>
+                    <strong>@translate(Jadwal Pendaftaran :)</label></strong>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                 
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label">
+                    @translate(Mulai)</label>
+                <div class="col-lg-9">
+                    <div class="input-group mb-3">
+                        <input required type="date" value="{{ old('price') }}" name="mulai" class="form-control @error('price') is-invalid @enderror">
+                            @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label">
+                    @translate(Berakhir)</label>
+                <div class="col-lg-9">
+                    <div class="input-group mb-3">
+                        <input required type="date" value="{{ old('price') }}" name="berakhir" class="form-control @error('price') is-invalid @enderror">
+                            @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    <strong>@translate(Jadwal Seleksi :)</label></strong>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                 
+                  </div>
+                </div>
+            </div>
+            {{-- Tes Tulis --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Tes Tulis)</label>
                 <div class="col-lg-9">
                   <div class="switchery-list">
                       <input type="checkbox"   name="is_free" class="js-switch-success" id="val-is_free"/>
@@ -201,21 +239,42 @@
 
 
             <div id="auto_hide">
-                {{-- Price --}}
+                {{-- Tanggal --}}
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label">
-                        @translate(Price?)</label>
+                        @translate(Tanggal)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">$</span>
-                            </div>
-                            <input type="number" min="0" value="{{ old('price') }}" name="price" class="form-control @error('price') is-invalid @enderror">
+                           <input type="date" value="{{ old('price') }}" name="tanggaltulis" class="form-control @error('price') is-invalid @enderror">
                               @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                         </div>
                     </div>
                 </div>
 
+                {{-- Jam --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label">
+                        @translate(Jam)</label>
+                    <div class="col-lg-9">
+                        <div class="input-group mb-3">
+                            <input type="time" value="{{ old('price') }}" name="jamtulis" class="form-control @error('price') is-invalid @enderror">
+                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Lokasi --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label">
+                        @translate(Lokasi)</label>
+                    <div class="col-lg-9">
+                        <div class="input-group mb-3">
+                            <input type="text" value="{{ old('price') }}" name="lokasitulis" class="form-control @error('price') is-invalid @enderror">
+                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                        </div>
+                    </div>
+                </div>
+<!-- 
                 {{-- Discount --}}
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label" for="val-is_discount">
@@ -246,10 +305,157 @@
                         </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
 
             </div>
-            {{-- language --}}
+            {{-- Tes Wawancara --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Tes Wawancara)</label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                      <input type="checkbox"   name="wawancara" class="js-switch-success" id="val-is_free2"/>
+                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                  </div>
+                </div>
+            </div>
+
+
+            <div id="auto_hide2">
+                {{-- Tanggal --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label">
+                        @translate(Tanggal)</label>
+                    <div class="col-lg-9">
+                        <div class="input-group mb-3">
+                           <input type="date" value="{{ old('price') }}" name="tanggalwawancara" class="form-control @error('price') is-invalid @enderror">
+                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Jam --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label">
+                        @translate(Jam)</label>
+                    <div class="col-lg-9">
+                        <div class="input-group mb-3">
+                            <input type="time" value="{{ old('price') }}" name="jamwawancara" class="form-control @error('price') is-invalid @enderror">
+                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Lokasi --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label">
+                        @translate(Lokasi)</label>
+                    <div class="col-lg-9">
+                        <div class="input-group mb-3">
+                            <input type="text" value="{{ old('price') }}" name="lokasiwawancara" class="form-control @error('price') is-invalid @enderror">
+                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                        </div>
+                    </div>
+                </div>
+<!-- 
+                {{-- Discount --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-is_discount">
+                        @translate(Discount?)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="checkbox" name="is_discount" class="js-switch-success" id="val-is_discount"/>
+                            @error('is_discount') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                        </div>
+                        @error('is_discount') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                    </div>
+                </div>
+
+                {{-- Discount Price --}}
+                <div class="form-group" id="discount_price">
+                  <div class="row">
+                    <label class="col-lg-3 col-form-label">
+                        @translate(Price With Discount?)</label>
+                    <div class="col-lg-9">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" min="0" value="{{ old('discount_price') }}"
+                                   name="discount_price"
+                                   class="form-control @error('discount_price') is-invalid @enderror">
+                              @error('discount_price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                        </div>
+                    </div>
+                  </div>
+                </div> -->
+
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    <strong>@translate(Persyaratan Dokumen :)</label></strong>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                 
+                  </div>
+                </div>
+            </div>
+            {{-- Tes Tulis --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(KTP)</label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                      <input type="checkbox"   name="ktp" class="js-switch-success" id="ktp"/>
+                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Npwp)</label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                      <input type="checkbox"   name="npwp" class="js-switch-success" id="npwp"/>
+                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Ijazah)</label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                      <input type="checkbox"   name="ktp" class="js-switch-success" id="ktp"/>
+                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                  </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                  </label>
+                <div class="col-lg-9">
+                  <div class="switchery-list">
+                  </div>
+                </div>
+            </div>
+            <div class="field_wrapper">
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-title">
+                    @translate(Logbook) <span class="text-danger">*</span></label>
+                <div class="col-lg-8">
+                    <input type="text" required
+                           value="{{ old('logbook') }}"
+                           class="form-control @error('logbook') is-invalid @enderror"
+                           id="val-logbook" name="logbook[]" aria-required="true" autofocus> 
+                      @error('logbook') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                </div><div class="col-lg-1"> <a class="btn btn-success" href="javascript:void(0);" id="add_button" title="Add field">
+              <i class="la la-plus"></i></a>
+            </div>
+            </div>
+            </div>
+        </div>
+            <!-- {{-- language --}}
 
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="language">
@@ -296,7 +502,46 @@
                         @translate(Submit)</button>
                 </div>
             </div>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    var maxField = 10; //Input fields increment limitation
+                    var addButton = $('#add_button'); //Add button selector
+                    var wrapper = $('.field_wrapper'); //Input field wrapper
+                    var fieldHTML = '<div class="form-group row"><label class="col-lg-3 col-form-label" for="val-title"></label>';
+                    fieldHTML=fieldHTML + '<div class="col-lg-8"><input type="text" required value="{{ old('logbook') }}" class="form-control @error('logbook') is-invalid @enderror" id="val-logbook" name="logbook[]" aria-required="true" autofocus> @error('logbook') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror </div>';
+                    fieldHTML=fieldHTML + '<div class="col-lg-1"><a href="javascript:void(0);" class="remove_button btn btn-danger"><i class="la la-trash"></i></a></div>';
+                    fieldHTML=fieldHTML + '</div>'; 
+                    var x = 1; //Initial field counter is 1
+                    
+                    //Once add button is clicked
+                    $(addButton).click(function(){
+                        //Check maximum number of input fields
+                        if(x < maxField){ 
+                            x++; //Increment field counter
+                            $(wrapper).append(fieldHTML); //Add field html
+                        }
+                    });
+                    
+                    //Once remove button is clicked
+                    $(wrapper).on('click', '.remove_button', function(e){
+                        e.preventDefault();
+                        $(this).parent('').parent('').remove(); //Remove field html
+                        x--; //Decrement field counter
+                    });
+                });
+            </script>
         </form>
+            <div class="form-group row" style="display: none;">
+            <label class="col-lg-3 col-form-label" for="val-title"></label>
+            <div class="col-lg-8">
+                <input type="text" required
+                        value="{{ old('logbook') }}"
+                        class="form-control @error('logbook') is-invalid @enderror"
+                        id="val-logbook" name="logbook" aria-required="true" autofocus> 
+                    @error('logbook') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+            </div>
+            <div class="col-lg-1"><button class="btn btn-success add-more" type="button"><i class="la la-trash"></i></button>
+            </div>
     </div>
 </div>
 <!-- END:content -->

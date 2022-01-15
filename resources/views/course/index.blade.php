@@ -107,13 +107,9 @@
                                 <br>
                                 @translate(Contents)- {{ $total_count }}
                             </td>
-                            <td>{{ $s = App\Model\Enrollment::where('course_id' , $course->id)->count() }} </td>
+                            <td>  <a href="{{ route('course.pel',[$course->id,$course->slug])}}">{{ $s = App\Model\Enrollment::where('course_id' , $course->id)->count() }} </td>
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                               @if(App\Model\Enrollment::where('course_id' , $course->id)->count() > 0 )
-                                    <td>
-                                         <p class="text-primary">@translate(Enrolled)</p>
-                                    </td>
-                                @else
+                              
                                     <td>
                                         <div class="switchery-list">
                                             <input type="checkbox" data-url="{{route('course.publish')}}"
@@ -122,7 +118,7 @@
                                                    id="category-switch" {{$course->is_published == true ? 'checked' : null}} />
                                         </div>
                                     </td>
-                                @endif
+                              
                                 <td>
                                 <div class="dropdown">
                                     <button class="btn btn-link p-0 font-18 float-right" type="button"
@@ -131,6 +127,10 @@
                                         <i class="feather icon-more-horizontal-"></i></button>
                                     <div class="dropdown-menu dropdown-menu-right st-drop"
                                          aria-labelledby="widgetRevenue" x-placement="bottom-end">
+                                        <a class="dropdown-item font-13"
+                                            href="{{ route('course.pel',[$course->id,$course->slug])}}">
+                                            <i class="feather icon-users mr-2"></i>@translate(Peserta)
+                                        </a>
                                         <a class="dropdown-item font-13"
                                            href="{{ route('course.show',[$course->id,$course->slug])}}">
                                            <i class="feather flaticon-earth-globe mr-2"></i>@translate(Details)
@@ -143,10 +143,6 @@
                                            onclick="confirm_modal('{{ route('course.destroy',[$course->id,$course->slug]) }}')"
                                            href="#!">
                                             <i class="feather icon-trash mr-2"></i>@translate(Delete)</a>
-                                            <a class="dropdown-item font-13"
-                                           onclick="confirm_modal('{{ route('course.destroy',[$course->id,$course->slug]) }}')"
-                                           href="#!">
-                                            <i class="feather icon-nama mr-2"></i>@translate(Peserta)</a>
                                     </div>
                                 </div>
                             </td>

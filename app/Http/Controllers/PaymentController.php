@@ -51,7 +51,7 @@ class PaymentController extends Controller
 
     /*this is for free if amount is zero*/
     public function freePayment(Request $request)
-    {
+    { 
 
         /*put session*/
         $request->session()->put('payment', 'Free');

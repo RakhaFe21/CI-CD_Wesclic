@@ -69,7 +69,13 @@
                                         class="profile-desc">{{ $student->student->tw ?? '' }}</span></li>
                                 <li><span class="profile-name">@translate(Alamat):</span><span
                                         class="profile-desc">{{ $student->student->tw ?? '' }}</span></li>
-                                <li><span class="profile-name">@translate(About):</span><span
+                                <li><span class="profile-name">@translate(Ktp):</span><span
+                                        class="profile-desc">{!! $student->student->about !!}</span></li>
+                                <li><span class="profile-name">@translate(Npwp):</span><span
+                                        class="profile-desc">{!! $student->student->about !!}</span></li>
+                                <li><span class="profile-name">@translate(Ijazah):</span><span
+                                        class="profile-desc">{!! $student->student->about !!}</span></li>
+                                <li><span class="profile-name">@translate(Skck):</span><span
                                         class="profile-desc">{!! $student->student->about !!}</span></li>
 
                             </ul>

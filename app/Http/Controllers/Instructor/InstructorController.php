@@ -80,23 +80,37 @@ class InstructorController extends Controller
         return view('instructor.show', compact('instructor'));
     }
 
+    public function delete($id)
+    {
+        $instructor = Instructor::where('user_id', $id)->delete();
+        $user = User::findOrFail($id);
+        $details = [
+            'body' => $user->name . translate(' profile delete '),
+        ];
+
+        /* sending instructor notification */
+        $notify = $this->userNotify(Auth::user()->id,$details);
+
+        notify()->success(translate('Profile Delete successfully'));
+        return back();
+    }
+
     /*Update profile */
     public function edit($id)
     {
-        $each_user = Instructor::where('user_id', Auth::id())->firstOrFail();
+        $each_user = Instructor::where('user_id',$id)->firstOrFail();
         return view('instructor.profile', compact('each_user'));
     }
 
     /*Update the Profile*/
     public function update(Request $request)
     {
-
         if (env('DEMO') === "YES") {
         Alert::warning('warning', 'This is demo purpose only');
         return back();
       }
 
-        $instructor = Instructor::where('user_id', Auth::id())->firstOrFail();
+        $instructor = Instructor::where('user_id', $request->user_id)->firstOrFail();
         $instructor->phone = $request->phone;
         if ($request->hasFile('newImage')) {
             fileDelete($request->image);

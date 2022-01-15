@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Exception;
 use App\Model\Course;
+use App\Model\Logbook;
 use Auth;
 use Alert;
 use App\Model\Category;
@@ -15,8 +16,10 @@ use App\Model\Classes;
 use App\Model\ClassContent;
 use App\Model\Language;
 use App\Model\Enrollment;
+use App\Model\Student;
 use Carbon\Carbon;
 use App\NotificationUser;
+use DB;
 
 
 class CourseController extends Controller
@@ -57,6 +60,13 @@ class CourseController extends Controller
         return view('course.index', compact('courses'));
     }
 
+    public function peserta_pel($pel)
+    {
+        $students = Student::leftjoin('enrollments AS b', 'students.user_id', 'b.id')->where('b.course_id',$pel)->orderBydesc('students.id')->paginate(10);
+      
+        return view('course.peserta.list', compact('students'));
+    }
+
     // course.create
     public function create()
     {
@@ -73,7 +83,6 @@ class CourseController extends Controller
         Alert::warning('warning', 'This is demo purpose only');
         return back();
       }
-
         $request->validate([
             'title' => 'required|unique:courses',
             'image' => 'required',
@@ -120,16 +129,20 @@ class CourseController extends Controller
             array_push($tagC,$itemt);
         }
         $courses->tag = json_encode($tagC);
-        $courses->is_free = $request->is_free == "on" ? true : false;
+        $courses->is_free = 1;
 
-        if (!$courses->is_free) {
-            $courses->price = $request->price;
+        if ($courses->is_free) {
+            $courses->tanggaltulis = $request->tanggaltulis;
+            $courses->jamtulis = $request->jamtulis;
+            $courses->lokasitulis = $request->lokasitulis;
         }
 
-        $courses->is_discount = $request->is_discount == "on" ? true : false;
+        $courses->wawancara = $request->wawancara == "on" ? true : false;
 
-        if ($courses->is_discount) {
-            $courses->discount_price = $request->discount_price;
+        if ($courses->wawancara) {
+            $courses->tanggalwawancara = $request->tanggalwawancara;
+            $courses->jamwawancara = $request->jamwawancara;
+            $courses->lokasiwawancara = $request->lokasiwawancara;
         }
 
         $courses->language = $request->language;
@@ -145,6 +158,17 @@ class CourseController extends Controller
         $courses->is_published = $request->is_published == "on" ? true : false;
         $courses->user_id = Auth::user()->id;
         $courses->save();
+
+        $couerses        = DB::table('courses')->select('id')->orderby('id', 'DESC')->get();
+        $id_couerses     = $couerses[0]->id; 
+        foreach ($request->logbook as $data) {
+            $logbook = new logbook();
+            $logbook->name       = $data;
+            $logbook->course_id  = $id_couerses;
+            $logbook->created_at = date('Y-m-d H:i:s');
+
+            $logbook->save();
+        }
 
         $details = [
             'body' => translate($request->title . ' new course uploaded by ' . Auth::user()->name),

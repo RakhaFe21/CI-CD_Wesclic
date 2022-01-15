@@ -31,22 +31,63 @@
             $("#val-is_free").ready(function () {
                var att = $('#val-is_free').is(":checked");
                 if (att) {
-                    $("#auto_hide").hide();
-                } else {
                     $("#auto_hide").show();
+                } else {
+                    $("#auto_hide").hide();
                 }
 
             });
 
             $("#val-is_free").change(function () {
                 if ($(this).is(":checked")) {
-                    $("#auto_hide").hide();
-                } else {
                     $("#auto_hide").show();
+                } else {
+                    $("#auto_hide").hide();
                 }
             });
         });
 
+        $(function () {
+
+            $("#val-is_free2").ready(function () {
+               var att = $('#val-is_free2').is(":checked");
+                if (att) {
+                    $("#auto_hide2").show();
+                } else {
+                    $("#auto_hide2").hide();
+                }
+
+            });
+
+            $("#val-is_free2").change(function () {
+                if ($(this).is(":checked")) {
+                    $("#auto_hide2").show();
+                } else {
+                    $("#auto_hide2").hide();
+                }
+            });
+        });
+
+        $(function () {
+
+            $("#val-is_free3").ready(function () {
+               var att = $('#val-is_free3').is(":checked");
+                if (att) {
+                    $("#auto_hide3").show();
+                } else {
+                    $("#auto_hide3").hide();
+                }
+
+            });
+
+            $("#val-is_free3").change(function () {
+                if ($(this).is(":checked")) {
+                    $("#auto_hide3").show();
+                } else {
+                    $("#auto_hide3").hide();
+                }
+            });
+        });
 
         /*
         |--------------------------------------------------------------------------

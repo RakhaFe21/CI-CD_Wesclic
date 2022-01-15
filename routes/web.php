@@ -52,6 +52,7 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::post('course/store', 'Course\CourseController@store')->name('course.store')->middleware('demo');
     Route::get('course/index', 'Course\CourseController@index')->name('course.index');
     Route::get('course/index/{course_id}/{slug}', 'Course\CourseController@show')->name('course.show');
+    Route::get('course/list/{course_id}/{slug}', 'Course\CourseController@peserta_pel')->name('course.pel');
     Route::get('course/edit/{course_id}/{slug}', 'Course\CourseController@edit')->name('course.edit');
     Route::post('course/update', 'Course\CourseController@update')->name('course.update')->middleware('demo');
     Route::get('course/trash/{course_id}/{slug}', 'Course\CourseController@destroy')->name('course.destroy');
@@ -85,6 +86,7 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::get('instructor/index', 'Instructor\InstructorController@index')->name('instructors.index');
     Route::get('instructor/show/{id}', 'Instructor\InstructorController@show')->name('instructors.show');
     Route::get('/profile/{id}', 'Instructor\InstructorController@edit')->name('instructors.edit');
+    Route::get('/profile/delete/{id}', 'Instructor\InstructorController@delete')->name('instructors.delete');
     Route::post('/profile/update', 'Instructor\InstructorController@update')->name('instructors.update')->middleware('demo');
     Route::post('/users/banned', 'Instructor\InstructorController@banned')->name('users.banned')->middleware('demo');
 

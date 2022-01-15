@@ -173,9 +173,16 @@ Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']
         Route::get('student/profile/edit', 'FrontendController@student_edit')
             ->name('student.edit');
 
+        Route::get('student/profile/ganti_password/{id}', 'FrontendController@ganti_password')
+            ->name('student.ganti_password');
+
         //student_update
         Route::post('student/profile/update/{std_id}', 'FrontendController@update')
             ->name('student.update')->middleware('demo');
+
+        //student_update
+        Route::post('student/profile/reset_password', 'FrontendController@student_reset_password')
+        ->name('student.reset_password')->middleware('demo');
 
         //enrolled_course
         Route::get('student/enrolled/course', 'FrontendController@enrolled_course')

@@ -129,6 +129,7 @@ class MediaManagerController extends Controller
         }
 
         if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
+          
              if ($request->hasFile('image')) {
                 $photo_upload        =  $request->image;
                 $photo_extension     =  $photo_upload -> getClientOriginalExtension();
@@ -136,7 +137,7 @@ class MediaManagerController extends Controller
 
                 $storeDirectory = 'public/uploads/media_manager/';
                 $DBstoreDirectory = '/uploads/media_manager/';
-
+// dd(! \File::isDirectory($storeDirectory));
                 if (! \File::isDirectory($storeDirectory)) {
                     $dir = \File::makeDirectory($storeDirectory, true);
                     $img = Image::make($photo_upload)->save(base_path($dir.$photo_name),100);

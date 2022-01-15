@@ -90,12 +90,8 @@
 
                                     <div class="notification-wrap d-flex align-items-center ml-3">
                                         <div class="notification-item mr-3 cart_item">
-                                            <button class="notification-btn" type="button" onclick="openNav()"
-                                                    id="cartDropdownMenu">
-                                                <i class="la la-shopping-cart user-cart-btn"></i>
-                                                <span class="quantity cart-quantity">{{ App\Model\Cart::where('user_id',Auth::user()->id)->count() }}</span>
-                                            </button>
-
+                                            
+                                        
 
                                             <div id="mySidebar" class="cart-sidebar">
                                                 <a href="javascript:void(0)" class="closebtn"
@@ -677,16 +673,7 @@
 @auth
 {{-- bottom responsive menu --}}
 <ul class="nav justify-content-center fixed-bottom bg-white btm-fixed-nav d-none">
-  <li class="nav-item">
-    <div class="notification-item mr-3">
-      <a href="{{ route('shopping.cart') }}">
-        <button class="notification-btn dropdown-toggle">
-          <i class="la la-shopping-cart"></i>
-            <span class="quantity cart-quantity">{{ App\Model\Cart::where('user_id',Auth::user()->id)->count() }}</span>
-        </button>
-      </a>
-    </div>
-  </li>
+  
   <li class="nav-item">
     <div class="notification-item mr-3">
       <a href="{{ route('student.dashboard') }}">

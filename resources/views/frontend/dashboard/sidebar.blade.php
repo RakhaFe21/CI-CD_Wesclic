@@ -19,16 +19,14 @@
                                 href="{{ route('student.dashboard') }}"><i class="la la-dashboard"></i>@translate(Notfications)</a>
                         </li>
                 <li class="sidenav__item {{ request()->is('student/purchase/history') ? 'page-active' : '' }}"><a
-                        href="{{ route('student.purchase.history') }}"><i class="la la-shopping-cart"></i>@translate(Purchase
+                        href="{{ route('student.purchase.history') }}"><i class="la la-shopping-cart"></i>@translate(
                         History)</a></li>
                 @if(affiliateStatus())
-                <li class="sidenav__item {{ request()->is('student/affiliate*') ? 'page-active' : '' }}"><a
-                        href="{{ route('affiliate.area') }}"><i class="la la-adn"></i>@translate(Affiliate Area)</a></li>
+                <li class="sidenav__item {{ request()->is('student/affiliate*') ? 'page-active' : '' }}"></li>
                 @endif
 
                 @if(walletActive())
-                <li class="sidenav__item {{ request()->is('points/redeem/history*') ? 'page-active' : '' }}"><a
-                        href="{{ route('redeem.points.history') }}"><i class="fa fa-money"></i>@translate(Points History)</a></li>
+                <li class="sidenav__item {{ request()->is('points/redeem/history*') ? 'page-active' : '' }}"></li>
                 @endif
                 
                 <li class="sidenav__item"><a href="{{ route('logout') }}"

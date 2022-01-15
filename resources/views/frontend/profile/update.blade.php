@@ -67,13 +67,13 @@
                                                                     <span class="la la-envelope input-icon"></span>
                                                                 </div>
                                                             </div>
-                                                        </div><!-- end col-lg-6 -->
+                                                        </div>
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
-                                                                <label class="label-text">@translate(Phone Number)</label>
+                                                                <label class="label-text">@translate(Full Name)<span class="primary-color-2 ml-1">*</span></label>
                                                                 <div class="form-group">
-                                                                    <input class="form-control" type="number" name="phone" value="{{ $student->student->phone  ?? '' }}">
-                                                                    <span class="la la-phone input-icon"></span>
+                                                                    <input class="form-control" type="text" name="name" value="{{ $student->name }}">
+                                                                    <span class="la la-user input-icon"></span>
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-6 -->
@@ -84,7 +84,7 @@
                                                                 <select class="form-control provinsi-asal" name="province_origin">
                                                                     <option value="0">-- select provinces --</option>
                                                                     @foreach ($provinsi as $provinsis)
-                                                                        <option value="{{ $provinsis['id']  }}">{{  $provinsis['name'] }}</option>
+                                                                        <option value="{{ $provinsis['id']  }}">{{ $provinsis['name'] }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <!-- <select id="select_province" name="province_origin" data-placeholder="Select" class="custom-select w-100">
@@ -132,13 +132,48 @@
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(Adress)</label>
                                                                 <div class="form-group">
-                                                                    <textarea class="message-control form-control" name="about">{!! $student->student->about !!}</textarea>
+                                                                    <textarea class="message-control form-control" name="about">{!! $student->about !!}</textarea>
                                                                     <span class="la la-pencil input-icon"></span>
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-12 -->
-
-
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text">@translate(Difable)</label>
+                                                                <div class="form-group">
+                                                                    <div class="switchery-list">
+                                                                        <input type="checkbox"   name="difable" class="js-switch-success" id="val-is_free3"/>
+                                                                        @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="auto_hide3">
+                                                            <div class="col-lg-6 col-sm-6">
+                                                                <div class="input-box">
+                                                                    <label class="label-text"></label>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="npwp" value="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text">@translate(Dtks)</label>
+                                                                <div class="form-group">
+                                                                    <input class="form-control" type="text" name="tks" value="{{ $student->dtks }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text"></label>
+                                                                <div class="form-group">
+                                                        
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- end col-lg-6 -->
                                                         <div class="col-lg-12">
                                                             <div class="btn-box">
                                                                 <button class="theme-btn" type="submit">@translate(Save Changes)</button>
@@ -155,10 +190,11 @@
                                                 <h3 class="widget-title font-size-18 padding-bottom-40px">@translate(Change Password)</h3>
                                             </div><!-- end user-profile-action-wrap -->
                                             <div class="contact-form-action">
-                                              <form method="POST" action="{{ route('password.update') }}">
+                                              <form method="POST" action="{{  route('student.reset_password')}}">
                                                   @csrf
                                                     <div class="row">
-                                                        <div class="col-lg-4 col-sm-4">
+                                                    <input type="hidden" name="user_id" value="{{ $student->id }}"> 
+                                                        <!-- <div class="col-lg-4 col-sm-4">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(E-Mail Address)<span class="primary-color-2 ml-1">*</span></label>
                                                                 <div class="form-group">
@@ -177,7 +213,7 @@
 
                                                                 </div>
                                                             </div>
-                                                        </div><!-- end col-lg-4 -->
+                                                        </div>end col-lg-4 -->
                                                         <div class="col-lg-4 col-sm-4">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(New Password)<span class="primary-color-2 ml-1">*</span></label>
@@ -222,41 +258,7 @@
                                             </div>
                                         </div>
                                         <div class="section-block"></div>
-                                        <div class="user-form padding-top-60px">
-                                            <div class="user-profile-action-wrap padding-bottom-20px">
-                                                <h3 class="widget-title font-size-18 padding-bottom-10px">@translate(Forgot Password then Recover Password)</h3>
-                                                <p class="line-height-26">@translate(Enter the email of your account to reset password. Then you will receive a link to email)
-                                                    <br> @translate(to reset the password.If you have any issue about reset password)</p>
-                                            </div><!-- end user-profile-action-wrap -->
-                                            <div class="contact-form-action">
-
-                                              @if (session('status'))
-                                                  <div class="alert alert-success" role="alert">
-                                                      {{ session('status') }}
-                                                  </div>
-                                              @endif
-
-                                                <form method="post" action="{{ route('password.email') }}">
-                                                  @csrf
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="input-box">
-                                                                <label class="label-text">@translate(Email Address)<span class="primary-color-2 ml-1">*</span></label>
-                                                                <div class="form-group">
-                                                                    <input class="form-control @error('email') is-invalid @enderror" type="email" name="email" value="{{ old('email') }}" placeholder="@translate(Enter email address)" required autocomplete="email">
-                                                                    <span class="la la-lock input-icon"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div><!-- end col-lg-6 -->
-                                                        <div class="col-lg-12">
-                                                            <div class="btn-box">
-                                                                <button class="theme-btn" type="submit">@translate(recover password)</button>
-                                                            </div>
-                                                        </div><!-- end col-lg-12 -->
-                                                    </div><!-- end row -->
-                                                </form>
-                                            </div>
-                                        </div>
+                                        <!--  -->
                                     </div><!-- end tab-pane-->
 
                                 </div><!-- end tab-content -->
@@ -276,39 +278,33 @@
   ================================= -->
 @endsection
 @push('javascript-internal')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-<script>
-    $(document).ready(function(){
-        //active select2
-        $(".provinsi-asal , .kota-asal, .provinsi-tujuan, .kota-tujuan").select2({
-            theme:'bootstrap4',width:'style',
-        });
-        //ajax select kota asal
-        $('select[name="province_origin"]').on('change', function () {
-            let provindeId = $(this).val();
-            if (provindeId) {
-                jQuery.ajax({
-                    url: 'https://emsifa.github.io/api-wilayah-indonesia/api/regency/3.json',
+<script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select[name="state"]').on('change', function() {
+            var stateID = $(this).val();
+            if(stateID) {
+                $.ajax({
+                    url: 'https://emsifa.github.io/api-wilayah-indonesia/api/regencies/11'.json',
                     type: "GET",
                     dataType: "json",
-                    data: JSON.stringify(body),
-                    success: function (response) {
-                        $('select[name="city_origin"]').empty();
-                        $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
-                        $.each(response, function (id, name) {
-                            $('select[name="city_origin"]').append('<option value="' + id + '">' + name + '</option>');
+                    success:function(data) {
+
+                        
+                        $('select[name="city"]').empty();
+                        $.each(data, function(key, value) {
+                            $('select[name="city"]').append('<option value="'+ name +'">'+ name +'</option>');
                         });
-                    },
+
+
+                    }
                 });
-            } else {
-                $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
+            }else{
+                $('select[name="city"]').empty();
             }
         });
-        //ajax select kota tujuan
     });
 </script>
+
 
 @endpush    

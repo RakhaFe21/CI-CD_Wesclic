@@ -230,17 +230,14 @@
                                             @auth()
                                                 @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                                                     <a href="#!" class="text-btn addToCart-{{$i_course->id}}"
-                                                       onclick="addToCart({{$i_course->id}},'{{route('add.to.cart')}}')">@translate(Add
-                                                        to cart)</a>
+                                                       onclick="addToCart({{$i_course->id}},'{{route('add.to.cart')}}')">@translate(Daftar)</a>
                                                 @else
-                                                    <a href="{{route('login')}}" class="text-btn">@translate(Add to
-                                                        cart)</a>
+                                                    <a href="{{route('login')}}" class="text-btn">@translate(Daftar)</a>
                                                 @endif
                                             @endauth
 
                                             @guest()
-                                                <a href="{{route('login')}}" class="text-btn">@translate(Add to
-                                                    cart)</a>
+                                                <a href="{{route('login')}}" class="text-btn">@translate(Daftar)</a>
                                             @endguest
 
 

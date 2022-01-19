@@ -245,8 +245,8 @@
                         @translate(Tanggal)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                           <input type="date" value="{{ old('price') }}" name="tanggaltulis" class="form-control @error('price') is-invalid @enderror">
-                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                           <input type="date" value="{{ old('tanggaltulis') }}" name="tanggaltulis" class="form-control @error('tanggaltulis') is-invalid @enderror">
+                              @error('tanggaltulis') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                         </div>
                     </div>
                 </div>
@@ -257,8 +257,8 @@
                         @translate(Jam)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                            <input type="time" value="{{ old('price') }}" name="jamtulis" class="form-control @error('price') is-invalid @enderror">
-                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                            <input type="time" value="{{ old('jamtulis') }}" name="jamtulis" class="form-control @error('jamtulis') is-invalid @enderror">
+                              @error('jamtulis') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                         </div>
                     </div>
                 </div>
@@ -269,8 +269,8 @@
                         @translate(Lokasi)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                            <input type="text" value="{{ old('price') }}" name="lokasitulis" class="form-control @error('price') is-invalid @enderror">
-                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                            <input type="text" value="{{ old('lokasitulis') }}" name="lokasitulis" class="form-control @error('lokasitulis') is-invalid @enderror">
+                              @error('lokasitulis') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                         </div>
                     </div>
                 </div>
@@ -315,7 +315,7 @@
                 <div class="col-lg-9">
                   <div class="switchery-list">
                       <input type="checkbox"   name="wawancara" class="js-switch-success" id="val-is_free2"/>
-                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                      @error('wawancara') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                   </div>
                 </div>
             </div>
@@ -328,8 +328,8 @@
                         @translate(Tanggal)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                           <input type="date" value="{{ old('price') }}" name="tanggalwawancara" class="form-control @error('price') is-invalid @enderror">
-                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                           <input type="date" value="{{ old('tanggalwawancara') }}" name="tanggalwawancara" class="form-control @error('tanggalwawancara') is-invalid @enderror">
+                              @error('tanggalwawancara') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                         </div>
                     </div>
                 </div>
@@ -340,8 +340,8 @@
                         @translate(Jam)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                            <input type="time" value="{{ old('price') }}" name="jamwawancara" class="form-control @error('price') is-invalid @enderror">
-                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                            <input type="time" value="{{ old('jamwawancara') }}" name="jamwawancara" class="form-control @error('jamwawancara') is-invalid @enderror">
+                              @error('jamwawancara') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                         </div>
                     </div>
                 </div>
@@ -352,8 +352,8 @@
                         @translate(Lokasi)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                            <input type="text" value="{{ old('price') }}" name="lokasiwawancara" class="form-control @error('price') is-invalid @enderror">
-                              @error('price') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                            <input type="text" value="{{ old('lokasiwawancara') }}" name="lokasiwawancara" class="form-control @error('lokasiwawancara') is-invalid @enderror">
+                              @error('lokasiwawancara') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                         </div>
                     </div>
                 </div>
@@ -407,7 +407,7 @@
                 <div class="col-lg-9">
                   <div class="switchery-list">
                       <input type="checkbox"   name="ktp" class="js-switch-success" id="ktp"/>
-                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                      @error('ktp') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                   </div>
                 </div>
             </div>
@@ -417,7 +417,7 @@
                 <div class="col-lg-9">
                   <div class="switchery-list">
                       <input type="checkbox"   name="npwp" class="js-switch-success" id="npwp"/>
-                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                      @error('npwp') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                   </div>
                 </div>
             </div>
@@ -426,8 +426,8 @@
                     @translate(Ijazah)</label>
                 <div class="col-lg-9">
                   <div class="switchery-list">
-                      <input type="checkbox"   name="ktp" class="js-switch-success" id="ktp"/>
-                      @error('is_free') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                      <input type="checkbox"   name="ijazah" class="js-switch-success" id="ijazah"/>
+                      @error('ijazah') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
                   </div>
                 </div>
             </div>

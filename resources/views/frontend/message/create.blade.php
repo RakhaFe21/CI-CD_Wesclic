@@ -5,5 +5,5 @@
     <div class="form-group">
         <textarea class="form-control" name="message" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">@translate(Send)</button>
+    <button type="submit" class="btn btn-primary">@translate(Kirim)</button>
 </form>

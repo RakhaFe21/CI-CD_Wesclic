@@ -18,15 +18,15 @@
                 <tr>
                     <th>S/L</th>
                     <th>
-                        @translate(Package)</th>
+                        @translate(Paket)</th>
                     <th>
-                        @translate(Course)</th>
+                        @translate(Pelatihan)</th>
                     <th>
-                        @translate(Course Price)</th>
+                        @translate(Harga)</th>
                     <th>
-                        @translate(Will Get)</th>
+                        @translate(Kamu Akan Mendapat)</th>
                     <th>
-                        @translate(Date)</th>
+                        @translate(Tanggal)</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +35,8 @@
                     <td>{{ ($loop->index+1) + ($earning->currentPage() - 1)*$earning->perPage() }}</td>
                     <td><img src="{{filePath($item->package->image)}}" class="avatar-lg"></td>
                     <td>
-                        <a target="_blank" href="{{ route('course.show',[$item->enrollment->enrollCourse->id,$item->enrollment->enrollCourse->slug])}}">
+                        <a target="_blank"
+                            href="{{ route('course.show',[$item->enrollment->enrollCourse->id,$item->enrollment->enrollCourse->slug])}}">
                             {{$item->enrollment->enrollCourse->title ?? 'N/A'}}
                         </a>
 
@@ -51,14 +52,16 @@
                     </td>
                 </tr>
                 @empty
-                    <tr></tr>
-                    <tr></tr>
+                <tr></tr>
+                <tr></tr>
                 <tr>
-                    <td><h3 class="text-center">@translate(No Data Found)</h3></td>
+                    <td>
+                        <h3 class="text-center">@translate(No Data Found)</h3>
+                    </td>
                 </tr>
-                    <tr></tr>
-                    <tr></tr>
-                    <tr></tr>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
                 @endforelse
             </tbody>
             <div class="float-left">

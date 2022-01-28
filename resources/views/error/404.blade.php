@@ -25,11 +25,13 @@
                     <div class="col-md-8 col-lg-6">
                         <div class="text-center">
                             <img src="{{getSystemSetting('type_logo')}}" class="img-fluid error-logo" alt="logo">
-                            <img src="{{asset('/')}}assets/images/error/404.svg" class="img-fluid error-image" alt="404">
-                            <h4 class="error-subtitle mb-4">@translate(Oops! Page not Found)</h4>
-                            <p class="mb-4">@translate(We did not find the page you are looking for. Please return to previous page or
-                                visit home page.) </p>
-                            <a href="{{route('dashboard')}}" class="btn btn-primary font-16"><i class="feather icon-home mr-2"></i> @translate(Go back to Dashboard)</a>
+                            <img src="{{asset('/')}}assets/images/error/404.svg" class="img-fluid error-image"
+                                alt="404">
+                            <h4 class="error-subtitle mb-4">@translate(Yah :( Halaman tidak ditemukan)</h4>
+                            <p class="mb-4">@translate(Kami tidak menemukan halaman yang anda cari. Yuk kembali ke
+                                halaman sebelumnya atau kunjungi halaman utama) </p>
+                            <a href="{{route('dashboard')}}" class="btn btn-primary font-16"><i
+                                    class="feather icon-home mr-2"></i> @translate(Kembali ke Dashboard)</a>
                         </div>
                     </div>
                     <!-- End col -->

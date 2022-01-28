@@ -1,65 +1,71 @@
 <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card m-2">
-                    <div class="card-header">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card m-2">
+                <div class="card-header">
 
-                            <span class="h1 card-title">@translate(Addons Manager)</span>
+                    <span class="h1 card-title">@translate(Addons Manager)</span>
 
-                            <a class="btn btn-primary ml-3" href="{{ route("addons.manager.installui") }}" title="@translate(Install new addon)">
-                                <i class="fa fa-plus-circle"></i> @translate(Install Addon)
-                            </a>
+                    <a class="btn btn-primary ml-3" href="{{ route(" addons.manager.installui") }}"
+                        title="@translate(Install new addon)">
+                        <i class="fa fa-plus-circle"></i> @translate(Install Addon)
+                    </a>
 
-                    </div>
+                </div>
 
-                    <div class="card-header">
+                <div class="card-header">
 
-                        @if (env('ADDONS_MANAGER') == 'YES')
-                            <h4><strong>@translate(Installed Addon)(s) ( {{ App\Addon::count() }} )</strong></h4>
-                        @else
-                            <h4><strong>@translate(Installed Addon)(s) ( 0 )</strong></h4>
-                        @endif
+                    @if (env('ADDONS_MANAGER') == 'YES')
+                    <h4><strong>@translate(Installed Addon)(s) ( {{ App\Addon::count() }} )</strong></h4>
+                    @else
+                    <h4><strong>@translate(Installed Addon)(s) ( 0 )</strong></h4>
+                    @endif
 
-                    </div>
+                </div>
 
-                    <div class="card-body t-div">
-                         <div class="row mt-5">
-                                @forelse ($addons as $addon)
-                                    <div class="col-4 mt-4">
-                                        <div class="news">
-                                            <figure class="article">
-                                                <a href="javscript:void()" onclick="forModal('{{ route('addon.preview', $addon->name) }}', '{{ strtoupper($addon->name) }}')">
-                                                    <img src="{{ filePath($addon->image) }}" class="w-100 img-fluid rounded" alt="#{{ $addon->name }}" >
-                                                </a>
-                                            </figure>
-                                                <a href="{{ route('addon.status', $addon->name) }}" class="btn btn-{{ $addon->activated == 0 ? 'success' : 'info' }} w-100">{{ $addon->activated == 0 ? 'Activate' : 'Deactivate' }}</a>
-                                                <a href="{{ route('addon.remove', $addon->name) }}" class="btn btn-danger w-100 mt-2">@translate(Remove)</a>
-                                        </div>
-                                    </div>
-                                    @empty
-                                    <div class="col-12">
-                                            <img src="{{ filePath('no-addon-found.jpg') }}" class="w-100" alt="#No Addons Found">
-                                    </div>
-                                @endforelse
+                <div class="card-body t-div">
+                    <div class="row mt-5">
+                        @forelse ($addons as $addon)
+                        <div class="col-4 mt-4">
+                            <div class="news">
+                                <figure class="article">
+                                    <a href="javscript:void()"
+                                        onclick="forModal('{{ route('addon.preview', $addon->name) }}', '{{ strtoupper($addon->name) }}')">
+                                        <img src="{{ filePath($addon->image) }}" class="w-100 img-fluid rounded"
+                                            alt="#{{ $addon->name }}">
+                                    </a>
+                                </figure>
+                                <a href="{{ route('addon.status', $addon->name) }}"
+                                    class="btn btn-{{ $addon->activated == 0 ? 'success' : 'info' }} w-100">{{
+                                    $addon->activated == 0 ? 'Activate' : 'Deactivate' }}</a>
+                                <a href="{{ route('addon.remove', $addon->name) }}"
+                                    class="btn btn-danger w-100 mt-2">@translate(Hapus)</a>
+                            </div>
                         </div>
-                    </div>
-
-                     {{-- Installed Addon::END --}}
-                    <hr>
-                    {{-- Available Addon --}}
-
-                    <div class="card-header">
-
-                            <h4><strong>@translate(Available Addon)(s) ( <span id="addon_count"></span> )</strong></h4>
-
-                        <input type="hidden" id="sk_loading" value="{{ filePath('sk-loading.gif') }}">
-
-                        <div id="no-addons" class="text-center"></div>
-                        <div id="no-addons-found" class="text-center d-none">
+                        @empty
+                        <div class="col-12">
                             <img src="{{ filePath('no-addon-found.jpg') }}" class="w-100" alt="#No Addons Found">
                         </div>
+                        @endforelse
+                    </div>
+                </div>
 
-                        <div class="d-flex row mt-5" id="available_addons"></div>
+                {{-- Installed Addon::END --}}
+                <hr>
+                {{-- Available Addon --}}
+
+                <div class="card-header">
+
+                    <h4><strong>@translate(Available Addon)(s) ( <span id="addon_count"></span> )</strong></h4>
+
+                    <input type="hidden" id="sk_loading" value="{{ filePath('sk-loading.gif') }}">
+
+                    <div id="no-addons" class="text-center"></div>
+                    <div id="no-addons-found" class="text-center d-none">
+                        <img src="{{ filePath('no-addon-found.jpg') }}" class="w-100" alt="#No Addons Found">
+                    </div>
+
+                    <div class="d-flex row mt-5" id="available_addons"></div>
 
 
                     {{-- Available Addon::END --}}
@@ -71,8 +77,7 @@
     </div>
 
     <script>
-
-$(document).ready(function(){
+        $(document).ready(function(){
 
     var username = 'softtech-it';
     var site = 'codecanyon';
@@ -128,4 +133,4 @@ $(document).ready(function(){
     });
 });
 
-</script>
+    </script>

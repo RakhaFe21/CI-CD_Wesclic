@@ -97,7 +97,7 @@
                             </td>
                             <td><span class="badge badge-info">{{ $course->relationBetweenCategory->name }}</span></td>
                             <td>
-                                @translate(Classes)- {{ $course->classes->count() }}
+                                @translate(Kelas)- {{ $course->classes->count() }}
                                 @php
                                     $total_count = 0;
                                 @endphp
@@ -105,7 +105,7 @@
                                     <input type="hidden" value="{{$total_count += $item->contents->count()}}"/>
                                 @endforeach
                                 <br>
-                                @translate(Contents)- {{ $total_count }}
+                                @translate(Konten)- {{ $total_count }}
                             </td>
                             <td>  <a href="{{ route('course.pel',[$course->id,$course->slug])}}">{{ $s = App\Model\Enrollment::where('course_id' , $course->id)->count() }} </td>
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
@@ -169,7 +169,7 @@
                                             <a class="dropdown-item font-13"
                                                onclick="confirm_modal('{{ route('course.destroy',[$course->id,$course->slug,])}}"
                                                href="#!">
-                                                @translate(Trash)
+                                                @translate(Sampah)
                                             </a>
                                         @endif
                                     </div>

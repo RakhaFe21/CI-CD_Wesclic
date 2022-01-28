@@ -12,12 +12,13 @@
             <ul class="side-menu-ul">
 
                 <li class="sidenav__item {{ request()->is('student/profile') ? 'page-active' : '' }}"><a
-                        href="{{ route('student.profile') }}"><i class="la la-user"></i>@translate(My Profile)</a></li>
+                        href="{{ route('student.profile') }}"><i class="la la-user"></i>@translate(Profil Saya)</a></li>
                 <li class="sidenav__item {{ request()->is('student/message') ? 'page-active' : '' }}"><a
-                        href="{{ route('student.message') }}"><i class="la la-bell"></i>@translate(Message)</a></li>
-                        <li class="sidenav__item {{ request()->is('student/dashboard') ? 'page-active' : '' }}"><a
-                                href="{{ route('student.dashboard') }}"><i class="la la-dashboard"></i>@translate(Notfications)</a>
-                        </li>
+                        href="{{ route('student.message') }}"><i class="la la-bell"></i>@translate(Pesan)</a></li>
+                <li class="sidenav__item {{ request()->is('student/dashboard') ? 'page-active' : '' }}"><a
+                        href="{{ route('student.dashboard') }}"><i
+                            class="la la-dashboard"></i>@translate(Notifikasi)</a>
+                </li>
                 <li class="sidenav__item {{ request()->is('student/purchase/history') ? 'page-active' : '' }}"><a
                         href="{{ route('student.purchase.history') }}"><i class="la la-shopping-cart"></i>@translate(
                         History)</a></li>
@@ -28,10 +29,10 @@
                 @if(walletActive())
                 <li class="sidenav__item {{ request()->is('points/redeem/history*') ? 'page-active' : '' }}"></li>
                 @endif
-                
+
                 <li class="sidenav__item"><a href="{{ route('logout') }}"
-                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="la la-power-off text-danger"></i>@translate(Logout)</a>
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="la la-power-off text-danger"></i>@translate(Keluar)</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>

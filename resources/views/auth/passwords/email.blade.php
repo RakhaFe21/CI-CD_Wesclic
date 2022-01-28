@@ -19,64 +19,66 @@
 </head>
 
 <body class="vertical-layout">
-<!-- Start Containerbar -->
-<div id="containerbar" class="containerbar authenticate-bg">
-    <!-- Start Container -->
-    <div class="container">
-        <div class="auth-box login-box">
-            <!-- Start row -->
-            <div class="row no-gutters align-items-center justify-content-center">
-                <!-- Start col -->
-                <div class="col-md-8 col-lg-6">
-                    <!-- Start Auth Box -->
-                    <div class="auth-box-right">
+    <!-- Start Containerbar -->
+    <div id="containerbar" class="containerbar authenticate-bg">
+        <!-- Start Container -->
+        <div class="container">
+            <div class="auth-box login-box">
+                <!-- Start row -->
+                <div class="row no-gutters align-items-center justify-content-center">
+                    <!-- Start col -->
+                    <div class="col-md-8 col-lg-6">
+                        <!-- Start Auth Box -->
+                        <div class="auth-box-right">
 
-                        <div class="card">
-                            <div class="card-header">@translate(Reset Password)</div>
+                            <div class="card">
+                                <div class="card-header">@translate(Reset Password)</div>
 
-                            <div class="card-body">
-                                @if (session('status'))
+                                <div class="card-body">
+                                    @if (session('status'))
                                     <div class="alert alert-success" role="alert">
                                         {{ session('status') }}
                                     </div>
-                                @endif
+                                    @endif
 
-                                <form method="POST" action="{{ route('password.email') }}">
-                                    @csrf
+                                    <form method="POST" action="{{ route('password.email') }}">
+                                        @csrf
 
-                                    <div class="form-group row">
-                                        <label for="email" class="col-md-4 col-form-label text-md-right">@translate(E-Mail Address)</label>
+                                        <div class="form-group row">
+                                            <label for="email"
+                                                class="col-md-4 col-form-label text-md-right">@translate(Alamat
+                                                Email)</label>
 
-                                        <div class="col-md-6">
-                                            <input id="email" type="email"
-                                                   class="form-control @error('email') is-invalid @enderror"
-                                                   name="email" value="{{ old('email') }}" required autocomplete="email"
-                                                   autofocus>
+                                            <div class="col-md-6">
+                                                <input id="email" type="email"
+                                                    class="form-control @error('email') is-invalid @enderror"
+                                                    name="email" value="{{ old('email') }}" required
+                                                    autocomplete="email" autofocus>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group row mb-0">
-                                        <div class="col-md-6 offset-md-4">
-                                            <button type="submit" class="btn btn-primary">
-                                                @translate(Send Password Reset Link)
-                                            </button>
+                                        <div class="form-group row mb-0">
+                                            <div class="col-md-6 offset-md-4">
+                                                <button type="submit" class="btn btn-primary">
+                                                    @translate(Send Password Reset Link)
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
+
                         </div>
-
                     </div>
+                    <!-- End Auth Box -->
                 </div>
-                <!-- End Auth Box -->
-            </div>
 
-            <!-- End col -->
+                <!-- End col -->
+            </div>
+            <!-- End row -->
         </div>
-        <!-- End row -->
     </div>
-</div>
-<!-- End Container -->
+    <!-- End Container -->
 
 </body>
 

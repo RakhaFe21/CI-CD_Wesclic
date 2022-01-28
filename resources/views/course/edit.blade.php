@@ -2,162 +2,160 @@
 @section('title','Course Edit')
 @section('parentPageTitle', 'Course')
 @section('css-link')
-    @include('layouts.include.form.form_css')
+@include('layouts.include.form.form_css')
 @stop
 @section('page-style')
 @stop
 
 @section('content')
-    <!-- BEGIN:content -->
-    <div class="card m-b-30">
-        <div class="card-body">
-            <h4>@translate(Data Pelatihan)</h4>
-            <form class="form-validate" action="{{ route('course.update')}}" method="post"
-                  enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="id" value="{{$each_course->id}}">
-                {{-- Course Title --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-title">
-                        @translate(Judul Pelatihan) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <input type="text" required value="{{ $each_course->title}}"
-                               class="form-control @error('title') is-invalid @enderror" id="val-title" name="title"
-                               placeholder="Enter Course Title" aria-required="true"
-                               autofocus {{ Auth::user()->user_type != 'Admin' ? '' : 'readonly' }}>
-                        @error('title') <span class="invalid-feedback"
-                                              role="alert"> <strong>{{ $message }}</strong> </span> @enderror
-                    </div>
+<!-- BEGIN:content -->
+<div class="card m-b-30">
+    <div class="card-body">
+        <h4>@translate(Data Pelatihan)</h4>
+        <form class="form-validate" action="{{ route('course.update')}}" method="post" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="id" value="{{$each_course->id}}">
+            {{-- Course Title --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-title">
+                    @translate(Judul Pelatihan) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input type="text" required value="{{ $each_course->title}}"
+                        class="form-control @error('title') is-invalid @enderror" id="val-title" name="title"
+                        placeholder="Enter Course Title" aria-required="true" autofocus {{ Auth::user()->user_type !=
+                    'Admin' ? '' : 'readonly' }}>
+                    @error('title') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                    @enderror
                 </div>
-                {{-- Slug --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-slug">
-                        @translate(Slug) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <input type="text"
-                               required value="{{ $each_course->slug}}"
-                               class="form-control @error('slug') is-invalid @enderror" id="val-slug" name="slug"
-                               placeholder="Enter Slug"
-                               aria-required="true" {{ Auth::user()->user_type != 'Admin' ? '' : 'readonly' }}>
-                        <span id="error_email"></span>
-                        @error('slug') <span class="invalid-feedback"
-                                             role="alert"> <strong>{{ $message }}</strong> </span> @enderror
-                    </div>
+            </div>
+            {{-- Slug --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-slug">
+                    @translate(Slug) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input type="text" required value="{{ $each_course->slug}}"
+                        class="form-control @error('slug') is-invalid @enderror" id="val-slug" name="slug"
+                        placeholder="Enter Slug" aria-required="true" {{ Auth::user()->user_type != 'Admin' ? '' :
+                    'readonly' }}>
+                    <span id="error_email"></span>
+                    @error('slug') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                    @enderror
                 </div>
+            </div>
 
-                {{-- Description --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-suggestions">
-                        @translate(Description)</label>
-                    <div class="col-lg-9">
-                        @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                            <textarea required
-                                      class="form-control summernote @error('short_description') is-invalid @enderror"
-                                      name="short_description"
-                                      rows="5">{!!  $each_course->short_description !!}</textarea>
-                            @error('short_description') <span class="invalid-feedback"
-                                                              role="alert"> <strong>{{ $message }}</strong> </span> @enderror
-                        @else
-                        {!! $each_course->short_description !!}
-                        @endif
+            {{-- Description --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-suggestions">
+                    @translate(Deskripsi)</label>
+                <div class="col-lg-9">
+                    @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                    <textarea required class="form-control summernote @error('short_description') is-invalid @enderror"
+                        name="short_description" rows="5">{!!  $each_course->short_description !!}</textarea>
+                    @error('short_description') <span class="invalid-feedback" role="alert"> <strong>{{ $message
+                            }}</strong> </span> @enderror
+                    @else
+                    {!! $each_course->short_description !!}
+                    @endif
 
-                    </div>
                 </div>
-                {{-- Course Thumbnail --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="img">
-                        @translate(Course Thumbnail) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
+            </div>
+            {{-- Course Thumbnail --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="img">
+                    @translate(Course Thumbnail) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
                     <img src="{{ filePath($each_course->image) }}" width="200" height="auto" alt="photo">
                     <br>
 
-                    <input type="hidden" required value="{{$each_course->image}}" class="form-control course_image @error('image') is-invalid @enderror" id="val-img" name="image">
-                    <img class="course_thumb_preview rounded shadow-sm d-none" src="" alt="#Course thumbnail" width="200" height="auto">
-                    @error('image') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+                    <input type="hidden" required value="{{$each_course->image}}"
+                        class="form-control course_image @error('image') is-invalid @enderror" id="val-img"
+                        name="image">
+                    <img class="course_thumb_preview rounded shadow-sm d-none" src="" alt="#Course thumbnail"
+                        width="200" height="auto">
+                    @error('image') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                    @enderror
 
-                      <input type="hidden" name="course_thumb_url" class="course_thumb_url" value="">
+                    <input type="hidden" name="course_thumb_url" class="course_thumb_url" value="">
                     <br>
 
-                      @if (MediaActive())
-                       {{-- media --}}
-                      <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')" class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>
-                      @endif
+                    @if (MediaActive())
+                    {{-- media --}}
+                    <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')"
+                        class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i class="fa fa-cloud-upload ml-2"
+                            aria-hidden="true"></i> </a>
+                    @endif
 
-                    </div>
                 </div>
-                {{-- Category --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-category_id">
-                        @translate(Category) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <select class="form-control lang @error('category_id') is-invalid @enderror"
-                                id="val-category_id" name="category_id"
-                                required {{ Auth::user()->user_type != 'Admin' ? '' : 'readonly' }}>
-                            @foreach ($categories as $category)
-                                <option
-                                    value="{{ $category->id }}" {{$each_course->category_id == $category->id ? 'selected':null}}>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @error('category_id') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+            </div>
+            {{-- Category --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-category_id">
+                    @translate(Category) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select class="form-control lang @error('category_id') is-invalid @enderror" id="val-category_id"
+                        name="category_id" required {{ Auth::user()->user_type != 'Admin' ? '' : 'readonly' }}>
+                        @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{$each_course->category_id == $category->id ?
+                            'selected':null}}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                {{-- tahapan & jadwal seleksi --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-suggestions">
-                        @translate(tahapan & jadwal seleksi)</label>
-                    <div class="col-lg-9">
-                        @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                            <textarea required
-                                      class="form-control summernote @error('big_description') is-invalid @enderror"
-                                      name="big_description"
-                                      rows="5">{!! $each_course->big_description !!}</textarea>
-                            @error('big_description') <span class="invalid-feedback"
-                                                            role="alert"> <strong>{{ $message }}</strong> </span> @enderror
-                        @else
-                        {!! $each_course->big_description($each_course->big_description) !!}
+                @error('category_id') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                </span> @enderror
+            </div>
+            {{-- tahapan & jadwal seleksi --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-suggestions">
+                    @translate(tahapan & jadwal seleksi)</label>
+                <div class="col-lg-9">
+                    @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                    <textarea required class="form-control summernote @error('big_description') is-invalid @enderror"
+                        name="big_description" rows="5">{!! $each_course->big_description !!}</textarea>
+                    @error('big_description') <span class="invalid-feedback" role="alert"> <strong>{{ $message
+                            }}</strong> </span> @enderror
+                    @else
+                    {!! $each_course->big_description($each_course->big_description) !!}
 
-                        @endif
+                    @endif
 
-                    </div>
                 </div>
-                {{-- tahapan pelatihan --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-suggestions">
-                        @translate(tahapan pelatihan)</label>
-                    <div class="col-lg-9">
-                        @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                            <textarea required
-                                      class="form-control summernote @error('tahapan_pelatihan') is-invalid @enderror"
-                                      name="tahapan_pelatihan"
-                                      rows="5">{!! $each_course->tahapan_pelatihan !!}</textarea>
-                            @error('tahapan_pelatihan') <span class="invalid-feedback"
-                                                            role="alert"> <strong>{{ $message }}</strong> </span> @enderror
-                        @else
-                        {!! $each_course->big_description($each_course->tahapan_pelatihan) !!}
+            </div>
+            {{-- tahapan pelatihan --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-suggestions">
+                    @translate(tahapan pelatihan)</label>
+                <div class="col-lg-9">
+                    @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                    <textarea required class="form-control summernote @error('tahapan_pelatihan') is-invalid @enderror"
+                        name="tahapan_pelatihan" rows="5">{!! $each_course->tahapan_pelatihan !!}</textarea>
+                    @error('tahapan_pelatihan') <span class="invalid-feedback" role="alert"> <strong>{{ $message
+                            }}</strong> </span> @enderror
+                    @else
+                    {!! $each_course->big_description($each_course->tahapan_pelatihan) !!}
 
-                        @endif
+                    @endif
 
-                    </div>
                 </div>
-                {{-- Type pelatihan --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-provider">
-                        @translate(Type pelatihan) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <select class="form-control lang @error('level') is-invalid @enderror" id="val-provider"
-                                name="level" required {{ Auth::user()->user_type != 'Admin' ? '' : 'readonly' }}>
-                            <option value="Terbuka" {{ $each_course->level === "Terbuka" ? "selected" : "" }}>
-                                @translate(Terbuka)
-                            </option>
-                            <option value="Tertutup" {{ $each_course->level === "Tertutup" ? "selected" : "" }}>
-                                @translate(Tertutup)
-                            </option>
-                        </select>
-                    </div>
-                    @error('level') <span class="invalid-feedback"
-                                          role="alert"> <strong>{{ $message }}</strong> </span> @enderror
+            </div>
+            {{-- Type pelatihan --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-provider">
+                    @translate(Type pelatihan) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select class="form-control lang @error('level') is-invalid @enderror" id="val-provider"
+                        name="level" required {{ Auth::user()->user_type != 'Admin' ? '' : 'readonly' }}>
+                        <option value="Terbuka" {{ $each_course->level === "Terbuka" ? "selected" : "" }}>
+                            @translate(Terbuka)
+                        </option>
+                        <option value="Tertutup" {{ $each_course->level === "Tertutup" ? "selected" : "" }}>
+                            @translate(Tertutup)
+                        </option>
+                    </select>
                 </div>
-                <!-- {{-- Overview URL --}}
+                @error('level') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                @enderror
+            </div>
+            <!-- {{-- Overview URL --}}
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label" for="val-website">
                         @translate(Overview URL) <span class="text-danger">*</span></label>
@@ -357,29 +355,29 @@
                     </div>
                 </div> -->
 
-                @if (Auth::user()->user_type === 'Admin')
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label"></label>
-                        <div class="col-lg-8">
-                            <button type="submit" class="btn btn-primary">
-                                @translate(Submit)
-                            </button>
-                        </div>
-                    </div>
-                @endif
+            @if (Auth::user()->user_type === 'Admin')
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label"></label>
+                <div class="col-lg-8">
+                    <button type="submit" class="btn btn-primary">
+                        @translate(Submit)
+                    </button>
+                </div>
+            </div>
+            @endif
 
 
-            </form>
-        </div>
+        </form>
     </div>
-    <!-- END:content -->
+</div>
+<!-- END:content -->
 @endsection
 
 @section('js-link')
-    @include('layouts.include.form.form_js')
+@include('layouts.include.form.form_js')
 @stop
 
 @section('page-script')
-    <script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script>
 
 @stop

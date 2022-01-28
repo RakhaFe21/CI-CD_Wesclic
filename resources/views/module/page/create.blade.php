@@ -4,16 +4,11 @@
 
         <div class="form-group">
             <label>@translate(Page Title) <span class="text-danger">*</span></label>
-            <input class="form-control" placeholder="@translate(Page Title)" type="text"  name="title" required>
+            <input class="form-control" placeholder="@translate(Page Title)" type="text" name="title" required>
         </div>
         <div class="float-right">
-            <button class="btn btn-primary float-right" type="submit">@translate(Save)</button>
+            <button class="btn btn-primary float-right" type="submit">@translate(Simpan)</button>
         </div>
 
     </form>
 </div>
-
-
-
-
-

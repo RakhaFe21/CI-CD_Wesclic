@@ -14,17 +14,18 @@
 
         <div class="" id="nocenter">
             <div class="form-group">
-                <label>@translate(Icon class)</label>
+                <label>@translate(Icon Kelas)</label>
                 <input class="form-control" placeholder="icofont-document-folder" type="text" name="icon">
-                <a class="nav-link" target="_blank" href="https://icofont.com"><small class="text-info">for icon visit this link</small></a>
+                <a class="nav-link" target="_blank" href="https://icofont.com"><small class="text-info">for icon visit
+                        this link</small></a>
             </div>
             <div class="form-group">
-                <label>@translate(Title) </label>
-                <input class="form-control" placeholder="@translate(Title)" type="text" name="title" >
+                <label>@translate(Judul) </label>
+                <input class="form-control" placeholder="@translate(Title)" type="text" name="title">
             </div>
             <div class="form-group">
-                <label>@translate(short description) </label>
-                <input class="form-control" placeholder="@translate(Short description)" name="desc" type="text" >
+                <label>@translate(Deskripsi Singkat) </label>
+                <input class="form-control" placeholder="@translate(Short description)" name="desc" type="text">
             </div>
         </div>
 
@@ -32,19 +33,19 @@
 
         <div class="d-none" id="center">
             <div class="form-group">
-                <label class="col-form-label text-md-right">@translate(Image)</label>
+                <label class="col-form-label text-md-right">@translate(Gambar)</label>
                 <div class="custom-file">
-                    <input class="form-control-file"  name="image" type="file">
+                    <input class="form-control-file" name="image" type="file">
                 </div>
             </div>
             <div class="form-group">
                 <label>@translate(video link) </label>
-                <input class="form-control" placeholder="@translate(video link)" name="video" type="url" >
+                <input class="form-control" placeholder="@translate(video link)" name="video" type="url">
             </div>
         </div>
 
         <div class="float-right">
-            <button class="btn btn-primary float-right" type="submit">@translate(Save)</button>
+            <button class="btn btn-primary float-right" type="submit">@translate(Simpan)</button>
         </div>
 
     </form>

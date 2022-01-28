@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-  <!-- Favicon -->
-  <link rel="icon" sizes="16x16" href="{{ filePath(getSystemSetting('favicon_icon')->value) }}">
+    <!-- Favicon -->
+    <link rel="icon" sizes="16x16" href="{{ filePath(getSystemSetting('favicon_icon')->value) }}">
     <!-- Start css -->
     <link href="{{asset('/')}}assets/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="{{asset('/')}}assets/css/icons.css" rel="stylesheet" type="text/css">
@@ -23,11 +23,13 @@
                     <div class="col-md-8 col-lg-6">
                         <div class="text-center">
                             <img src="{{getSystemSetting('type_logo')}}" class="img-fluid error-logo" alt="logo">
-                            <img src="{{asset('/')}}assets/images/error/internal-server.svg" class="img-fluid error-image" alt="500">
+                            <img src="{{asset('/')}}assets/images/error/internal-server.svg"
+                                class="img-fluid error-image" alt="500">
                             <h4 class="error-subtitle mb-4">@translate(500 Internal Server Error)</h4>
-                            <p class="mb-4">@translate(The server encountered an internal error or misconfiguration and was unable to
-                                complete your request.)</p>
-                            <a href="{{route('dashboard')}}" class="btn btn-primary font-16"><i class="feather icon-home mr-2"></i> @translate(Go back to Dashboard)</a>
+                            <p class="mb-4">@translate(Server kami sedang mengalami kendala dan tidak bisa memproses apa
+                                yang anda ingin akses.)</p>
+                            <a href="{{route('dashboard')}}" class="btn btn-primary font-16"><i
+                                    class="feather icon-home mr-2"></i> @translate(Kembali ke Dashboard)</a>
                         </div>
                     </div>
                     <!-- End col -->

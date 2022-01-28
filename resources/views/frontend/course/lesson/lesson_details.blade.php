@@ -1,674 +1,668 @@
 @extends('frontend.course.lesson.app')
 @section('content')
-    <!--======================================
+<!--======================================
           START HEADER AREA
       ======================================-->
-    <section class="header-menu-area course-dashboard-header">
-        <div class="header-menu-fluid">
-            <div class="header-menu-content course-dashboard-menu-content">
-                <div class="container-fluid">
-                    <div class="main-menu-content d-flex align-items-center">
-                        <div class="logo-box">
-                            <a href="{{ route('homepage') }}" class="logo"
-                               title="{{ getSystemSetting('type_name')->value }}">
-                                <img
-                                    src="{{ filePath(getSystemSetting('footer_logo')->value) }}"
-                                    alt="{{ getSystemSetting('type_name')->value }}" class="w-75"></a>
-                        </div>
-                        <div class="course-dashboard-title">
-                            <a href="{{ route('course.single',$s_course->slug) }}">{{ $s_course->title }}</a>
-                        </div>
-                        <div class="menu-wrapper">
-                            <div class="logo-right-button">
-                                <ul class="d-flex align-items-center">
-                                    <li><a href="{{ route('course.single',$s_course->slug) }}"
-                                           class="theme-btn theme-btn-light"><i class="la la-star mr-1"></i>@translate(Go to course details)</a></li>
-                                </ul>
-                            </div><!-- end logo-right-button -->
-                        </div><!-- end menu-wrapper -->
-                    </div><!-- end row -->
-                </div><!-- end container-fluid -->
-            </div><!-- end header-menu-content -->
-        </div><!-- end header-menu-fluid -->
-    </section><!-- end header-menu-area -->
-    <!--======================================
+<section class="header-menu-area course-dashboard-header">
+    <div class="header-menu-fluid">
+        <div class="header-menu-content course-dashboard-menu-content">
+            <div class="container-fluid">
+                <div class="main-menu-content d-flex align-items-center">
+                    <div class="logo-box">
+                        <a href="{{ route('homepage') }}" class="logo"
+                            title="{{ getSystemSetting('type_name')->value }}">
+                            <img src="{{ filePath(getSystemSetting('footer_logo')->value) }}"
+                                alt="{{ getSystemSetting('type_name')->value }}" class="w-75"></a>
+                    </div>
+                    <div class="course-dashboard-title">
+                        <a href="{{ route('course.single',$s_course->slug) }}">{{ $s_course->title }}</a>
+                    </div>
+                    <div class="menu-wrapper">
+                        <div class="logo-right-button">
+                            <ul class="d-flex align-items-center">
+                                <li><a href="{{ route('course.single',$s_course->slug) }}"
+                                        class="theme-btn theme-btn-light"><i class="la la-star mr-1"></i>@translate(Ke detail pelatihan)</a></li>
+                            </ul>
+                        </div><!-- end logo-right-button -->
+                    </div><!-- end menu-wrapper -->
+                </div><!-- end row -->
+            </div><!-- end container-fluid -->
+        </div><!-- end header-menu-content -->
+    </div><!-- end header-menu-fluid -->
+</section><!-- end header-menu-area -->
+<!--======================================
             END HEADER AREA
     ======================================-->
 
-    <!--======================================
+<!--======================================
             START COURSE-DASHBOARD
     ======================================-->
-    <section class="course-dashboard">
-        <div class="course-dashboard-wrap">
-            <div class="course-dashboard-container d-flex">
-                <div class="course-dashboard-column">
-                    <div class="lecture-viewer-container">
-                        <div class="lecture-video-item" id="videoId">
+<section class="course-dashboard">
+    <div class="course-dashboard-wrap">
+        <div class="course-dashboard-container d-flex">
+            <div class="course-dashboard-column">
+                <div class="lecture-viewer-container">
+                    <div class="lecture-video-item" id="videoId">
 
-                            @if (isset($s_course->overview_url))
-                                @if ($s_course->provider === "Youtube")
-                                    <iframe
-                                        src="https://www.youtube.com/embed/{{ Str::after($s_course->overview_url,'https://youtu.be/') }}"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen></iframe>
+                        @if (isset($s_course->overview_url))
+                        @if ($s_course->provider === "Youtube")
+                        <iframe
+                            src="https://www.youtube.com/embed/{{ Str::after($s_course->overview_url,'https://youtu.be/') }}"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
 
-                                @elseif($s_course->provider === "Vimeo")
-                                    <iframe
-                                        src="https://player.vimeo.com/video/{{ Str::after($s_course->overview_url,'https://vimeo.com/') }}"
-                                        frameborder="0" allow="autoplay; fullscreen"
-                                        allowfullscreen></iframe>
-                                @elseif($s_course->provider === "HTML5")
-                                    <video controls crossorigin playsinline id="player">
-                                        <source src="{{$s_course->overview_url}}"
-                                                type="video/mp4" size="100%"/>
-                                    </video>
+                        @elseif($s_course->provider === "Vimeo")
+                        <iframe
+                            src="https://player.vimeo.com/video/{{ Str::after($s_course->overview_url,'https://vimeo.com/') }}"
+                            frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                        @elseif($s_course->provider === "HTML5")
+                        <video controls crossorigin playsinline id="player">
+                            <source src="{{$s_course->overview_url}}" type="video/mp4" size="100%" />
+                        </video>
 
-                                @else
-                                    <div class="">
-                                        <h1>@translate(No video found)</h1>
-                                    </div>
+                        @else
+                        <div class="">
+                            <h1>@translate(No video found)</h1>
+                        </div>
+                        @endif
+
+                        @endif
+                    </div>
+
+                </div><!-- end lecture-viewer-container -->
+                <div class="lecture-video-detail">
+                    <div class="lecture-tab-body">
+                        <div class="section-tab section-tab-2">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="mobile-course-tab">
+                                    <a href="#course-content" role="tab" data-toggle="tab" aria-selected="true">
+                                        @translate(Course Content)
+                                    </a>
+                                </li>
+                                <li role="presentation" class="pl-5">
+                                    <a href="#overview" role="tab" data-toggle="tab" class="active"
+                                        aria-selected="true">
+                                        @translate(Overview)
+                                    </a>
+                                </li>
+                                <li role="presentation" class="pl-5">
+                                    <a href="#content-details" role="tab" data-toggle="tab" aria-selected="false"
+                                        aria-selected="true">
+                                        @translate(Content Overview)
+                                    </a>
+                                </li>
+
+                                <li role="presentation" class="pl-5">
+                                    <a href="#quest-and-ans" role="tab" data-toggle="tab" aria-selected="false">
+                                        @translate(Comments)
+                                    </a>
+                                </li>
+                                <li class="pl-5">
+                                    <button
+                                        onclick="forModal('{{route('message.create',$s_course->id)}}','{{ $s_course->name }}')"
+                                        class="btn btn-success text-white">
+                                        @translate(Send message)
+                                    </button>
+                                </li>
+                                @if(env('CERTIFICATE_ACTIVE') === 'YES')
+                                <li role="presentation" class="pl-5">
+                                    <a href="#certificate" role="tab" data-toggle="tab" aria-selected="false">
+                                        @translate(Get Certificate)
+                                    </a>
+                                </li>
                                 @endif
 
-                            @endif
+
+                                @if(env('WALLET_ACTIVE') === 'YES')
+
+                                @if (checkRedeem($s_course->id))
+
+                                @if(\App\Http\Controllers\FrontendController::seenCourse($enroll->first()->id,$s_course->id)
+                                == number_format(100))
+                                <li class="pl-5">
+                                    <a href="{{ route('course.redeem.point', $s_course->id) }}">
+                                        @translate(Redeem Points)
+                                    </a>
+                                </li>
+                                @else
+                                <li class="pl-5">
+                                    @translate(Point Redeemed)
+                                </li>
+                                @endif
+
+                                @else
+                                <li class="pl-5">
+                                    @translate(Complete this to redeem point)
+                                </li>
+
+                                @endif
+
+                                @endif
+
+
+                            </ul>
                         </div>
+                    </div>
+                    <div class="lecture-video-detail-body">
+                        <div class="tab-content">
+                            {{-- course-content --}}
+                            <div role="tabpanel" class="tab-pane fade" id="course-content">
+                                <div class="mobile-course-content-wrap">
+                                    <div class="mobile-course-menu">
+                                        <div class="course-dashboard-side-content">
+                                            <div class="accordion course-item-list-accordion" id="mobileCourseMenu">
 
-                    </div><!-- end lecture-viewer-container -->
-                    <div class="lecture-video-detail">
-                        <div class="lecture-tab-body">
-                            <div class="section-tab section-tab-2">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="mobile-course-tab">
-                                        <a href="#course-content" role="tab" data-toggle="tab" aria-selected="true">
-                                            @translate(Course Content)
-                                        </a>
-                                    </li>
-                                    <li role="presentation" class="pl-5">
-                                        <a href="#overview" role="tab" data-toggle="tab" class="active"
-                                           aria-selected="true">
-                                            @translate(Overview)
-                                        </a>
-                                    </li>
-                                    <li role="presentation" class="pl-5">
-                                        <a href="#content-details" role="tab" data-toggle="tab" aria-selected="false"
-                                           aria-selected="true">
-                                            @translate(Content Overview)
-                                        </a>
-                                    </li>
+                                                @foreach ($s_course->classes as $item)
+                                                <div class="card">
+                                                    <div class="card-header" id="collapseMenu-{{ $item->id }}">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link" type="button"
+                                                                data-toggle="collapse"
+                                                                data-target="#collapse-{{ $item->id }}"
+                                                                aria-expanded="true"
+                                                                aria-controls="collapse-{{ $item->id }}">
+                                                                <span
+                                                                    class="widget-title font-size-15 font-weight-semi-bold">Class
+                                                                    {{ $loop->index++ + 1 }}: {{ $item->title }}</span>
+                                                                <div class="course-duration">
+                                                                    <div class="course-duration">
+                                                                        <span>{{ $item->contents->count() }}</span>
+                                                                        <span>
+                                                                            {{duration(
+                                                                            $item->contents->sum('duration'))}}
 
-                                    <li role="presentation" class="pl-5">
-                                        <a href="#quest-and-ans" role="tab" data-toggle="tab" aria-selected="false">
-                                            @translate(Comments)
-                                        </a>
-                                    </li>
-                                    <li class="pl-5">
-                                        <button
-                                            onclick="forModal('{{route('message.create',$s_course->id)}}','{{ $s_course->name }}')"
-                                            class="btn btn-success text-white">
-                                            @translate(Send message)
-                                        </button>
-                                    </li>
-                                    @if(env('CERTIFICATE_ACTIVE') === 'YES')
-                                        <li role="presentation" class="pl-5">
-                                            <a href="#certificate" role="tab" data-toggle="tab" aria-selected="false">
-                                                @translate(Get Certificate)
-                                            </a>
-                                        </li>
-                                    @endif
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-{{ $item->id }}"
+                                                        class="collapse {{ $loop->first ? 'show' : '' }}"
+                                                        aria-labelledby="collapseMenu-{{ $item->id }}"
+                                                        data-parent="#accordionCourseMenu">
+                                                        <div class="card-body">
+                                                            <div class="course-content-list">
+                                                                <ul class="course-list">
 
-
-                                    @if(env('WALLET_ACTIVE') === 'YES')
-
-                                        @if (checkRedeem($s_course->id))
-
-                                            @if(\App\Http\Controllers\FrontendController::seenCourse($enroll->first()->id,$s_course->id) == number_format(100))
-                                                <li class="pl-5">
-                                                    <a href="{{ route('course.redeem.point', $s_course->id) }}">
-                                                        @translate(Redeem Points)
-                                                    </a>
-                                                </li>
-                                            @else
-                                                <li class="pl-5">
-                                                    @translate(Point Redeemed)
-                                                </li>
-                                            @endif
-
-                                        @else
-                                            <li class="pl-5">
-                                                @translate(Complete this to redeem point)
-                                            </li>
-
-                                        @endif
-                                        
-                                    @endif
+                                                                    @forelse ($item->contents as $content)
 
 
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="lecture-video-detail-body">
-                            <div class="tab-content">
-                                {{-- course-content --}}
-                                <div role="tabpanel" class="tab-pane fade" id="course-content">
-                                    <div class="mobile-course-content-wrap">
-                                        <div class="mobile-course-menu">
-                                            <div class="course-dashboard-side-content">
-                                                <div class="accordion course-item-list-accordion" id="mobileCourseMenu">
 
-                                                    @foreach ($s_course->classes as $item)
-                                                        <div class="card">
-                                                            <div class="card-header" id="collapseMenu-{{ $item->id }}">
-                                                                <h2 class="mb-0">
-                                                                    <button class="btn btn-link" type="button"
-                                                                            data-toggle="collapse"
-                                                                            data-target="#collapse-{{ $item->id }}"
-                                                                            aria-expanded="true"
-                                                                            aria-controls="collapse-{{ $item->id }}">
-                                                                        <span
-                                                                            class="widget-title font-size-15 font-weight-semi-bold">Class {{ $loop->index++ + 1 }}: {{ $item->title }}</span>
-                                                                        <div class="course-duration">
-                                                                            <div class="course-duration">
-                                                                                <span>{{ $item->contents->count() }}</span>
-                                                                                <span>
-                                                                         {{duration( $item->contents->sum('duration'))}}
 
-                                                                  </span>
+
+                                                                    <li class="course-item-link active-resource"
+                                                                        onclick="contentData('{{$content->id}}')">
+
+                                                                        <input type="hidden"
+                                                                            id="contentVideoUrl-{{$content->id}}"
+                                                                            value="{{route('class.content',$content->id)}}">
+                                                                        <div class="course-item-content-wrap">
+                                                                            <div class="custom-checkbox">
+                                                                                <i class="la la-book"></i>
                                                                             </div>
-                                                                        </div>
-                                                                    </button>
-                                                                </h2>
-                                                            </div>
-                                                            <div id="collapse-{{ $item->id }}"
-                                                                 class="collapse {{ $loop->first ? 'show' : '' }}"
-                                                                 aria-labelledby="collapseMenu-{{ $item->id }}"
-                                                                 data-parent="#accordionCourseMenu">
-                                                                <div class="card-body">
-                                                                    <div class="course-content-list">
-                                                                        <ul class="course-list">
 
-                                                                            @forelse ($item->contents as $content)
+                                                                            <div class="course-item-content">
+                                                                                <h4
+                                                                                    class="widget-title font-size-15 font-weight-medium">
 
+                                                                                    {{ $loop->index++ + 1 }}
+                                                                                    . {{ $content->title }}
+                                                                                </h4>
+                                                                                <div class="courser-item-meta-wrap">
+                                                                                    <p class="course-item-meta">
+                                                                                        <i class="la la-file"></i>
 
+                                                                                        {{duration($content->duration)
+                                                                                        }}
 
-
-
-                                                                                <li class="course-item-link active-resource"
-                                                                                    onclick="contentData('{{$content->id}}')">
-
-                                                                                    <input type="hidden"
-                                                                                           id="contentVideoUrl-{{$content->id}}"
-                                                                                           value="{{route('class.content',$content->id)}}">
-                                                                                    <div
-                                                                                        class="course-item-content-wrap">
-                                                                                        <div class="custom-checkbox">
-                                                                                            <i class="la la-book"></i>
-                                                                                        </div>
-
-                                                                                        <div
-                                                                                            class="course-item-content">
-                                                                                            <h4 class="widget-title font-size-15 font-weight-medium">
-
-                                                                                                {{ $loop->index++ + 1 }}
-                                                                                                . {{ $content->title }}
-                                                                                            </h4>
-                                                                                            <div
-                                                                                                class="courser-item-meta-wrap">
-                                                                                                <p class="course-item-meta">
-                                                                                                    <i class="la la-file"></i>
-
-                                                                                                    {{duration($content->duration) }}
-
-                                                                                                </p>
+                                                                                    </p>
 
 
-                                                                                                @if($content->source_code != null)
-                                                                                                    <div
-                                                                                                        class="msg-action-dot">
-                                                                                                        <div
-                                                                                                            class="dropdown">
-                                                                                                            <a class="theme-btn theme-btn-light"
-                                                                                                               href="#!"
-                                                                                                               data-toggle="dropdown"
-                                                                                                               aria-haspopup="true"
-                                                                                                               aria-expanded="false">
-                                                                                                                <i class="fa fa-folder-open mr-1"></i>
-                                                                                                                Resources<i
-                                                                                                                    class="fa fa-angle-down ml-1"></i>
-                                                                                                            </a>
-                                                                                                            <div
-                                                                                                                class="dropdown-menu">
-                                                                                                                <a class="dropdown-item"
-                                                                                                                   href="{{filePath($content->source_code)}}"
-                                                                                                                   target="_blank">
-                                                                                                                    source.zip
-                                                                                                                </a>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                @endif
-
-
+                                                                                    @if($content->source_code != null)
+                                                                                    <div class="msg-action-dot">
+                                                                                        <div class="dropdown">
+                                                                                            <a class="theme-btn theme-btn-light"
+                                                                                                href="#!"
+                                                                                                data-toggle="dropdown"
+                                                                                                aria-haspopup="true"
+                                                                                                aria-expanded="false">
+                                                                                                <i
+                                                                                                    class="fa fa-folder-open mr-1"></i>
+                                                                                                Resources<i
+                                                                                                    class="fa fa-angle-down ml-1"></i>
+                                                                                            </a>
+                                                                                            <div class="dropdown-menu">
+                                                                                                <a class="dropdown-item"
+                                                                                                    href="{{filePath($content->source_code)}}"
+                                                                                                    target="_blank">
+                                                                                                    source.zip
+                                                                                                </a>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </li>
-
-
-                                                                                @endforeach
-
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- course-content::END --}}
-                                {{-- overview --}}
-                                <div role="tabpanel" class="tab-pane fade active show" id="overview">
-                                    <div class="lecture-overview-wrap">
-                                        <div class="lecture-overview-item">
-                                            <div class="lecture-heading">
-                                                <h3 class="widget-title pb-2">@translate(About this course)</h3>
-                                                <p>
-                                                    {!! $s_course->short_description !!}
-
-                                                </p>
-                                            </div>
-                                        </div><!-- end lecture-overview-item -->
-                                        <div class="section-block"></div>
-                                        <div class="lecture-overview-item">
-                                            <div class="lecture-overview-stats-wrap d-flex ">
-                                                <div class="lecture-overview-stats-item">
-                                                    <h3 class="widget-title font-size-16">@translate(By the
-                                                        numbers)</h3>
-                                                </div>
-                                                <div class="lecture-overview-stats-item">
-                                                    <ul class="list-items">
-                                                        <li><span>@translate(Skill level):</span>{{ $s_course->level }}
-                                                        </li>
-                                                        <li>
-                                                            <span>@translate(Students):</span>{{\App\Model\Enrollment::where('course_id',$s_course->id)->count()}}
-                                                        </li>
-                                                        <li><span>@translate(Languages):</span>{{ $s_course->language }}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="lecture-overview-stats-item">
-                                                    <ul class="list-items">
-                                                        <li>
-                                                            <span>@translate(Lectures):</span>{{ $s_course->classes->count() }}
-                                                        </li>
-                                                        <li><span>@translate(Video length):</span>
-                                                            @php
-                                                                $total_duration = 0;
-                                                                foreach ($s_course->classes as $item){
-                                                                    $total_duration +=$item->contents->sum('duration');
-                                                                }
-
-                                                            @endphp
-                                                            {{duration($total_duration)}}
-
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div><!-- end lecture-overview-item -->
-                                        <div class="section-block"></div>
-
-                                        <div class="section-block"></div>
-
-                                        <div class="section-block"></div>
-                                        <div class="lecture-overview-item">
-                                            <div class="lecture-overview-stats-wrap d-flex">
-                                                <div class="lecture-overview-stats-item">
-                                                    <h3 class="widget-title font-size-16">@translate(Description)</h3>
-                                                </div>
-                                                <div
-                                                    class="lecture-overview-stats-item lecture-overview-stats-wide-item">
-                                                    <div class="lecture-description show-more-content">
-                                                        <p>
-                                                            {!! $s_course->big_description !!}
-
-                                                        </p>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!-- end lecture-overview-item -->
-                                        <div class="section-block"></div>
-                                        <div class="lecture-overview-item">
-                                            <div class="lecture-overview-stats-wrap d-flex ">
-                                                <div class="lecture-overview-stats-item">
-                                                    <h3 class="widget-title font-size-16">@translate(Instructor)</h3>
-                                                </div>
-                                                <div
-                                                    class="lecture-overview-stats-item lecture-overview-stats-wide-item">
-                                                    <div class="lecture-owner-wrap d-flex align-items-center">
-                                                        <div class="lecture-owner-avatar">
-                                                            <img
-                                                                src="{{ filePath($s_course->image) }}"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="lecture-owner-title-wrap">
-                                                            <h3 class="widget-title pb-1 font-size-18"><a
-                                                                    href="{{route('single.instructor',$s_course->slug)}}"
-                                                                    class="primary-color">{{ $s_course->name }}</a>
-                                                            </h3>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="lecture-owner-profile pt-4">
-                                                        <ul class="social-profile">
-                                                            <li>
-                                                                <a target="_blank"
-                                                                   href="{{ $s_course->fb }}"><i
-                                                                        class="fa fa-facebook"></i></a></li>
-                                                            <li>
-                                                                <a target="_blank"
-                                                                   href="{{ $s_course->tw }}"><i
-                                                                        class="fa fa-twitter"></i></a></li>
-                                                            <li>
-                                                                <a target="_blank"
-                                                                   href="{{ $s_course->skype }}"><i
-                                                                        class="fa fa-skype"></i></a></li>
-                                                            <li>
-                                                                <a target="_blank"
-                                                                   href="{{ $s_course->linked }}"><i
-                                                                        class="fa fa-linkedin"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="lecture-owner-decription pt-4">
-                                                        {!! $s_course->about !!}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!-- end lecture-overview-item -->
-                                    </div><!-- end lecture-overview-wrap -->
-                                </div><!-- end tab-pane -->
-                                {{-- overview::END --}}
-                                {{-- question and answer --}}
-                                <div role="tabpanel" class="tab-pane fade" id="quest-and-ans">
-                                    <div class="lecture-overview-wrap lecture-announcement-wrap">
-                                        <div class="lecture-overview-item">
-                                            <div class="question-list-container">
-                                                <div class="question-list-item">
-                                                    <ul class="comments-list" id="comments"></ul>
-                                                </div>
-
-                                            </div>
-                                            <div class="lecture-overview-stats-wrap">
-                                                <div class="lecture-overview-stats-item">
-                                                    <div
-                                                        class="lecture-announcement-form d-flex align-items-center pt-4">
-                                                        <div class="lecture-owner-avatar">
-                                                            <img
-                                                                src="{{ \Illuminate\Support\Facades\Auth::user()->image == null ? asset('uploads/user/user.png') : filePath(\Illuminate\Support\Facades\Auth::user()->image) }}">
-                                                        </div>
-                                                        <div class="contact-form-action">
-                                                            <form id="comment_form">
-                                                                <input type="hidden" value="{{route('comments')}}"
-                                                                       id="commentSaveUrl">
-                                                                <input type="hidden" value="{{$s_course->id}}"
-                                                                       id="course_id">
-                                                                <div class="form-group mb-0">
-                                                                    <input class="form-control" required type="text"
-                                                                           name="comment" id="comment"
-                                                                           placeholder="Enter your comment">
-                                                                    <button class="submit-btn" type="submit"
-                                                                            id="comment_submit"><i
-                                                                            class="la la-arrow-right"></i></button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!-- end lecture-overview-item -->
-                                    </div>
-                                </div><!-- end tab-pane -->
-                                {{-- question and answer::END --}}
-                                {{--CONTENT DETAILS--}}
-                                <div role="tabpanel" class="tab-pane fade " id="content-details">
-                                    <div class="lecture-overview-wrap">
-                                        <div class="lecture-overview-item">
-                                            <div class="lecture-heading">
-                                                <h3 class="widget-title pb-2">@translate(About this Content)</h3>
-                                                <p class="course-content">
-                                                    {{--here show the content details--}}
-
-                                                </p>
-                                            </div>
-                                        </div><!-- end lecture-overview-item -->
-                                        <!-- end lecture-overview-item -->
-                                    </div><!-- end lecture-overview-wrap -->
-                                </div>
-                                {{--CONTENT DETAILS--}}
-
-
-                                {{--Certificate --}}
-                                @if(env('CERTIFICATE_ACTIVE') === 'YES')
-                                    <div role="tabpanel" class="tab-pane fade" id="certificate">
-                                        <div class="mobile-course-content-wrap">
-                                            <div class="mobile-course-menu">
-                                                <div class="course-dashboard-side-content">
-                                                    <div class="accordion course-item-list-accordion"
-                                                         id="mobileCourseMenu">
-
-                                                        <div class="container p-5">
-                                                            <div class="progress" data-percentage="{{\App\Http\Controllers\FrontendController::seenCourse($enroll->first()->id,$s_course->id)}}">
-            <span class="progress-left">
-                <span class="progress-bar"></span>
-            </span>
-                                                                    <span class="progress-right">
-                <span class="progress-bar"></span>
-            </span>
-                                                                <div class="progress-value">
-                                                                    <div>
-                                                                        {{\App\Http\Controllers\FrontendController::seenCourse($enroll->first()->id, $s_course->id)}}%<br>
-                                                                        <span>completed</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="text-center">
-                                                        @if(\App\Http\Controllers\FrontendController::seenCourse($enroll->first()->id,$s_course->id) == number_format(100))
-                                                        <a href="{{route('certificate.get',$s_course->id)}}" target="_blank" class="btn btn-success"> @translate(Generate Certificate)</a>
-                                                        @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-
-                            </div>
-                        </div><!-- end lecture-video-detail-body -->
-                    </div><!-- end lecture-video-detail -->
-                    <div class="section-block"></div>
-                    <div class="footer-area section-bg padding-top-40px padding-bottom-40px">
-                        <div class="container-fluid">
-                            <div class="copyright-content copyright-content-2">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-4 column-lmd-half column-td-full">
-                                        <div class="copyright-content-inner">
-                                            <a href="{{route('homepage')}}">
-                                                <img src="{{ filePath(getSystemSetting('type_logo')->value) }}"
-                                                     alt="{{ getSystemSetting('type_name')->value }}"
-                                                     class="footer__logo w-75">
-                                            </a>
-                                            <p class="copy__desc">@translate(Copyright)
-                                                &copy; {{date('Y')}} {{ getSystemSetting('type_footer')->value }}</p>
-                                        </div>
-                                    </div><!-- end col-lg-4 -->
-                                    <div class="col-lg-6 column-lmd-half column-td-full">
-                                        <ul class="list-items">
-                                            @foreach(\App\Page::where('active',1)->get() as $item)
-                                                <li>
-                                                    <a href="{{route('pages',$item->id)}}">{{\Illuminate\Support\Str::ucfirst($item->title)}}</a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div><!-- end row -->
-                            </div><!-- end copyright-content -->
-                        </div><!-- end container-fluid -->
-                    </div><!-- end footer-area -->
-                </div><!-- end course-dashboard-column -->
-
-
-                <div class="course-dashboard-sidebar-column">
-                    <button class="sidebar-open" type="button"><i class="la la-angle-left"></i> @translate(Course
-                        content)
-                    </button>
-                    <div class="course-dashboard-sidebar-wrap">
-                        <div class="course-dashboard-side-heading d-flex align-items-center justify-content-between">
-                            <h3 class="widget-title font-size-20">@translate(Course content)</h3>
-                            <button class="sidebar-close" type="button"><i class="la la-times"></i></button>
-                        </div><!-- end course-dashboard-side-heading -->
-                        <div class="course-dashboard-side-content">
-                            <div class="accordion course-item-list-accordion" id="accordionCourseMenu">
-                                <input value="{{route('seen.list',$s_course->id)}}" type="hidden" id="seenList">
-                                @foreach ($s_course->classes as $item)
-                                    <div class="card">
-                                        <div class="card-header" id="collapseMenu-{{ $item->id }}">
-                                            <h2 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                        data-target="#collapse-{{ $item->id }}" aria-expanded="true"
-                                                        aria-controls="collapse-{{ $item->id }}">
-                                                    <span class="widget-title font-size-15 font-weight-semi-bold">@translate(Class) {{ $loop->index++ + 1 }}: {{ $item->title }}</span>
-                                                    <div class="course-duration">
-                                                        <div class="course-duration">
-                                                            <span>{{ $item->contents->count() }}</span>
-                                                            <span>
-                                                       {{duration( $item->contents->sum('duration'))}}
-
-                                                </span>
-                                                        </div>
-                                                    </div>
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div id="collapse-{{ $item->id }}"
-                                             class="collapse {{ $loop->first ? 'show' : '' }}"
-                                             aria-labelledby="collapseMenu-{{ $item->id }}"
-                                             data-parent="#accordionCourseMenu">
-                                            <div class="card-body">
-                                                <div class="course-content-list">
-                                                    <ul class="course-list">
-                                                        @forelse ($item->contents as $content)
-                                                            <li class="course-item-link active-resource">
-                                                                <div class="course-item-content-wrap">
-                                                                    <div class="custom-checkbox">
-                                                                        <div class="custom-checkbox">
-                                                                            <input type="checkbox"
-                                                                                   data-url="{{route('seen.remove', $content->id)}}"
-                                                                                   id="chb-{{$content->id}}">
-                                                                            <label for="chb-{{$content->id}}"></label>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                                    <div class="course-item-content"
-                                                                         onclick="contentData('{{$content->id}}')">
-                                                                        <input type="hidden"
-                                                                               id="contentVideoUrl-{{$content->id}}"
-                                                                               value="{{route('class.content',$content->id)}}">
-                                                                        <h4 class="widget-title font-size-15 font-weight-medium">
-
-                                                                            {{ $loop->index++ + 1 }}
-                                                                            . {{ $content->title }}</h4>
-                                                                        <div class="courser-item-meta-wrap">
-                                                                            <p class="course-item-meta"><i
-                                                                                    class="la la-file"></i>
-                                                                                {{duration($content->duration)}}
-                                                                            </p>
-
-
-                                                                            @if($content->source_code != null)
-                                                                                <div class="msg-action-dot">
-                                                                                    <div class="dropdown">
-                                                                                        <a class="theme-btn theme-btn-light"
-                                                                                           href="#"
-                                                                                           data-toggle="dropdown"
-                                                                                           aria-haspopup="true"
-                                                                                           aria-expanded="false">
-                                                                                            <i class="fa fa-folder-open mr-1"></i>
-                                                                                            @translate(Resources)<i
-                                                                                                class="fa fa-angle-down ml-1"></i>
-                                                                                        </a>
-                                                                                        <div class="dropdown-menu">
-                                                                                            <a class="dropdown-item"
-                                                                                               href="{{filePath($content->source_code)}}"
-                                                                                               target="_blank">
-                                                                                                source.zip
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            @endif
-                                                                        </div>
-                                                                        @if (zoomActive())
-                                                                            <div class="">
-                                                                                @if($content->meeting != null)
-                                                                                    <p class="course-item-meta">
-                                                                                        <i class="la la-video-camera"></i>
-                                                                                        @translate(Meeting Id)
-                                                                                        - {{$content->meeting->meeting_id}}
-                                                                                    </p>
-                                                                                    <p class="course-item-meta">
-                                                                                        <i class="la la-calendar-check-o"></i>
-                                                                                        @translate(Start Time)
-                                                                                        - {{ \Carbon\Carbon::parse($content->meeting->start_time)->format('M d, Y G:i:s')}}
-                                                                                    </p>
-                                                                                    @if($content->meeting->duration != null)
-                                                                                        <p class="course-item-meta">
-                                                                                            <i class="la la-calendar-check-o"></i>
-                                                                                            @translate(Duration)
-                                                                                            - {{ $content->meeting->duration }}
-                                                                                            min
-                                                                                        </p>
                                                                                     @endif
-                                                                                    <p id="demo-{{ $content->meeting->meeting_id }}"></p>
-                                                                                    <a href="javascript:void(0)"
-                                                                                       class="countDown d-none"
-                                                                                       onclick="myFunction('{{ \Carbon\Carbon::parse($content->meeting->start_time)->format('M d, Y G:i:s') }}','demo-{{ $content->meeting->meeting_id }}')">HUH</a>
-                                                                                @endif
-                                                                            </div>
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            @endforeach
 
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+
+
+                                                                    @endforeach
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- course-content::END --}}
+                            {{-- overview --}}
+                            <div role="tabpanel" class="tab-pane fade active show" id="overview">
+                                <div class="lecture-overview-wrap">
+                                    <div class="lecture-overview-item">
+                                        <div class="lecture-heading">
+                                            <h3 class="widget-title pb-2">@translate(About this course)</h3>
+                                            <p>
+                                                {!! $s_course->short_description !!}
+
+                                            </p>
+                                        </div>
+                                    </div><!-- end lecture-overview-item -->
+                                    <div class="section-block"></div>
+                                    <div class="lecture-overview-item">
+                                        <div class="lecture-overview-stats-wrap d-flex ">
+                                            <div class="lecture-overview-stats-item">
+                                                <h3 class="widget-title font-size-16">@translate(By the
+                                                    numbers)</h3>
+                                            </div>
+                                            <div class="lecture-overview-stats-item">
+                                                <ul class="list-items">
+                                                    <li><span>@translate(Skill level):</span>{{ $s_course->level }}
+                                                    </li>
+                                                    <li>
+                                                        <span>@translate(Siswa):</span>{{\App\Model\Enrollment::where('course_id',$s_course->id)->count()}}
+                                                    </li>
+                                                    <li><span>@translate(Languages):</span>{{ $s_course->language }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="lecture-overview-stats-item">
+                                                <ul class="list-items">
+                                                    <li>
+                                                        <span>@translate(Lectures):</span>{{ $s_course->classes->count()
+                                                        }}
+                                                    </li>
+                                                    <li><span>@translate(Video length):</span>
+                                                        @php
+                                                        $total_duration = 0;
+                                                        foreach ($s_course->classes as $item){
+                                                        $total_duration +=$item->contents->sum('duration');
+                                                        }
+
+                                                        @endphp
+                                                        {{duration($total_duration)}}
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div><!-- end lecture-overview-item -->
+                                    <div class="section-block"></div>
+
+                                    <div class="section-block"></div>
+
+                                    <div class="section-block"></div>
+                                    <div class="lecture-overview-item">
+                                        <div class="lecture-overview-stats-wrap d-flex">
+                                            <div class="lecture-overview-stats-item">
+                                                <h3 class="widget-title font-size-16">@translate(Description)</h3>
+                                            </div>
+                                            <div class="lecture-overview-stats-item lecture-overview-stats-wide-item">
+                                                <div class="lecture-description show-more-content">
+                                                    <p>
+                                                        {!! $s_course->big_description !!}
+
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end lecture-overview-item -->
+                                    <div class="section-block"></div>
+                                    <div class="lecture-overview-item">
+                                        <div class="lecture-overview-stats-wrap d-flex ">
+                                            <div class="lecture-overview-stats-item">
+                                                <h3 class="widget-title font-size-16">@translate(Instructor)</h3>
+                                            </div>
+                                            <div class="lecture-overview-stats-item lecture-overview-stats-wide-item">
+                                                <div class="lecture-owner-wrap d-flex align-items-center">
+                                                    <div class="lecture-owner-avatar">
+                                                        <img src="{{ filePath($s_course->image) }}" alt="">
+                                                    </div>
+                                                    <div class="lecture-owner-title-wrap">
+                                                        <h3 class="widget-title pb-1 font-size-18"><a
+                                                                href="{{route('single.instructor',$s_course->slug)}}"
+                                                                class="primary-color">{{ $s_course->name }}</a>
+                                                        </h3>
+
+                                                    </div>
+                                                </div>
+                                                <div class="lecture-owner-profile pt-4">
+                                                    <ul class="social-profile">
+                                                        <li>
+                                                            <a target="_blank" href="{{ $s_course->fb }}"><i
+                                                                    class="fa fa-facebook"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a target="_blank" href="{{ $s_course->tw }}"><i
+                                                                    class="fa fa-twitter"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a target="_blank" href="{{ $s_course->skype }}"><i
+                                                                    class="fa fa-skype"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a target="_blank" href="{{ $s_course->linked }}"><i
+                                                                    class="fa fa-linkedin"></i></a>
+                                                        </li>
                                                     </ul>
+                                                </div>
+                                                <div class="lecture-owner-decription pt-4">
+                                                    {!! $s_course->about !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end lecture-overview-item -->
+                                </div><!-- end lecture-overview-wrap -->
+                            </div><!-- end tab-pane -->
+                            {{-- overview::END --}}
+                            {{-- question and answer --}}
+                            <div role="tabpanel" class="tab-pane fade" id="quest-and-ans">
+                                <div class="lecture-overview-wrap lecture-announcement-wrap">
+                                    <div class="lecture-overview-item">
+                                        <div class="question-list-container">
+                                            <div class="question-list-item">
+                                                <ul class="comments-list" id="comments"></ul>
+                                            </div>
+
+                                        </div>
+                                        <div class="lecture-overview-stats-wrap">
+                                            <div class="lecture-overview-stats-item">
+                                                <div class="lecture-announcement-form d-flex align-items-center pt-4">
+                                                    <div class="lecture-owner-avatar">
+                                                        <img
+                                                            src="{{ \Illuminate\Support\Facades\Auth::user()->image == null ? asset('uploads/user/user.png') : filePath(\Illuminate\Support\Facades\Auth::user()->image) }}">
+                                                    </div>
+                                                    <div class="contact-form-action">
+                                                        <form id="comment_form">
+                                                            <input type="hidden" value="{{route('comments')}}"
+                                                                id="commentSaveUrl">
+                                                            <input type="hidden" value="{{$s_course->id}}"
+                                                                id="course_id">
+                                                            <div class="form-group mb-0">
+                                                                <input class="form-control" required type="text"
+                                                                    name="comment" id="comment"
+                                                                    placeholder="Enter your comment">
+                                                                <button class="submit-btn" type="submit"
+                                                                    id="comment_submit"><i
+                                                                        class="la la-arrow-right"></i></button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- end lecture-overview-item -->
+                                </div>
+                            </div><!-- end tab-pane -->
+                            {{-- question and answer::END --}}
+                            {{--CONTENT DETAILS--}}
+                            <div role="tabpanel" class="tab-pane fade " id="content-details">
+                                <div class="lecture-overview-wrap">
+                                    <div class="lecture-overview-item">
+                                        <div class="lecture-heading">
+                                            <h3 class="widget-title pb-2">@translate(About this Content)</h3>
+                                            <p class="course-content">
+                                                {{--here show the content details--}}
+
+                                            </p>
+                                        </div>
+                                    </div><!-- end lecture-overview-item -->
+                                    <!-- end lecture-overview-item -->
+                                </div><!-- end lecture-overview-wrap -->
+                            </div>
+                            {{--CONTENT DETAILS--}}
+
+
+                            {{--Certificate --}}
+                            @if(env('CERTIFICATE_ACTIVE') === 'YES')
+                            <div role="tabpanel" class="tab-pane fade" id="certificate">
+                                <div class="mobile-course-content-wrap">
+                                    <div class="mobile-course-menu">
+                                        <div class="course-dashboard-side-content">
+                                            <div class="accordion course-item-list-accordion" id="mobileCourseMenu">
+
+                                                <div class="container p-5">
+                                                    <div class="progress"
+                                                        data-percentage="{{\App\Http\Controllers\FrontendController::seenCourse($enroll->first()->id,$s_course->id)}}">
+                                                        <span class="progress-left">
+                                                            <span class="progress-bar"></span>
+                                                        </span>
+                                                        <span class="progress-right">
+                                                            <span class="progress-bar"></span>
+                                                        </span>
+                                                        <div class="progress-value">
+                                                            <div>
+                                                                {{\App\Http\Controllers\FrontendController::seenCourse($enroll->first()->id,
+                                                                $s_course->id)}}%<br>
+                                                                <span>completed</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-center">
+                                                    @if(\App\Http\Controllers\FrontendController::seenCourse($enroll->first()->id,$s_course->id)
+                                                    == number_format(100))
+                                                    <a href="{{route('certificate.get',$s_course->id)}}" target="_blank"
+                                                        class="btn btn-success"> @translate(Generate Certificate)</a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
+                            @endif
+
+                        </div>
+                    </div><!-- end lecture-video-detail-body -->
+                </div><!-- end lecture-video-detail -->
+                <div class="section-block"></div>
+                <div class="footer-area section-bg padding-top-40px padding-bottom-40px">
+                    <div class="container-fluid">
+                        <div class="copyright-content copyright-content-2">
+                            <div class="row align-items-center">
+                                <div class="col-lg-4 column-lmd-half column-td-full">
+                                    <div class="copyright-content-inner">
+                                        <a href="{{route('homepage')}}">
+                                            <img src="{{ filePath(getSystemSetting('type_logo')->value) }}"
+                                                alt="{{ getSystemSetting('type_name')->value }}"
+                                                class="footer__logo w-75">
+                                        </a>
+                                        <p class="copy__desc">@translate(Copyright)
+                                            &copy; {{date('Y')}} {{ getSystemSetting('type_footer')->value }}</p>
+                                    </div>
+                                </div><!-- end col-lg-4 -->
+                                <div class="col-lg-6 column-lmd-half column-td-full">
+                                    <ul class="list-items">
+                                        @foreach(\App\Page::where('active',1)->get() as $item)
+                                        <li>
+                                            <a
+                                                href="{{route('pages',$item->id)}}">{{\Illuminate\Support\Str::ucfirst($item->title)}}</a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div><!-- end row -->
+                        </div><!-- end copyright-content -->
+                    </div><!-- end container-fluid -->
+                </div><!-- end footer-area -->
+            </div><!-- end course-dashboard-column -->
+
+
+            <div class="course-dashboard-sidebar-column">
+                <button class="sidebar-open" type="button"><i class="la la-angle-left"></i> @translate(Course
+                    content)
+                </button>
+                <div class="course-dashboard-sidebar-wrap">
+                    <div class="course-dashboard-side-heading d-flex align-items-center justify-content-between">
+                        <h3 class="widget-title font-size-20">@translate(Course content)</h3>
+                        <button class="sidebar-close" type="button"><i class="la la-times"></i></button>
+                    </div><!-- end course-dashboard-side-heading -->
+                    <div class="course-dashboard-side-content">
+                        <div class="accordion course-item-list-accordion" id="accordionCourseMenu">
+                            <input value="{{route('seen.list',$s_course->id)}}" type="hidden" id="seenList">
+                            @foreach ($s_course->classes as $item)
+                            <div class="card">
+                                <div class="card-header" id="collapseMenu-{{ $item->id }}">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapse-{{ $item->id }}" aria-expanded="true"
+                                            aria-controls="collapse-{{ $item->id }}">
+                                            <span
+                                                class="widget-title font-size-15 font-weight-semi-bold">@translate(Class)
+                                                {{ $loop->index++ + 1 }}: {{ $item->title }}</span>
+                                            <div class="course-duration">
+                                                <div class="course-duration">
+                                                    <span>{{ $item->contents->count() }}</span>
+                                                    <span>
+                                                        {{duration( $item->contents->sum('duration'))}}
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="collapse-{{ $item->id }}" class="collapse {{ $loop->first ? 'show' : '' }}"
+                                    aria-labelledby="collapseMenu-{{ $item->id }}" data-parent="#accordionCourseMenu">
+                                    <div class="card-body">
+                                        <div class="course-content-list">
+                                            <ul class="course-list">
+                                                @forelse ($item->contents as $content)
+                                                <li class="course-item-link active-resource">
+                                                    <div class="course-item-content-wrap">
+                                                        <div class="custom-checkbox">
+                                                            <div class="custom-checkbox">
+                                                                <input type="checkbox"
+                                                                    data-url="{{route('seen.remove', $content->id)}}"
+                                                                    id="chb-{{$content->id}}">
+                                                                <label for="chb-{{$content->id}}"></label>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="course-item-content"
+                                                            onclick="contentData('{{$content->id}}')">
+                                                            <input type="hidden" id="contentVideoUrl-{{$content->id}}"
+                                                                value="{{route('class.content',$content->id)}}">
+                                                            <h4 class="widget-title font-size-15 font-weight-medium">
+
+                                                                {{ $loop->index++ + 1 }}
+                                                                . {{ $content->title }}</h4>
+                                                            <div class="courser-item-meta-wrap">
+                                                                <p class="course-item-meta"><i class="la la-file"></i>
+                                                                    {{duration($content->duration)}}
+                                                                </p>
+
+
+                                                                @if($content->source_code != null)
+                                                                <div class="msg-action-dot">
+                                                                    <div class="dropdown">
+                                                                        <a class="theme-btn theme-btn-light" href="#"
+                                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                                            aria-expanded="false">
+                                                                            <i class="fa fa-folder-open mr-1"></i>
+                                                                            @translate(Resources)<i
+                                                                                class="fa fa-angle-down ml-1"></i>
+                                                                        </a>
+                                                                        <div class="dropdown-menu">
+                                                                            <a class="dropdown-item"
+                                                                                href="{{filePath($content->source_code)}}"
+                                                                                target="_blank">
+                                                                                source.zip
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                            </div>
+                                                            @if (zoomActive())
+                                                            <div class="">
+                                                                @if($content->meeting != null)
+                                                                <p class="course-item-meta">
+                                                                    <i class="la la-video-camera"></i>
+                                                                    @translate(Meeting Id)
+                                                                    - {{$content->meeting->meeting_id}}
+                                                                </p>
+                                                                <p class="course-item-meta">
+                                                                    <i class="la la-calendar-check-o"></i>
+                                                                    @translate(Start Time)
+                                                                    - {{
+                                                                    \Carbon\Carbon::parse($content->meeting->start_time)->format('M
+                                                                    d, Y G:i:s')}}
+                                                                </p>
+                                                                @if($content->meeting->duration != null)
+                                                                <p class="course-item-meta">
+                                                                    <i class="la la-calendar-check-o"></i>
+                                                                    @translate(Duration)
+                                                                    - {{ $content->meeting->duration }}
+                                                                    min
+                                                                </p>
+                                                                @endif
+                                                                <p id="demo-{{ $content->meeting->meeting_id }}"></p>
+                                                                <a href="javascript:void(0)" class="countDown d-none"
+                                                                    onclick="myFunction('{{ \Carbon\Carbon::parse($content->meeting->start_time)->format('M d, Y G:i:s') }}','demo-{{ $content->meeting->meeting_id }}')">HUH</a>
+                                                                @endif
+                                                            </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                @endforeach
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
-                </div><!-- end course-dashboard-sidebar-column -->
-            </div><!-- end course-dashboard-container -->
-        </div><!-- end course-dashboard-wrap -->
-    </section><!-- end course-dashboard -->
-    <!--======================================
+                </div>
+            </div><!-- end course-dashboard-sidebar-column -->
+        </div><!-- end course-dashboard-container -->
+    </div><!-- end course-dashboard-wrap -->
+</section><!-- end course-dashboard -->
+<!--======================================
             END COURSE-DASHBOARD
     ======================================-->
 
 @endsection
 
 @section('js')
-    <script type="text/javascript">
-        "use strict"
+<script type="text/javascript">
+    "use strict"
         $(document).ready(function () {
             $.ajaxSetup({
                 headers: {
@@ -883,7 +877,6 @@
                 }
             }, 1000);
         }
-    </script>
+</script>
 
 @endsection
-

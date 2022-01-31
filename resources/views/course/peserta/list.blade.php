@@ -64,7 +64,7 @@
                     <tr></tr>
                     <tr>
                         <td>
-                            <h3 class="text-center">No Data Found</h3>
+                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
                         </td>
                     </tr>
                     <tr></tr>

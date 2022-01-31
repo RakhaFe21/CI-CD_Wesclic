@@ -110,7 +110,7 @@
                     <tr></tr>
                     <tr></tr>
                     <tr>
-                        <td><h3 class="text-centers">@translate(No Data Found)</h3></td>
+                        <td><h3 class="text-centers">@translate(Tidak Ada Data Ditemukan)</h3></td>
                     </tr>
                     <tr></tr>
                     <tr></tr>

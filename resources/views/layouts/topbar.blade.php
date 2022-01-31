@@ -93,7 +93,7 @@
                         </div>
                     </li>
 
-                    <!--currency-->
+                    <!--currency Mata Uang 
                     <li class="list-inline-item">
                         <div class="languagebar">
                             <div class="dropdown">
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </li>
-
+                    -->
                     <li class="list-inline-item">
                         <div class="notifybar">
                             <div class="dropdown show">

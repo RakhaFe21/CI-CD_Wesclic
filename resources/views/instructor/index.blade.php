@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title','Instructor List')
+@section('title','Data Dinas')
 @section('parentPageTitle', 'All Student')
 @section('content')
 <div class="card mx-2 mb-3">
@@ -12,8 +12,7 @@
                 <div class="col">
                     <form method="get" action="">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control col-12"
-                                placeholder="@translate(Cari menurut nama)" value="{{Request::get('search')}}">
+                            <input type="text" name="search" class="form-control col-12" placeholder="@translate(Cari Berdasar Nama)" value="{{Request::get('search')}}">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     @translate(Cari)</button>
@@ -23,8 +22,9 @@
                 </div>
 
                 <div class="col">
-                    <a href="#!" onclick="forModal('{{ route(" instructor.create.modal")
-                        }}', '@translate(Tambahkan Dinas)' )" class="btn btn-primary">
+                    <a href="#!"
+                        onclick="forModal('{{ route("instructor.create.modal") }}', '@translate(Tambah Dinas)')"
+                        class="btn btn-primary">
                         <i class="la la-plus"></i>
                         @translate(Tambah Dinas Baru)
                     </a>
@@ -61,10 +61,10 @@
                 <tr>
                     <td>{{ ($loop->index+1) + ($instructors->currentPage() - 1)*$instructors->perPage() }}</td>
                     <td class="text-center">
-                        @if($item->image != null)
-                        <img src="{{filePath($item->image)}}" class="img-thumbnail rounded-circle avatar-lg"><br />
+                      @if($item->image != null)
+                          <img src="{{filePath($item->image)}}" class="img-thumbnail rounded-circle avatar-lg"><br />
                         @else
-                        <img src="" class="img-thumbnail rounded-circle avatar-lg" alt="avatar"><br />
+                            <img src="" class="img-thumbnail rounded-circle avatar-lg" alt="avatar"><br />
                         @endif
                     </td>
                     <td>{{$item->name}}</td>
@@ -77,36 +77,31 @@
                     <td>
                         <div class="kanban-menu">
                             <div class="dropdown">
-                                <button class="btn btn-link p-0 m-0 border-0 l-h-20 font-16" type="button"
-                                    id="KanbanBoardButton1" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false"><i class="feather icon-more-vertical-"></i></button>
-                                <div class="dropdown-menu dropdown-menu-right action-btn"
-                                    aria-labelledby="KanbanBoardButton1" x-placement="bottom-end">
+                                <button class="btn btn-link p-0 m-0 border-0 l-h-20 font-16" type="button" id="KanbanBoardButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-vertical-"></i></button>
+                                <div class="dropdown-menu dropdown-menu-right action-btn" aria-labelledby="KanbanBoardButton1" x-placement="bottom-end">
                                     <a class="dropdown-item" href="{{ route('instructors.show', $item->user_id) }}">
                                         <i class="feather icon-edit-2 mr-2"></i>
                                         @translate(Details)</a>
-                                    <a class="dropdown-item" href="{{ route('instructors.edit', $item->user_id) }}">
+                                        <a class="dropdown-item" href="{{ route('instructors.edit', $item->user_id) }}">
                                         <i class="feather icon-edit-2 mr-2"></i>
                                         @translate(Edit)</a>
-                                    <a class="dropdown-item" href="{{ route('instructors.delete', $item->user_id) }}">
+                                        <a class="dropdown-item" href="{{ route('instructors.delete', $item->user_id) }}">
                                         <i class="feather icon-trash-2 mr-2"></i>
-                                        @translate(Hapus)</a>
+                                        @translate(Delete)</a>
                                 </div>
                             </div>
                         </div>
                     </td>
                 </tr>
                 @empty
-                <tr></tr>
-                <tr></tr>
+                    <tr></tr>
+                    <tr></tr>
                 <tr>
-                    <td>
-                        <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
-                    </td>
+                    <td><h3 class="text-center">Tidak Ada Data Ditemukan</h3></td>
                 </tr>
-                <tr></tr>
-                <tr></tr>
-                <tr></tr>
+                    <tr></tr>
+                    <tr></tr>
+                    <tr></tr>
                 @endforelse
             </tbody>
             <div class="float-left">

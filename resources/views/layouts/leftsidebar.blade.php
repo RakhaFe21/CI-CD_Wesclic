@@ -35,7 +35,7 @@
                                     </li>
 
                                     <li><a href="{{route('instructors.index')}}"
-                                            class="{{request()->is('dashboard/instructor*') ?'active':null}}">@translate(Instruktur)</a>
+                                            class="{{request()->is('dashboard/instructor*') ?'active':null}}">@translate(Dinas)</a>
                                     </li>
                                     <li><a href="{{route('students.index')}}"
                                             class="{{request()->is('dashboard/student*')  ?'active':null}}">@translate(Siswa)</a>
@@ -327,7 +327,7 @@
                             </li>
 
 
-                            {{-- Settings Area 
+                            {{-- Settings Area --}}
                             <li class="{{request()->is('dashboard/smtp*')
                                    || request()->is('dashboard/language*')
                                    || request()->is('dashboard/slider*')
@@ -342,15 +342,18 @@
                                 </a>
                                 <ul class="vertical-submenu">
                                     @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                                    {{-- Currency/Gerbang
                                     <li><a href="{{route('app.setting')}}"
                                             class="{{request()->is('dashboard/app*') ?'active':null}}">@translate(Pengaturan
                                             Gerbang
                                             )</a></li>
+                                          
                                     <li><a href="{{route('currencies.index')}}"
                                             class="{{request()->is('dashboard/currency*') ?'active':null}}">@translate(Pengaturan
                                             Mata Uang
                                             )</a>
                                     </li>
+                                     --}}
                                     <li><a href="{{route('language.index')}}"
                                             class="{{request()->is('dashboard/language*') ?'active':null}}">@translate(Pengaturan
                                             Bahasa
@@ -372,7 +375,7 @@
 
                                     <li><a href="{{route('site.setting')}}"
                                             class="{{request()->is('dashboard/site*') ?'active':null}}">@translate(Pengaturan
-                                            Organisasi
+                                            Website
                                             )</a></li>
 
                                     <li><a href="{{route('other.setting')}}"
@@ -382,16 +385,17 @@
 
 
                                     @else
-                                    -- Instructor Earning area 
+                                   {{--  -- Instructor Earning area 
                                     <li><a href="{{route('account.create')}}"
                                             class="{{request()->is('dashboard/account*') ?'active':null}}">@translate(Payment
                                             Account Setup)
                                         </a>
                                     </li>
+                                       --}}
                                     @endif
                                 </ul>
                             </li>
-                            --}}
+                         
                             @if(env('FORUM_PANEL') == "YES")
                             {{-- Forum manager --}}
                             @if(Auth::user()->user_type === "Admin" || Auth::user()->user_type === "Instructor")

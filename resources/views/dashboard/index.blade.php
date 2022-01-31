@@ -8,7 +8,7 @@
     <div class="col-lg-12 col-xl-8">
         <!-- Start row -->
         <div class="row">
-            <!-- Start col -->
+            <!-- Start col Pendapatan
             <div class="col-lg-12 col-xl-4">
                 <div class="card m-b-30">
                     <div class="card-body">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <!-- End col -->
+            End col -->
             <div class="col-lg-12 col-xl-12">
                 <div class="card m-b-30">
                     <div class="card-header">
@@ -126,7 +126,7 @@
             <div class="card-header">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h5 class="card-title mb-0">@translate(Instruktur Top)</h5>
+                        <h5 class="card-title mb-0">@translate(Dinas Wonosobo)</h5>
                     </div>
                 </div>
             </div>
@@ -164,7 +164,7 @@
                     </div>
                 </div>
                 @empty
-                <h3 class="text-center mt-3">@translate(Tidak ada instuktur top)</h3>
+                <h3 class="text-center mt-3">@translate(Tidak ada dinas terkait)</h3>
                 @endforelse
             </div>
         </div>
@@ -173,6 +173,7 @@
 </div>
 <!-- End row -->
 
+<!-- Pendapatan Tahun
 <div class="card m-b-30">
     <div class="card-header">
         <div class="row align-items-center">
@@ -185,7 +186,7 @@
         <div id="apexs-bar-chart"></div>
     </div>
 </div>
-
+ -->
 @endsection
 
 @section('page-script')

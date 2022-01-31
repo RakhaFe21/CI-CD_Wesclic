@@ -56,7 +56,7 @@
                                 <div class="dropdown-menu dropdown-menu-right action-btn"
                                     aria-labelledby="KanbanBoardButton1" x-placement="bottom-end">
                                     <a class="dropdown-item" href="{{ route('comments.show', $item->id) }}">
-                                        <i class="feather icon-edit-2 mr-2"></i>@translate(Messages)</a>
+                                        <i class="feather icon-edit-2 mr-2"></i>@translate(Pesan)</a>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                 <tr></tr>
                 <tr>
                     <td>
-                        <h3 class="text-center">No Data Found</h3>
+                        <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
                     </td>
                 </tr>
                 <tr></tr>

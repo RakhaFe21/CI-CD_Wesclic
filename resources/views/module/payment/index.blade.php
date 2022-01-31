@@ -104,7 +104,7 @@
                 @empty
 
                     <tr>
-                        <td colspan="8"><h3 class="text-center">@translate(No Data Found)</h3></td>
+                        <td colspan="8"><h3 class="text-center">@translate(Tidak Ada Data Ditemukan)</h3></td>
                     </tr>
 
                 @endforelse

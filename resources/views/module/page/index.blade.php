@@ -64,7 +64,7 @@
                                 <a class="dropdown-item"
                                    onclick="confirm_modal('{{ route('pages.destroy', $item->id) }}')"
                                    href="#!">
-                                    <i class="feather icon-trash mr-2"></i>@translate(Delete)</a>
+                                    <i class="feather icon-trash mr-2"></i>@translate(Hapus)</a>
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
             @empty
                 <tr></tr>
             <tr>
-                <td><h3 class="text-center">@translate(No Data Found)</h3></td>
+                <td><h3 class="text-center">@translate(Tidak Ada Data Ditemukan)</h3></td>
             </tr>
                 <tr></tr>
                 <tr></tr>

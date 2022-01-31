@@ -48,8 +48,8 @@
                         @translate(Email)</th>
                     <th>
                         @translate(Telepon)</th>
-                    <th>
-                        @translate(Keseimbangan)</th>
+                    {{-- <th>
+                        @translate(Keseimbangan)</th> --}}
                     <th>
                         @translate(Tentang)</th>
                     <th>
@@ -70,7 +70,7 @@
                     <td>{{$item->name}}</td>
                     <td>{{$item->email ?? 'N/A'}}</td>
                     <td>{{$item->phone ?? 'N/A'}}</td>
-                    <td>{{formatPrice($item->balance)}}
+                    {{-- <td>{{formatPrice($item->balance)}} --}}
                     </td>
                     <td>{!! $item->about !!}
                     </td>

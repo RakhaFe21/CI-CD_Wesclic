@@ -84,7 +84,7 @@
                                     <a class="nav-link" id="v-pills-product-tab" data-toggle="pill"
                                         href="#v-pills-product" role="tab" aria-controls="v-pills-product"
                                         aria-selected="false">
-                                        <i class="feather icon-circle font-12 mr-1"></i>@translate(Instuktur)<span
+                                        <i class="feather icon-circle font-12 mr-1"></i>@translate(Dinas)<span
                                             class="float-right font-14 text-muted">{{$total_instructor}}</span></a>
                                     <a class="nav-link" id="v-pills-hiring-tab" data-toggle="pill"
                                         href="#v-pills-hiring" role="tab" aria-controls="v-pills-hiring"

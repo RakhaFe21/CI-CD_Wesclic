@@ -24,7 +24,7 @@
 
                     <div class="col">
                         <a href="#!"
-                           onclick="forModal('{{ route("student.create.modal") }}', '@translate(Student Create)')"
+                           onclick="forModal('{{ route("student.create.modal") }}', '@translate(Tambah Siswa)')"
                            class="btn btn-primary">
                             <i class="la la-plus"></i>
                             @translate(Tambah Siswa Baru)

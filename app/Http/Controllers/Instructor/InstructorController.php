@@ -189,13 +189,13 @@ class InstructorController extends Controller
       }
 
       $request->validate([
-            'package_id' => 'required',
+            //'package_id' => 'required',
             'name' => 'required',
             'email' => ['required', 'unique:users'],
             'password' => ['required', 'min:8'],
             'confirm_password' => 'required|required_with:password|same:password',
         ], [
-            'package_id.required' => translate('Please select a package'),
+            //'package_id.required' => translate('Please select a package'),
             'name.required' => translate('Name is required'),
             'email.required' => translate('Email is required'),
             'email.unique' => translate('Email is already exist.'),
@@ -205,7 +205,8 @@ class InstructorController extends Controller
             'confirm_password.same' => translate('Password did not match'),
         ]);
         /*get package value*/
-        $package = Package::where('id', $request->package_id)->firstOrFail();
+        $package = Package::where('id', 1)->firstOrFail();
+        // $package = Package::where('id', $request->package_id)->firstOrFail();
         //create user for login
 
         $slug_name = Str::slug($request->name);
@@ -226,7 +227,7 @@ class InstructorController extends Controller
         $instructor = new Instructor();
         $instructor->name = $request->name;
         $instructor->email = $request->email;
-        $instructor->package_id = $request->package_id;
+        $instructor->package_id = 1;
         $instructor->user_id = $user->id;
         $instructor->save();
 
@@ -235,7 +236,7 @@ class InstructorController extends Controller
             $purchase = new PackagePurchaseHistory();
             $purchase->amount = $package->price;
             $purchase->payment_method = $request->payment_method;
-            $purchase->package_id = $request->package_id;
+            $purchase->package_id = 1;
             $purchase->user_id = $user->id;
             $purchase->save();
 

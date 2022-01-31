@@ -4,13 +4,13 @@
 
 
         <div class="form-group">
-            <label>@translate(Full Name) <span class="text-danger">*</span></label>
-            <input class="form-control" name="name" placeholder="@translate(Fill name)" required>
+            <label>@translate(Nama Lengkap) <span class="text-danger">*</span></label>
+            <input class="form-control" name="name" placeholder="@translate(Isi name)" required>
         </div>
 
         <div class="form-group">
-            <label>@translate(Email address) <span class="text-danger">*</span></label>
-            <input class="form-control" name="email" placeholder="@translate(Email address)" required>
+            <label>@translate(Username) <span class="text-danger">*</span></label>
+            <input class="form-control" name="email" placeholder="@translate(Username)" required>
         </div>
 
         <div class="form-group">

@@ -200,7 +200,8 @@
                                     <span class="live-icon">{{\Illuminate\Support\Facades\Auth::user()->name}}</span>
                                     <span class="feather icon-chevron-down live-icon"></span></a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profilelink">
-                                    @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Instructor")
+                                    {{-- Balance uang
+                                         @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Instructor")
                                     <div class="dropdown-item">
                                         <div class="profilename">
                                                 <h5>
@@ -208,7 +209,7 @@
                                                 </h5>
                                         </div>
                                     </div>
-                                    @endif
+                                    @endif --}}
                                     <div class="userbox">
                                         <ul class="list-unstyled mb-0">
 

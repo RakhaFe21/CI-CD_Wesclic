@@ -6,7 +6,7 @@
                             <form method="post" action="{{ route('instructor.store.modal') }}">
                                 @csrf
                                 <div class="row">
-                                    {{--Radio button--}}
+                                    {{--Radio button-- Pemilihan Paket
                                     <label class="label-text">@translate(Select A Package)<span class="primary-color-2 ml-1">*</span></label>
                                     <div class="row">
                                         @foreach($packages = App\Model\Package::where('is_published', true)->get() as $item)
@@ -36,7 +36,7 @@
 
                                         @endforeach
                                     </div>
-
+                                    --}}
                                     <div class="col-lg-12 ">
                                         <div class="input-box">
                                             <label class="label-text">@translate(Full Name)<span class="primary-color-2 ml-1">*</span></label>

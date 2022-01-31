@@ -1,14 +1,14 @@
 @extends('layouts.master')
-@section('title','dashboard')
+@section('title','Dashboard')
 @section('parentPageTitle', 'index')
 @section('content')
 <!-- Start row -->
 <div class="row">
     <!-- Start col -->
     <div class="col-lg-12 col-xl-8">
-        <!-- Start row -->
+        <!-- Start row  -->
         <div class="row">
-
+            <!-- Pendapatan
             <div class="col-lg-12 col-xl-4">
                 <div class="card m-b-30">
                     <div class="card-body">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <!-- End col -->
+            End col Pendapatan -->
             <div class="col-lg-12 col-xl-12">
                 <div class="card m-b-30">
                     <div class="card-header">
@@ -82,7 +82,7 @@
                                     <a class="nav-link" id="v-pills-hiring-tab" data-toggle="pill"
                                         href="#v-pills-hiring" role="tab" aria-controls="v-pills-hiring"
                                         aria-selected="false">
-                                        <i class="feather icon-circle font-12 mr-1"></i>@translate(Enrollments)<span
+                                        <i class="feather icon-circle font-12 mr-1"></i>@translate(Pendaftaran)<span
                                             class="float-right font-14 text-muted">{{$enroll->count()}}</span></a>
                                 </div>
                             </div>
@@ -158,6 +158,7 @@
 </div>
 <!-- End row -->
 
+<!-- End Revenue Year Pendapatan
 <div class="card m-b-30">
     <div class="card-header">
         <div class="row align-items-center">
@@ -172,7 +173,7 @@
 
 
 </div>
-
+ -->
 @endsection
 
 @section('page-script')

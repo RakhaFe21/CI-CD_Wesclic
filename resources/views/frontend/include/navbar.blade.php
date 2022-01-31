@@ -55,7 +55,7 @@
                                             <div id="appendSearchCart1"></div>
                                         </div>
                                         {{--some ajax value--}}
-                                        <input value="@translate(Your Cart is Empty)" type="hidden"
+                                        <input value="@translate(Keranjang anda kosong)" type="hidden"
                                                id="emptyUrl" name="emptyUrl">
                                         <input value="{{route('search.courses')}}" type="hidden"
                                                id="searchUrl" name="searchUrl">
@@ -100,7 +100,7 @@
                                                         class="fa fa-angle-right"></i> </a>
 
                                                 <div class="text-center">
-                                                    <h3>@translate(Your cart)</h3>
+                                                    <h3>@translate(Keranjangmu)</h3>
                                                     <hr>
                                                 </div>
 
@@ -122,7 +122,7 @@
                                                                    id="enrollUrl" name="enrollUrl">
                                                             <input value="{{route('shopping.cart')}}" type="hidden"
                                                                    id="shoppingCart" name="shoppingCart">
-                                                            <input value="@translate(Go To Cart)" type="hidden"
+                                                            <input value="@translate(Ke Keranjang)" type="hidden"
                                                                    id="textUrl" name="textUrl">
 
                                                         @endif
@@ -131,7 +131,7 @@
 
                                                     <div id="cartBtn">
                                                         <a href="{{route('course.filter')}}"
-                                                           class="theme-btn cart-btn btn-cart cart-text f-13 w-50">@translate(Get Your Course)</a>
+                                                           class="theme-btn cart-btn btn-cart cart-text f-13 w-50">@translate(Dapatkan Pelatihanmu)</a>
                                                     </div>
 
                                                 </div>
@@ -161,7 +161,7 @@
                                                 <div class="text-center p-3">
                                                     <ul class="text-center">
                                                         <li>
-                                                            <h3>@translate(Notifications)</h3>
+                                                            <h3>@translate(Notifikasi)</h3>
                                                         </li>
                                                     </ul>
                                                     <hr>
@@ -203,7 +203,7 @@
                                                             @endforelse
 
                                                                 <a href="{{ route('student.dashboard') }}"
-                                                                   class="cart-btn btn-cart cart-text notify-btn f-13 w-50 mt-3">@translate(See all notifications)</a>
+                                                                   class="cart-btn btn-cart cart-text notify-btn f-13 w-50 mt-3">@translate(Lihat semua notifikasi)</a>
 
 
                                                         </li>
@@ -231,7 +231,7 @@
                                                     <i class="fa fa-angle-right"></i> </a>
 
                                                 <div class="text-center">
-                                                    <h3>@translate(Your Wishlist)</h3>
+                                                    <h3>@translate(Pelatihan Yang Diminati)</h3>
                                                     <hr>
                                                 </div>
 
@@ -243,7 +243,7 @@
                                                     </ul>
                                                     <div id="cartBtn">
                                                         <a href="{{ route('my.wishlist') }}"
-                                                           class="theme-btn cart-btn cart-text w-75">@translate(Show All Wishlist)</a>
+                                                           class="theme-btn cart-btn cart-text w-75">@translate(Lihat Semua Pelatihan Diminati)</a>
                                                     </div>
 
                                                 </div>
@@ -304,13 +304,13 @@
                                                                 <li class="mb-0">
                                                                     <a href="{{ route('student.profile') }}"
                                                                        class="d-block">
-                                                                        <i class="la la-user"></i> @translate(My Profile)
+                                                                        <i class="la la-user"></i> @translate(Profil Saya)
                                                                     </a>
                                                                 </li>
 
                                                                 <li class="mb-0">
                                                                     <a href="{{route('my.courses')}}" class="d-block">
-                                                                        <i class="la la-file-video-o"></i> @translate(Pelatihan saya)
+                                                                        <i class="la la-file-video-o"></i> @translate(Pelatihan Saya)
                                                                     </a>
                                                                 </li>
 
@@ -318,7 +318,7 @@
                                                                     <a href="{{route('student.message')}}"
                                                                        class="d-block">
                                                                         <i class="la la-bell"></i>
-                                                                        @translate(Message)
+                                                                        @translate(Pesan)
                                                                     </a>
                                                                 </li>
 
@@ -327,7 +327,7 @@
                                                                     <a href="{{ route('student.purchase.history') }}"
                                                                        class="d-block">
                                                                         <i class="la la-cart-plus"></i>
-                                                                        @translate(Purchase history)
+                                                                        @translate(Riwayat Pelatihan)
                                                                     </a>
                                                                 </li>
                                                                 @if(affiliateStatus())
@@ -348,7 +348,7 @@
                                                                     <a href="{{ route('logout') }}" class="d-block"
                                                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                                         <i class="la la-power-off text-danger"></i>
-                                                                        @translate(Logout)
+                                                                        @translate(Keluar)
                                                                     </a>
 
                                                                     <form id="logout-form"
@@ -370,7 +370,7 @@
                                                                 <li class="mb-0">
                                                                     <a href="{{ route('dashboard') }}"
                                                                        class="d-block">
-                                                                        <i class="la la-dashboard"></i> @translate(Go To Dashboard)
+                                                                        <i class="la la-dashboard"></i> @translate(Ke Dashboard)
                                                                     </a>
                                                                 </li>
 
@@ -389,7 +389,7 @@
                                                                     <a href="{{ route('logout') }}" class="d-block"
                                                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                                         <i class="la la-power-off text-danger"></i>
-                                                                        @translate(Logout)
+                                                                        @translate(Keluar)
                                                                     </a>
 
                                                                     <form id="logout-form"
@@ -420,7 +420,7 @@
                                             <ul class="user-cart d-flex align-items-center ">
                                                 <li class="p-50p">
                                                     <a href="{{route('dashboard')}}"
-                                                       class="theme-btn text-white ">@translate(Go To Dashboard)</a>
+                                                       class="theme-btn text-white ">@translate(Ke Dashboard)</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -503,7 +503,7 @@
 
                                                                         <li class="mb-0">
                                                                             <a href="{{route('tickets.index')}}" class="d-block">
-                                                                                <i class="la la-ticket"></i> @translate(Support Ticket)
+                                                                                <i class="la la-ticket"></i> @translate(Tiket Bantuan)
                                                                             </a>
                                                                         </li>
 
@@ -520,7 +520,7 @@
                                                                     <a href="{{ route('logout') }}" class="d-block"
                                                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                                         <i class="la la-power-off text-danger"></i>
-                                                                        @translate(Logout)
+                                                                        @translate(Keluar)
                                                                     </a>
 
                                                                     <form id="logout-form"
@@ -578,7 +578,7 @@
                             <div class="logo-right-button">
                                 <ul id="custom_toggle_bar" class="d-flex">
                                     <!-- <li class="pr-2"><a href="{{route('instructor.register')}}"
-                                                        class="theme-btn instructor-btn">@translate(Instructor)</a></li> -->
+                                                        class="theme-btn instructor-btn">@translate(Dinas)</a></li> -->
                                     <li><a href="{{route('student.register')}}" class="theme-btn student-btn">@translate(Daftar Peserta)</a></li>
                                 </ul>
                                 <div class="side-menu-open">

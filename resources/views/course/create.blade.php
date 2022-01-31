@@ -1,6 +1,6 @@
 @extends('layouts.master')
-@section('title','Course Create')
-@section('parentPageTitle', 'Course')
+@section('title','Buat Pelatihan')
+@section('parentPageTitle', 'Pelatihan')
 @section('css-link')
 @include('layouts.include.form.form_css')
 @stop

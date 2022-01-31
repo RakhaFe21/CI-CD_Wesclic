@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title','Student')
+@section('title','Peserta Pelatihan')
 @section('parentPageTitle', 'All Student')
 @section('content')
 <div class="card mx-2 mb-3">

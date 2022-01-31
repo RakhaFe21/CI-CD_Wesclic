@@ -61,8 +61,8 @@
                                                     <i class="la la-mouse-pointer icon-element"></i>
                                                     <div class="our__text">
                                                         <h4 class="widget-title">{{number_format(\App\Model\Course::Published()->where('is_published',true)->count())}}
-                                                            @translate(pelatihan online)</h4>
-                                                        <p>@translate(Jelajahi berbagai topik terbaru)</p>
+                                                            @translate(Pelatihan)</h4>
+                                                        <p>@translate(Jelajahi Berbagai Topik Terbaru)</p>
                                                     </div><!-- our__text -->
                                                 </div><!-- our-post-item -->
                                             </div><!-- col-lg-4 -->
@@ -70,8 +70,8 @@
                                                 <div class="our-post-item">
                                                     <i class="la la-users icon-element"></i>
                                                     <div class="our__text">
-                                                        <h4 class="widget-title">@translate(Pengajar ahli)</h4>
-                                                        <p>@translate(emukan instruktur yang tepat untuk Anda)</p>
+                                                        <h4 class="widget-title">@translate(Dari Dinas Wonosobo)</h4>
+                                                        <p>@translate(Temukan pelatihan yang tepat untuk Anda)</p>
                                                     </div><!-- our__text -->
                                                 </div><!-- our-post-item -->
                                             </div><!-- col-lg-4 -->
@@ -79,7 +79,7 @@
                                                 <div class="our-post-item">
                                                     <i class="fa fa-history icon-element"></i>
                                                     <div class="our__text">
-                                                        <h4 class="widget-title">@translate(Akses seumur hidup)</h4>
+                                                        <h4 class="widget-title">@translate(Akses Pelatihan)</h4>
                                                         <p>@translate(Pelajari sesuai jadwal Anda)</p>
                                                     </div><!-- our__text -->
                                                 </div><!-- our-post-item -->
@@ -129,7 +129,7 @@
                                             @if(bestSellingTags($l_course->id))
                                                 <div class="card-badge">
                                                                     <span
-                                                                        class="badge-label">@translate(bestseller)</span>
+                                                                        class="badge-label">@translate(paling laris)</span>
                                                 </div>
                                             @endif
                                         </div><!-- end card-image -->
@@ -253,7 +253,7 @@
                                                 class="card-price-wrap d-flex justify-content-between align-items-center">
                                                 <!--if free-->
                                                 @if($l_course->is_free)
-                                                    <span class="card__price">@translate(Free)</span>
+                                                    <span class="card__price">@translate(Gratis)</span>
                                                 @else
                                                     @if($l_course->is_discount)
                                                         <span class="card__price">{{formatPrice($l_course->discount_price)}}</span>
@@ -295,14 +295,14 @@
                 <div class="card-item">
                     <div class="card-content">
                         <p class="card__author">
-                            @translate(By) <a>
+                            @translate(Oleh) <a>
                              </a>
                         </p>
                         <h3 class="card__title">
                             <a href="{{route('course.single',$l_c_tooltip->slug)}}">{{\Illuminate\Support\Str::limit($l_c_tooltip->title,58)}}</a>
                         </h3>
                         <p class="card__label">
-                            <span class="mr-1">@translate(in)</span><a
+                            <span class="mr-1">@translate(di)</span><a
                                 href="{{route('course.category',$l_c_tooltip->category->slug)}}"
                                 class="mr-1">{{$l_c_tooltip->category->name}}</a>
                         </p>
@@ -322,7 +322,7 @@
                         <div class="card-action">
                             <ul class="card-duration d-flex justify-content-between align-items-center">
                                 <li><span class="meta__date"><i
-                                            class="la la-play-circle"></i> {{$l_c_tooltip->classes->count()}} @translate(Classes)</span>
+                                            class="la la-play-circle"></i> {{$l_c_tooltip->classes->count()}} @translate(Kelas)</span>
                                 </li>
                                 <li><span class="meta__date">
                                                                     @php
@@ -339,7 +339,7 @@
                         <div class="btn-box w-100 text-center mb-3">
                             <a href="{{route('course.single',$l_c_tooltip->slug)}}"
                                class="theme-btn d-block">
-                                @translate(Lihat pelatihan ini)</a>
+                                @translate(Lihat Pelatihan Ini)</a>
                         </div>
                     </div><!-- end card-content -->
                 </div><!-- end card-item -->
@@ -379,8 +379,8 @@
                                 <div class="category-content">
                                     <div class="category-inner">
                                         <h3 class="cat__title"><a href="{{route('course.category',$item->slug)}}">{{$item->name}}</a></h3>
-                                        <p class="cat__meta">{{$item->courses->count()}} @translate(Course(s))</p>
-                                        <a href="{{route('course.category',$item->slug)}}" class="theme-btn">@translate(explore now)</a>
+                                        <p class="cat__meta">{{$item->courses->count()}} @translate(Pelatihan)</p>
+                                        <a href="{{route('course.category',$item->slug)}}" class="theme-btn">@translate(Jelajahi Sekarang)</a>
                                     </div>
                                 </div><!-- end category-content -->
                             </div><!-- end category-item -->
@@ -404,8 +404,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-heading text-center">
-                            <h5 class="section__meta">@translate(choose your desired courses)</h5>
-                            <h2 class="section__title">@translate(Browse Our Top Courses)</h2>
+                            <h5 class="section__meta">@translate(Pilih Pelatihanmu)</h5>
+                            <h2 class="section__title">@translate(Cari Pelatihan Dari Kami)</h2>
                             <span class="section-divider"></span>
                         </div><!-- end section-heading -->
                     </div><!-- end col-lg-12 -->
@@ -459,7 +459,7 @@
                                                                 @if(bestSellingTags($course->id))
                                                                     <div class="card-badge">
                                                                                 <span
-                                                                                    class="badge-label">@translate(bestseller)</span>
+                                                                                    class="badge-label">@translate(paling laris)</span>
                                                                     </div>
                                                                 @endif
                                                             </div><!-- end card-image -->
@@ -499,7 +499,7 @@
                                                                     <ul class="card-duration d-flex justify-content-between align-items-center">
                                                                         <li>
                                                                       <span class="meta__date">
-                                                                          <i class="la la-play-circle"></i> {{$course->classes->count()}} @translate(Classes)
+                                                                          <i class="la la-play-circle"></i> {{$course->classes->count()}} @translate(Kelas Pelatihan)
                                                                       </span>
                                                                         </li>
                                                                         <li>
@@ -520,7 +520,7 @@
                                                                     <!--if free-->
                                                                     @if($course->is_free)
                                                                         <span
-                                                                            class="card__price">@translate(Free)</span>
+                                                                            class="card__price">@translate(Gratis)</span>
                                                                     @else
                                                                         @if($course->is_discount)
                                                                             <span class="card__price">{{formatPrice($course->discount_price)}}</span>
@@ -561,14 +561,14 @@
                                                         <div class="card-item">
                                                             <div class="card-content">
                                                                 <p class="card__author">
-                                                                    By <a
+                                                                    @translate(Oleh) <a
                                                                         href="{{route('single.instructor',$c_tooltip->slug)}}">{{$c_tooltip->name}}</a>
                                                                 </p>
                                                                 <h3 class="card__title">
                                                                     <a href="{{route('course.single',$c_tooltip->slug)}}">{{\Illuminate\Support\Str::limit($c_tooltip->title,58)}}</a>
                                                                 </h3>
                                                                 <p class="card__label">
-                                                                    <span class="mr-1">@translate(in)</span><a
+                                                                    <span class="mr-1">@translate(di)</span><a
                                                                         href="{{route('course.category',$c_tooltip->category->slug)}}"
                                                                         class="mr-1">{{$c_tooltip->category->name}}</a>
                                                                 </p>
@@ -589,7 +589,7 @@
                                                                 <div class="card-action">
                                                                     <ul class="card-duration d-flex justify-content-between align-items-center">
                                                                         <li><span class="meta__date"><i
-                                                                                    class="la la-play-circle"></i> {{$c_tooltip->classes->count()}} @translate(Classes)</span>
+                                                                                    class="la la-play-circle"></i> {{$c_tooltip->classes->count()}} @translate(Kelas Pelatihan)</span>
                                                                         </li>
                                                                         <li><span class="meta__date">
                                                                                                                         @php
@@ -606,7 +606,7 @@
                                                                 <div class="btn-box w-100 text-center mb-3">
                                                                     <a href="{{route('course.single',$c_tooltip->slug)}}"
                                                                        class="theme-btn d-block">
-                                                                        @translate(Preview this course)</a>
+                                                                        @translate(Lihat Pelatihan Ini)</a>
                                                                 </div>
 
                                                             </div><!-- end card-content -->
@@ -621,7 +621,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="btn-box mt-4 text-center">
                                                         <a href="{{route('course.category',$c_tooltip->first()->category->slug)}}"
-                                                           class="theme-btn"> @translate(browse all Courses)</a>
+                                                           class="theme-btn"> @translate(Cari Semua Pelatihan)</a>
                                                     </div><!-- end btn-box -->
                                                 </div><!-- end col-lg-12 -->
                                             </div>
@@ -630,7 +630,7 @@
                                                 <div class="col-lg-12">
                                                     <div class="btn-box mt-4 text-center">
                                                         <a href="{{route('course.filter')}}" class="theme-btn">
-                                                            @translate(browse all Courses)</a>
+                                                            @translate(Cari Semua Pelatihan)</a>
                                                     </div><!-- end btn-box -->
                                                 </div><!-- end col-lg-12 -->
                                             </div>
@@ -661,7 +661,7 @@
                     <div class="col-lg-12">
                         <div class="section-heading text-center">
                             <h5 class="section__meta">@translate(Pelajari Sesuai Jadwal Anda)</h5>
-                            <h2 class="section__title">@translate(Pelatihan yang sedang tren)</h2>
+                            <h2 class="section__title">@translate(Pelatihan Paling Diminati)</h2>
                             <span class="section-divider"></span>
                         </div><!-- end section-heading -->
                     </div><!-- end col-lg-12 -->
@@ -681,7 +681,7 @@
                                             @if(bestSellingTags($t_courses->id))
                                                 <div class="card-badge">
                                                                         <span
-                                                                            class="badge-label">@translate(bestseller)</span>
+                                                                            class="badge-label">@translate(paling laris)</span>
                                                 </div>
                                             @endif
                                         </div><!-- end card-image -->
@@ -719,7 +719,7 @@
                                                 <ul class="card-duration d-flex justify-content-between align-items-center">
                                                     <li>
                                                               <span class="meta__date">
-                                                                  <i class="la la-play-circle"></i> {{$t_courses->classes->count()}} @translate(Classes)
+                                                                  <i class="la la-play-circle"></i> {{$t_courses->classes->count()}} @translate(Kelas Pelatihan)
                                                               </span>
                                                     </li>
                                                     <li>
@@ -740,7 +740,7 @@
                                                 class="card-price-wrap d-flex justify-content-between align-items-center">
                                                 <!--if free-->
                                                 @if($t_courses->is_free)
-                                                    <span class="card__price">@translate(Free)</span>
+                                                    <span class="card__price">@translate(Gratis)</span>
                                                 @else
                                                     @if($t_courses->is_discount)
                                                         <span class="card__price">{{formatPrice($t_courses->discount_price)}}</span>
@@ -782,14 +782,14 @@
                 <div class="card-item">
                     <div class="card-content">
                         <p class="card__author">
-                            @translate(By) <a
+                            @translate(Oleh) <a
                                 href="{{route('single.instructor',$t_tooltip->slug)}}">{{$t_tooltip->name}}</a>
                         </p>
                         <h3 class="card__title">
                             <a href="{{route('course.single',$t_tooltip->slug)}}">{{\Illuminate\Support\Str::limit($t_tooltip->title,58)}}</a>
                         </h3>
                         <p class="card__label">
-                            <span class="mr-1">@translate(in)</span><a
+                            <span class="mr-1">@translate(Di)</span><a
                                 href="{{route('course.category',$t_tooltip->category->slug)}}"
                                 class="mr-1">{{$t_tooltip->category->name}}</a>
                         </p>
@@ -808,7 +808,7 @@
                         <div class="card-action">
                             <ul class="card-duration d-flex justify-content-between align-items-center">
                                 <li><span class="meta__date"><i
-                                            class="la la-play-circle"></i> {{$t_tooltip->classes->count()}} @translate(Classes)</span>
+                                            class="la la-play-circle"></i> {{$t_tooltip->classes->count()}} @translate(Kelas Pelatihan)</span>
                                 </li>
                                 <li><span class="meta__date">
                                                                     @php
@@ -825,7 +825,7 @@
                         <div class="btn-box w-100 text-center mb-3">
                             <a href="{{route('course.single',$t_tooltip->slug)}}"
                                class="theme-btn d-block">
-                                @translate(Preview this course)</a>
+                                @translate(Lihat Kursus Ini)</a>
                         </div>
                     </div><!-- end card-content -->
                 </div><!-- end card-item -->
@@ -846,21 +846,21 @@
                     <div class="counter-item">
                         <span class="la la-bullhorn count__icon"></span>
                         <h4 class="count__title text-color-2 count-up" data-from="0" data-to="{{\App\User::where('user_type','Instructor')->get()->count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(penyelenggara)</p>
+                        <p class="count__meta">@translate(Dinas)</p>
                     </div><!-- end counter-item -->
                 </div><!-- end col-lg-3 -->
                 <div class="col-lg-3 column-td-half">
                     <div class="counter-item">
                         <span class="la la-globe count__icon"></span>
                         <h4 class="count__title  count__title text-color-2 count-up1" data-from="0" data-to="{{\App\User::where('user_type','Student')->get()->count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(peserta)</p>
+                        <p class="count__meta">@translate(Peserta)</p>
                     </div><!-- end counter-item -->
                 </div><!-- end col-lg-3 -->
                 <div class="col-lg-3 column-td-half">
                     <div class="counter-item">
                         <span class="la la-users count__icon"></span>
                         <h4 class="count__title  count__title text-color-2 count-up2" data-from="0" data-to="{{\App\Model\Enrollment::count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(jumlah terdaftar)</p>
+                        <p class="count__meta">@translate(Jumlah Terdaftar)</p>
                     </div><!-- end counter-item -->
                 </div><!-- end col-lg-3 -->
                 <div class="col-lg-3 column-td-half">

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title','dashboard')
+@section('title','Dashboard')
 @section('parentPageTitle', 'index')
 @section('content')
 <!-- Start row -->

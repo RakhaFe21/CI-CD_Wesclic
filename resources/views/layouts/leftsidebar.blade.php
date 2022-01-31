@@ -229,7 +229,7 @@
                                     <i class="fa fa-comments-o"></i> <span>@translate(Komentar)</span>
                                 </a>
                             </li>
-                            {{-- Payment request area --}}
+                            {{-- Payment request area 
                             <li><a href="{{route('payments.index')}}"
                                     class="{{request()->is('dashboard/payment*') ?'active':null}}">
                                     <i class="fa fa-money"></i> <span>@translate(Request Payment)</span>
@@ -241,13 +241,13 @@
                                 </a>
                             </li>
 
-                            {{-- Instructor Earning area --}}
+                            Instructor Earning area 
                             <li><a href="{{route('instructor.earning')}}"
                                     class="{{request()->is('dashboard/instructor*') ?'active':null}}">
                                     <i class="fa fa-history"></i> <span>@translate(Earning History)</span>
                                 </a>
                             </li>
-
+                            --}}
                             @endif
 
 
@@ -327,7 +327,7 @@
                             </li>
 
 
-                            {{-- Settings Area --}}
+                            {{-- Settings Area 
                             <li class="{{request()->is('dashboard/smtp*')
                                    || request()->is('dashboard/language*')
                                    || request()->is('dashboard/slider*')
@@ -382,7 +382,7 @@
 
 
                                     @else
-                                    {{-- Instructor Earning area --}}
+                                    -- Instructor Earning area 
                                     <li><a href="{{route('account.create')}}"
                                             class="{{request()->is('dashboard/account*') ?'active':null}}">@translate(Payment
                                             Account Setup)
@@ -391,7 +391,7 @@
                                     @endif
                                 </ul>
                             </li>
-
+                            --}}
                             @if(env('FORUM_PANEL') == "YES")
                             {{-- Forum manager --}}
                             @if(Auth::user()->user_type === "Admin" || Auth::user()->user_type === "Instructor")

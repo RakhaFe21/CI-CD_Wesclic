@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title','Course')
+@section('title','Pelatihan')
 @section('parentPageTitle', 'Update Course')
 
 @section('css-link')

@@ -1,0 +1,174 @@
+[33mcommit 629804ffd899f82b249b7601343ad3bc46892066[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Mon Jan 31 23:42:29 2022 +0700
+
+    Fixing bug dan perbaikan bahasa, perbaikan fitur tambah dinas dari sisi admin
+
+[33mcommit 4114beb4231152753883ccdedca48e23402e0c29[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Mon Jan 31 22:52:44 2022 +0700
+
+    Update Bahasa Indo v3
+
+[33mcommit f1913c138c59501bc90ca93343467c53f0e266a7[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Mon Jan 31 22:03:33 2022 +0700
+
+    Fixing Bug Bahasa V2, Terjemahan, Hide Card dan Menu Dashboard
+
+[33mcommit 4df1eeb89e64f8af103457f13e549f0c1cc7770b[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Sun Jan 30 00:06:06 2022 +0700
+
+    Fixing Bug Bahasa
+
+[33mcommit e95bd30ec0b2e289307febb936e91d00cd96e5e0[m
+Author: zofariansyah <87267340+zofariansyah@users.noreply.github.com>
+Date:   Sat Jan 29 22:47:42 2022 +0700
+
+    delete git ignore
+
+[33mcommit 3933c7593e0e2305c5da2f69e6753c3344abe523[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Sat Jan 29 00:15:29 2022 +0700
+
+    Menerjemahkan ke bahasa Indonesia
+
+[33mcommit f4b1acc5f88a788c246ac442d49196056a5fa2a9[m
+Merge: 65ed71a6 5b56c0a9
+Author: zofariansyah <87267340+zofariansyah@users.noreply.github.com>
+Date:   Sat Jan 15 20:48:14 2022 +0700
+
+    Merge pull request #4 from Wesclic/development
+    
+    Development
+
+[33mcommit 5b56c0a9bc42587df0e8c36302321ac037338fb1[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Tue Jan 11 21:52:05 2022 +0700
+
+    hapus beberapa fitur di admin and ser
+
+[33mcommit 3d2ba53d92a1efac34aadd1fb077e983965db6ea[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Tue Jan 11 20:14:38 2022 +0700
+
+    update add pelatihan dan persyaratan dokemen
+
+[33mcommit 532507bfe1e4ebc92112371b5c225e9e9f835b68[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Mon Jan 10 23:25:12 2022 +0700
+
+    add model logbook and hapus alur checkout di add pelatihan
+
+[33mcommit a9a99edf7dfaa1e5a2454e3f53f46bcd494abf79[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Tue Jan 4 17:00:07 2022 +0700
+
+    update script ganti password siswa oleh admin and update db
+
+[33mcommit 9104fac4a8b988ff0eedfc7df12b4fc761a619f5[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Tue Jan 4 10:37:50 2022 +0700
+
+    update script minggu ketiga
+
+[33mcommit d45e88672d0804e04b4fe7a50c132c0c04b7f05e[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Fri Dec 31 09:39:51 2021 +0700
+
+    update beberap tampilan di depan adn logic pelatihan
+
+[33mcommit 65ed71a6b82e26339069e575a4c347ead4465966[m
+Merge: 2df60a83 7ec25f6e
+Author: zofariansyah <87267340+zofariansyah@users.noreply.github.com>
+Date:   Thu Dec 23 13:11:37 2021 +0700
+
+    Merge pull request #3 from Wesclic/development
+    
+    Development
+
+[33mcommit 7ec25f6e77902bcc548500582dd0ee3f1f9f1b9e[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Thu Dec 23 11:20:42 2021 +0700
+
+    update di beberapa menu
+
+[33mcommit 69bc90e7f3dec3ad5a899543b6cf1be3a7dfcab5[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Thu Dec 23 10:20:37 2021 +0700
+
+    update di menu siswa
+
+[33mcommit 755298488dfe66e74b7b4756bdd7d2906d31c33f[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Thu Dec 23 10:10:36 2021 +0700
+
+    update di menu admin
+
+[33mcommit 2df60a832a9d9af1be8c304e91c8c9b167b6262d[m
+Merge: 645fdfbf 3cfa326d
+Author: zofariansyah <87267340+zofariansyah@users.noreply.github.com>
+Date:   Wed Dec 22 23:42:56 2021 +0700
+
+    Merge pull request #2 from Wesclic/development
+    
+    update beberapa card
+
+[33mcommit 3cfa326d48a1ced3b532ea32a4e1f00c64a89fc3[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Wed Dec 22 17:34:39 2021 +0700
+
+    update beberapa card
+
+[33mcommit 645fdfbf27cf0d6f9ad1e57ed8d17b81d081de59[m
+Merge: 97168714 173b78c5
+Author: zofariansyah <87267340+zofariansyah@users.noreply.github.com>
+Date:   Wed Dec 22 01:43:44 2021 +0700
+
+    Merge pull request #1 from Wesclic/development
+    
+    branch development
+
+[33mcommit 173b78c581dab90ee5608822d64a3f081b530f09[m
+Author: isam@ddtc.co.id <isam@ddtc.co.id>
+Date:   Thu Dec 16 22:39:32 2021 +0700
+
+    branch development
+
+[33mcommit 97168714bf23cd56cbdf16c85e14c2b0781c8fad[m
+Merge: 65751f93 c41304d1
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Sun Dec 12 20:47:54 2021 +0700
+
+    Merge branch 'master' of https://github.com/Wesclic/BLKWonosobo
+
+[33mcommit 65751f936dc6ea30ea107ae3a183eb2c222d7f52[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Sun Dec 12 20:45:31 2021 +0700
+
+    Delete install on first viewing
+
+[33mcommit c41304d1aa10504aaade00abb700f131385a882d[m
+Author: zofariansyah <87267340+zofariansyah@users.noreply.github.com>
+Date:   Tue Dec 7 12:25:25 2021 +0700
+
+    Add readme
+
+[33mcommit b7090d161c8921357caca10e9c2b824f070716d9[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Tue Dec 7 01:14:28 2021 +0700
+
+    add index.php, ubah route tidak install
+
+[33mcommit ed02465d92de6716d4d7035bc9dbe052cd3e8a5d[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Tue Dec 7 00:07:15 2021 +0700
+
+    Push update
+
+[33mcommit 24bfa309a1a2d3c5444908efb6e3bac557cc295b[m
+Author: Zofariansyah <candraczr@students.amikom.ac.id>
+Date:   Mon Dec 6 22:22:22 2021 +0700
+
+    Push pertama

@@ -129,7 +129,7 @@ class CourseController extends Controller
             array_push($tagC,$itemt);
         }
         $courses->tag = json_encode($tagC);
-        $courses->is_free = 1;
+        $courses->is_free = $request->is_free == "on" ? true : false;
 
         if ($courses->is_free) {
             $courses->tanggaltulis = $request->tanggaltulis;
@@ -157,6 +157,7 @@ class CourseController extends Controller
         $courses->category_id = $request->category_id;
         $courses->is_published = $request->is_published == "on" ? true : false;
         $courses->user_id = Auth::user()->id;
+       
         $courses->save();
 
         $couerses        = DB::table('courses')->select('id')->orderby('id', 'DESC')->get();
@@ -175,7 +176,6 @@ class CourseController extends Controller
         ];
 
         /* sending instructor notification */
-        $notify = $this->userNotify(Auth::user()->id,$details);
 
         notify()->success(translate($request->title . ' created successfully'));
         return redirect()->route('course.show',[$courses->id,$courses->slug]);

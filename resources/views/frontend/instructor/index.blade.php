@@ -175,63 +175,63 @@
                                     <a
                                         href="{{route('course.single',$i_course->slug)}}">{{\Illuminate\Support\Str::limit($i_course->title,58)}}</a>
 
-                                </h3>
-                                <p class="card__author">
-                                    <a href="{{route('single.instructor',$i_course->slug)}}">{{$i_course->name}}</a>
-                                </p>
-                                <div class="rating-wrap d-flex mt-2 mb-3">
-                                    <span class="star-rating-wrap">
-                                        @translate(Terdaftar) <span
-                                            class="star__count">{{\App\Model\Enrollment::where('course_id',$i_course->id)->count()}}</span>
-                                    </span>
-                                </div><!-- end rating-wrap -->
-                                <div class="card-action">
-                                    <ul class="card-duration d-flex justify-content-between align-items-center">
-                                        <li>
-                                            <span class="meta__date">
-                                                <i class="la la-play-circle"></i> {{$i_course->classes->count()}}
-                                                @translate(Kelas Pelatihan)
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="meta__date">
-                                                @php
-                                                $total_duration = 0;
-                                                foreach ($i_course->classes as $item){
-                                                $total_duration +=$item->contents->sum('duration');
-                                                }
-                                                @endphp
-                                                <i class="la la-clock-o"></i>{{duration($total_duration)}}
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div><!-- end card-action -->
-                                <div class="card-price-wrap d-flex justify-content-between align-items-center">
-                                    <!--if free-->
-                                    @if($i_course->is_free)
-                                    <span class="card__price">@translate(Gratis)</span>
-                                    @else
-                                    @if($i_course->is_discount)
-                                    <span class="card__price">{{formatPrice($i_course->discount_price)}}</span>
-                                    <span class="card__price"><del>{{formatPrice($i_course->price)}}</del></span>
-                                    @else
-                                    <span class="card__price">{{formatPrice($i_course->price)}}</span>
-                                    @endif
-                                    @endif
-                                    <!--there are the login-->
-                                    @auth()
-                                    @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
-                                    <a href="#!" class="text-btn addToCart-{{$i_course->id}}"
-                                        onclick="addToCart({{$i_course->id}},'{{route('add.to.cart')}}')">@translate(Ikuti
-                                        Pelatihan)</a>
-                                    @else
-                                    <a href="{{route('login')}}" class="text-btn">@translate(Ikuti Pelatihan)</a>
-                                    @endif
-                                    @endauth
+                                        </h3>
+                                        <p class="card__author">
+                                            <a href="{{route('single.instructor',$i_course->slug)}}">{{$i_course->name}}</a>
+                                        </p>
+                                        <div class="rating-wrap d-flex mt-2 mb-3">
+                                                    <span class="star-rating-wrap">
+                                                     @translate(Enrolled) <span
+                                                            class="star__count">{{\App\Model\Enrollment::where('course_id',$i_course->id)->count()}}</span>
+                                                  </span>
+                                        </div><!-- end rating-wrap -->
+                                        <div class="card-action">
+                                            <ul class="card-duration d-flex justify-content-between align-items-center">
+                                                <li>
+                                                          <span class="meta__date">
+                                                              <i class="la la-play-circle"></i> {{$i_course->classes->count()}} @translate(Classes)
+                                                          </span>
+                                                </li>
+                                                <li>
+                                                          <span class="meta__date">
+                                                              @php
+                                                                  $total_duration = 0;
+                                                                  foreach ($i_course->classes as $item){
+                                                                      $total_duration +=$item->contents->sum('duration');
+                                                                  }
+                                                              @endphp
+                                                              <i class="la la-clock-o"></i>{{duration($total_duration)}}
+                                                          </span>
+                                                </li>
+                                            </ul>
+                                        </div><!-- end card-action -->
+                                        <div
+                                            class="card-price-wrap d-flex justify-content-between align-items-center">
+                                            <!--if free-->
+                                            @if($i_course->is_free)
+                                                <span class="card__price">@translate(Free)</span>
+                                            @else
+                                                @if($i_course->is_discount)
+                                                    <span class="card__price">{{formatPrice($i_course->discount_price)}}</span>
+                                                    <span class="card__price"><del>{{formatPrice($i_course->price)}}</del></span>
+                                                @else
+                                                    <span
+                                                        class="card__price">{{formatPrice($i_course->price)}}</span>
+                                                @endif
+                                            @endif
+                                        <!--there are the login-->
+                                            @auth()
+                                                @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
+                                                    <a href="#!" class="text-btn addToCart-{{$i_course->id}}"
+                                                       onclick="addToCart({{$i_course->id}},'{{route('add.to.cart')}}')">@translate(Daftar)</a>
+                                                @else
+                                                    <a href="{{route('login')}}" class="text-btn">@translate(Daftar)</a>
+                                                @endif
+                                            @endauth
 
-                                    @guest()
-                                    <a href="{{route('login')}}" class="text-btn">@translate(Ikuti Pelatihan)</a>
-                                    @endguest
+                                            @guest()
+                                                <a href="{{route('login')}}" class="text-btn">@translate(Daftar)</a>
+                                            @endguest
 
 
                                 </div><!-- end card-price-wrap -->

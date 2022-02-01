@@ -238,25 +238,115 @@
                         </div>
                     </div>
 
-                    {{-- sidebar END --}}
-                    <div class="col-lg-8">
+                        {{-- sidebar END --}}
+                        <div class="col-lg-8">
 
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade active show">
-                                <div class="row">
-                                    @forelse($courses as $course)
-                                    <div class="col-lg-6">
-                                        <div class="column-td-half">
-                                            <div class="card-item card-preview"
-                                                data-tooltip-content="#tooltip_content_{{$course->id}}">
-                                                <div class="card-image">
-                                                    <a href="{{route('course.single',$course->slug)}}"
-                                                        class="card__img"><img
-                                                            data-original="{{ filePath($course->image) }}"
-                                                            alt="{{$course->title}}"></a>
-                                                    @if(bestSellingTags($course->id))
-                                                    <div class="card-badge">
-                                                        <span class="badge-label">@translate(paling laku)</span>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active show">
+                                    <div class="row">
+                                        @forelse($courses as $course)
+                                            <div class="col-lg-6">
+                                                <div class="column-td-half">
+                                                    <div class="card-item card-preview"
+                                                         data-tooltip-content="#tooltip_content_{{$course->id}}">
+                                                        <div class="card-image">
+                                                            <a href="{{route('course.single',$course->slug)}}"
+                                                               class="card__img"><img
+                                                                    data-original="{{ filePath($course->image) }}"
+                                                                    alt="{{$course->title}}"></a>
+                                                            @if(bestSellingTags($course->id))
+                                                                <div class="card-badge">
+                                                                    <span
+                                                                        class="badge-label">@translate(bestseller)</span>
+                                                                </div>
+                                                            @endif
+                                                        </div><!-- end card-image -->
+                                                        <div class="card-content">
+                                                            <p class="card__label">
+                                                                <span class="card__label-text">{{$course->level}}</span>
+                                                                @auth()
+                                                                    <a href="#!"
+                                                                       onclick="addToCart({{$course->id}},'{{route('add.to.wishlist')}}')"
+                                                                       class="card__collection-icon love-{{$course->id}}"><span
+
+                                                                            class="la la-heart-o  love-span-{{$course->id}} "></span></a>
+                                                                @endauth
+
+                                                                @guest()
+                                                                    <a href="{{route('login')}}"
+                                                                       class="card__collection-icon"
+                                                                       data-toggle="tooltip" data-placement="top"
+                                                                       title="Add to Wishlist"><span
+                                                                            class="la la-heart-o"></span></a>
+                                                                @endguest
+                                                            </p>
+                                                            <h3 class="card__title">
+                                                                <a href="{{route('course.single',$course->slug)}}"
+                                                                   title="{{$course->title}}">{{ Str::limit($course->title,58) }}</a>
+                                                            </h3>
+                                                            <p class="card__author">
+                                                                <a href="{{route('single.instructor',$course->slug)}}">{{$course->name}}</a>
+                                                            </p>
+                                                            <div class="rating-wrap d-flex mt-2 mb-3">
+                                                    <span class="star-rating-wrap">
+                                                     @translate(Enrolled) <span
+                                                            class="star__count">{{\App\Model\Enrollment::where('course_id',$course->id)->count()}}</span>
+                                                  </span>
+                                                            </div><!-- end rating-wrap -->
+                                                            <div class="card-action">
+                                                                <ul class="card-duration d-flex justify-content-between align-items-center">
+                                                                    <li>
+                                                          <span class="meta__date">
+                                                              <i class="la la-play-circle"></i> {{$course->classes->count()}} @translate(Classes)
+                                                          </span>
+                                                                    </li>
+                                                                    <li>
+                                                          <span class="meta__date">
+                                                              @php
+                                                                  $total_duration = 0;
+                                                                  foreach ($course->classes as $item){
+                                                                      $total_duration +=$item->contents->sum('duration');
+                                                                  }
+                                                              @endphp
+                                                              <i class="la la-clock-o"></i>{{duration($total_duration)}}
+
+                                                          </span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div><!-- end card-action -->
+                                                            <div
+                                                                class="card-price-wrap d-flex justify-content-between align-items-center">
+                                                                <!--if free-->
+                                                                @if($course->is_free)
+                                                                    <span class="card__price">@translate(Free)</span>
+                                                                @else
+                                                                    @if($course->is_discount)
+                                                                        <span class="card__price">{{formatPrice($course->discount_price)}}</span>
+                                                                        <span class="card__price"><del>{{formatPrice($course->price)}}</del></span>
+
+                                                                    @else
+                                                                        <span
+                                                                            class="card__price">{{formatPrice($course->price)}}</span>
+                                                                    @endif
+                                                                @endif
+                                                            <!--there are the login-->
+                                                                @auth()
+                                                                    @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
+                                                                        <a href="#!"
+                                                                           class="text-btn addToCart-{{$course->id}}"
+                                                                           onclick="addToCart({{$course->id}},'{{route('add.to.cart')}}')">@translate(Daftar)</a>
+                                                                    @else
+                                                                        <a href="{{route('login')}}" class="text-btn">@translate(Daftar)</a>
+                                                                    @endif
+                                                                @endauth
+
+                                                                @guest()
+                                                                    <a href="{{route('login')}}" class="text-btn">@translate(Daftar)</a>
+                                                                @endguest
+
+
+                                                            </div><!-- end card-price-wrap -->
+                                                        </div><!-- end card-content -->
                                                     </div>
                                                     @endif
                                                 </div><!-- end card-image -->

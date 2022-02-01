@@ -137,13 +137,13 @@ class MediaManagerController extends Controller
 
                 $storeDirectory = 'public/uploads/media_manager/';
                 $DBstoreDirectory = '/uploads/media_manager/';
-// dd(! \File::isDirectory($storeDirectory));
-                if (! \File::isDirectory($storeDirectory)) {
-                    $dir = \File::makeDirectory($storeDirectory, true);
-                    $img = Image::make($photo_upload)->save(base_path($dir.$photo_name),100);
-                }else{
-                    $img = Image::make($photo_upload)->save(base_path($storeDirectory.$photo_name),100);
-                }
+                dd("halo");
+                // if (! \File::isDirectory($storeDirectory)) {
+                //     $dir = \File::makeDirectory($storeDirectory, true);
+                //     $img = Image::make($photo_upload)->save(base_path($dir.$photo_name),100);
+                // }else{
+                //     $img = Image::make($photo_upload)->save(base_path($storeDirectory.$photo_name),100);
+                // }
 
                 $size = $img->filesize();
                 $height = Image::make($photo_upload)->height();

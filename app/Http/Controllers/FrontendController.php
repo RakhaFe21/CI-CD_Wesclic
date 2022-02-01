@@ -715,7 +715,7 @@ class FrontendController extends Controller
             $carts->link = route('course.single', $cart->course->slug);
             $cartList->push($carts);
         }
-        $message = translate('Go to Checkout');
+        $message = translate('Waiting Tes Tulis');
         $link = route('shopping.cart');
 
         return response(['data' => $cartList, 'message' => $message, 'link' => $link], 200);
@@ -759,7 +759,8 @@ class FrontendController extends Controller
         if ($wishlist != null) {
             $wishlist->delete();
         }
-        return redirect()->route('free.payment');
+        return $cart;
+        // return redirect()->route('free.payment');
     }
 
     /*add to cart remove*/

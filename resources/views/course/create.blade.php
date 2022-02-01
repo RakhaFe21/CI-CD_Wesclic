@@ -52,7 +52,7 @@
             </div>
 
             {{-- Course Thumbnail --}}
-            <div class="form-group row">
+            <!-- <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="val-img">
                     @translate(Course Thumbnail) <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
@@ -68,7 +68,7 @@
                       <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')" class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>
                       @endif
                 </div>
-            </div>
+            </div> -->
 
             {{-- Category --}}
             <div class="form-group row">

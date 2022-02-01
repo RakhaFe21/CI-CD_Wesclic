@@ -85,7 +85,7 @@ class CourseController extends Controller
       }
         $request->validate([
             'title' => 'required|unique:courses',
-            'image' => 'required',
+            // 'image' => 'required',
             'category_id' => 'required',
             'level' => 'required',
         ], [
@@ -93,18 +93,19 @@ class CourseController extends Controller
             'level.required' => translate('Course Level is required'),
             'title.unique' => translate('Course title must be unique'),
             'category_id.required' => translate('You must choose a category'),
-            'image.required' => translate('Course thumbnail is required'),
+            // 'image.required' => translate('Course thumbnail is required'),
         ]);
-
+        
         $courses = new Course();
         $courses->title = $request->title;
         $courses->slug = Str::slug($request->title);
         $courses->short_description = $request->short_description;
         $courses->big_description = $request->big_description;
         $courses->tahapan_pelatihan = $request->tahapan_pelatihan;
-        if ($request->has('image')) {
-            $courses->image = $request->image;
-        }
+        // if ($request->has('image')) {
+            // $courses->image = $request->image;
+            $courses->image ='uploads/course/default.jpeg';
+        // }
         $courses->overview_url = $request->overview_url;
         $courses->provider = $request->provider;
         $courses->level = $request->level;
@@ -157,7 +158,6 @@ class CourseController extends Controller
         $courses->category_id = $request->category_id;
         $courses->is_published = $request->is_published == "on" ? true : false;
         $courses->user_id = Auth::user()->id;
-       
         $courses->save();
 
         $couerses        = DB::table('courses')->select('id')->orderby('id', 'DESC')->get();
@@ -178,7 +178,7 @@ class CourseController extends Controller
         /* sending instructor notification */
 
         notify()->success(translate($request->title . ' created successfully'));
-        return redirect()->route('course.show',[$courses->id,$courses->slug]);
+        return redirect('dashboard/home');
 
     }
 

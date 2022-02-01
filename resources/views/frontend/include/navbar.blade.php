@@ -330,7 +330,7 @@
                                                                         @translate(Riwayat Pelatihan)
                                                                     </a>
                                                                 </li>
-                                                                @if(affiliateStatus())
+                                                                {{-- @if(affiliateStatus())
                                                                 <li class="mb-0">
                                                                     <a href="{{ route('affiliate.area') }}"
                                                                        class="d-block">
@@ -338,7 +338,7 @@
                                                                         @translate(Affiliate Area)
                                                                     </a>
                                                                 </li>
-                                                                 @endif
+                                                                 @endif --}}
 
                                                                 <li class="mb-0">
                                                                     <div class="section-block mt-2 mb-2"></div>
@@ -477,7 +477,7 @@
 
                                                                 @if (Auth::user()->user_type === 'Admin')
 
-                                                                    @if(env('ADDONS_MANAGER') == "YES")
+                                                                    {{-- @if(env('ADDONS_MANAGER') == "YES")
 
                                                                         <li class="mb-0">
                                                                             <a href="{{ route('addons.manager.index') }}"
@@ -498,7 +498,7 @@
                                                                             <a href="{{route('affiliate.setting.create')}}" class="d-block">
                                                                                 <i class="la la-chain"></i> @translate(Affiliate Area)
                                                                             </a>
-                                                                        </li>
+                                                                        </li> --}}
 
 
                                                                         <li class="mb-0">

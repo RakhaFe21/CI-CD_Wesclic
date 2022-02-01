@@ -79,7 +79,7 @@
 
                             <!-- @if($s_course->is_free)
                                 {{-- free price --}} -->
-                                <span class="price-current">@translate(Free)</span>
+                                <!-- <span class="price-current">@translate(Free)</span> -->
                             <!-- @else
                                 @if($s_course->is_discount)
                                     {{-- discounted price --}}
@@ -733,7 +733,7 @@
 
                                                     <!-- @if($s_course->is_free) -->
                                                         {{-- free price --}}
-                                                        <span class="price-current">@translate(Free)</span>
+                                                        <!-- <span class="price-current">@translate(Free)</span> -->
                                                     <!-- @else
                                                         @if($s_course->is_discount)
                                                             {{-- discounted price --}}
@@ -772,7 +772,7 @@
                                                 @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                                                     <a href="#!"
                                                        class="theme-btn w-100 mb-3 addToCart-{{$s_course->id}}"
-                                                       onclick="addToCart({{$s_course->id}},'{{route('add.to.cart')}}')">@translate(Daftarrr)</a>
+                                                       onclick="addToCart({{$s_course->id}},'{{route('add.to.cart')}}')">@translate(Daftar)</a>
                                                 @else
                                                     <a href="{{route('login')}}" class="theme-btn w-100 mb-3">@translate(Daftar)</a>
                                                 @endif

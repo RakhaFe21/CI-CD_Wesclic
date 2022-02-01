@@ -14,8 +14,8 @@
                             <tr>
                                 <td class="cart__title">@translate(Image)</td>
                                 <td class="cart__title">@translate(Product details)</td>
-                                <td class="cart__title">@translate(Prices)</td>
-                                <td class="cart__title">@translate(Remove)</td>
+                                <td class="cart__title">@translate(Proses)</td>
+                                <td class="cart__title">@translate(Status)</td>
                             </tr>
                             </thead>
                             <tbody class="cart-body">
@@ -40,7 +40,7 @@
                                     <td>
                                         <!--if free-->
                                         @if($item->course->is_free)
-                                            <span class="card__price">@translate(Free)</span>
+                                            <span class="card__price">Tes Tulis</span>
                                         @else
                                             @if($item->course->is_discount)
                                                 <span
@@ -56,8 +56,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a type="button" href="{{route('cart.remove',$item->id)}}"
-                                           class="button-remove"><i class="fa fa-close"></i></a>
+                                        <a class="theme-btn theme-btn-light" disable>Pending</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -156,11 +155,11 @@
 
                     </div>
                     @endif
-                    <div class="col-lg-6 ml-auto">
+                    <!-- <div class="col-lg-6 ml-auto">
                         <div class="shopping-cart-detail-item">
                             <h3 class="widget-title font-size-20">@translate(Cart Totals)</h3>
-                            <div class="shopping-cart-content pt-2">
-                                <ul class="list-items">
+                            <div class="shopping-cart-content pt-2"> -->
+                                <!-- <ul class="list-items">
                                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                                         <span class="primary-color">@translate(Total):</span>
 
@@ -355,21 +354,21 @@
 
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div><!-- end card -->
+                                                        </div> -->
+                                                    <!-- </div>end card -->
                                                 {{-- Stripe::END --}}
 
 
                                                 <!-- end card -->
                                                 {{-- Paypal button --}}
 
-                                                    <div class="card">
-                                                        <div id="paypal-button"></div>
-                                                    </div><!-- end card -->
+                                                    <!-- <div class="card">
+                                                        <div id="paypal-button"></div> -->
+                                                    <!-- </div>end card -->
                                                 {{-- Paypal button:END --}}
 
                                             {{-- PAYTM PAYMENT --}}
-
+<!-- 
 											@if(env('PAYTM_MERCHANT_ID') != "" &&  env('PAYTM_MERCHANT_KEY') != "" &&  env('PAYTM_ACTIVE') != "NO" && paytmRouteForBlade())
                                                 {{--PAYTM--}}
 
@@ -411,15 +410,15 @@
                                                         @else
                                                             <input type="hidden" value="{{PaypalPrice($total_price)}}" name="amount" id="amount">
                                                         @endif
-                                                    </form>
-                                                </div><!-- end accordion -->
-                                            </div>
-                                        </div><!-- end payment-method-wrap -->
-                                    </div><!-- end card-box-shared-body -->
+                                                    </form> -->
+                                                <!-- </div>end accordion -->
+                                            <!-- </div> -->
+                                        <!-- </div>end payment-method-wrap -->
+                                    <!-- </div>end card-box-shared-body -->
 
 
 
-                                    <div class="m-5">
+                                    <!-- <div class="m-5">
 
 											<h5>We accept -</h5>
 
@@ -442,11 +441,11 @@
                                 {{-- checkout::END --}}
 
 
-                                {{-- stripe --}}
+                                {{-- stripe --}} -->
 
-                            </div><!-- end shopping-cart-content -->
-                        </div><!-- end shopping-cart-detail-item -->
-                    </div><!-- end col-lg-4 -->
+                            <!-- </div>end shopping-cart-content -->
+                        <!-- </div>end shopping-cart-detail-item -->
+                    <!-- </div>end col-lg-4 -->
                 </div><!-- end row -->
             </div>
         </div><!-- end container -->

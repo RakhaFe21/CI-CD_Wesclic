@@ -10,6 +10,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => 'install.check', 'prefix' => 'install'], function () {
     Route::get('/', 'InstallerController@welcome')->name('install');
     Route::get('server/permission', 'InstallerController@permission')->name('permission');

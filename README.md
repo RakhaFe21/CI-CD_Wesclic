@@ -47,6 +47,10 @@ Generate a new application key
 
     php artisan key:generate
 
+Laravel passport installation
+
+    php artisan passport:install
+
 
 Impor database courselmsdemo.sql (**Set the database connection in .env before migrating**)
 

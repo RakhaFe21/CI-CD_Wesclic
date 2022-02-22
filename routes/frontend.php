@@ -3,6 +3,7 @@
 /*all front end route here
  *
  * */
+use Illuminate\Support\Facades\Route;
 
  Route::get('x', function () {
     return checkRedeem(9);

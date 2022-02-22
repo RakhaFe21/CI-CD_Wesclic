@@ -56,7 +56,7 @@
             </div>
 
             {{-- Course Thumbnail --}}
-            <!-- <div class="form-group row">
+            <div class="form-group row">
                 <label class="col-lg-3 col-form-label" for="val-img">
                     @translate(Thumbnail Pelatihan) <span class="text-danger">*</span></label>
                 <div class="col-lg-9">
@@ -77,7 +77,7 @@
                             aria-hidden="true"></i> </a>
                     @endif
                 </div>
-            </div> -->
+            </div> 
 
             {{-- Category --}}
             <div class="form-group row">

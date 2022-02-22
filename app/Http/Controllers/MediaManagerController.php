@@ -22,37 +22,37 @@ class MediaManagerController extends Controller
     {
 
         if (!Schema::hasTable('media_managers')) {
-                        \Artisan::call('make:model MediaManager');
+            \Artisan::call('make:model MediaManager');
 
-                        Schema::create('media_managers', function (Blueprint $table) {
-                            $table->id();
-                            $table->unsignedBigInteger('user_id');
-                            $table->longText('title')->nullable();
-                            $table->string('type')->nullable();
-                            $table->longText('image')->nullable();
-                            $table->longText('alt')->nullable();
-                            $table->longText('resolution')->nullable();
-                            $table->longText('size')->nullable();
-                            $table->timestamps();
-                        });
+            Schema::create('media_managers', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('user_id');
+                $table->longText('title')->nullable();
+                $table->string('type')->nullable();
+                $table->longText('image')->nullable();
+                $table->longText('alt')->nullable();
+                $table->longText('resolution')->nullable();
+                $table->longText('size')->nullable();
+                $table->timestamps();
+            });
 
-                        \Artisan::call('optimize:clear');
-                    }
+            \Artisan::call('optimize:clear');
+        }
 
 
-        $medias = MediaManager::where('user_id', Auth::user()->id)->latest()->get();
+        $medias = MediaManager::whereNotNull('image')->where('user_id', Auth::user()->id)->latest()->get();
         return view('media.index', compact('medias'));
     }
 
     public function main()
     {
-        $medias = MediaManager::where('user_id', Auth::user()->id)->latest()->get();
+        $medias = MediaManager::whereNotNull('image')->where('user_id', Auth::user()->id)->latest()->get();
         return view('media.main', compact('medias'));
     }
 
     public function slide()
     {
-        $medias = MediaManager::where('user_id', Auth::user()->id)->latest()->get();
+        $medias = MediaManager::whereNotNull('image')->where('user_id', Auth::user()->id)->latest()->get();
         return view('media.media_slide', compact('medias'));
     }
 
@@ -76,19 +76,20 @@ class MediaManagerController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
-        $request->validate([
-            'title' => 'nullable',
-            'image' => 'required|mimes:jpeg,jpg,png,pdf,mp4,zip',
-        ],
-        [
-            'image.required' => 'File cannot be empty.',
-            'image.mimes' => 'Invalid file format.',
-        ]
-    );
+        $request->validate(
+            [
+                'title' => 'nullable',
+                'image' => 'required|mimes:jpeg,jpg,png,pdf,mp4,zip',
+            ],
+            [
+                'image.required' => 'File cannot be empty.',
+                'image.mimes' => 'Invalid file format.',
+            ]
+        );
 
 
 
@@ -101,74 +102,59 @@ class MediaManagerController extends Controller
         $media->save();
 
         if ($request->hasFile('image')) {
-            $extension     =  $request->image -> getClientOriginalExtension();
+            $extension     =  $request->image->getClientOriginalExtension();
         }
 
         try {
 
             if ($extension == 'pdf') {
-            MediaManager::find($media->id)->update([
-                'image' => fileUpload($request->image, 'media_manager'),
-                'alt' => 'pdf'
+                MediaManager::find($media->id)->update([
+                    'image' => fileUpload($request->image, 'media_manager'),
+                    'alt' => 'pdf'
                 ]);
-        }
+            }
 
             if ($extension == 'zip') {
-            MediaManager::find($media->id)->update([
-                'image' => fileUpload($request->image, 'media_manager'),
-                'alt' => 'zip'
-                ]);
-        }
-
-        if ($extension == 'mp4') {
-
-            MediaManager::find($media->id)->update([
-                'image' => fileUpload($request->image, 'media_manager'),
-                'alt' => 'video'
-                ]);
-        }
-
-        if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
-          
-             if ($request->hasFile('image')) {
-                $photo_upload        =  $request->image;
-                $photo_extension     =  $photo_upload -> getClientOriginalExtension();
-                $photo_name          =  $media->id . "." . $photo_extension;
-
-                $storeDirectory = 'public/uploads/media_manager/';
-                $DBstoreDirectory = '/uploads/media_manager/';
-                dd("halo");
-                // if (! \File::isDirectory($storeDirectory)) {
-                //     $dir = \File::makeDirectory($storeDirectory, true);
-                //     $img = Image::make($photo_upload)->save(base_path($dir.$photo_name),100);
-                // }else{
-                //     $img = Image::make($photo_upload)->save(base_path($storeDirectory.$photo_name),100);
-                // }
-
-                $size = $img->filesize();
-                $height = Image::make($photo_upload)->height();
-                $width = Image::make($photo_upload)->width();
                 MediaManager::find($media->id)->update([
-                'image'          => $DBstoreDirectory.$photo_name,
-                'size'           => round($size/1024),
-                'resolution'     => $width .'x' . $height,
-                'alt'            => 'image'
+                    'image' => fileUpload($request->image, 'media_manager'),
+                    'alt' => 'zip'
                 ]);
+            }
+
+            if ($extension == 'mp4') {
+
+                MediaManager::find($media->id)->update([
+                    'image' => fileUpload($request->image, 'media_manager'),
+                    'alt' => 'video'
+                ]);
+            }
+
+            if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
+
+                if ($request->hasFile('image')) {
+                    $photo_upload        =  $request->image;
+                    $photo_extension     =  $photo_upload->getClientOriginalExtension();
+                    $photo_name          =  $media->id . "." . $photo_extension;
+
+                    $filename = fileUpload($request->image, 'media_manager');
+                    $width = getimagesize($filename)[0];
+                    $height = getimagesize($filename)[1];
+                    $size = $photo_upload->getSize();
+                    MediaManager::find($media->id)->update([
+                        'image'          => $filename,
+                        'size'           => round($size / 1024),
+                        'resolution'     => $width . 'x' . $height,
+                        'alt'            => 'image'
+                    ]);
                 }
-        }
+            }
 
-        notify()->success(translate('Uploaded successfully.'));
-        return back();
-
+            notify()->success(translate('Uploaded successfully.'));
+            return back();
         } catch (\Throwable $th) {
             notify()->error(translate('Something went wrong!'));
             return back();
         }
-
-
-
-
-
     }
 
     /**
@@ -180,7 +166,7 @@ class MediaManagerController extends Controller
     public function show()
     {
         $medias = MediaManager::latest()->get();
-         return view('media.main_modal', compact('medias'));
+        return view('media.main_modal', compact('medias'));
     }
 
     /**
@@ -191,7 +177,7 @@ class MediaManagerController extends Controller
      */
     public function edit($id)
     {
-        $single_media = MediaManager::where('id',$id)->first();
+        $single_media = MediaManager::where('id', $id)->first();
         return view('media.edit', compact('single_media'));
     }
 
@@ -206,110 +192,107 @@ class MediaManagerController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
-
-        $request->validate([
-            'title' => 'nullable',
-            'image' => 'mimes:jpeg,jpg,png,pdf,mp4,zip',
-        ],
-        [
-            'image.mimes' => 'Invalid file format.',
-        ]
-    );
-
-        
-    try {
-        if ($request->hasFile('image')) {
-
-            $update_media = MediaManager::where('id',$id)->first();
-            $update_media->title = $request->title;
-            $update_media->type = $request->type;
-
-            $extension     =  $request->image -> getClientOriginalExtension();
-
-             $filename = public_path().$update_media->image;
-
-        if ($request->hasFile('image')) {
-            \File::delete($filename);
-        }
-
-        if ($extension == 'pdf') {
-            MediaManager::find($update_media->id)->update([
-                'image' => fileUpload($request->image, 'media_manager'),
-                'alt' => 'pdf'
-                ]);
-        }
-
-        if ($extension == 'zip') {
-            MediaManager::find($update_media->id)->update([
-                'image' => fileUpload($request->image, 'media_manager'),
-                'alt' => 'zip'
-                ]);
-        }
-
-        
-        if ($extension == 'mp4') {
-
-            MediaManager::find($update_media->id)->update([
-                'image' => fileUpload($request->image, 'media_manager'),
-                'alt' => 'video'
-                ]);
-        }
-
-        if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
-             if ($request->hasFile('image')) {
-                $photo_upload        =  $request->image;
-                $photo_extension     =  $photo_upload -> getClientOriginalExtension();
-                $photo_name          =  $update_media->id . "." . $photo_extension;
-
-                $storeDirectory = 'public/uploads/media_manager/';
-                $DBstoreDirectory = '/uploads/media_manager/';
-
-                if (! \File::isDirectory($storeDirectory)) {
-                    $dir = \File::makeDirectory($storeDirectory, true);
-                    $img = Image::make($photo_upload)->save(base_path($dir.$photo_name),100);
-                }else{
-                    $img = Image::make($photo_upload)->save(base_path($storeDirectory.$photo_name),100);
-                }
-
-                $size = $img->filesize();
-                $height = Image::make($photo_upload)->height();
-                $width = Image::make($photo_upload)->width();
-                MediaManager::find($update_media->id)->update([
-                'image'          => $DBstoreDirectory.$photo_name,
-                'size'           => round($size/1024),
-                'resolution'     => $width .'x' . $height,
-                'alt'            => 'image'
-                ]);
-                }
-
-                $update_media->save();
-
-                notify()->success(translate('Update changed successfully.'));
-                return back();
-
-        }
-
-                notify()->success(translate('Update changed successfully.'));
-                return back();
-
-        }else{
-            $update_media = MediaManager::where('id',$id)->first();
-            $update_media->title = $request->title;
-            $update_media->type = $request->type;
-            $update_media->image = $request->oldImage;
-            $update_media->save();
-            notify()->success(translate('Update changed successfully.'));
+            Alert::warning('warning', 'This is demo purpose only');
             return back();
         }
-    } catch (\Throwable $th) {
+
+        $request->validate(
+            [
+                'title' => 'nullable',
+                'image' => 'mimes:jpeg,jpg,png,pdf,mp4,zip',
+            ],
+            [
+                'image.mimes' => 'Invalid file format.',
+            ]
+        );
+
+
+        try {
+            if ($request->hasFile('image')) {
+
+                $update_media = MediaManager::where('id', $id)->first();
+                $update_media->title = $request->title;
+                $update_media->type = $request->type;
+
+                $extension     =  $request->image->getClientOriginalExtension();
+
+                $filename = public_path() . $update_media->image;
+
+                if ($request->hasFile('image')) {
+                    \File::delete($filename);
+                }
+
+                if ($extension == 'pdf') {
+                    MediaManager::find($update_media->id)->update([
+                        'image' => fileUpload($request->image, 'media_manager'),
+                        'alt' => 'pdf'
+                    ]);
+                }
+
+                if ($extension == 'zip') {
+                    MediaManager::find($update_media->id)->update([
+                        'image' => fileUpload($request->image, 'media_manager'),
+                        'alt' => 'zip'
+                    ]);
+                }
+
+
+                if ($extension == 'mp4') {
+
+                    MediaManager::find($update_media->id)->update([
+                        'image' => fileUpload($request->image, 'media_manager'),
+                        'alt' => 'video'
+                    ]);
+                }
+
+                if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
+                    if ($request->hasFile('image')) {
+                        $photo_upload        =  $request->image;
+                        $photo_extension     =  $photo_upload->getClientOriginalExtension();
+                        $photo_name          =  $update_media->id . "." . $photo_extension;
+
+                        $storeDirectory = 'public/uploads/media_manager/';
+                        $DBstoreDirectory = '/uploads/media_manager/';
+
+                        if (!\File::isDirectory($storeDirectory)) {
+                            $dir = \File::makeDirectory($storeDirectory, true);
+                            $img = Image::make($photo_upload)->save(base_path($dir . $photo_name), 100);
+                        } else {
+                            $img = Image::make($photo_upload)->save(base_path($storeDirectory . $photo_name), 100);
+                        }
+
+                        $size = $img->filesize();
+                        $height = Image::make($photo_upload)->height();
+                        $width = Image::make($photo_upload)->width();
+                        MediaManager::find($update_media->id)->update([
+                            'image'          => $DBstoreDirectory . $photo_name,
+                            'size'           => round($size / 1024),
+                            'resolution'     => $width . 'x' . $height,
+                            'alt'            => 'image'
+                        ]);
+                    }
+
+                    $update_media->save();
+
+                    notify()->success(translate('Update changed successfully.'));
+                    return back();
+                }
+
+                notify()->success(translate('Update changed successfully.'));
+                return back();
+            } else {
+                $update_media = MediaManager::where('id', $id)->first();
+                $update_media->title = $request->title;
+                $update_media->type = $request->type;
+                $update_media->image = $request->oldImage;
+                $update_media->save();
+                notify()->success(translate('Update changed successfully.'));
+                return back();
+            }
+        } catch (\Throwable $th) {
             notify()->success(translate('Something went wrong.'));
             return back();
-    }
-        
-
+        }
     }
 
     /**
@@ -322,9 +305,9 @@ class MediaManagerController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         try {
             $filename = MediaManager::where('id', $id)->first()->image;
@@ -332,7 +315,6 @@ class MediaManagerController extends Controller
             MediaManager::findOrFail($id)->delete();
             notify()->warning(translate('Deleted successfully.'));
             return back();
-
         } catch (\Throwable $th) {
             notify()->error(translate('Something went wrong.'));
             return back();
@@ -347,146 +329,137 @@ class MediaManagerController extends Controller
 
         if ($request->type != 'all') {
 
-        $filterDatas = MediaManager::where('type', $request->type)->where('user_id', Auth::user()->id)->get();
-        $checkData = MediaManager::where('type', $request->type)->where('user_id', Auth::user()->id)->count();
-        $dataSend = '';
-        
-        if ($checkData > 0) {
-
-        foreach($filterDatas as $filterData)
-        {
-            $url = route("media.edit",$filterData->id);
-            $trs =translate("Edit Media");
-
-            if($filterData->alt == 'image'){
-                
-                $dataSend .="
-                
-                <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
-                    <a href='#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
-                        <div class='card m-2'>.
-                            <img class='card-img rounded' src='".filePath($filterData->image)."' alt='". $filterData->alt ."'>
-                            <span class='text-center text-dark mt-2'>".$filterData->title."</span>
-                        </div>
-                    </a>
-                </div>";
-            }elseif($filterData->alt == 'pdf'){
-                $dataSend .="
-                <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
-                    <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
-                        <div class='card m-2'>.
-                            <img class='card-img rounded w-50 m-auto' src='".filePath('pdf.png')."' alt='". $filterData->alt ."'>
-                    
-                            <span class='text-center text-dark mt-2'>".$filterData->title."</span>
-                        </div>
-                    </a>
-                </div>";                            
-            }elseif($filterData->alt == 'zip'){
-                $dataSend .="
-                <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
-                    <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
-                        <div class='card m-2'>.
-                            <img class='card-img rounded w-50 m-auto' src='".filePath('zip.jpg')."' alt='". $filterData->alt ."'>
-                    
-                            <span class='text-center text-dark mt-2'>".$filterData->title."</span>
-                        </div>
-                    </a>
-                </div>";                            
-            }else{
-                $dataSend .="
-                <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
-                    <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
-                        <div class='card m-2'>.
-                                <video controls crossorigin playsinline id='player' class='w-100 rounded' src='".filePath($filterData->image)."'></video>                                    
-                            <span class='text-center text-dark mt-2'>".$filterData->title."</span>
-                        </div>
-                    </a>
-                </div>";                             
-            }
-            
-        }
-
-        return $dataSend;
-
-        } else {
-            $dataSend .= "<div class='col-md-12'>
-                <img class='img-fluid w-100' src='". filePath('media-not-found.jpg') . "' alt='#media not found'>
-            </div>";
-
-            return $dataSend;
-        }
-
-
-        }else{
-
-            $filterDatas = MediaManager::where('user_id', Auth::user()->id)->get();
-            $checkData = MediaManager::where('user_id', Auth::user()->id)->count();
-
+            $filterDatas = MediaManager::whereNotNull('image')->where('type', $request->type)->where('user_id', Auth::user()->id)->get();
+            $checkData = MediaManager::whereNotNull('image')->where('type', $request->type)->where('user_id', Auth::user()->id)->count();
             $dataSend = '';
-        
-        if ($checkData > 0) {
 
-        foreach($filterDatas as $filterData)
-        {
-            $url = route("media.edit",$filterData->id);
-            $trs =translate("Edit Media");
+            if ($checkData > 0) {
 
-             if($filterData->alt == 'image'){
-                
-                $dataSend .="
+                foreach ($filterDatas as $filterData) {
+                    $url = route("media.edit", $filterData->id);
+                    $trs = translate("Edit Media");
+
+                    if ($filterData->alt == 'image') {
+
+                        $dataSend .= "
                 
                 <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
                     <a href='#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
                         <div class='card m-2'>.
-                            <img class='card-img rounded' src='".filePath($filterData->image)."' alt='". $filterData->alt ."'>
-                            <span class='text-center text-dark mt-2'>".$filterData->title."</span>
+                            <img class='card-img rounded' src='" . filePath($filterData->image) . "' alt='" . $filterData->alt . "'>
+                            <span class='text-center text-dark mt-2'>" . $filterData->title . "</span>
                         </div>
                     </a>
                 </div>";
-            }elseif($filterData->alt == 'pdf'){
-                $dataSend .="
+                    } elseif ($filterData->alt == 'pdf') {
+                        $dataSend .= "
                 <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
                     <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
                         <div class='card m-2'>.
-                            <img class='card-img rounded w-50 m-auto' src='".filePath('pdf.png')."' alt='". $filterData->alt ."'>
+                            <img class='card-img rounded w-50 m-auto' src='" . filePath('pdf.png') . "' alt='" . $filterData->alt . "'>
                     
-                            <span class='text-center text-dark mt-2'>".$filterData->title."</span>
+                            <span class='text-center text-dark mt-2'>" . $filterData->title . "</span>
                         </div>
                     </a>
-                </div>";                            
-            }elseif($filterData->alt == 'zip'){
-                $dataSend .="
+                </div>";
+                    } elseif ($filterData->alt == 'zip') {
+                        $dataSend .= "
                 <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
                     <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
                         <div class='card m-2'>.
-                            <img class='card-img rounded w-50 m-auto' src='".filePath('zip.jpg')."' alt='". $filterData->alt ."'>
+                            <img class='card-img rounded w-50 m-auto' src='" . filePath('zip.jpg') . "' alt='" . $filterData->alt . "'>
                     
-                            <span class='text-center text-dark mt-2'>".$filterData->title."</span>
+                            <span class='text-center text-dark mt-2'>" . $filterData->title . "</span>
                         </div>
                     </a>
-                </div>";                            
-            }else{
-                $dataSend .="
+                </div>";
+                    } else {
+                        $dataSend .= "
                 <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
                     <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
                         <div class='card m-2'>.
-                                <video controls crossorigin playsinline id='player' class='w-100 rounded' src='".filePath($filterData->image)."'></video>                                    
-                            <span class='text-center text-dark mt-2'>".$filterData->title."</span>
+                                <video controls crossorigin playsinline id='player' class='w-100 rounded' src='" . filePath($filterData->image) . "'></video>                                    
+                            <span class='text-center text-dark mt-2'>" . $filterData->title . "</span>
                         </div>
                     </a>
-                </div>";                             
-            }
-                
-        }
+                </div>";
+                    }
+                }
 
-            return $dataSend;
-
-            }else {
-                $dataSend .= "<div class='col-md-12'><img src='".filePath('media-not-found.jpg') ."' class='img-fluid w-100' alt='#media not found'></div>";
+                return $dataSend;
+            } else {
+                $dataSend .= "<div class='col-md-12'>
+                <img class='img-fluid w-100' src='" . filePath('media-not-found.jpg') . "' alt='#media not found'>
+            </div>";
 
                 return $dataSend;
             }
-        
+        } else {
+
+            $filterDatas = MediaManager::whereNotNull('image')->where('user_id', Auth::user()->id)->get();
+            $checkData = MediaManager::whereNotNull('image')->where('user_id', Auth::user()->id)->count();
+
+            $dataSend = '';
+
+            if ($checkData > 0) {
+
+                foreach ($filterDatas as $filterData) {
+                    $url = route("media.edit", $filterData->id);
+                    $trs = translate("Edit Media");
+
+                    if ($filterData->alt == 'image') {
+
+                        $dataSend .= "
+                
+                <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
+                    <a href='#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
+                        <div class='card m-2'>.
+                            <img class='card-img rounded' src='" . filePath($filterData->image) . "' alt='" . $filterData->alt . "'>
+                            <span class='text-center text-dark mt-2'>" . $filterData->title . "</span>
+                        </div>
+                    </a>
+                </div>";
+                    } elseif ($filterData->alt == 'pdf') {
+                        $dataSend .= "
+                <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
+                    <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
+                        <div class='card m-2'>.
+                            <img class='card-img rounded w-50 m-auto' src='" . filePath('pdf.png') . "' alt='" . $filterData->alt . "'>
+                    
+                            <span class='text-center text-dark mt-2'>" . $filterData->title . "</span>
+                        </div>
+                    </a>
+                </div>";
+                    } elseif ($filterData->alt == 'zip') {
+                        $dataSend .= "
+                <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
+                    <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
+                        <div class='card m-2'>.
+                            <img class='card-img rounded w-50 m-auto' src='" . filePath('zip.jpg') . "' alt='" . $filterData->alt . "'>
+                    
+                            <span class='text-center text-dark mt-2'>" . $filterData->title . "</span>
+                        </div>
+                    </a>
+                </div>";
+                    } else {
+                        $dataSend .= "
+                <div class='col-md-3 col-sm-6 col-xl-3 shadow rounded myMedia'>
+                    <a href'#!' class='media_select' onclick='receivedData(this)' data-url='$url' data-text='$trs'>
+                        <div class='card m-2'>.
+                                <video controls crossorigin playsinline id='player' class='w-100 rounded' src='" . filePath($filterData->image) . "'></video>                                    
+                            <span class='text-center text-dark mt-2'>" . $filterData->title . "</span>
+                        </div>
+                    </a>
+                </div>";
+                    }
+                }
+
+                return $dataSend;
+            } else {
+                $dataSend .= "<div class='col-md-12'><img src='" . filePath('media-not-found.jpg') . "' class='img-fluid w-100' alt='#media not found'></div>";
+
+                return $dataSend;
+            }
         }
     }
     //END

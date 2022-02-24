@@ -82,7 +82,7 @@
             <!-- End Breadcrumbbar -->
 
             <!-- Start Contentbar -->
-            <div class="contentbar">
+            <div class="contentbar" id="contentbar">
 
                 @yield('content')
 
@@ -152,6 +152,17 @@
     <script src="{{ asset('assets/js/core.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
 
+    {{-- Vue --}}
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        const api = axios.create({
+            baseURL: "{{ url('') }}",
+            // timeout: 1000,
+            // headers: {}
+        });
+    </script>
 
     <!-- End js -->
 

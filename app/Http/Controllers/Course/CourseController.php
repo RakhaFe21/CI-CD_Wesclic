@@ -16,16 +16,16 @@ use App\Model\Classes;
 use App\Model\ClassContent;
 use App\Model\Language;
 use App\Model\Enrollment;
+use App\Model\KursusJadwal;
+use App\Model\KursusSesi;
 use App\Model\Student;
 use Carbon\Carbon;
 use App\NotificationUser;
 use DB;
-
-
 class CourseController extends Controller
 {
 
-    function userNotify($user_id,$details)
+    function userNotify($user_id, $details)
     {
         $notify = new NotificationUser();
         $notify->user_id = $user_id;
@@ -62,8 +62,8 @@ class CourseController extends Controller
 
     public function peserta_pel($pel)
     {
-        $students = Student::leftjoin('enrollments AS b', 'students.user_id', 'b.id')->where('b.course_id',$pel)->orderBydesc('students.id')->paginate(10);
-      
+        $students = Student::leftjoin('enrollments AS b', 'students.user_id', 'b.id')->where('b.course_id', $pel)->orderBydesc('students.id')->paginate(10);
+
         return view('course.peserta.list', compact('students'));
     }
 
@@ -80,9 +80,9 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
         $request->validate([
             'title' => 'required|unique:courses',
             // 'image' => 'required',
@@ -95,80 +95,113 @@ class CourseController extends Controller
             'category_id.required' => translate('You must choose a category'),
             // 'image.required' => translate('Course thumbnail is required'),
         ]);
-        
-        $courses = new Course();
-        $courses->title = $request->title;
-        $courses->slug = Str::slug($request->title);
-        $courses->short_description = $request->short_description;
-        $courses->big_description = $request->big_description;
-        $courses->tahapan_pelatihan = $request->tahapan_pelatihan;
-        // if ($request->has('image')) {
-            // $courses->image = $request->image;
-            $courses->image ='uploads/course/default.jpeg';
-        // }
-        $courses->overview_url = $request->overview_url;
-        $courses->provider = $request->provider;
-        $courses->level = $request->level;
 
-        $req = explode(',',$request->requirement);
-        $reqC = array();
-        foreach ($req as $item){
-            array_push($reqC,$item);
-        }
-        $courses->requirement = json_encode($reqC);
+        dd($request->all());
 
-        $out = explode(',',$request->outcome);
-        $outC = array();
-        foreach ($out as $itemo){
-            array_push($outC,$itemo);
-        }
-        $courses->outcome = json_encode($outC);
+        DB::beginTransaction();
+        try {
 
-        $tag = explode(',',$request->tag);
-        $tagC = array();
-        foreach ($tag as $itemt){
-            array_push($tagC,$itemt);
-        }
-        $courses->tag = json_encode($tagC);
-        $courses->is_free = $request->is_free == "on" ? true : false;
+            $courses = new Course();
+            $courses->title = $request->title;
+            $courses->slug = Str::slug($request->title);
+            $courses->short_description = $request->short_description;
+            $courses->big_description = $request->big_description;
+            $courses->image = !empty($request->image) ? $request->image : 'uploads/course/default.jpeg';
+            $courses->level = $request->level;
+            $courses->provider = null;
+            $courses->overview_url = null;
+            $courses->rating = 5;
+            $courses->requirement = [];
+            $courses->outcome = [];
+            $courses->tags = [];
+            $courses->is_free = 0;
+            $courses->price = null;
+            $courses->is_discount = 0;
+            $courses->discount_price = null;
+            $courses->language = 'Bahasa Indonesia';
+            $courses->meta_title = null;
+            $courses->meta_description = null;
+            $courses->category_id = $request->category_id;
+            $courses->is_published = $request->is_published == "on" ? true : false;
+            $courses->user_id = Auth::user()->id;
 
-        if ($courses->is_free) {
-            $courses->tanggaltulis = $request->tanggaltulis;
-            $courses->jamtulis = $request->jamtulis;
-            $courses->lokasitulis = $request->lokasitulis;
-        }
+            // Custom
+            $courses->tahapan_pelatihan = $request->tahapan_pelatihan;
+            $courses->jumlah_peserta = $request->jumlah_peserta;
+            $courses->mulai_pendaftaran = $request->mulai_pendaftaran;
+            $courses->berakhir_pendaftaran = $request->berakhir_pendaftaran;
+            $courses->need_dtks = $request->need_dtks == "on" ? true : false;
+            $courses->allow_disability = $request->allow_disability == "on" ? true : false;
 
-        $courses->wawancara = $request->wawancara == "on" ? true : false;
+            if ($request->has('has_tes_tulis') && $request->has_tes_tulis == 'on') {
+                $courses->has_tes_tulis = true;
+            }
 
-        if ($courses->wawancara) {
-            $courses->tanggalwawancara = $request->tanggalwawancara;
-            $courses->jamwawancara = $request->jamwawancara;
-            $courses->lokasiwawancara = $request->lokasiwawancara;
-        }
+            if ($request->has('has_tes_wawancara') && $request->has_tes_wawancara == 'on') {
+                $courses->has_tes_wawancara = true;
+            }
 
-        $courses->language = $request->language;
+            $courses->save();
 
-        $meta = explode(',',$request->meta_title);
-        $metaC = array();
-        foreach ($meta as $itemm){
-            array_push($metaC,$itemm);
-        }
-        $courses->meta_title = json_encode($metaC);
-        $courses->meta_description = $request->meta_description;
-        $courses->category_id = $request->category_id;
-        $courses->is_published = $request->is_published == "on" ? true : false;
-        $courses->user_id = Auth::user()->id;
-        $courses->save();
+            // get last insert id
+            $id_courses     = $courses->id;
 
-        $couerses        = DB::table('courses')->select('id')->orderby('id', 'DESC')->get();
-        $id_couerses     = $couerses[0]->id; 
-        foreach ($request->logbook as $data) {
-            $logbook = new logbook();
-            $logbook->name       = $data;
-            $logbook->course_id  = $id_couerses;
-            $logbook->created_at = date('Y-m-d H:i:s');
+            if ($request->has('has_tes_tulis') && $request->has_tes_tulis == 'on') {
+                $jadwal = KursusJadwal::create([
+                    'id_kursus' => $id_courses,
+                    'nama_jadwal' => 'Tes Tulis',
+                    'jumlah_sesi_perhari' => $request->testu_jumlah_sesi_perhari,
+                    'durasi_persesi' => $request->testu_durasi_per_sesi,
+                    'jumlah_peserta_persesi' => $request->testu_jumlah_peserta_persesi,
+                    'tanggal_mulai' => $request->testu_tanggal_mulai,
+                    'jam_mulai' => $request->testu_jam_mulai,
+                ]);
+                $sesi_insert = [];
+                for ($i=0; $i < $request->testu_sesi_nama; $i++) { 
+                    $sesi_insert[$i]['id_kursus_jadwal'] = $jadwal->id;
+                    $sesi_insert[$i]['nama_sesi'] = $request->testu_sesi_nama[$i];
+                    $sesi_insert[$i]['tanggal_sesi'] = $request->testu_sesi_tanggal[$i];
+                    $sesi_insert[$i]['jam_sesi'] = $request->testu_sesi_jam[$i];
+                    $sesi_insert[$i]['lokasi_sesi'] = $request->testu_sesi_lokasi[$i];
+                    $sesi_insert[$i]['created_at'] = date('Y-m-d H:i:s');
+                }
+                KursusSesi::insert($sesi_insert);
+            }
 
-            $logbook->save();
+            if ($request->has('has_tes_wawancara') && $request->has_tes_wawancara == 'on') {
+                $jadwal = KursusJadwal::create([
+                    'id_kursus' => $id_courses,
+                    'nama_jadwal' => 'Tes Wawancara',
+                    'jumlah_sesi_perhari' => $request->teswa_jumlah_sesi_perhari,
+                    'durasi_persesi' => $request->teswa_durasi_per_sesi,
+                    'jumlah_peserta_persesi' => $request->teswa_jumlah_peserta_persesi,
+                    'tanggal_mulai' => $request->teswa_tanggal_mulai,
+                    'jam_mulai' => $request->teswa_jam_mulai,
+                ]);
+                $sesi_insert = [];
+                for ($i=0; $i < $request->teswa_sesi_nama; $i++) { 
+                    $sesi_insert[$i]['id_kursus_jadwal'] = $jadwal->id;
+                    $sesi_insert[$i]['nama_sesi'] = $request->teswa_sesi_nama[$i];
+                    $sesi_insert[$i]['tanggal_sesi'] = $request->teswa_sesi_tanggal[$i];
+                    $sesi_insert[$i]['jam_sesi'] = $request->teswa_sesi_jam[$i];
+                    $sesi_insert[$i]['lokasi_sesi'] = $request->teswa_sesi_lokasi[$i];
+                    $sesi_insert[$i]['created_at'] = date('Y-m-d H:i:s');
+                }
+                KursusSesi::insert($sesi_insert);
+            }
+
+            foreach ($request->logbook as $data) {
+                $logbook = new logbook();
+                $logbook->name       = $data;
+                $logbook->course_id  = $id_courses;
+                $logbook->created_at = date('Y-m-d H:i:s');
+                $logbook->save();
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
         }
 
         $details = [
@@ -179,7 +212,6 @@ class CourseController extends Controller
 
         notify()->success(translate($request->title . ' created successfully'));
         return redirect('dashboard/home');
-
     }
 
     /*Check all slug*/
@@ -209,22 +241,20 @@ class CourseController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
-        $s = Enrollment::where('course_id' , $course_id)->count();
+        $s = Enrollment::where('course_id', $course_id)->count();
 
         if ($s <= 0) {
             Course::findOrFail($course_id)->delete();
             notify()->success(translate('Course deleted successfully'));
             return back();
-        }else{
+        } else {
             notify()->success(translate('This course has enrolled student'));
             return back();
         }
-
-        
     }
 
     // course.edit
@@ -241,9 +271,9 @@ class CourseController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $request->validate([
             'title' => 'required',
@@ -260,7 +290,7 @@ class CourseController extends Controller
 
         $courses = Course::where('id', $request->id)->firstOrFail();
         $courses->title = $request->title;
-        $courses->short_description =$request->short_description;
+        $courses->short_description = $request->short_description;
         $courses->big_description = $request->big_description;
         $courses->tahapan_pelatihan = $request->tahapan_pelatihan;
 
@@ -271,24 +301,24 @@ class CourseController extends Controller
         $courses->level = $request->level;
         $courses->provider = $request->provider;
 
-        $req = explode(',',$request->requirement);
+        $req = explode(',', $request->requirement);
         $reqC = array();
-        foreach ($req as $item){
-            array_push($reqC,$item);
+        foreach ($req as $item) {
+            array_push($reqC, $item);
         }
         $courses->requirement = json_encode($reqC);
 
-        $out = explode(',',$request->outcome);
+        $out = explode(',', $request->outcome);
         $outC = array();
-        foreach ($out as $itemo){
-            array_push($outC,$itemo);
+        foreach ($out as $itemo) {
+            array_push($outC, $itemo);
         }
         $courses->outcome = json_encode($outC);
 
-        $tag = explode(',',$request->tag);
+        $tag = explode(',', $request->tag);
         $tagC = array();
-        foreach ($tag as $itemt){
-            array_push($tagC,$itemt);
+        foreach ($tag as $itemt) {
+            array_push($tagC, $itemt);
         }
         $courses->is_free = $request->is_free == "on" ? true : false;
         if (!$courses->is_free) {
@@ -302,17 +332,17 @@ class CourseController extends Controller
 
         $courses->language = $request->language;
 
-        $meta = explode(',',$request->meta_title);
+        $meta = explode(',', $request->meta_title);
         $metaC = array();
-        foreach ($meta as $itemm){
-            array_push($metaC,$itemm);
+        foreach ($meta as $itemm) {
+            array_push($metaC, $itemm);
         }
         $courses->meta_title = json_encode($metaC);
         $courses->meta_description = $request->meta_description;
         $courses->category_id = $request->category_id;
-        if($courses->is_published){
+        if ($courses->is_published) {
             $courses->is_published = true;
-        }else{
+        } else {
             $courses->is_published = false;
         }
         $courses->user_id = Auth::user()->id;
@@ -320,7 +350,6 @@ class CourseController extends Controller
 
         notify()->success(translate('Course Updated'));
         return redirect()->route('course.index');
-
     }
 
     //published
@@ -328,9 +357,9 @@ class CourseController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $course = Course::where('id', $request->id)->first();
         if ($course->is_published == 1) {
@@ -350,9 +379,9 @@ class CourseController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $course = Course::where('id', $request->id)->first();
         $course->rating = $request->rating;

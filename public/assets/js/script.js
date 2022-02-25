@@ -111,7 +111,7 @@ function notification(result) {
     new PNotify({
       title: 'Message',
       text: result.message,
-      type: 'info'
+      type: result.type ?? 'info'
     })
   }
 }

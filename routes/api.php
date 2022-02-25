@@ -213,6 +213,12 @@ Route::group(
         //show all courses
         Route::get('all/courses', 'CourseApiController@allCourses');
 
+        // delete kursus sesi
+        Route::delete('courses/sesi/{id}/delete', 'CourseApiController@deleteKursusSesi');
+
+         // delete logbook
+         Route::delete('courses/logbook/{id}/delete', 'CourseApiController@deleteLogbook');
+
 
         //single course
         //@course_id

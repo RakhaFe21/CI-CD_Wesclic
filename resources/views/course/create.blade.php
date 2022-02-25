@@ -167,9 +167,9 @@
                         @translate(Mulai)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                            <input required type="date" value="{{ old('price') }}" name="mulai"
-                                class="form-control @error('price') is-invalid @enderror">
-                            @error('price')
+                            <input required type="date" value="{{ old('mulai_pendaftaran') }}" name="mulai_pendaftaran"
+                                class="form-control @error('mulai_pendaftaran') is-invalid @enderror">
+                            @error('mulai_pendaftaran')
                                 <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
@@ -181,9 +181,9 @@
                         @translate(Berakhir)</label>
                     <div class="col-lg-9">
                         <div class="input-group mb-3">
-                            <input required type="date" value="{{ old('price') }}" name="berakhir"
-                                class="form-control @error('price') is-invalid @enderror">
-                            @error('price')
+                            <input required type="date" value="{{ old('berakhir_pendaftaran') }}" name="berakhir_pendaftaran"
+                                class="form-control @error('berakhir_pendaftaran') is-invalid @enderror">
+                            @error('berakhir_pendaftaran')
                                 <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
@@ -394,9 +394,9 @@
                             @enderror
                         </div> --}}
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" name="tes_wawancara" id="tes_wawancara"
+                            <input type="checkbox" class="custom-control-input" name="has_tes_wawancara" id="has_tes_wawancara"
                                 v-model="teswa_enable">
-                            <label class="custom-control-label" for="tes_wawancara"></label>
+                            <label class="custom-control-label" for="has_tes_wawancara"></label>
                         </div>
                     </div>
                 </div>
@@ -530,7 +530,7 @@
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
                                     <input type="text" v-model="sesi.lokasi" name="teswa_sesi_lokasi[]" class="form-control">
-                                    <input type="hidden" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]" class="form-control">
+                                    {{-- <input type="hidden" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]" class="form-control"> --}}
                                 </div>
                             </div>
                         </div>
@@ -573,7 +573,7 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label" for="allow_disability">
-                        @translate(Boleh Disabilitas)</label>
+                        @translate(Disabilitas)</label>
                     <div class="col-lg-9">
                         {{-- <div class="switchery-list">
                             <input type="checkbox" name="difabel" class="js-switch-success" id="difabel" />
@@ -711,22 +711,22 @@
                 // });
             },
             watch: {
-                testu_enable: function(value) {
-                    console.log(value)
-                    if (value === true) {
-                        this.generateJadwalTulis()
-                    } else {
-                        this.testu_data_sesi = []
-                    }
-                },
-                teswa_enable: function(value) {
-                    console.log(value)
-                    if (value === true) {
-                        this.generateJadwalWawancara()
-                    } else {
-                        this.teswa_data_sesi = []
-                    }
-                }
+                // testu_enable: function(value) {
+                //     console.log(value)
+                //     if (value === true) {
+                //         this.generateJadwalTulis()
+                //     } else {
+                //         this.testu_data_sesi = []
+                //     }
+                // },
+                // teswa_enable: function(value) {
+                //     console.log(value)
+                //     if (value === true) {
+                //         this.generateJadwalWawancara()
+                //     } else {
+                //         this.teswa_data_sesi = []
+                //     }
+                // }
             },
             methods: {
 

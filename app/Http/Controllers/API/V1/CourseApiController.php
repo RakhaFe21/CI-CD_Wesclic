@@ -13,6 +13,8 @@ use App\Model\Classes;
 use App\Model\Course;
 use App\Model\Enrollment;
 use App\Http\Controllers\Controller;
+use App\Model\KursusSesi;
+use App\Model\Logbook;
 use App\Model\SeenContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -178,6 +180,29 @@ class CourseApiController extends Controller
         return SeenContentResource::collection($seens);
     }
 
+    public function deleteKursusSesi($id) {
+
+        $kursus_sesi = KursusSesi::findOrFail($id);
+        $kursus_sesi->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sesi berhasil dihapus!',
+        ], 200);
+
+    }
+
+    public function deleteLogbook($id) {
+
+        $logbook = Logbook::findOrFail($id);
+        $logbook->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logbook berhasil dihapus!',
+        ], 200);
+
+    }
 
 
 }

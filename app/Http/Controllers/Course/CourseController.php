@@ -264,7 +264,9 @@ class CourseController extends Controller
         $logbook = Logbook::where('course_id', $course_id)->get();
         $categories = Category::all();
         $jadwal_tes_tulis = KursusJadwal::with(['sesi'])->where('id_kursus', $course_id)->where('nama_jadwal', 'Tes Tulis')->first();
+        $jadwal_tes_tulis = $jadwal_tes_tulis ?? json_encode([]);
         $jadwal_tes_wawancara = KursusJadwal::with(['sesi'])->where('id_kursus', $course_id)->where('nama_jadwal', 'Tes Wawancara')->first();
+        $jadwal_tes_wawancara = $jadwal_tes_wawancara ?? json_encode([]);
 
         return view('course.edit', compact('each_course', 'categories', 'logbook', 'jadwal_tes_tulis', 'jadwal_tes_wawancara'));
     }

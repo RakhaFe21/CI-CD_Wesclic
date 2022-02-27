@@ -250,6 +250,87 @@
 
                 <div id="auto_hide" v-if="testu_enable">
 
+                    {{-- TT - Jumlah Sesi Per Hari --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jumlah Sesi Per Hari)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="testu_jumlah_sesi_perhari" id="testu_jumlah_sesi_perhari"
+                                    v-model="testu_jumlah_sesi_perhari" />
+                                @error('testu_jumlah_sesi_perhari')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TT - Durasi Per Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Durasi Per Sesi) (Menit)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="testu_durasi_per_sesi" id="testu_durasi_per_sesi"
+                                    v-model="testu_durasi_per_sesi" />
+                                @error('testu_durasi_per_sesi')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TT - Jumlah Perserta Per Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jumlah Peserta Per Sesi)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="testu_jumlah_peserta_persesi" id="testu_jumlah_peserta_persesi"
+                                    v-model="testu_jumlah_peserta_persesi" />
+                                @error('testu_jumlah_peserta_persesi')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TT - Tanggal Mulai --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Tanggal Mulai)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="date" name="testu_tanggal_mulai" id="testu_tanggal_mulai"
+                                    v-model="testu_tanggal_mulai" />
+                                @error('testu_tanggal_mulai')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TT - Jam Mulai --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jam Mulai)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="time" name="testu_jam_mulai" id="testu_jam_mulai" v-model="testu_jam_mulai" />
+                                @error('testu_jam_mulai')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <button class="btn btn-sm btn-primary mt-3" type="button"
+                                @click.prevent="generateJadwalTulis">Generate Sesi</button>
+                        </div>
+                    </div>
+
                     {{-- Tes Tulis Sesi --}}
                     <div class="tes-tulis tes-tulis-row" v-for="(sesi, s_index) in testu_data_sesi" :key="s_index">
 
@@ -263,8 +344,7 @@
                                 <div class="input-group mb-3">
                                     <input type="text" v-model="sesi.nama_sesi" name="testu_sesi_nama[]"
                                         class="form-control">
-                                    <input type="hidden" v-model="sesi.id" name="testu_sesi_id[]"
-                                    class="form-control">
+                                    <input type="hidden" v-model="sesi.id" name="testu_sesi_id[]" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -287,7 +367,8 @@
                                 @translate(Jam)</label>
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
-                                    <input type="time" v-model="sesi.jam_sesi" name="testu_sesi_jam[]" class="form-control">
+                                    <input type="time" v-model="sesi.jam_sesi" name="testu_sesi_jam[]"
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -304,7 +385,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-2">
-                                <button class="btn btn-sm btn-danger" type="button" @click.prevent="deleteSesi(sesi, s_index)">
+                                <button class="btn btn-sm btn-danger" type="button"
+                                    @click.prevent="deleteSesi(sesi, s_index)">
                                     <i class="fa fa-spin fa-spinner fa-fw" v-if="loading"></i>
                                     <i class="fa fa-trash fa-fw" v-else></i>
                                 </button>
@@ -313,6 +395,7 @@
                     </div>
 
                     <div class="mt-3 row mb-4" v-if="testu_data_sesi && testu_data_sesi.length > 0">
+                        {{-- <div class="mt-3 row mb-4" v-if="testu_data_sesi"> --}}
                         <div class="col-lg-3 col-form-label"></div>
                         <div class="col-lg-9">
                             <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiTulis"><i
@@ -327,15 +410,96 @@
                     <label class="col-lg-3 col-form-label" for="has_tes_wawancara">Tes Wawancara</label>
                     <div class="col-lg-9">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" name="has_tes_wawancara" id="has_tes_wawancara"
-                                v-model="testu_enable">
+                            <input type="checkbox" class="custom-control-input" name="has_tes_wawancara"
+                                id="has_tes_wawancara" v-model="teswa_enable">
                             <label class="custom-control-label" for="has_tes_wawancara"></label>
                         </div>
                     </div>
                 </div>
 
 
-                <div id="auto_hide" v-if="teswa_enable">
+                <div id="auto_hide2" v-if="teswa_enable">
+
+                    {{-- TW - Jumlah Sesi Per Hari --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jumlah Sesi Per Hari)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="teswa_jumlah_sesi_perhari" id="teswa_jumlah_sesi_perhari"
+                                    v-model="teswa_jumlah_sesi_perhari" />
+                                @error('teswa_jumlah_sesi_perhari')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TW - Durasi Per Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Durasi Per Sesi) (Menit)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="teswa_durasi_per_sesi" id="teswa_durasi_per_sesi"
+                                    v-model="teswa_durasi_per_sesi" />
+                                @error('teswa_durasi_per_sesi')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TW - Jumlah Perserta Per Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jumlah Peserta Per Sesi)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="teswa_jumlah_peserta_persesi" id="teswa_jumlah_peserta_persesi"
+                                    v-model="teswa_jumlah_peserta_persesi" />
+                                @error('teswa_jumlah_peserta_persesi')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TW - Tanggal Mulai --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Tanggal Mulai)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="date" name="teswa_tanggal_mulai" id="teswa_tanggal_mulai"
+                                    v-model="teswa_tanggal_mulai" />
+                                @error('teswa_tanggal_mulai')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TW - Jam Mulai --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jam Mulai)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="time" name="teswa_jam_mulai" id="teswa_jam_mulai" v-model="teswa_jam_mulai" />
+                                @error('teswa_jam_mulai')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <button class="btn btn-sm btn-primary mt-3" type="button"
+                                @click.prevent="generateJadwalWawancara">Generate Sesi</button>
+                        </div>
+                    </div>
 
                     {{-- Tes Tulis Sesi --}}
                     <div class="tes-wawancara tes-wawancara-row" v-for="(sesi, s_index) in teswa_data_sesi" :key="s_index">
@@ -350,8 +514,7 @@
                                 <div class="input-group mb-3">
                                     <input type="text" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]"
                                         class="form-control">
-                                        <input type="hidden" v-model="sesi.id" name="teswa_sesi_id[]"
-                                    class="form-control">
+                                    <input type="hidden" v-model="sesi.id" name="teswa_sesi_id[]" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -374,7 +537,8 @@
                                 @translate(Jam)</label>
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
-                                    <input type="time" v-model="sesi.jam_sesi" name="teswa_sesi_jam[]" class="form-control">
+                                    <input type="time" v-model="sesi.jam_sesi" name="teswa_sesi_jam[]"
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -391,7 +555,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-2">
-                                <button class="btn btn-sm btn-danger" type="button" @click.prevent="deleteSesi(sesi, s_index)">
+                                <button class="btn btn-sm btn-danger" type="button"
+                                    @click.prevent="deleteSesi(sesi, s_index)">
                                     <i class="fa fa-spin fa-spinner fa-fw" v-if="loading"></i>
                                     <i class="fa fa-trash fa-fw" v-else></i>
                                 </button>
@@ -400,6 +565,7 @@
                     </div>
 
                     <div class="mt-3 row mb-4" v-if="teswa_data_sesi && teswa_data_sesi.length > 0">
+                        {{-- <div class="mt-3 row mb-4" v-if="teswa_data_sesi"> --}}
                         <div class="col-lg-3 col-form-label"></div>
                         <div class="col-lg-9">
                             <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiWawancara"><i
@@ -415,13 +581,13 @@
                             <div v-if="l_index == 0">Logbook <span class="text-danger">*</span></div>
                         </label>
                         <div class="col-lg-8">
-                            <input type="text" required class="form-control" id="val-logbook"
-                                name="logbook[]" autofocus v-model="log.name">
-                            <input type="hidden" class="form-control"
-                            name="logbook_id[]" autofocus v-model="log.id">
+                            <input type="text" required class="form-control" id="val-logbook" name="logbook[]" autofocus
+                                v-model="log.name">
+                            <input type="hidden" class="form-control" name="logbook_id[]" autofocus v-model="log.id">
                         </div>
                         <div class="col-lg-1">
-                            <button type="button" class="btn btn-danger" id="delete_button"title="Delete logbook" v-else-if="l_index != 0" @click.prevent="deleteLogbook(log, l_index)">
+                            <button type="button" class="btn btn-danger" id="delete_button" title="Delete logbook"
+                                v-if="l_index != 0" @click.prevent="deleteLogbook(log, l_index)">
                                 <i class="fa fa-spin fa-spinner fa-fw" v-if="loading"></i>
                                 <i class="la la-minus" v-else></i>
                             </button>
@@ -430,7 +596,8 @@
                     <div class="row">
                         <div class="col-lg-3">&nbsp;</div>
                         <div class="col-lg-9">
-                            <button type="button" class="btn btn-primary" id="add_button"title="Add logbook" @click.prevent="tambahLogbook"><i class="la la-plus"></i></button>
+                            <button type="button" class="btn btn-primary" id="add_button" title="Add logbook"
+                                @click.prevent="tambahLogbook"><i class="la la-plus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -462,16 +629,18 @@
 
 @section('page-script')
     <script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script>
-
     <script>
-        const hasTesTulis = {{ $each_course->has_tes_tulis ? true : false }};
-        let dataJadwalTesTulis = {!!$jadwal_tes_tulis!!};
+        const hasTesTulis = {{ $each_course->has_tes_tulis }};
+        let dataJadwalTesTulis = {!! $jadwal_tes_tulis !!};
         dataJadwalTesTulis = dataJadwalTesTulis != null ? dataJadwalTesTulis : {}
-        const hasTesWawancara = {{ $each_course->has_tes_wawancara ? true : false }};
-        let dataJadwalTesWawancara = {!!$jadwal_tes_wawancara!!};
+        const hasTesWawancara = {{ $each_course->has_tes_wawancara }};
+        let dataJadwalTesWawancara = {!! $jadwal_tes_wawancara !!};
         dataJadwalTesWawancara = dataJadwalTesWawancara != null ? dataJadwalTesWawancara : {}
 
-        let dataLogbook = {!!$logbook!!};
+        console.log(dataJadwalTesTulis)
+        console.log(dataJadwalTesWawancara)
+
+        let dataLogbook = {!! $logbook !!};
         dataLogbook = dataLogbook != null ? dataLogbook : []
         Vue.createApp({
             data() {
@@ -520,6 +689,11 @@
             methods: {
 
                 generateJadwalTulis() {
+
+                    if (this.jumlah_peserta < 1) {
+                        return alert('Jumlah Peserta wajib diisi!');
+                    }
+
                     const jumlah_hari = Math.ceil(this.jumlah_peserta / (this.testu_jumlah_sesi_perhari * this
                         .testu_jumlah_peserta_persesi))
                     const jumlah_peserta_sisa = this.jumlah_peserta % (this.testu_jumlah_sesi_perhari * this
@@ -532,23 +706,32 @@
                     let last_index = jumlah_hari - 1
                     for (let i = 0; i < jumlah_hari; i++) {
                         if (i !== last_index && jumlah_peserta_sisa > 0) {
-                            if(i == 0) {
+                            if (i == 0) {
                                 hari.push({
                                     nomor: i + 1,
                                     jumlah_peserta: this.testu_jumlah_sesi_perhari * this
-                                    .testu_jumlah_peserta_persesi,  
-                                    tanggal: moment(this.testu_tanggal_mulai).add(0, 'd').format('YYYY-MM-DD'),
+                                        .testu_jumlah_peserta_persesi,
+                                    tanggal: moment(this.testu_tanggal_mulai).add(0, 'd').format(
+                                        'YYYY-MM-DD'),
                                     jam_mulai: this.testu_jam_mulai
                                 })
                             } else {
                                 hari.push({
                                     nomor: i + 1,
                                     jumlah_peserta: this.testu_jumlah_sesi_perhari * this
-                                    .testu_jumlah_peserta_persesi,
-                                    tanggal: moment(this.testu_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                                        .testu_jumlah_peserta_persesi,
+                                    tanggal: moment(this.testu_tanggal_mulai).add(i, 'd').format(
+                                        'YYYY-MM-DD'),
                                     jam_mulai: this.testu_jam_mulai
                                 })
                             }
+                        } else if (jumlah_hari == 1) {
+                            hari.push({
+                                nomor: i + 1,
+                                jumlah_peserta: this.testu_jumlah_sesi_perhari * this.testu_jumlah_peserta_persesi,
+                                tanggal: moment(this.testu_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                                jam_mulai: this.testu_jam_mulai
+                            })
                         } else {
                             hari.push({
                                 nomor: i + 1,
@@ -567,12 +750,12 @@
                         const sesi_per_hari = perhari.jumlah_peserta / this.testu_jumlah_peserta_persesi
                         let durasi = 0;
                         for (let z = 0; z < sesi_per_hari; z++) {
-                            let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai 
+                            let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai
                             sesi.push({
                                 nama_sesi: `Hari ${x+1} Sesi ${z+1}`,
-                                tanggal: perhari.tanggal,
-                                jam: moment(tanggal).add(durasi, 'm').format('HH:mm'),
-                                lokasi: '-'
+                                tanggal_sesi: perhari.tanggal,
+                                jam_sesi: moment(tanggal).add(durasi, 'm').format('HH:mm'),
+                                lokasi_sesi: '-'
                             })
                             durasi += this.testu_durasi_per_sesi
                         }
@@ -584,6 +767,11 @@
                 },
 
                 generateJadwalWawancara() {
+
+                    if (this.jumlah_peserta < 1) {
+                        return alert('Jumlah Peserta wajib diisi!');
+                    }
+
                     const jumlah_hari = Math.ceil(this.jumlah_peserta / (this.teswa_jumlah_sesi_perhari * this
                         .teswa_jumlah_peserta_persesi))
                     const jumlah_peserta_sisa = this.jumlah_peserta % (this.teswa_jumlah_sesi_perhari * this
@@ -596,23 +784,33 @@
                     let last_index = jumlah_hari - 1
                     for (let i = 0; i < jumlah_hari; i++) {
                         if (i !== last_index && jumlah_peserta_sisa > 0) {
-                            if(i == 0) {
+                            if (i == 0) {
                                 hari.push({
                                     nomor: i + 1,
                                     jumlah_peserta: this.teswa_jumlah_sesi_perhari * this
-                                    .teswa_jumlah_peserta_persesi,  
-                                    tanggal: moment(this.teswa_tanggal_mulai).add(0, 'd').format('YYYY-MM-DD'),
+                                        .teswa_jumlah_peserta_persesi,
+                                    tanggal: moment(this.teswa_tanggal_mulai).add(0, 'd').format(
+                                        'YYYY-MM-DD'),
                                     jam_mulai: this.teswa_jam_mulai
                                 })
                             } else {
                                 hari.push({
                                     nomor: i + 1,
                                     jumlah_peserta: this.teswa_jumlah_sesi_perhari * this
-                                    .teswa_jumlah_peserta_persesi,
-                                    tanggal: moment(this.teswa_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                                        .teswa_jumlah_peserta_persesi,
+                                    tanggal: moment(this.teswa_tanggal_mulai).add(i, 'd').format(
+                                        'YYYY-MM-DD'),
                                     jam_mulai: this.teswa_jam_mulai
                                 })
                             }
+                        } else if (jumlah_hari == 1) {
+                            hari.push({
+                                nomor: i + 1,
+                                jumlah_peserta: this.teswa_jumlah_sesi_perhari * this
+                                    .teswa_jumlah_peserta_persesi,
+                                tanggal: moment(this.teswa_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                                jam_mulai: this.teswa_jam_mulai
+                            })
                         } else {
                             hari.push({
                                 nomor: i + 1,
@@ -631,12 +829,12 @@
                         const sesi_per_hari = perhari.jumlah_peserta / this.teswa_jumlah_peserta_persesi
                         let durasi = 0;
                         for (let z = 0; z < sesi_per_hari; z++) {
-                            let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai 
+                            let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai
                             sesi.push({
                                 nama_sesi: `Hari ${x+1} Sesi ${z+1}`,
-                                tanggal: perhari.tanggal,
-                                jam: moment(tanggal).add(durasi, 'm').format('HH:mm'),
-                                lokasi: '-'
+                                tanggal_sesi: perhari.tanggal,
+                                jam_sesi: moment(tanggal).add(durasi, 'm').format('HH:mm'),
+                                lokasi_sesi: '-'
                             })
                             durasi += this.teswa_durasi_per_sesi
                         }
@@ -667,24 +865,24 @@
                 deleteSesi(sesi, s_index) {
 
                     const r = confirm('Apakah anda yakin?')
-                    if(!r) return
+                    if (!r) return
 
-                    if(sesi.id == null) {
+                    if (sesi.id == null) {
                         this.testu_data_sesi.splice(s_index, 1)
                     } else {
-                        
-                        
+
+
                         this.loading = true
                         api.delete('/api/v1/courses/sesi/' + sesi.id + '/delete')
-                        .then(response => {
-                            this.testu_data_sesi.splice(s_index, 1)
-                            notification('Sesi berhasil dihapus!', 'success')
-                        }).catch(error => {
-                            console.log(error)
-                            notification('Sesi gagal dihapus!', 'danger')
-                        }).finally(() => {
-                            this.loading = false
-                        })
+                            .then(response => {
+                                this.testu_data_sesi.splice(s_index, 1)
+                                notification('Sesi berhasil dihapus!', 'success')
+                            }).catch(error => {
+                                console.log(error)
+                                notification('Sesi gagal dihapus!', 'danger')
+                            }).finally(() => {
+                                this.loading = false
+                            })
 
                     }
 
@@ -698,23 +896,29 @@
                 deleteLogbook(logbook, l_index) {
 
                     const r = confirm('Apakah anda yakin?')
-                    if(!r) return
+                    if (!r) return
 
-                    if(logbook.id == null) {
+                    if (logbook.id == null) {
                         this.logbook.splice(l_index, 1)
                     } else {
-                        
+
                         this.loading = true
                         api.delete('/api/v1/courses/logbook/' + logbook.id + '/delete')
-                        .then(response => {
-                            this.testu_data_sesi.splice(l_index, 1)
-                            notification({message: 'Sesi berhasil dihapus!', type: 'success'})
-                        }).catch(error => {
-                            console.log(error)
-                            notification({message: 'Sesi gagal dihapus!', type: 'danger'})
-                        }).finally(() => {
-                            this.loading = false
-                        })
+                            .then(response => {
+                                this.testu_data_sesi.splice(l_index, 1)
+                                notification({
+                                    message: 'Sesi berhasil dihapus!',
+                                    type: 'success'
+                                })
+                            }).catch(error => {
+                                console.log(error)
+                                notification({
+                                    message: 'Sesi gagal dihapus!',
+                                    type: 'danger'
+                                })
+                            }).finally(() => {
+                                this.loading = false
+                            })
 
                     }
 

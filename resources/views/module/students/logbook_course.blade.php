@@ -10,6 +10,7 @@
                 <label class="form-check-label" for="exampleCheck-{{ $logbook->id }}">{{ $logbook->name }}</label>
             </div>
         @empty
+          <div>Logbook pada pelatihan ini kosong. Silakan <a href="{{ route('course.edit',[$course_id,$course->slug])}}">tambahkan</a> terlebih dahulu.</div>
         @endforelse
 
 

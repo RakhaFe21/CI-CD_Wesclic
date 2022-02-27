@@ -189,12 +189,13 @@ class StudentController extends Controller
 
     public function student_logbook_courses($course_id, $user_id)
     {
-        $logbooks = Logbook::where('course_id', $course_id)->get();
+        $course = Course::find($course_id);
+        $logbooks = Logbook::with(['course'])->where('course_id', $course_id)->get();
         $logbook_students = LogbookStudent::leftJoin('logbook as l', 'l.id', '=', 'logbook_students.logbook_id')
         ->where('l.course_id', $course_id)
         ->where('user_id', $user_id)->pluck('logbook_id')->toArray();
         $student = Student::where('user_id', $user_id)->first();
-        return view('module.students.logbook_course', compact('logbooks', 'logbook_students', 'student', 'user_id'));
+        return view('module.students.logbook_course', compact('logbooks', 'logbook_students', 'student', 'course_id', 'user_id', 'course'));
     }
 
     public function student_logbook_courses_store(Request $request, $user_id)

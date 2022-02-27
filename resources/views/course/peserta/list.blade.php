@@ -5,11 +5,11 @@
 <div class="card mx-2 mb-3">
     <form action="" method="post" enctype="multipart/form-data">
         @csrf
-        <div class="card-header">
-            <div class="float-left">
+        <div class="card-header d-flex justify-content-between">
+            <div class="">
                 <h3>@translate(List Siswa)</h3>
             </div>
-            <div class="float-right">
+            <div class="">
                 <div class="row">
                     <div class="col">
                         <form method="get" action="">
@@ -30,7 +30,7 @@
             <table class="table table-bordered table-hover text-center">
                 <thead>
                     <tr>
-                        <th> </th>
+                        {{-- <th> </th> --}}
                         <th>@translate(Gambar)</th>
                         <th>@translate(User Name)</th>
                         <th>@translate(NIK)</th>
@@ -40,13 +40,13 @@
                 <tbody>
                     @forelse($students as $item)
                     <tr>
-                        <td><input type="checkbox" name="course_id[]" value="{{ $item->id }}" class="form-check-input"
-                                id="exampleCheck-{{ $item->id }}"></td>
+                        {{-- <td><input type="checkbox" name="course_id[]" value="{{ $item->id }}" class="form-check-input"
+                                id="exampleCheck-{{ $item->id }}"></td> --}}
                         <td>
                             @if($item->image != null)
                             <img src="{{filePath($item->image)}}" class="img-thumbnail rounded-circle avatar-lg"><br />
                             @else
-                            <img src="" class="img-thumbnail rounded-circle avatar-lg" alt="avatar"><br />
+                            <img src="#" class="img-thumbnail rounded-circle avatar-lg" alt="avatar"><br />
                             @endif
                         </td>
                         <td>{{$item->name}}</td>
@@ -54,9 +54,12 @@
                             {{$item->nik ?? 'N/A'}}
                         </td>
                         <td>
-                            <a class="btn btn-primary" href="javascript:;"
+                            {{-- <a class="btn btn-primary" href="javascript:;"
                                 onclick="forModal('{{ route('student.enroll.courses.modal', $item->user_id) }}', '@translate(Pelatihan yang diikuti)')">
-                                @translate(Lihat)</a>
+                                @translate(Lihat)</a> --}}
+                            <a class="btn btn-primary" href="javascript:;"
+                            onclick="forModal('{{ route('student.logbook.courses.modal', ['course_id' => $course_id, 'user_id' => $item->user_id]) }}', 'Logbook Siswa')">
+                            @translate(Lihat)</a>
                         </td>
                     </tr>
                     @empty

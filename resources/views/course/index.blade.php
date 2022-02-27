@@ -97,15 +97,7 @@
                             </td>
                             <td><span class="badge badge-info">{{ $course->relationBetweenCategory->name }}</span></td>
                             <td>
-                                @translate(Kelas)- {{ $course->classes->count() }}
-                                @php
-                                    $total_count = 0;
-                                @endphp
-                                @foreach($course->classes as $item)
-                                    <input type="hidden" value="{{$total_count += $item->contents->count()}}"/>
-                                @endforeach
-                                <br>
-                                @translate(Konten)- {{ $total_count }}
+                                Logbook - {{ $course->logbook->count() }}
                             </td>
                             <td>  <a href="{{ route('course.pel',[$course->id,$course->slug])}}">{{ $s = App\Model\Enrollment::where('course_id' , $course->id)->count() }} </td>
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")

@@ -61,11 +61,11 @@ class CourseController extends Controller
         return view('course.index', compact('courses'));
     }
 
-    public function peserta_pel($pel)
+    public function peserta_pel($course_id)
     {
-        $students = Student::leftjoin('enrollments AS b', 'students.user_id', 'b.id')->where('b.course_id', $pel)->orderBydesc('students.id')->paginate(10);
+        $students = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')->paginate(10);
 
-        return view('course.peserta.list', compact('students'));
+        return view('course.peserta.list', compact('students', 'course_id'));
     }
 
     // course.create

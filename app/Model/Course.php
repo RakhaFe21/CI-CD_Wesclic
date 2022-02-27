@@ -91,5 +91,10 @@ class Course extends Model
     	return $this->hasOne('App\SubscriptionCourse','course_id','id');
     }
 
+    // logbook
+    public function logbook() {
+        return $this->hasMany(Logbook::class, 'course_id', 'id');
+    }
+
     //END
 }

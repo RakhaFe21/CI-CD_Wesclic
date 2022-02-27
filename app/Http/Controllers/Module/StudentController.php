@@ -9,6 +9,8 @@ use App\User;
 use App\Model\Student;
 use App\Notifications\StudentRegister;
 use Alert;
+use App\Model\Logbook;
+use App\Model\LogbookStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -181,6 +183,35 @@ class StudentController extends Controller
         Session::flash('message', translate("Course enrolled for student."));
         return back();
 
+    }
+
+    // Logbook Student
+
+    public function student_logbook_courses($course_id, $user_id)
+    {
+        $logbooks = Logbook::where('course_id', $course_id)->get();
+        $logbook_students = LogbookStudent::leftJoin('logbook as l', 'l.id', '=', 'logbook_students.logbook_id')
+        ->where('l.course_id', $course_id)
+        ->where('user_id', $user_id)->pluck('logbook_id')->toArray();
+        $student = Student::where('user_id', $user_id)->first();
+        return view('module.students.logbook_course', compact('logbooks', 'logbook_students', 'student', 'user_id'));
+    }
+
+    public function student_logbook_courses_store(Request $request, $user_id)
+    {
+        $logbooks = $request->logbook_id;
+
+        LogbookStudent::where('user_id', $user_id)->delete();
+        foreach($logbooks as $id){
+            $logStudent = new LogbookStudent();
+            $logStudent->logbook_id = $id;
+            $logStudent->user_id = $user_id;
+            $logStudent->save();
+
+        }
+
+        notify()->success('Student logbook updated successfully!');
+        return redirect()->back()->with('success', 'Student logbook updated successfully!');
     }
 
     //END

@@ -309,7 +309,8 @@ class FrontendController extends Controller
     {
         $l_courses = Course::Published()->latest()->take(3)->get(); // single course details
         $sug_courses = Course::Published()->take(8)->get()->shuffle(); // suggession courses
-        $s_course = Course::Published()->where('slug', $slug)->with('classes')->first(); // single course details
+        // $s_course = Course::Published()->where('slug', $slug)->with('classes')->first(); // single course details
+        $s_course = Course::Published()->where('slug', $slug)->with(['logbook'])->first(); // single course details
         return view($this->theme.'.course.course_details', compact('s_course', 'l_courses', 'sug_courses'));
 
     }

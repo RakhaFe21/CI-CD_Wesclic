@@ -343,7 +343,7 @@
                                 @translate(Tanggal)</label>
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
-                                    <input type="date" v-model="sesi.tanggal" name="testu_sesi_tanggal[]" class="form-control">
+                                    <input type="date" v-model="sesi.tanggal_sesi" name="testu_sesi_tanggal[]" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -354,7 +354,7 @@
                                 @translate(Jam)</label>
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
-                                    <input type="time" v-model="sesi.jam" name="testu_sesi_jam[]" class="form-control">
+                                    <input type="time" v-model="sesi.jam_sesi" name="testu_sesi_jam[]" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -365,7 +365,7 @@
                                 @translate(Lokasi)</label>
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
-                                    <input type="text" v-model="sesi.lokasi" name="testu_sesi_lokasi[]" class="form-control">
+                                    <input type="text" v-model="sesi.lokasi_sesi" name="testu_sesi_lokasi[]" class="form-control">
                                     {{-- <input type="hidden" v-model="sesi.nama_sesi" name="testu_sesi_nama[]" class="form-control"> --}}
                                 </div>
                             </div>
@@ -507,7 +507,7 @@
                                 @translate(Tanggal)</label>
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
-                                    <input type="date" v-model="sesi.tanggal" name="teswa_sesi_tanggal[]" class="form-control">
+                                    <input type="date" v-model="sesi.tanggal_sesi" name="teswa_sesi_tanggal[]" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -518,7 +518,7 @@
                                 @translate(Jam)</label>
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
-                                    <input type="time" v-model="sesi.jam" name="teswa_sesi_jam[]" class="form-control">
+                                    <input type="time" v-model="sesi.jam_sesi" name="teswa_sesi_jam[]" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -529,7 +529,7 @@
                                 @translate(Lokasi)</label>
                             <div class="col-lg-9">
                                 <div class="input-group mb-3">
-                                    <input type="text" v-model="sesi.lokasi" name="teswa_sesi_lokasi[]" class="form-control">
+                                    <input type="text" v-model="sesi.lokasi_sesi" name="teswa_sesi_lokasi[]" class="form-control">
                                     {{-- <input type="hidden" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]" class="form-control"> --}}
                                 </div>
                             </div>
@@ -731,130 +731,159 @@
             methods: {
 
                 generateJadwalTulis() {
-                    const jumlah_hari = Math.ceil(this.jumlah_peserta / (this.testu_jumlah_sesi_perhari * this
-                        .testu_jumlah_peserta_persesi))
-                    const jumlah_peserta_sisa = this.jumlah_peserta % (this.testu_jumlah_sesi_perhari * this
-                        .testu_jumlah_peserta_persesi)
 
-                    console.log('jumlah_hari', jumlah_hari)
-                    console.log('jumlah_peserta_sisa', jumlah_peserta_sisa)
+                if (this.jumlah_peserta < 1) {
+                    return alert('Jumlah Peserta wajib diisi!');
+                }
 
-                    let hari = []
-                    let last_index = jumlah_hari - 1
-                    for (let i = 0; i < jumlah_hari; i++) {
-                        if (i !== last_index && jumlah_peserta_sisa > 0) {
-                            if(i == 0) {
-                                hari.push({
-                                    nomor: i + 1,
-                                    jumlah_peserta: this.testu_jumlah_sesi_perhari * this
-                                    .testu_jumlah_peserta_persesi,  
-                                    tanggal: moment(this.testu_tanggal_mulai).add(0, 'd').format('YYYY-MM-DD'),
-                                    jam_mulai: this.testu_jam_mulai
-                                })
-                            } else {
-                                hari.push({
-                                    nomor: i + 1,
-                                    jumlah_peserta: this.testu_jumlah_sesi_perhari * this
+                const jumlah_hari = Math.ceil(this.jumlah_peserta / (this.testu_jumlah_sesi_perhari * this
+                    .testu_jumlah_peserta_persesi))
+                const jumlah_peserta_sisa = this.jumlah_peserta % (this.testu_jumlah_sesi_perhari * this
+                    .testu_jumlah_peserta_persesi)
+
+                console.log('jumlah_hari', jumlah_hari)
+                console.log('jumlah_peserta_sisa', jumlah_peserta_sisa)
+
+                let hari = []
+                let last_index = jumlah_hari - 1
+                for (let i = 0; i < jumlah_hari; i++) {
+                    if (i !== last_index && jumlah_peserta_sisa > 0) {
+                        if (i == 0) {
+                            hari.push({
+                                nomor: i + 1,
+                                jumlah_peserta: this.testu_jumlah_sesi_perhari * this
                                     .testu_jumlah_peserta_persesi,
-                                    tanggal: moment(this.testu_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
-                                    jam_mulai: this.testu_jam_mulai
-                                })
-                            }
+                                tanggal: moment(this.testu_tanggal_mulai).add(0, 'd').format(
+                                    'YYYY-MM-DD'),
+                                jam_mulai: this.testu_jam_mulai
+                            })
                         } else {
                             hari.push({
                                 nomor: i + 1,
-                                jumlah_peserta: jumlah_peserta_sisa,
-                                tanggal: moment(this.testu_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                                jumlah_peserta: this.testu_jumlah_sesi_perhari * this
+                                    .testu_jumlah_peserta_persesi,
+                                tanggal: moment(this.testu_tanggal_mulai).add(i, 'd').format(
+                                    'YYYY-MM-DD'),
                                 jam_mulai: this.testu_jam_mulai
                             })
                         }
+                    } else if (jumlah_hari == 1) {
+                        hari.push({
+                            nomor: i + 1,
+                            jumlah_peserta: this.testu_jumlah_sesi_perhari * this.testu_jumlah_peserta_persesi,
+                            tanggal: moment(this.testu_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                            jam_mulai: this.testu_jam_mulai
+                        })
+                    } else {
+                        hari.push({
+                            nomor: i + 1,
+                            jumlah_peserta: jumlah_peserta_sisa,
+                            tanggal: moment(this.testu_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                            jam_mulai: this.testu_jam_mulai
+                        })
                     }
-                    console.log('hari', hari)
+                }
+                console.log('hari', hari)
 
-                    let sesi = [],
-                        nomor = 1;
-                    for (let x = 0; x < hari.length; x++) {
-                        const perhari = hari[x];
-                        const sesi_per_hari = perhari.jumlah_peserta / this.testu_jumlah_peserta_persesi
-                        let durasi = 0;
-                        for (let z = 0; z < sesi_per_hari; z++) {
-                            let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai 
-                            sesi.push({
-                                nama_sesi: `Hari ${x+1} Sesi ${z+1}`,
-                                tanggal: perhari.tanggal,
-                                jam: moment(tanggal).add(durasi, 'm').format('HH:mm'),
-                                lokasi: '-'
-                            })
-                            durasi += this.testu_durasi_per_sesi
-                        }
+                let sesi = [],
+                    nomor = 1;
+                for (let x = 0; x < hari.length; x++) {
+                    const perhari = hari[x];
+                    const sesi_per_hari = perhari.jumlah_peserta / this.testu_jumlah_peserta_persesi
+                    let durasi = 0;
+                    for (let z = 0; z < sesi_per_hari; z++) {
+                        let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai
+                        sesi.push({
+                            nama_sesi: `Hari ${x+1} Sesi ${z+1}`,
+                            tanggal_sesi: perhari.tanggal,
+                            jam_sesi: moment(tanggal).add(durasi, 'm').format('HH:mm'),
+                            lokasi_sesi: '-'
+                        })
+                        durasi += this.testu_durasi_per_sesi
                     }
+                }
 
-                    console.log('sesi', sesi)
-                    this.testu_data_sesi = sesi
+                console.log('sesi', sesi)
+                this.testu_data_sesi = sesi
 
                 },
 
                 generateJadwalWawancara() {
-                    const jumlah_hari = Math.ceil(this.jumlah_peserta / (this.teswa_jumlah_sesi_perhari * this
-                        .teswa_jumlah_peserta_persesi))
-                    const jumlah_peserta_sisa = this.jumlah_peserta % (this.teswa_jumlah_sesi_perhari * this
-                        .teswa_jumlah_peserta_persesi)
 
-                    console.log('jumlah_hari', jumlah_hari)
-                    console.log('jumlah_peserta_sisa', jumlah_peserta_sisa)
+                if (this.jumlah_peserta < 1) {
+                    return alert('Jumlah Peserta wajib diisi!');
+                }
 
-                    let hari = []
-                    let last_index = jumlah_hari - 1
-                    for (let i = 0; i < jumlah_hari; i++) {
-                        if (i !== last_index && jumlah_peserta_sisa > 0) {
-                            if(i == 0) {
-                                hari.push({
-                                    nomor: i + 1,
-                                    jumlah_peserta: this.teswa_jumlah_sesi_perhari * this
-                                    .teswa_jumlah_peserta_persesi,  
-                                    tanggal: moment(this.teswa_tanggal_mulai).add(0, 'd').format('YYYY-MM-DD'),
-                                    jam_mulai: this.teswa_jam_mulai
-                                })
-                            } else {
-                                hari.push({
-                                    nomor: i + 1,
-                                    jumlah_peserta: this.teswa_jumlah_sesi_perhari * this
+                const jumlah_hari = Math.ceil(this.jumlah_peserta / (this.teswa_jumlah_sesi_perhari * this
+                    .teswa_jumlah_peserta_persesi))
+                const jumlah_peserta_sisa = this.jumlah_peserta % (this.teswa_jumlah_sesi_perhari * this
+                    .teswa_jumlah_peserta_persesi)
+
+                console.log('jumlah_hari', jumlah_hari)
+                console.log('jumlah_peserta_sisa', jumlah_peserta_sisa)
+
+                let hari = []
+                let last_index = jumlah_hari - 1
+                for (let i = 0; i < jumlah_hari; i++) {
+                    if (i !== last_index && jumlah_peserta_sisa > 0) {
+                        if (i == 0) {
+                            hari.push({
+                                nomor: i + 1,
+                                jumlah_peserta: this.teswa_jumlah_sesi_perhari * this
                                     .teswa_jumlah_peserta_persesi,
-                                    tanggal: moment(this.teswa_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
-                                    jam_mulai: this.teswa_jam_mulai
-                                })
-                            }
+                                tanggal: moment(this.teswa_tanggal_mulai).add(0, 'd').format(
+                                    'YYYY-MM-DD'),
+                                jam_mulai: this.teswa_jam_mulai
+                            })
                         } else {
                             hari.push({
                                 nomor: i + 1,
-                                jumlah_peserta: jumlah_peserta_sisa,
-                                tanggal: moment(this.teswa_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                                jumlah_peserta: this.teswa_jumlah_sesi_perhari * this
+                                    .teswa_jumlah_peserta_persesi,
+                                tanggal: moment(this.teswa_tanggal_mulai).add(i, 'd').format(
+                                    'YYYY-MM-DD'),
                                 jam_mulai: this.teswa_jam_mulai
                             })
                         }
+                    } else if (jumlah_hari == 1) {
+                        hari.push({
+                            nomor: i + 1,
+                            jumlah_peserta: this.teswa_jumlah_sesi_perhari * this
+                                .teswa_jumlah_peserta_persesi,
+                            tanggal: moment(this.teswa_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                            jam_mulai: this.teswa_jam_mulai
+                        })
+                    } else {
+                        hari.push({
+                            nomor: i + 1,
+                            jumlah_peserta: jumlah_peserta_sisa,
+                            tanggal: moment(this.teswa_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                            jam_mulai: this.teswa_jam_mulai
+                        })
                     }
-                    console.log('hari', hari)
+                }
+                console.log('hari', hari)
 
-                    let sesi = [],
-                        nomor = 1;
-                    for (let x = 0; x < hari.length; x++) {
-                        const perhari = hari[x];
-                        const sesi_per_hari = perhari.jumlah_peserta / this.teswa_jumlah_peserta_persesi
-                        let durasi = 0;
-                        for (let z = 0; z < sesi_per_hari; z++) {
-                            let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai 
-                            sesi.push({
-                                nama_sesi: `Hari ${x+1} Sesi ${z+1}`,
-                                tanggal: perhari.tanggal,
-                                jam: moment(tanggal).add(durasi, 'm').format('HH:mm'),
-                                lokasi: '-'
-                            })
-                            durasi += this.teswa_durasi_per_sesi
-                        }
+                let sesi = [],
+                    nomor = 1;
+                for (let x = 0; x < hari.length; x++) {
+                    const perhari = hari[x];
+                    const sesi_per_hari = perhari.jumlah_peserta / this.teswa_jumlah_peserta_persesi
+                    let durasi = 0;
+                    for (let z = 0; z < sesi_per_hari; z++) {
+                        let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai
+                        sesi.push({
+                            nama_sesi: `Hari ${x+1} Sesi ${z+1}`,
+                            tanggal_sesi: perhari.tanggal,
+                            jam_sesi: moment(tanggal).add(durasi, 'm').format('HH:mm'),
+                            lokasi_sesi: '-'
+                        })
+                        durasi += this.teswa_durasi_per_sesi
                     }
+                }
 
-                    console.log('sesi', sesi)
-                    this.teswa_data_sesi = sesi
+                console.log('sesi', sesi)
+                this.teswa_data_sesi = sesi
 
                 },
 

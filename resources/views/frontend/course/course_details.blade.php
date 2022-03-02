@@ -2,9 +2,10 @@
 
 @section('content')
     <!-- ================================
-          START BREADCRUMB AREA
-      ================================= -->
-    <section class="breadcrumb-area breadcrumb-detail-area" style="background-image: url({{ filePath($s_course->image) }})">
+                          START BREADCRUMB AREA
+                      ================================= -->
+    <section class="breadcrumb-area breadcrumb-detail-area"
+        style="background-image: url({{ filePath($s_course->image) }})">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -23,13 +24,15 @@
                             </h5>
                         </div>
                         <ul class="breadcrumb__list mt-2">
-                            <li>@translate(Dibuat oleh) <a
-                                    href="{{ route('single.instructor', $s_course->slug) }}"> Admin</a>
-                            </li>
-                            <li>{{ number_format(App\Model\Enrollment::where('course_id', $s_course->id)->count()) }}
+                            {{-- <li>@translate(Dibuat oleh) <a href="{{ route('single.instructor', $s_course->slug) }}">
+                                    Admin</a>
+                            </li> --}}
+                            <li><i class="fa fa-users fa-fw"></i> {{ number_format(App\Model\Enrollment::where('course_id', $s_course->id)->count()) }}
                                 @translate(Siswa Terdaftar)
                             </li>
-                            <li><i class="fas fa-sign-up fa-fw"></i> Pendaftaran {{\Carbon\Carbon::parse($s_course->mulai_pendaftaran)->format('d F Y')}} s/d {{\Carbon\Carbon::parse($s_course->berakhri_pendaftaran)->format('d F Y')}}</li>
+                            <li><i class="fa fa-file fa-fw"></i> Pendaftaran
+                                {{ \Carbon\Carbon::parse($s_course->mulai_pendaftaran)->format('d M Y') }} s/d
+                                {{ \Carbon\Carbon::parse($s_course->berakhri_pendaftaran)->format('d M Y') }}</li>
                             {{-- <li><i class="la la-globe"></i> {{ $s_course->language }}</li> --}}
                             {{-- @if ($s_course->logbook->count() > 0)
                                 <li>@translate(Terakhir Diupdate)
@@ -47,8 +50,8 @@
         </div><!-- end container -->
     </section><!-- end breadcrumb-area -->
     <!-- ================================
-            END BREADCRUMB AREA
-        ================================= -->
+                            END BREADCRUMB AREA
+                        ================================= -->
     <div id="mobile-sidebar-preview" class="sidebar-widget sidebar-preview">
         <div class="sidebar-preview-titles">
             <h3 class="widget-title">@translate(Lihat Pelatihan Ini)</h3>
@@ -56,14 +59,15 @@
         </div>
         <div class="preview-video-and-details">
             <div class="preview-course-video">
-                <a href="javascript:void(0)" data-toggle="modal" data-target=".preview-modal-form">
+                {{-- <a href="javascript:void(0)" data-toggle="modal" data-target=".preview-modal-form">
                     <img data-original="{{ filePath($s_course->image) }}" alt="{{ $s_course->title }}">
                     <div class="play-button">
                         <div class="square-60 bg-dark p-3 rounded-circle">
                             <i class="la la-play text-white play-icon"></i>
                         </div>
                     </div>
-                </a>
+                </a> --}}
+                <img src="{{ filePath($s_course->image) }}" alt="{{ $s_course->title }}">
             </div>
             <div class="preview-course-content">
 
@@ -82,22 +86,22 @@
 @else
     @if ($s_course->is_discount)
     {{-- discounted price --}}
-                                        <span class="price-current f-24">{{ formatPrice($s_course->discount_price) }}</span>
-                                        {{-- actual price --}}
-                                        <span class="price-before f-24">{{ formatPrice($s_course->price) }}</span>
-                                        {{-- percentage of discount --}}
+                                                        <span class="price-current f-24">{{ formatPrice($s_course->discount_price) }}</span>
+                                                        {{-- actual price --}}
+                                                        <span class="price-before f-24">{{ formatPrice($s_course->price) }}</span>
+                                                        {{-- percentage of discount --}}
 @else
     {{-- actual price --}}
-                                        <span class="price-current f-24">{{ formatPrice($s_course->price) }}</span>
+                                                        <span class="price-current f-24">{{ formatPrice($s_course->price) }}</span>
     @endif
     @endif -->
                         </p>
 
                         <!-- @auth()
         <a href="#!"
-                                       onclick="addToCart({{ $s_course->id }},'{{ route('add.to.wishlist') }}')"
-                                       class="card__collection-icon love-{{ $s_course->id }}"><span
-                                            class="la la-heart-o love-span-{{ $s_course->id }}"></span></a>
+                                                                       onclick="addToCart({{ $s_course->id }},'{{ route('add.to.wishlist') }}')"
+                                                                       class="card__collection-icon love-{{ $s_course->id }}"><span
+                                                                            class="la la-heart-o love-span-{{ $s_course->id }}"></span></a>
     @endauth -->
 
                         @guest()
@@ -111,14 +115,23 @@
                 <div class="buy-course-btn mb-3 text-center">
                     @auth()
                         @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
-                            <a href="#!" class="theme-btn w-100 mb-3 addToCart-{{ $s_course->id }}"
-                                onclick="addToCart({{ $s_course->id }},'{{ route('add.to.cart') }}')">@translate(Daftar)</a>
+                            {{-- <a href="#!" class="theme-btn w-100 mb-3 addToCart-{{ $s_course->id }}"
+                                onclick="addToCart({{ $s_course->id }},'{{ route('add.to.cart') }}')">Daftar</a> --}}
+                            @if (countEnrollmentProgress(auth()->user()->id) < 1)
+                                <form action="{{ route('enroll.course', ['id' => $s_course->id]) }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="theme-btn w-100 mb-3">Daftar</button>
+                                </form>
+                            @else
+                                <button type="button" disabled class="theme-btn-light w-100 mb-3">Daftar</button>
+                                {{-- <div class="small text-secondary">Anda masih memiliki pelatihan yang sedang berjalan.</div> --}}
+                            @endif
                         @else
-                            <a href="{{ route('login') }}" class="theme-btn w-100 mb-3">@translate(Daftar)</a>
+                            <a href="{{ route('login') }}" class="theme-btn w-100 mb-3">Daftar</a>
                         @endif
                     @endauth
                     @guest
-                        <a href="{{ route('login') }}" class="theme-btn w-100 mb-3">@translate(Daftar)</a>
+                        <a href="{{ route('login') }}" class="theme-btn w-100 mb-3">Daftar</a>
 
                     @endguest
                 </div>
@@ -167,8 +180,8 @@
     </div><!-- end sidebar-widget -->
 
     <!--======================================
-                START COURSE DETAIL
-        ======================================-->
+                                START COURSE DETAIL
+                        ======================================-->
     <section class="course-detail margin-bottom-110px">
         <div class="container">
             <div class="row">
@@ -326,10 +339,10 @@
                                                     <span class="card__label-text">{{ $course->level }}</span>
                                                     <!-- @auth()
         <a href="#!"
-                                                                   onclick="addToCart({{ $course->id }},'{{ route('add.to.wishlist') }}')"
-                                                                   class="card__collection-icon love-{{ $course->id }}"><span
+                                                                                                   onclick="addToCart({{ $course->id }},'{{ route('add.to.wishlist') }}')"
+                                                                                                   class="card__collection-icon love-{{ $course->id }}"><span
 
-                                                                        class="la la-heart-o love-span-{{ $course->id }}"></span></a>
+                                                                                                        class="la la-heart-o love-span-{{ $course->id }}"></span></a>
     @endauth -->
 
                                                     @guest()
@@ -343,8 +356,7 @@
                                                         href="{{ route('course.single', $course->slug) }}">{{ $course->title }}</a>
                                                 </h3>
                                                 <p class="card__author">
-                                                    <a
-                                                        href="{{ route('single.instructor', $course->slug) }}"> Admin</a>
+                                                    <a href="{{ route('single.instructor', $course->slug) }}"> Admin</a>
                                                 </p>
                                                 <div class="rating-wrap d-flex mt-2 mb-3">
                                                     <span class="star-rating-wrap">
@@ -394,17 +406,28 @@
                                                     <!--there are the login-->
                                                     @auth()
                                                         @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
-                                                            <a href="#!" class="text-btn addToCart-{{ $course->id }}"
-                                                                onclick="addToCart({{ $course->id }},'{{ route('add.to.cart') }}')">@translate(Daftar)</a>
+                                                            {{-- <a href="#!" class="text-btn addToCart-{{ $course->id }}"
+                                                                onclick="addToCart({{ $course->id }},'{{ route('add.to.cart') }}')">Daftar</a> --}}
+                                                            @if (countEnrollmentProgress(auth()->user()->id) < 1)
+                                                                <form
+                                                                    action="{{ route('enroll.course', ['id' => $s_course->id]) }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    <button type="submit"
+                                                                        class="theme-btn mb-3">Daftar</button>
+                                                                </form>
+                                                            @else
+                                                                <button type="button" disabled
+                                                                    class="theme-btn-light mb-3">Daftar</button>
+                                                                {{-- <div class="small text-secondary">Anda masih memiliki pelatihan yang sedang berjalan.</div> --}}
+                                                            @endif
                                                         @else
-                                                            <a href="{{ route('login') }}"
-                                                                class="text-btn">@translate(Daftar)</a>
+                                                            <a href="{{ route('login') }}" class="text-btn">Daftar</a>
                                                         @endif
                                                     @endauth
 
                                                     @guest()
-                                                        <a href="{{ route('login') }}"
-                                                            class="text-btn">@translate(Daftar)</a>
+                                                        <a href="{{ route('login') }}" class="text-btn">Daftar</a>
                                                     @endguest
 
 
@@ -481,178 +504,7 @@
 
 
                         <div class="section-block"></div>
-                        <div class="instructor-wrap padding-top-50px padding-bottom-45px">
-                            <h3 class="widget-title">@translate(Tentang Penyelenggara)</h3>
-                            <div class="instructor-content margin-top-30px d-flex">
-                                <div class="instructor-img">
-                                    <a href="{{ route('single.instructor', $s_course->slug) }}" class="instructor__avatar">
-                                        <img data-original="{{ filePath($s_course->image) }}"
-                                            alt="{{ $s_course->name }}">
-                                    </a>
-                                    <ul class="list-items">
-                                        </li>
-                                        <li><span class="la la-user"></span>
-                                            {{ App\Model\Enrollment::where('course_id', $s_course->id)->count() }}
-                                            @translate(Siswa)
-                                        </li>
-                                        <li><span class="la la-play-circle-o"></span>
-                                            {{ \App\Model\Course::where('user_id', $s_course->id)->count() }}
-                                            @translate(Pelatihan)
-                                        </li>
-                                        <li><span class="la la-eye"></span>
-                                            <a href="{{ route('single.instructor', $s_course->slug) }}">
-                                                @translate(Lihat Semua Pelatihan)</a>
-                                        </li>
-                                    </ul>
-                                </div><!-- end instructor-img -->
-                                <div class="instructor-details">
-                                    <div class="instructor-titles">
-                                        <h3 class="widget-title"><a
-                                                href="{{ route('single.instructor', $s_course->slug) }}">{{ $s_course->name }}</a>
-                                        </h3>
-                                        <p class="instructor__subtitle">
-                                            {{ \Illuminate\Support\Carbon::parse($s_course->created_at)->diffForHumans() }}
-                                        </p>
-                                    </div><!-- end instructor-titles -->
-
-                                    <div class="instructor-desc">
-
-
-                                        <div class="btn-box pt-2 d-inline-block">
-                                            <a class="collapsed link-collapsed" data-toggle="collapse"
-                                                href="#show-more-content" role="button" aria-expanded="false"
-                                                aria-controls="show-more-content">
-                                                <span class="link-collapse-read-more">@translate(Baca selengkapnya)</span>
-                                                <span class="link-collapse-active">@translate(Baca lebih sedikit)</span>
-                                                <div class="ml-1">
-                                                    <i class="la la-plus"></i>
-                                                    <i class="la la-minus"></i>
-                                                </div>
-                                            </a>
-                                        </div>
-
-
-                                    </div>
-                                    <!-- end instructor-desc -->
-                                </div><!-- end instructor-details -->
-                            </div><!-- end instructor-content -->
-                        </div><!-- end instructor-wrap -->
-
-                        <div class="view-more-courses mt-5">
-                            <h3 class="widget-title">@translate(pelatihan lainnya oleh) {{ $s_course->name }}</h3>
-                            <div class="view-more-carousel margin-top-30px margin-bottom-50px">
-                                @foreach (App\Model\Course::Published()->where('user_id', $s_course->user_id)->latest()->take(6)->get()
-        as $moreCourseItem)
-                                    <div class="column-td-half">
-                                        <div class="card-item card-preview"
-                                            data-tooltip-content="#tooltip_content_{{ $moreCourseItem->id }}">
-                                            <div class="card-image">
-                                                <a href="{{ route('course.single', $moreCourseItem->slug) }}"
-                                                    class="card__img"><img
-                                                        data-original="{{ filePath($moreCourseItem->image) }}"
-                                                        alt="{{ $moreCourseItem->title }}"></a>
-                                                @if (bestSellingTags($moreCourseItem->id))
-                                                    <div class="card-badge">
-                                                        <span class="badge-label">@translate(paling laris)</span>
-                                                    </div>
-                                                @endif
-                                            </div><!-- end card-image -->
-                                            <div class="card-content">
-                                                <p class="card__label">
-                                                    <span class="card__label-text">{{ $moreCourseItem->level }}</span>
-                                                    <!-- @auth()
-        <a href="#!"
-                                                                   onclick="addToCart({{ $moreCourseItem->id }},'{{ route('add.to.wishlist') }}')"
-                                                                   class="card__collection-icon love-{{ $moreCourseItem->id }}"><span
-                                                                        class="la la-heart-o love-span-{{ $moreCourseItem->id }}"></span></a>
-    @endauth -->
-
-                                                    @guest()
-                                                        <a href="{{ route('login') }}" class="card__collection-icon"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Add to Wishlist"><span class="la la-heart-o"></span></a>
-                                                    @endguest
-                                                </p>
-                                                <h3 class="card__title">
-                                                    <a
-                                                        href="{{ route('course.single', $moreCourseItem->slug) }}">{{ \Illuminate\Support\Str::limit($moreCourseItem->title, 58) }}</a>
-                                                </h3>
-                                                <p class="card__author">
-                                                    <a
-                                                        href="{{ route('single.instructor', $moreCourseItem->slug) }}">{{ $moreCourseItem->name }}</a>
-                                                </p>
-                                                <div class="rating-wrap d-flex mt-2 mb-3">
-                                                    <span class="star-rating-wrap">
-                                                        @translate(Terdaftar) <span
-                                                            class="star__count">{{ \App\Model\Enrollment::where('course_id', $moreCourseItem->id)->count() }}</span>
-                                                    </span>
-                                                </div><!-- end rating-wrap -->
-                                                <div class="card-action">
-                                                    <ul
-                                                        class="card-duration d-flex justify-content-between align-items-center">
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                <i class="la la-play-circle"></i>
-                                                                {{ $moreCourseItem->logbook->count() }} Materi Pelatihan
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                @php
-                                                                    $total_duration = 0;
-                                                                    foreach ($moreCourseItem->classes as $item) {
-                                                                        $total_duration += $item->contents->sum('duration');
-                                                                    }
-                                                                @endphp
-                                                                {{-- <i
-                                                                    class="la la-clock-o"></i>{{ duration($total_duration) }} --}}
-
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div><!-- end card-action -->
-                                                <div
-                                                    class="card-price-wrap d-flex justify-content-between align-items-center">
-                                                    <!--if free-->
-                                                    @if ($moreCourseItem->is_free)
-                                                        <span class="card__price">@translate(Gratis)</span>
-                                                    @else
-                                                        @if ($moreCourseItem->is_discount)
-                                                            <span
-                                                                class="card__price"><del>{{ formatPrice($moreCourseItem->price) }}</del></span>
-                                                            <span
-                                                                class="card__price">{{ formatPrice($moreCourseItem->discount_price) }}</span>
-                                                        @else
-                                                            <span
-                                                                class="card__price">{{ formatPrice($moreCourseItem->price) }}</span>
-                                                        @endif
-                                                    @endif
-                                                    <!--there are the login-->
-                                                    @auth()
-                                                        @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
-                                                            <a href="#!" class="text-btn addToCart-{{ $moreCourseItem->id }}"
-                                                                onclick="addToCart({{ $moreCourseItem->id }},'{{ route('add.to.cart') }}')">@translate(Tambah
-                                                                ke keranjang)</a>
-                                                        @else
-                                                            <a href="{{ route('login') }}"
-                                                                class="text-btn">@translate(Daftar)</a>
-                                                        @endif
-                                                    @endauth
-
-                                                    @guest()
-                                                        <a href="{{ route('login') }}"
-                                                            class="text-btn">@translate(Daftar)</a>
-                                                    @endguest
-
-
-                                                </div><!-- end card-price-wrap -->
-                                            </div><!-- end card-content -->
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                            </div><!-- end view-more-carousel -->
-                        </div><!-- end view-more-courses -->
+                    
 
                     </div><!-- end course-detail-content-wrap -->
                 </div><!-- end col-lg-8 -->
@@ -706,7 +558,8 @@
                                         </ul>
                                     </div><!-- end card-action -->
                                     <div class="btn-box w-100 text-center mb-3">
-                                        <a href="{{ route('course.single', $tooltip->slug) }}" class="theme-btn d-block">
+                                        <a href="{{ route('course.single', $tooltip->slug) }}"
+                                            class="theme-btn d-block">
                                             @translate(Lihat Pelatihan Ini)</a>
                                     </div>
 
@@ -725,7 +578,7 @@
                                 </div>
                                 <div class="preview-video-and-details">
                                     <div class="preview-course-video">
-                                        <a href="javascript:void(0)" data-toggle="modal" data-target=".preview-modal-form">
+                                        {{-- <a href="javascript:void(0)" data-toggle="modal" data-target=".preview-modal-form">
                                             <img data-original="{{ filePath($s_course->image) }}"
                                                 alt="{{ $s_course->title }}">
                                             <div class="play-button">
@@ -733,44 +586,26 @@
                                                     <i class="la la-play text-white play-icon"></i>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </a> --}}
+                                        <img src="{{ filePath($s_course->image) }}" alt="{{ $s_course->title }}">
                                     </div>
                                     <div class="preview-course-content">
 
-
+                                        @if (enrollmentCourse($s_course->slug, auth()->user()->id) < 1)
                                         <div class="preview-course-incentives">
 
                                             <div class="section-block"></div>
                                             <div
                                                 class="video-content-btn d-flex align-items-center justify-content-between pb-3 pt-3">
 
-                                                <p class="preview-course__price d-flex align-items-center">
+                                                <p class="preview-course__price d-flex align-items-center mb-0">Tambah ke Wishlist</p>
 
-                                                    <!-- @if ($s_course->is_free)
-    -->
-                                                    {{-- free price --}}
-                                                    <!-- <span class="price-current">@translate(Free)</span> -->
-                                                    <!--
-@else
-    @if ($s_course->is_discount)
-    {{-- discounted price --}}
-                                                                <span class="price-current f-24">{{ formatPrice($s_course->discount_price) }}</span>
-                                                                {{-- actual price --}}
-                                                                <span class="price-before f-24">{{ formatPrice($s_course->price) }}</span>
-                                                                {{-- percentage of discount --}}
-@else
-    {{-- actual price --}}
-                                                                <span class="price-current f-24">{{ formatPrice($s_course->price) }}</span>
-    @endif
-    @endif -->
-                                                </p>
-
-                                                <!-- @auth()
-        <a href="#!"
-                                                               onclick="addToCart({{ $s_course->id }},'{{ route('add.to.wishlist') }}')"
-                                                               class="card__collection-icon love-{{ $s_course->id }}"><span
-                                                                    class="la la-heart-o love-span-{{ $s_course->id }}"></span></a>
-    @endauth -->
+                                                @auth()
+                                                    <a href="#!"
+                                                        onclick="addToCart({{ $s_course->id }},'{{ route('add.to.wishlist') }}')"
+                                                        class="card__collection-icon love-{{ $s_course->id }}"><span
+                                                            class="la la-heart-o love-span-{{ $s_course->id }}"></span></a>
+                                                @endauth
 
                                                 @guest()
                                                     <a href="{{ route('login') }}" class="card__collection-icon"
@@ -780,21 +615,32 @@
                                             </div>
                                             <div class="section-block"></div>
 
-                                        </div><!-- end preview-course-incentives -->
+                                        </div>
+                                        <!-- end preview-course-incentives -->
+                                        @endif
 
                                         <div class="buy-course-btn mb-3 text-center">
                                             @auth()
                                                 @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
-                                                    <a href="#!" class="theme-btn w-100 mb-3 addToCart-{{ $s_course->id }}"
-                                                        onclick="addToCart({{ $s_course->id }},'{{ route('add.to.cart') }}')">@translate(Daftar)</a>
+                                                    {{-- <a href="#!" class="theme-btn w-100 mb-3 addToCart-{{ $s_course->id }}"
+                                                        onclick="addToCart({{ $s_course->id }},'{{ route('add.to.cart') }}')">Daftar</a> --}}
+                                                    @if (countEnrollmentProgress(auth()->user()->id) < 1)
+                                                        <form action="{{ route('enroll.course', ['id' => $s_course->id]) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            <button type="submit" class="theme-btn w-100 mb-3">Daftar</button>
+                                                        </form>
+                                                    @else
+                                                        <button type="button" disabled
+                                                            class="theme-btn-light w-100 mb-3">Daftar</button>
+                                                        <div class="small text-secondary">Anda masih memiliki pelatihan yang sedang berjalan.</div>
+                                                    @endif
                                                 @else
-                                                    <a href="{{ route('login') }}"
-                                                        class="theme-btn w-100 mb-3">@translate(Daftar)</a>
+                                                    <a href="{{ route('login') }}" class="theme-btn w-100 mb-3">Daftar</a>
                                                 @endif
                                             @endauth
                                             @guest
-                                                <a href="{{ route('login') }}"
-                                                    class="theme-btn w-100 mb-3">@translate(Daftar)</a>
+                                                <a href="{{ route('login') }}" class="theme-btn w-100 mb-3">Daftar</a>
 
                                             @endguest
                                         </div>
@@ -910,8 +756,8 @@
         </div><!-- end container -->
     </section><!-- end course-detail -->
     <!--======================================
-                END COURSE DETAIL
-        ======================================-->
+                                END COURSE DETAIL
+                        ======================================-->
 
 
     {{-- ======================================= Course Preview: START ===================================== --}}

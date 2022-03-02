@@ -11,6 +11,8 @@ class Enrollment extends Model
 
 //    use SoftDeletes;
 
+    protected $guarded = [];
+
     public function enrollCourse()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id')
@@ -26,7 +28,7 @@ class Enrollment extends Model
 
     public function student()
     {
-        return $this->belongsTo(Student::Class, 'user_id', 'user_id');
+        return $this->belongsTo(Student::class, 'user_id', 'user_id');
     }
 
     /*Message*/
@@ -43,16 +45,16 @@ class Enrollment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::Class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function course()
     {
-        return $this->hasOne(Course::Class, 'id', 'course_id');
+        return $this->hasOne(Course::class, 'id', 'course_id');
     }
 
     public function student_email()
     {
-        return $this->hasOne(User::Class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

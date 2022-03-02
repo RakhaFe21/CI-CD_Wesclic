@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link href="{{ asset('css/frontend.css') }}">
 
+    @stack('styles')
+
     <!-- end inject -->
 </head>
 
@@ -116,6 +118,8 @@
 
     @include('sweetalert::alert')
     @yield('js')
+
+    @stack('script')
 
 </body>
 

@@ -13,6 +13,7 @@ use App\Wallet;
 use App\User;
 use App\RedeemCoursePoint;
 use App\Model\Course;
+use App\Model\Enrollment;
 use Carbon\Carbon;
 
 //this function for open Json file to read language json file
@@ -139,7 +140,6 @@ function onlyPrice($price)
     $currency = \App\Model\Currency::find($id);
     $p = $price * $currency->rate;
     return $p;
-
 }
 
 
@@ -483,7 +483,6 @@ function affiliateStatus()
     } catch (Exception $exception) {
         return false;
     }
-
 }
 
 /*affiliate commission*/
@@ -725,15 +724,15 @@ function themeManager()
 {
     try {
         if (env('THEME_MANAGER') === "YES") {
-//            $t = new \App\Themes();
-//            $themes = \App\Themes::all();
-//            foreach ($themes as $theme) {
-//                if ($theme->activated) {
-//                    $t = $theme;
-//                }else{
-//                    $t = null;
-//                }
-//            }
+            //            $t = new \App\Themes();
+            //            $themes = \App\Themes::all();
+            //            foreach ($themes as $theme) {
+            //                if ($theme->activated) {
+            //                    $t = $theme;
+            //                }else{
+            //                    $t = null;
+            //                }
+            //            }
             if (env('ACTIVE_THEME') === 'rumbok') {
                 return 'rumbok';
             } else {
@@ -745,7 +744,6 @@ function themeManager()
     } catch (Exception $exception) {
         return 'frontend';
     }
-
 }
 
 
@@ -789,8 +787,6 @@ function expire($duration)
     if ($duration == 'Yearly') {
         return App\SubscriptionEnrollment::where('subscription_package', $duration)->where('end_at', '>', Carbon\Carbon::now())->count();
     }
-
-
 }
 
 
@@ -811,8 +807,6 @@ function enrolmentStare($count)
         default:
             return 2;
     }
-
-
 }
 
 
@@ -827,19 +821,17 @@ function allBlogTags()
         foreach ($blogPost as $tag) {
             array_push($tags, $tag);
         }
-
     }
 
     $data = array_unique($tags, false);
     return $data;
-
 }
 
 /**
  * couponRoute
  */
 
- function couponRoute()
+function couponRoute()
 {
     if (file_exists(base_path('routes/coupon.php'))) {
         return true;
@@ -852,123 +844,123 @@ function allBlogTags()
  * COUPON SESSION
  */
 
- function couponDiscount($code)
- {
-     $rate = Coupon::where('code', $code)->select('rate')->first();
-     return formatPrice($rate->rate);
- }
+function couponDiscount($code)
+{
+    $rate = Coupon::where('code', $code)->select('rate')->first();
+    return formatPrice($rate->rate);
+}
 
- function couponDiscountPrice($code)
- {
-     $rate = Coupon::where('code', $code)->select('rate')->first();
-     return $rate->rate;
- }
+function couponDiscountPrice($code)
+{
+    $rate = Coupon::where('code', $code)->select('rate')->first();
+    return $rate->rate;
+}
 
- /**
-  * FORUMLY
-  */
+/**
+ * FORUMLY
+ */
 
-  function forumComp($blade)
-  {
+function forumComp($blade)
+{
     return 'forum.forumly.components.' . $blade;
-  }
+}
 
-  function forumPostCount()
-  {
-      return Forum::count();
-  }
+function forumPostCount()
+{
+    return Forum::count();
+}
 
-  function forumCategoryCount($category)
-  {
-      return Forum::where('category', $category)->count();
-  }
+function forumCategoryCount($category)
+{
+    return Forum::where('category', $category)->count();
+}
 
-  function forumCategory($category)
-  {
-      return Forum::where('category', $category)->get();
-  }
+function forumCategory($category)
+{
+    return Forum::where('category', $category)->get();
+}
 
-  function forumPostReplyCount()
-  {
-      return PostReply::count();
-  }
+function forumPostReplyCount()
+{
+    return PostReply::count();
+}
 
-  function latestForumPostCount()
-  {
-      return Forum::whereDate('created_at', Carbon::today())->count();
-  }
+function latestForumPostCount()
+{
+    return Forum::whereDate('created_at', Carbon::today())->count();
+}
 
-  function latestFostReplyCount()
-  {
-      return PostReply::whereDate('created_at', Carbon::today())->count();
-  }
+function latestFostReplyCount()
+{
+    return PostReply::whereDate('created_at', Carbon::today())->count();
+}
 
-  function blogCount()
-  {
-      return Blog::count();
-  }
+function blogCount()
+{
+    return Blog::count();
+}
 
-  function post_replies_count($id)
-  {
+function post_replies_count($id)
+{
     return $post_replies_count = PostReply::where('post_id', $id)->count();
-  }
+}
 
-  function post_views_count($id)
-  {
+function post_views_count($id)
+{
     return $post_views_count = ForumPostView::where('post_id', $id)->count();
-  }
+}
 
-  function helpful_count($id)
-  {
+function helpful_count($id)
+{
     return $helpful_count = HelpfulAnswer::where('post_id', $id)->count();
-  }
+}
 
-  function popularQuestion()
-  {
-      return ForumPostView::select('post_id')
-	    ->groupBy('post_id')
-	    ->orderByRaw('COUNT(*) DESC')
-	    ->get();
-  }
+function popularQuestion()
+{
+    return ForumPostView::select('post_id')
+        ->groupBy('post_id')
+        ->orderByRaw('COUNT(*) DESC')
+        ->get();
+}
 
-  function popularQuestions($id)
-  {
-        return Forum::where('id', $id)->select('id', 'title', 'user_id')->latest()->take(10)->get();
-  }
-
-
-
-  function helpfulReplyId()
-  {
-      return HelpfulAnswer::select('post_reply_id')
-			    ->groupBy('post_reply_id')
-			    ->orderByRaw('COUNT(*) DESC')
-			    ->take(1)
-			    ->first()->post_reply_id ?? null;
-  }
+function popularQuestions($id)
+{
+    return Forum::where('id', $id)->select('id', 'title', 'user_id')->latest()->take(10)->get();
+}
 
 
-  /**
-   * Enroll Check
-   */
 
-   function checkStudentEnroll($id)
-   {
-        $check = Course::where('id', $id)->exists();
-
-        if ($check) {
-            return true;
-        }else{
-            return false;
-        }
-   }
+function helpfulReplyId()
+{
+    return HelpfulAnswer::select('post_reply_id')
+        ->groupBy('post_reply_id')
+        ->orderByRaw('COUNT(*) DESC')
+        ->take(1)
+        ->first()->post_reply_id ?? null;
+}
 
 
-  /**
-   * WALLET
-   */
+/**
+ * Enroll Check
+ */
 
-   // check wallet route for Mapping
+function checkStudentEnroll($id)
+{
+    $check = Course::where('id', $id)->exists();
+
+    if ($check) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+/**
+ * WALLET
+ */
+
+// check wallet route for Mapping
 
 function walletRoute()
 {
@@ -1009,40 +1001,40 @@ function getWalletSetting($key)
  * POINT LIST
  */
 
- function walletName()
- {
-     return getWalletSetting('wallet_name') ?? 'coint';
- }
+function walletName()
+{
+    return getWalletSetting('wallet_name') ?? 'coint';
+}
 
- function walletRateLimit()
- {
-     return getWalletSetting('redeem_limit') ?? 1000;
- }
+function walletRateLimit()
+{
+    return getWalletSetting('redeem_limit') ?? 1000;
+}
 
- function walletRate()
- {
-     return getWalletSetting('wallet_rate') ?? 1000;
- }
+function walletRate()
+{
+    return getWalletSetting('wallet_rate') ?? 1000;
+}
 
- function registrationPoint()
- {
-     return getWalletSetting('registration_point') ?? 500;
- }
+function registrationPoint()
+{
+    return getWalletSetting('registration_point') ?? 500;
+}
 
- function freePoint()
- {
-     return getWalletSetting('free_course_point') ?? 50;
- }
+function freePoint()
+{
+    return getWalletSetting('free_course_point') ?? 50;
+}
 
- function paidPoint()
- {
-     return getWalletSetting('paid_course_point') ?? 100;
- }
+function paidPoint()
+{
+    return getWalletSetting('paid_course_point') ?? 100;
+}
 
- function courseCompletePoint()
- {
-     return getWalletSetting('course_complete_point') ?? 200;
- }
+function courseCompletePoint()
+{
+    return getWalletSetting('course_complete_point') ?? 200;
+}
 
 
 /**
@@ -1062,7 +1054,7 @@ function addWallet($point, $message)
             'ref_id' => 'someReferId',
         ];
 
-        $transaction = $user->addPoints($amount,$message,$data);
+        $transaction = $user->addPoints($amount, $message, $data);
     }
 }
 
@@ -1079,7 +1071,7 @@ function subWallet($point, $message)
             'ref_id' => 'someReferId',
         ];
 
-        $transaction = $user->subPoints($amount,$message,$data);
+        $transaction = $user->subPoints($amount, $message, $data);
     }
 }
 
@@ -1097,7 +1089,7 @@ function checkRedeem($course_id)
 
     if ($checkRedeem) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -1106,7 +1098,7 @@ function checkRedeem($course_id)
  * POINT CONVERT
  */
 
- function WalletPrice($price)
+function WalletPrice($price)
 {
 
     switch (activeCurrency()) {
@@ -1244,4 +1236,20 @@ function checkWallerBalanceForPurchase($total_price)
 function generateToken()
 {
     return md5(rand(1, 10) . microtime());
+}
+
+function countEnrollmentProgress($user_id)
+{
+    $enrollment_progress_count = Enrollment::where('user_id', $user_id)->whereNotIn('status', ['Lulus', 'Gagal'])->orderByDesc('created_at');
+
+    return $enrollment_progress_count->count();
+}
+
+function enrollmentCourse($slug, $user_id)
+{
+    $enrollment = Enrollment::with(['course'])->whereHas('course', function ($query) use ($slug) {
+        return $query->where('slug', $slug);
+    })->where('user_id', $user_id)->whereNotIn('status', ['Lulus', 'Gagal'])->orderByDesc('created_at');
+
+    return $enrollment->count();
 }

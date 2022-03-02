@@ -60,6 +60,7 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::get('course/trash/{course_id}/{slug}', 'Course\CourseController@destroy')->name('course.destroy');
     Route::get('course/published', 'Course\CourseController@published')->name('course.publish');
     Route::get('course/rating', 'Course\CourseController@rating')->name('course.rating');
+    Route::put('course/{course_id}/enrollment-status-update', 'Course\CourseController@enrollmentStatusUpdate')->name('course.enrollment.status-update');
 
     // class
     Route::get('class/create/{id}', 'Course\ClassController@create')->name('classes.create');

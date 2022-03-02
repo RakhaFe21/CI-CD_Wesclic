@@ -63,9 +63,37 @@ class CourseController extends Controller
 
     public function peserta_pel($course_id)
     {
-        $students = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')->paginate(10);
+        $students = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')->selectRaw("*, e.id as enrollment_id")->paginate(10);
+        $course = Course::findOrFail($course_id);
 
-        return view('course.peserta.list', compact('students', 'course_id'));
+        return view('course.peserta.list', compact('students', 'course_id', 'course'));
+    }
+
+    public function enrollmentStatusUpdate(Request $request, $course_id)
+    {
+        $reqData = $request->only(['enrollment_id', 'status']);
+        // dd($reqData);
+        
+        if(empty($reqData['enrollment_id']) || empty($reqData['status'])) {
+            return redirect()->back()->with('error', 'Request invalid!');
+        }
+
+        $where = [];
+
+        if($reqData['status'] == 'Tes Tulis') {
+            $where['kursus_jadwal.nama_jadwal'] = 'Tes Tulis';
+        }
+
+        $kursus_sesi_tersedia = DB::table('kursus_sesi')
+        ->join('kursus_jadwal', 'kursus_jadwal.id', '=', 'kursus_sesi.id_kursus_jadwal')
+        ->leftJoin('kursus_sesi_siswa', 'kursus_sesi_siswa.id_kursus_sesi', '=', 'kursus_sesi.id')
+        ->where($where)
+        ->where('id_kursus', $course_id)
+        ->whereNull('kursus_jadwal.deleted_at')->whereNull('kursus_sesi.deleted_at')->whereNull('kursus_sesi_siswa.id_user')
+        ->selectRaw('kursus_sesi.*, kursus_jadwal.*, kursus_sesi.id as id, kursus_sesi_siswa.id_user as id_sesi_siswa')->get();
+
+        dd($kursus_sesi_tersedia);
+        
     }
 
     // course.create

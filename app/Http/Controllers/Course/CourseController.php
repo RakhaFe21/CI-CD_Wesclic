@@ -63,8 +63,22 @@ class CourseController extends Controller
 
     public function peserta_pel($course_id)
     {
-        $students = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')->selectRaw("*, e.id as enrollment_id")->paginate(10);
         $course = Course::findOrFail($course_id);
+
+        $students['pending'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
+        ->where('e.status', 'Pending')
+        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+
+        $students['tes_tulis'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
+        ->where('e.status', 'Tes Tulis')
+        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+
+        $students['tes_wawancara'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
+        ->where('e.status', 'Tes Wawancara')
+        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+
+        $students['pendaftaran_ulang'] = [];
+        $students['terdaftar'] = [];
 
         return view('course.peserta.list', compact('students', 'course_id', 'course'));
     }
@@ -91,6 +105,10 @@ class CourseController extends Controller
         ->where('id_kursus', $course_id)
         ->whereNull('kursus_jadwal.deleted_at')->whereNull('kursus_sesi.deleted_at')->whereNull('kursus_sesi_siswa.id_user')
         ->selectRaw('kursus_sesi.*, kursus_jadwal.*, kursus_sesi.id as id, kursus_sesi_siswa.id_user as id_sesi_siswa')->get();
+        
+        // foreach ($kursus_sesi_tersedia as $key => $sesi_tersedia) {
+            
+        // }
 
         dd($kursus_sesi_tersedia);
         

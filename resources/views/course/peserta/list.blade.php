@@ -15,8 +15,8 @@
                     <div class="col">
                         <form method="GET" action="">
                             <div class="input-group">
-                                <input type="text" name="search" class="form-control col-12"
-                                    placeholder="Nama / NIK" value="{{ Request::get('search') }}">
+                                <input type="text" name="search" class="form-control col-12" placeholder="Nama / NIK"
+                                    value="{{ Request::get('search') }}">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">@translate(Cari)</button>
                                 </div>
@@ -42,10 +42,11 @@
                             <label for="status">Perbarui Status</label>
                             <select name="status" id="status" class="form-control" v-model="status">
                                 <option value="">-- Pilih --</option>
-                                <option value="Tes Tulis">Tes Tulis</option>
-                                <option value="Tes Wawancara">Tes Wawancara</option>
-                                <option value="Pendaftaran Ulang">Pendaftaran Ulang</option>
-                                <option value="Terdaftar">Terdaftar</option>
+                                <option :value="statusItem" v-for="(statusItem, sIndex) in statusOption" :key="'s'+sIndex"
+                                    v-text="statusItem"></option>
+                                {{-- <option value="Tes Wawancara">Tes Wawancara</option> --}}
+                                {{-- <option value="Pendaftaran Ulang">Pendaftaran Ulang</option> --}}
+                                {{-- <option value="Terdaftar">Terdaftar</option> --}}
                             </select>
                         </div>
                     </div>
@@ -56,66 +57,149 @@
                     </div>
                 </div>
                 <span v-text="enrollmentSelected"></span>
-                <table class="table table-bordered table-hover text-center">
-                    <thead>
-                        <tr>
-                            <th> </th>
-                            <th width="100">@translate(Gambar)</th>
-                            <th>@translate(User Name)</th>
-                            <th>@translate(NIK)</th>
-                            <th>Status</th>
-                            <th>@translate(Logbook)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($students as $item)
-                            <tr>
-                                <td><input type="checkbox" :value="{{ $item->enrollment_id }}" name="enrollment_id[]"
-                                        v-model="enrollmentSelected" class="form-check-input"
-                                        id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
-                                </td>
-                                <td>
-                                    @if ($item->image != null)
-                                        <img src="{{ filePath($item->image) }}"
-                                            class="img-thumbnail rounded-circle avatar-lg"><br />
-                                    @else
-                                        <img src="#" class="img-thumbnail rounded-circle avatar-lg" alt="avatar"><br />
-                                    @endif
-                                </td>
-                                <td>{{ $item->name }}</td>
-                                <td>
-                                    {{ $item->nik ?? 'N/A' }}
-                                </td>
-                                <td>
-                                    <span class="badge badge-secondary">{{ $item->status }}</span>
-                                </td>
-                                <td>
-                                    @if (in_array($item->status, ['Terdaftar', 'Lulus']))
-                                        <button class="btn btn-primary" type="button"
-                                            onclick="forModal('{{ route('student.logbook.courses.modal', ['course_id' => $course_id, 'user_id' => $item->user_id]) }}', 'Logbook Siswa')">
-                                            @translate(Lihat)</button>
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr></tr>
-                            <tr></tr>
-                            <tr>
-                                <td>
-                                    <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
-                                </td>
-                            </tr>
-                            <tr></tr>
-                            <tr></tr>
-                            <tr></tr>
-                        @endforelse
-                    </tbody>
-                    <div class="float-left">
-                        {{ $students->links() }}
+
+                <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab"
+                            aria-controls="pending" aria-selected="true" @click="changeTab('Pending')">Pending</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tes_tulis-tab" data-toggle="tab" href="#tes_tulis" role="tab"
+                            aria-controls="tes_tulis" aria-selected="false" @click="changeTab('Tes Tulis')">Tes Tulis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tes_wawancara-tab" data-toggle="tab" href="#tes_wawancara" role="tab"
+                            aria-controls="tes_wawancara" aria-selected="false" @click="changeTab('Tes Wawancara')">Tes
+                            Wawancara</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pendaftaran_ulang-tab" data-toggle="tab" href="#pendaftaran_ulang"
+                            role="tab" aria-controls="pendaftaran_ulang" aria-selected="false"
+                            @click="changeTab('Pendaftaran Ulang')">Pendaftaran Ulang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="terdaftar-tab" data-toggle="tab" href="#terdaftar" role="tab"
+                            aria-controls="terdaftar" aria-selected="false" @click="changeTab('Terdaftar')">Terdaftar</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th width="100">Gambar</th>
+                                    <th>Name</th>
+                                    <th>NIK</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($students['pending'] as $item)
+                                    <tr>
+                                        <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
+                                                id="checkbox-{{ $item->id }}"
+                                                @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
+                                        </td>
+                                        <td>
+                                            @if ($item->image != null)
+                                                <img src="{{ filePath($item->image) }}"
+                                                    class="img-thumbnail rounded-circle avatar-lg"><br />
+                                            @else
+                                                <img src="#" class="img-thumbnail rounded-circle avatar-lg"
+                                                    alt="avatar"><br />
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->nik ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-secondary">{{ $item->status }}</span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5">
+                                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        <div class="d-flex">
+                            {{ $students['pending']->links() }}
+                        </div>
                     </div>
-                </table>
+                    <div class="tab-pane fade" id="tes_tulis" role="tabpanel" aria-labelledby="tes_tulis-tab">
+
+                    </div>
+                    <div class="tab-pane fade" id="tes_wawancara" role="tabpanel" aria-labelledby="tes_wawancara-tab">
+
+                    </div>
+                    <div class="tab-pane fade" id="pendaftaran_ulang" role="tabpanel"
+                        aria-labelledby="pendaftaran_ulang-tab">
+
+                    </div>
+                    <div class="tab-pane fade" id="terdaftar" role="tabpanel" aria-labelledby="terdaftar-tab">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th> </th>
+                                    <th width="100">Gambar</th>
+                                    <th>Name</th>
+                                    <th>NIK</th>
+                                    <th>Status</th>
+                                    <th>Logbook</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($students['terdaftar'] as $item)
+                                    <tr>
+                                        <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
+                                                id="checkbox-{{ $item->id }}"
+                                                @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
+                                        </td>
+                                        <td>
+                                            @if ($item->image != null)
+                                                <img src="{{ filePath($item->image) }}"
+                                                    class="img-thumbnail rounded-circle avatar-lg"><br />
+                                            @else
+                                                <img src="#" class="img-thumbnail rounded-circle avatar-lg"
+                                                    alt="avatar"><br />
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->nik ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-secondary">{{ $item->status }}</span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="forModal('{{ route('student.logbook.courses.modal', ['course_id' => $course_id, 'user_id' => $item->user_id]) }}', 'Logbook Siswa')">
+                                                @translate(Lihat)</button>
+
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">
+                                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        <div class="d-flex">
+                            {{ $students['pending']->links() }}
+                        </div>
+                    </div>
+                </div>
+
             </form>
         </div>
         <div class="modal fade" id="modalApply" tabindex="-1" role="dialog" aria-labelledby="modalApplyLabel"
@@ -147,17 +231,31 @@
 
 @section('page-script')
     <script>
+        // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        // e.target // newly activated tab
+        // e.relatedTarget // previous active tab
+        // console.log(e.target)
+        // })
         Vue.createApp({
             data() {
                 return {
                     title: 'Tes',
                     enrollmentSelected: [],
                     status: '',
-                    mounted: false
+                    mounted: false,
+                    statusOption: [
+                        // 'Tes Tulis',
+                        // 'Tes Wawancara',
+                        // 'Pendaftaran Ulang',
+                        // 'Terdaftar',
+                        // 'Lulus',
+                    ],
+                    currentTab: 'Pending'
                 }
             },
             mounted() {
                 this.mounted = true
+                this.changeTab('Pending')
             },
             computed: {
                 allowApply() {
@@ -168,6 +266,41 @@
                 }
             },
             methods: {
+                changeTab(tab) {
+                    switch (tab) {
+                        case 'Pending':
+                            this.statusOption = [
+                                'Tes Tulis',
+                            ]
+                            break;
+                        case 'Tes Tulis':
+                            this.statusOption = [
+                                'Tes Wawancara',
+                                'Gagal',
+                            ]
+                            break;
+                        case 'Tes Wawancara':
+                            this.statusOption = [
+                                'Pendaftaran Ulang',
+                                'Peserta Cadangan',
+                                'Gagal',
+                            ]
+                            break;
+                        case 'Pendaftaran Ulang':
+                            this.statusOption = [
+                                'Terdaftar',
+                            ]
+                            break;
+                        case 'Terdaftar':
+                            this.statusOption = [
+                                'Lulus',
+                            ]
+                            break;
+
+                        default:
+                            break;
+                    }
+                },
                 onSubmit() {
                     document.getElementById('form-enrollment').submit()
                 }

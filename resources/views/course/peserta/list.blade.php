@@ -35,6 +35,9 @@
                 @if (session('error'))
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('error') }}</div>
+                @endif
 
                 <div class="row" style="display: none" v-show="mounted">
                     <div class="col-md-3">
@@ -133,14 +136,128 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="tes_tulis" role="tabpanel" aria-labelledby="tes_tulis-tab">
-
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th width="100">Gambar</th>
+                                    <th>Name</th>
+                                    <th>NIK</th>
+                                    <th>Sesi Tes Tulis</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($students['tes_tulis'] as $item)
+                                    <tr>
+                                        <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
+                                                id="checkbox-{{ $item->id }}"
+                                                @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
+                                        </td>
+                                        <td>
+                                            @if ($item->image != null)
+                                                <img src="{{ filePath($item->image) }}"
+                                                    class="img-thumbnail rounded-circle avatar-lg"><br />
+                                            @else
+                                                <img src="#" class="img-thumbnail rounded-circle avatar-lg"
+                                                    alt="avatar"><br />
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->nik ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $sesi_tes_tulis = DB::table('kursus_sesi_enrollment')->where('id_enrollment', $item->enrollment_id)->where('nama_jadwal', 'Tes Tulis')->first();
+                                            @endphp
+                                            <ul class="text-left list-unstyled">
+                                                <li><i class="fa fa-calendar"></i> {{$sesi_tes_tulis->tanggal_sesi}}</li>
+                                                <li><i class="fa fa-clock-o"></i> {{$sesi_tes_tulis->jam_sesi}}</li>
+                                                <li><i class="fa fa-map-marker"></i> {{$sesi_tes_tulis->lokasi_sesi}}</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">{{ $item->status }}</span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">
+                                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        <div class="d-flex">
+                            {{ $students['tes_tulis']->links() }}
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="tes_wawancara" role="tabpanel" aria-labelledby="tes_wawancara-tab">
-
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th width="100">Gambar</th>
+                                    <th>Name</th>
+                                    <th>NIK</th>
+                                    <th>Sesi Tes Wawancara</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($students['tes_wawancara'] as $item)
+                                    <tr>
+                                        <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
+                                                id="checkbox-{{ $item->id }}"
+                                                @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
+                                        </td>
+                                        <td>
+                                            @if ($item->image != null)
+                                                <img src="{{ filePath($item->image) }}"
+                                                    class="img-thumbnail rounded-circle avatar-lg"><br />
+                                            @else
+                                                <img src="#" class="img-thumbnail rounded-circle avatar-lg"
+                                                    alt="avatar"><br />
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->nik ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $sesi_tes_wawancara = DB::table('kursus_sesi_enrollment')->where('id_enrollment', $item->enrollment_id)->where('nama_jadwal', 'Tes Wawancara')->first();
+                                            @endphp
+                                            <ul class="text-left list-unstyled">
+                                                <li><i class="fa fa-calendar"></i> {{$sesi_tes_wawancara->tanggal_sesi}}</li>
+                                                <li><i class="fa fa-clock-o"></i> {{$sesi_tes_wawancara->jam_sesi}}</li>
+                                                <li><i class="fa fa-map-marker"></i> {{$sesi_tes_wawancara->lokasi_sesi}}</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">{{ $item->status }}</span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">
+                                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        <div class="d-flex">
+                            {{ $students['tes_wawancara']->links() }}
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="pendaftaran_ulang" role="tabpanel"
                         aria-labelledby="pendaftaran_ulang-tab">
-
+                        test
                     </div>
                     <div class="tab-pane fade" id="terdaftar" role="tabpanel" aria-labelledby="terdaftar-tab">
                         <table class="table table-bordered table-hover text-center">

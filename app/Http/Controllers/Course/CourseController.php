@@ -18,6 +18,7 @@ use App\Model\Language;
 use App\Model\Enrollment;
 use App\Model\KursusJadwal;
 use App\Model\KursusSesi;
+use App\Model\KursusSesiEnrollment;
 use App\Model\Student;
 use Carbon\Carbon;
 use App\NotificationUser;
@@ -66,19 +67,20 @@ class CourseController extends Controller
         $course = Course::findOrFail($course_id);
 
         $students['pending'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
-        ->where('e.status', 'Pending')
-        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+            ->where('e.status', 'Pending')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
         $students['tes_tulis'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
-        ->where('e.status', 'Tes Tulis')
-        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+            ->where('e.status', 'Tes Tulis')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
         $students['tes_wawancara'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
-        ->where('e.status', 'Tes Wawancara')
-        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+            ->where('e.status', 'Tes Wawancara')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
         $students['pendaftaran_ulang'] = [];
         $students['terdaftar'] = [];
+        $students['lulus'] = [];
 
         return view('course.peserta.list', compact('students', 'course_id', 'course'));
     }
@@ -87,31 +89,53 @@ class CourseController extends Controller
     {
         $reqData = $request->only(['enrollment_id', 'status']);
         // dd($reqData);
-        
-        if(empty($reqData['enrollment_id']) || empty($reqData['status'])) {
+
+        if (empty($reqData['enrollment_id']) || empty($reqData['status'])) {
             return redirect()->back()->with('error', 'Request invalid!');
         }
 
         $where = [];
 
-        if($reqData['status'] == 'Tes Tulis') {
-            $where['kursus_jadwal.nama_jadwal'] = 'Tes Tulis';
+
+
+        foreach ($reqData['enrollment_id'] as $key => $enrollment_id) {
+            $status = $reqData['status'];
+            if (in_array($reqData['status'], ['Tes Tulis', 'Tes Wawancara'])) {
+                $where['kursus_jadwal.nama_jadwal'] = $status;
+                $nama_jadwal = $status;
+                $kursus_sesi_tersedia = DB::table('kursus_sesi')
+                    ->join('kursus_jadwal', 'kursus_jadwal.id', '=', 'kursus_sesi.id_kursus_jadwal')
+                    ->leftJoin('kursus_sesi_enrollment', 'kursus_sesi_enrollment.id_kursus_sesi', '=', 'kursus_sesi.id')
+                    ->where($where)
+                    ->where('id_kursus', $course_id)
+                    ->whereNull('kursus_jadwal.deleted_at')->whereNull('kursus_sesi.deleted_at')
+                    ->whereNull('kursus_sesi_enrollment.id_enrollment')
+                    ->selectRaw('kursus_sesi.*, kursus_jadwal.*, kursus_sesi.id as id, kursus_sesi_enrollment.id_enrollment as id_sesi_enrollment')
+                    ->orderBy('kursus_sesi.tanggal_sesi', 'ASC')
+                    ->orderBy('kursus_sesi.jam_sesi', 'ASC')
+                    ->first();
+                
+                // dd($kursus_sesi_tersedia);
+
+
+                $kursus_sesi_enrollment = KursusSesiEnrollment::where('id_enrollment', $enrollment_id)->where('nama_jadwal', $nama_jadwal);
+                if ($kursus_sesi_enrollment->count() < 1 && $kursus_sesi_tersedia !== null) {
+                    KursusSesiEnrollment::create([
+                        'id_kursus_sesi' => $kursus_sesi_tersedia->id,
+                        'id_enrollment' => $enrollment_id,
+                        'nama_jadwal' => $kursus_sesi_tersedia->nama_jadwal,
+                        'nama_sesi' => $kursus_sesi_tersedia->nama_sesi,
+                        'tanggal_sesi' => $kursus_sesi_tersedia->tanggal_sesi,
+                        'jam_sesi' => $kursus_sesi_tersedia->jam_sesi,
+                        'lokasi_sesi' => $kursus_sesi_tersedia->lokasi_sesi,
+                    ]);
+                }
+            }
+
+            Enrollment::find($enrollment_id)->update(['status' => $status]);
         }
 
-        $kursus_sesi_tersedia = DB::table('kursus_sesi')
-        ->join('kursus_jadwal', 'kursus_jadwal.id', '=', 'kursus_sesi.id_kursus_jadwal')
-        ->leftJoin('kursus_sesi_siswa', 'kursus_sesi_siswa.id_kursus_sesi', '=', 'kursus_sesi.id')
-        ->where($where)
-        ->where('id_kursus', $course_id)
-        ->whereNull('kursus_jadwal.deleted_at')->whereNull('kursus_sesi.deleted_at')->whereNull('kursus_sesi_siswa.id_user')
-        ->selectRaw('kursus_sesi.*, kursus_jadwal.*, kursus_sesi.id as id, kursus_sesi_siswa.id_user as id_sesi_siswa')->get();
-        
-        // foreach ($kursus_sesi_tersedia as $key => $sesi_tersedia) {
-            
-        // }
-
-        dd($kursus_sesi_tersedia);
-        
+        return redirect()->back()->with('succss', 'Status pelatihan siswa berhasil diperbarui!');
     }
 
     // course.create

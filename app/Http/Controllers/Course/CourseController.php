@@ -62,41 +62,51 @@ class CourseController extends Controller
         return view('course.index', compact('courses'));
     }
 
-    public function peserta_pel($course_id)
+    public function peserta_pel(Request $request, $course_id)
     {
         $course = Course::findOrFail($course_id);
 
-        $students['pending'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
+        $search = $request->get('search');
+
+        $students['pending'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
+            ->where(function ($query) use ($search) {
+                $query->where('users.name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nik', 'LIKE', '%' . $search . '%');
+            })
             ->where('e.status', 'Pending')
             ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
-        $students['tes_tulis'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
+        $students['tes_tulis'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
+            ->where(function ($query) use ($search) {
+                $query->where('users.name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('users.nik', 'LIKE', '%' . $search . '%');
+            })
             ->where('e.status', 'Tes Tulis')
             ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
-        $students['tes_wawancara'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
+        $students['tes_wawancara'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
             ->where('e.status', 'Tes Wawancara')
             ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
-        $students['pendaftaran_ulang'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
-        ->where('e.status', 'Pendaftaran Ulang')
-        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+        $students['pendaftaran_ulang'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
+            ->where('e.status', 'Pendaftaran Ulang')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
-        $students['terdaftar'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
-        ->where('e.status', 'Terdaftar')
-        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+        $students['terdaftar'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
+            ->where('e.status', 'Terdaftar')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
-        $students['lulus'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
-        ->where('e.status', 'Lulus')
-        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+        $students['lulus'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
+            ->where('e.status', 'Lulus')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
-        $students['gagal'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
-        ->where('e.status', 'Gagal')
-        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
-        
-        $students['peserta_cadangan'] = Student::leftjoin('enrollments AS e', 'students.user_id', 'e.user_id')->where('e.course_id', $course_id)->orderBydesc('students.id')
-        ->where('e.status', 'Peserta Cadangan')
-        ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+        $students['gagal'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
+            ->where('e.status', 'Gagal')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+
+        $students['peserta_cadangan'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
+            ->where('e.status', 'Peserta Cadangan')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
         return view('course.peserta.list', compact('students', 'course_id', 'course'));
     }
@@ -130,7 +140,7 @@ class CourseController extends Controller
                     ->orderBy('kursus_sesi.tanggal_sesi', 'ASC')
                     ->orderBy('kursus_sesi.jam_sesi', 'ASC')
                     ->first();
-                
+
                 // dd($kursus_sesi_tersedia);
 
 

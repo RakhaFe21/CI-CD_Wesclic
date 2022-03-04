@@ -1,8 +1,8 @@
 @extends('frontend.app')
 @section('content')
     <!-- ================================
-                                              START BREADCRUMB AREA
-                                          ================================= -->
+                                                                      START BREADCRUMB AREA
+                                                                  ================================= -->
     <section class="breadcrumb-area my-courses-bread">
         <div class="container">
             <div class="row">
@@ -42,24 +42,24 @@
         </div><!-- end container -->
     </section><!-- end breadcrumb-area -->
     <!-- ================================
-                                                END BREADCRUMB AREA
-                                            ================================= -->
+                                                                        END BREADCRUMB AREA
+                                                                    ================================= -->
 
     <!-- ================================
-                                                START FLASH MESSAGE
-                                            ================================= -->
+                                                                        START FLASH MESSAGE
+                                                                    ================================= -->
 
     @if (Session::has('message'))
         <div class="alert alert-info text-center">{{ Session::get('message') }}</div>
     @endif
 
     <!-- ================================
-                                              END FLASH MESSAGE
-                                          ================================= -->
+                                                                      END FLASH MESSAGE
+                                                                  ================================= -->
 
     <!-- ================================
-                                                   START MY COURSES
-                                            ================================= -->
+                                                                           START MY COURSES
+                                                                    ================================= -->
     <section class="my-courses-area padding-top-30px padding-bottom-90px">
         <div class="container">
             <div class="row">
@@ -144,43 +144,74 @@
                                                                         data-text="Pendaftaran sedang diverifikasi."
                                                                         class="done">
                                                                     </li>
-                                                                    @if (in_array($item->enrollCourse->status, ['Tes Tulis', 'Tes Wawancara']))
-                                                                        <li data-year="Tes Tulis"
-                                                                            data-text="02 Feb 2021 - Pk. 08.30 - Aula"
-                                                                            class="done">
-                                                                        </li>
+                                                                    @if (in_array($item->status, ['Tes Tulis', 'Tes Wawancara']))
+                                                                        @if ($item->sesi_enroll_tes_tulis)
+                                                                            <li data-year="Tes Tulis"
+                                                                                data-text="{{ date('d M Y', strtotime($item->sesi_enroll_tes_tulis->tanggal_sesi))}} - Pk. {{ $item->sesi_enroll_tes_tulis->jam_sesi }} di {{ $item->sesi_enroll_tes_tulis->lokasi_sesi }}"
+                                                                                class="done">
+                                                                            </li>
+                                                                        @else
+                                                                            <li data-year="Tes Tulis" data-text="-">
+                                                                            </li>
+                                                                        @endif
                                                                     @else
                                                                         <li data-year="Tes Tulis" data-text="-">
                                                                         </li>
                                                                     @endif
-                                                                    @if (in_array($item->enrollCourse->status, ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang']))
-                                                                        <li data-year="Tes Wawancara"
-                                                                            data-text="02 Feb 2021 - Pk. 08.30 - Aula"
-                                                                            class="done">
-                                                                        </li>
+                                                                    @if (in_array($item->status, ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang']))
+                                                                        @if ($item->sesi_enroll_tes_wawancara)
+                                                                            <li data-year="Tes Wawancara"
+                                                                                data-text="{{ date('d M Y', strtotime($item->sesi_enroll_tes_wawancara->tanggal_sesi)) }} - Pk. {{ $item->sesi_enroll_tes_wawancara->jam_sesi }} di {{ $item->sesi_enroll_tes_wawancara->lokasi_sesi }}"
+                                                                                class="done">
+                                                                            </li>
+                                                                        @else
+                                                                            <li data-year="Tes Wawancara" data-text="-">
+                                                                            </li>
+                                                                        @endif
                                                                     @else
                                                                         <li data-year="Tes Wawancara" data-text="-">
                                                                         </li>
                                                                     @endif
-                                                                    @if (in_array($item->enrollCourse->status, ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang', 'Terdaftar']))
-                                                                        <li data-year="Pendaftaran Ulang"
-                                                                            data-text="asasasa" class="done">
+                                                                    @if (in_array($item->status, ['Tes Tulis', 'Tes Wawancara']) && $item->status == 'Gagal')
+                                                                        <li data-year="Gagal" data-text=""
+                                                                            class="done">
                                                                         </li>
+                                                                    @endif
+                                                                    @if (in_array($item->status, ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang', 'Terdaftar']) && $item->status != 'Gagal')
+                                                                        @if ($item->sesi_enroll_pendaftaran_ulang)
+                                                                            <li data-year="Pendaftaran Ulang"
+                                                                                data-text="{{ date('d M Y', strtotime($item->sesi_enroll_pendaftaran_ulang->tanggal_sesi)) }} - Pk. {{ $item->sesi_enroll_pendaftaran_ulang->jam_sesi }} di {{ $item->sesi_enroll_pendaftaran_ulang->lokasi_sesi }}"
+                                                                                class="done">
+                                                                            </li>
+                                                                        @else
+                                                                            <li data-year="Pendaftaran Ulang" data-text="-">
+                                                                            </li>
+                                                                        @endif
                                                                     @else
                                                                         <li data-year="Pendaftaran Ulang" data-text="-">
                                                                         </li>
                                                                     @endif
-                                                                    @if (in_array($item->enrollCourse->status, ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang', 'Terdaftar', 'Lulus']))
-                                                                        <li data-year="Terdaftar" data-text=""
-                                                                            class="done">
-                                                                        </li>
+                                                                    @if (in_array($item->status, ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang', 'Terdaftar', 'Lulus']) && $item->status != 'Gagal')
+                                                                        @if ($item->status == 'Terdaftar')
+                                                                            <li data-year="Terdaftar" data-text=""
+                                                                                class="done">
+                                                                            </li>
+                                                                        @else
+                                                                            <li data-year="Terdaftar" data-text="">
+                                                                            </li>
+                                                                        @endif
                                                                     @else
                                                                         <li data-year="Terdaftar" data-text="-"></li>
                                                                     @endif
-                                                                    @if (in_array($item->enrollCourse->status, ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang', 'Terdaftar', 'Lulus']))
-                                                                        <li data-year="Lulus" data-text="-"
-                                                                            class="done">
-                                                                        </li>
+                                                                    @if (in_array($item->status, ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang', 'Terdaftar', 'Lulus']) && $item->status != 'Gagal')
+                                                                        @if ($item->status == 'Lulus')
+                                                                            <li data-year="Lulus" data-text=""
+                                                                                class="done">
+                                                                            </li>
+                                                                        @else
+                                                                            <li data-year="Lulus" data-text="">
+                                                                            </li>
+                                                                        @endif
                                                                     @else
                                                                         <li data-year="Lulus" data-text="-"></li>
                                                                     @endif
@@ -216,8 +247,8 @@
         </div><!-- end container -->
     </section><!-- end my-courses-area -->
     <!-- ================================
-                                                   START MY COURSES
-                                            ================================= -->
+                                                                           START MY COURSES
+                                                                    ================================= -->
 @endsection
 
 @push('styles')

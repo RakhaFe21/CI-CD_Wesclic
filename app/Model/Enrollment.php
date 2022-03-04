@@ -57,4 +57,16 @@ class Enrollment extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
+
+    public function sesi_enrollment() {
+        return $this->hasMany(KursusSesiEnrollment::class, 'id_enrollment', 'id');
+    }
+
+    public function sesi_enroll_tes_tulis() {
+        return $this->hasOne(KursusSesiEnrollment::class, 'id_enrollment', 'id')->where('nama_jadwal', 'Tes Tulis');
+    }
+
+    public function sesi_enroll_tes_wawancara() {
+        return $this->hasOne(KursusSesiEnrollment::class, 'id_enrollment', 'id')->where('nama_jadwal', 'Tes Wawancara');
+    }
 }

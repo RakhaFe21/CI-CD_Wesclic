@@ -59,30 +59,49 @@
                             data-toggle="modal" data-target="#modalApply" @click.prevent>Terapkan</button>
                     </div>
                 </div>
-                <span v-text="enrollmentSelected"></span>
 
                 <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab"
-                            aria-controls="pending" aria-selected="true" @click="changeTab('Pending')">Pending</a>
+                            aria-controls="pending" aria-selected="true" @click="changeTab('Pending')">Pending <span
+                                class="badge badge-pills badge-warning">{{ $students['pending']->count() }}</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="tes_tulis-tab" data-toggle="tab" href="#tes_tulis" role="tab"
-                            aria-controls="tes_tulis" aria-selected="false" @click="changeTab('Tes Tulis')">Tes Tulis</a>
+                            aria-controls="tes_tulis" aria-selected="false" @click="changeTab('Tes Tulis')">Tes Tulis <span
+                                class="badge badge-pills badge-info">{{ $students['tes_tulis']->count() }}</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="tes_wawancara-tab" data-toggle="tab" href="#tes_wawancara" role="tab"
                             aria-controls="tes_wawancara" aria-selected="false" @click="changeTab('Tes Wawancara')">Tes
-                            Wawancara</a>
+                            Wawancara <span
+                                class="badge badge-pills badge-info">{{ $students['tes_wawancara']->count() }}</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="gagal-tab" data-toggle="tab" href="#gagal" role="tab"
+                            aria-controls="gagal" aria-selected="false" @click="changeTab('Gagal')">Gagal <span
+                                class="badge badge-pills badge-danger">{{ $students['gagal']->count() }}</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="peserta_cadangan-tab" data-toggle="tab" href="#peserta_cadangan" role="tab"
+                            aria-controls="peserta_cadangan" aria-selected="false" @click="changeTab('Peserta Cadangan')">Peserta Cadangan <span
+                                class="badge badge-pills badge-warning">{{ $students['peserta_cadangan']->count() }}</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="pendaftaran_ulang-tab" data-toggle="tab" href="#pendaftaran_ulang"
                             role="tab" aria-controls="pendaftaran_ulang" aria-selected="false"
-                            @click="changeTab('Pendaftaran Ulang')">Pendaftaran Ulang</a>
+                            @click="changeTab('Pendaftaran Ulang')">Pendaftaran Ulang <span
+                                class="badge badge-pills badge-success">{{ $students['pendaftaran_ulang']->count() }}</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="terdaftar-tab" data-toggle="tab" href="#terdaftar" role="tab"
-                            aria-controls="terdaftar" aria-selected="false" @click="changeTab('Terdaftar')">Terdaftar</a>
+                            aria-controls="terdaftar" aria-selected="false" @click="changeTab('Terdaftar')">Terdaftar <span
+                                class="badge badge-pills badge-primary">{{ $students['terdaftar']->count() }}</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="lulus-tab" data-toggle="tab" href="#lulus" role="tab"
+                            aria-controls="lulus" aria-selected="false" @click="changeTab('Lulus')">Lulus <span
+                                class="badge badge-pills badge-success">{{ $students['lulus']->count() }}</span></a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -170,12 +189,17 @@
                                         </td>
                                         <td>
                                             @php
-                                                $sesi_tes_tulis = DB::table('kursus_sesi_enrollment')->where('id_enrollment', $item->enrollment_id)->where('nama_jadwal', 'Tes Tulis')->first();
+                                                $sesi_tes_tulis = DB::table('kursus_sesi_enrollment')
+                                                    ->where('id_enrollment', $item->enrollment_id)
+                                                    ->where('nama_jadwal', 'Tes Tulis')
+                                                    ->first();
                                             @endphp
                                             <ul class="text-left list-unstyled">
-                                                <li><i class="fa fa-calendar"></i> {{$sesi_tes_tulis->tanggal_sesi}}</li>
-                                                <li><i class="fa fa-clock-o"></i> {{$sesi_tes_tulis->jam_sesi}}</li>
-                                                <li><i class="fa fa-map-marker"></i> {{$sesi_tes_tulis->lokasi_sesi}}</li>
+                                                <li><i class="fa fa-calendar"></i> {{ $sesi_tes_tulis->tanggal_sesi }}
+                                                </li>
+                                                <li><i class="fa fa-clock-o"></i> {{ $sesi_tes_tulis->jam_sesi }}</li>
+                                                <li><i class="fa fa-map-marker"></i> {{ $sesi_tes_tulis->lokasi_sesi }}
+                                                </li>
                                             </ul>
                                         </td>
                                         <td>
@@ -230,12 +254,20 @@
                                         </td>
                                         <td>
                                             @php
-                                                $sesi_tes_wawancara = DB::table('kursus_sesi_enrollment')->where('id_enrollment', $item->enrollment_id)->where('nama_jadwal', 'Tes Wawancara')->first();
+                                                $sesi_tes_wawancara = DB::table('kursus_sesi_enrollment')
+                                                    ->where('id_enrollment', $item->enrollment_id)
+                                                    ->where('nama_jadwal', 'Tes Wawancara')
+                                                    ->first();
                                             @endphp
                                             <ul class="text-left list-unstyled">
-                                                <li><i class="fa fa-calendar"></i> {{$sesi_tes_wawancara->tanggal_sesi}}</li>
-                                                <li><i class="fa fa-clock-o"></i> {{$sesi_tes_wawancara->jam_sesi}}</li>
-                                                <li><i class="fa fa-map-marker"></i> {{$sesi_tes_wawancara->lokasi_sesi}}</li>
+                                                <li><i class="fa fa-calendar"></i>
+                                                    {{ $sesi_tes_wawancara->tanggal_sesi }}
+                                                </li>
+                                                <li><i class="fa fa-clock-o"></i> {{ $sesi_tes_wawancara->jam_sesi }}
+                                                </li>
+                                                <li><i class="fa fa-map-marker"></i>
+                                                    {{ $sesi_tes_wawancara->lokasi_sesi }}
+                                                </li>
                                             </ul>
                                         </td>
                                         <td>
@@ -255,9 +287,171 @@
                             {{ $students['tes_wawancara']->links() }}
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="gagal" role="tabpanel" aria-labelledby="gagal-tab">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th width="100">Gambar</th>
+                                    <th>Name</th>
+                                    <th>NIK</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($students['gagal'] as $item)
+                                    <tr>
+                                        <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
+                                                id="checkbox-{{ $item->id }}"
+                                                @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
+                                        </td>
+                                        <td>
+                                            @if ($item->image != null)
+                                                <img src="{{ filePath($item->image) }}"
+                                                    class="img-thumbnail rounded-circle avatar-lg"><br />
+                                            @else
+                                                <img src="#" class="img-thumbnail rounded-circle avatar-lg"
+                                                    alt="avatar"><br />
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->nik ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">{{ $item->status }}</span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">
+                                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        <div class="d-flex">
+                            {{ $students['gagal']->links() }}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="gagal" role="tabpanel" aria-labelledby="gagal-tab">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th width="100">Gambar</th>
+                                    <th>Name</th>
+                                    <th>NIK</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($students['peserta_cadangan'] as $item)
+                                    <tr>
+                                        <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
+                                                id="checkbox-{{ $item->id }}"
+                                                @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
+                                        </td>
+                                        <td>
+                                            @if ($item->image != null)
+                                                <img src="{{ filePath($item->image) }}"
+                                                    class="img-thumbnail rounded-circle avatar-lg"><br />
+                                            @else
+                                                <img src="#" class="img-thumbnail rounded-circle avatar-lg"
+                                                    alt="avatar"><br />
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->nik ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">{{ $item->status }}</span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">
+                                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        <div class="d-flex">
+                            {{ $students['peserta_cadangan']->links() }}
+                        </div>
+                    </div>
                     <div class="tab-pane fade" id="pendaftaran_ulang" role="tabpanel"
                         aria-labelledby="pendaftaran_ulang-tab">
-                        test
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th width="100">Gambar</th>
+                                    <th>Name</th>
+                                    <th>NIK</th>
+                                    <th>Sesi Pendaftaran Ulang</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($students['pendaftaran_ulang'] as $item)
+                                    <tr>
+                                        <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
+                                                id="checkbox-{{ $item->id }}"
+                                                @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
+                                        </td>
+                                        <td>
+                                            @if ($item->image != null)
+                                                <img src="{{ filePath($item->image) }}"
+                                                    class="img-thumbnail rounded-circle avatar-lg"><br />
+                                            @else
+                                                <img src="#" class="img-thumbnail rounded-circle avatar-lg"
+                                                    alt="avatar"><br />
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->nik ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $sesi_pendaftaran_ulang = DB::table('kursus_sesi_enrollment')
+                                                    ->where('id_enrollment', $item->enrollment_id)
+                                                    ->where('nama_jadwal', 'Pendaftaran Ulang')
+                                                    ->first();
+                                            @endphp
+                                            <ul class="text-left list-unstyled">
+                                                <li><i class="fa fa-calendar"></i>
+                                                    {{ $sesi_pendaftaran_ulang->tanggal_sesi }}</li>
+                                                <li><i class="fa fa-clock-o"></i>
+                                                    {{ $sesi_pendaftaran_ulang->jam_sesi }}
+                                                </li>
+                                                <li><i class="fa fa-map-marker"></i>
+                                                    {{ $sesi_pendaftaran_ulang->lokasi_sesi }}</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info">{{ $item->status }}</span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">
+                                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        <div class="d-flex">
+                            {{ $students['pendaftaran_ulang']->links() }}
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="terdaftar" role="tabpanel" aria-labelledby="terdaftar-tab">
                         <table class="table table-bordered table-hover text-center">
@@ -312,7 +506,63 @@
                             </tbody>
                         </table>
                         <div class="d-flex">
-                            {{ $students['pending']->links() }}
+                            {{ $students['terdaftar']->links() }}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="lulus" role="tabpanel" aria-labelledby="terdaftar-tab">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th> </th>
+                                    <th width="100">Gambar</th>
+                                    <th>Name</th>
+                                    <th>NIK</th>
+                                    <th>Status</th>
+                                    <th>Logbook</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($students['lulus'] as $item)
+                                    <tr>
+                                        <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected"
+                                                class="form-check-input" id="checkbox-{{ $item->id }}"
+                                                @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
+                                        </td>
+                                        <td>
+                                            @if ($item->image != null)
+                                                <img src="{{ filePath($item->image) }}"
+                                                    class="img-thumbnail rounded-circle avatar-lg"><br />
+                                            @else
+                                                <img src="#" class="img-thumbnail rounded-circle avatar-lg"
+                                                    alt="avatar"><br />
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->nik ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-secondary">{{ $item->status }}</span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="forModal('{{ route('student.logbook.courses.modal', ['course_id' => $course_id, 'user_id' => $item->user_id]) }}', 'Logbook Siswa')">
+                                                @translate(Lihat)</button>
+
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">
+                                            <h3 class="text-center">Tidak Ada Data Ditemukan</h3>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        <div class="d-flex">
+                            {{ $students['lulus']->links() }}
                         </div>
                     </div>
                 </div>
@@ -403,6 +653,12 @@
                                 'Gagal',
                             ]
                             break;
+                        case 'Peserta Cadangan':
+                            this.statusOption = [
+                                'Pendaftaran Ulang',
+                                'Terdaftar',
+                            ]
+                            break;
                         case 'Pendaftaran Ulang':
                             this.statusOption = [
                                 'Terdaftar',
@@ -413,8 +669,15 @@
                                 'Lulus',
                             ]
                             break;
-
+                        case 'Lulus':
+                            this.statusOption = [
+                                'Sudah Ambil Sertifikat BLK',
+                                'Sudah Ambil Sertifikat BNSP',
+                                'Sudah Ambil Sertifikat BLK & BNSP',
+                            ]
+                            break;
                         default:
+                            this.statusOption = []
                             break;
                     }
                 },

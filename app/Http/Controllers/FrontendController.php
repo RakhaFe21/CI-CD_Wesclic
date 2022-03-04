@@ -1298,7 +1298,10 @@ class FrontendController extends Controller
     public function my_courses()
     {
         //enroll courses
-        $enrolls = Enrollment::with('enrollCourse')->where('user_id', Auth::id())->paginate(6);
+        $enrolls = Enrollment::with('enrollCourse')
+        ->with('sesi_enroll_tes_tulis')
+        ->with('sesi_enroll_tes_wawancara')
+        ->where('user_id', Auth::id())->paginate(6);
         return view($this->theme . '.course.my_courses', compact('enrolls'));
     }
 

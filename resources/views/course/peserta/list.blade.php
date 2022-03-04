@@ -83,8 +83,9 @@
                                 class="badge badge-pills badge-danger">{{ $students['gagal']->count() }}</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="peserta_cadangan-tab" data-toggle="tab" href="#peserta_cadangan" role="tab"
-                            aria-controls="peserta_cadangan" aria-selected="false" @click="changeTab('Peserta Cadangan')">Peserta Cadangan <span
+                        <a class="nav-link" id="peserta_cadangan-tab" data-toggle="tab" href="#peserta_cadangan"
+                            role="tab" aria-controls="peserta_cadangan" aria-selected="false"
+                            @click="changeTab('Peserta Cadangan')">Peserta Cadangan <span
                                 class="badge badge-pills badge-warning">{{ $students['peserta_cadangan']->count() }}</span></a>
                     </li>
                     <li class="nav-item">
@@ -194,13 +195,18 @@
                                                     ->where('nama_jadwal', 'Tes Tulis')
                                                     ->first();
                                             @endphp
-                                            <ul class="text-left list-unstyled">
-                                                <li><i class="fa fa-calendar"></i> {{ $sesi_tes_tulis->tanggal_sesi }}
-                                                </li>
-                                                <li><i class="fa fa-clock-o"></i> {{ $sesi_tes_tulis->jam_sesi }}</li>
-                                                <li><i class="fa fa-map-marker"></i> {{ $sesi_tes_tulis->lokasi_sesi }}
-                                                </li>
-                                            </ul>
+                                            @if ($sesi_tes_tulis)
+                                                <ul class="text-left list-unstyled">
+                                                    <li><i class="fa fa-calendar"></i>
+                                                        {{ $sesi_tes_tulis->tanggal_sesi }}
+                                                    </li>
+                                                    <li><i class="fa fa-clock-o"></i> {{ $sesi_tes_tulis->jam_sesi }}
+                                                    </li>
+                                                    <li><i class="fa fa-map-marker"></i>
+                                                        {{ $sesi_tes_tulis->lokasi_sesi }}
+                                                    </li>
+                                                </ul>
+                                            @endif
                                         </td>
                                         <td>
                                             <span class="badge badge-info">{{ $item->status }}</span>
@@ -259,16 +265,19 @@
                                                     ->where('nama_jadwal', 'Tes Wawancara')
                                                     ->first();
                                             @endphp
-                                            <ul class="text-left list-unstyled">
-                                                <li><i class="fa fa-calendar"></i>
-                                                    {{ $sesi_tes_wawancara->tanggal_sesi }}
-                                                </li>
-                                                <li><i class="fa fa-clock-o"></i> {{ $sesi_tes_wawancara->jam_sesi }}
-                                                </li>
-                                                <li><i class="fa fa-map-marker"></i>
-                                                    {{ $sesi_tes_wawancara->lokasi_sesi }}
-                                                </li>
-                                            </ul>
+                                            @if ($sesi_tes_wawancara)
+                                                <ul class="text-left list-unstyled">
+                                                    <li><i class="fa fa-calendar"></i>
+                                                        {{ $sesi_tes_wawancara->tanggal_sesi }}
+                                                    </li>
+                                                    <li><i class="fa fa-clock-o"></i>
+                                                        {{ $sesi_tes_wawancara->jam_sesi }}
+                                                    </li>
+                                                    <li><i class="fa fa-map-marker"></i>
+                                                        {{ $sesi_tes_wawancara->lokasi_sesi }}
+                                                    </li>
+                                                </ul>
+                                            @endif
                                         </td>
                                         <td>
                                             <span class="badge badge-info">{{ $item->status }}</span>
@@ -336,7 +345,8 @@
                             {{ $students['gagal']->links() }}
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="gagal" role="tabpanel" aria-labelledby="gagal-tab">
+                    <div class="tab-pane fade" id="peserta_cadangan" role="tabpanel"
+                        aria-labelledby="peserta_cadangan-tab">
                         <table class="table table-bordered table-hover text-center">
                             <thead>
                                 <tr>
@@ -426,15 +436,17 @@
                                                     ->where('nama_jadwal', 'Pendaftaran Ulang')
                                                     ->first();
                                             @endphp
-                                            <ul class="text-left list-unstyled">
-                                                <li><i class="fa fa-calendar"></i>
-                                                    {{ $sesi_pendaftaran_ulang->tanggal_sesi }}</li>
-                                                <li><i class="fa fa-clock-o"></i>
-                                                    {{ $sesi_pendaftaran_ulang->jam_sesi }}
-                                                </li>
-                                                <li><i class="fa fa-map-marker"></i>
-                                                    {{ $sesi_pendaftaran_ulang->lokasi_sesi }}</li>
-                                            </ul>
+                                            @if ($sesi_pendaftaran_ulang)
+                                                <ul class="text-left list-unstyled">
+                                                    <li><i class="fa fa-calendar"></i>
+                                                        {{ $sesi_pendaftaran_ulang->tanggal_sesi }}</li>
+                                                    <li><i class="fa fa-clock-o"></i>
+                                                        {{ $sesi_pendaftaran_ulang->jam_sesi }}
+                                                    </li>
+                                                    <li><i class="fa fa-map-marker"></i>
+                                                        {{ $sesi_pendaftaran_ulang->lokasi_sesi }}</li>
+                                                </ul>
+                                            @endif
                                         </td>
                                         <td>
                                             <span class="badge badge-info">{{ $item->status }}</span>
@@ -469,8 +481,8 @@
                                 @forelse($students['terdaftar'] as $item)
                                     <tr>
                                         <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
-                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
-                                                id="checkbox-{{ $item->id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected"
+                                                class="form-check-input" id="checkbox-{{ $item->id }}"
                                                 @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
                                         </td>
                                         <td>

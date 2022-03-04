@@ -129,33 +129,41 @@ class CourseController extends Controller
             if (in_array($reqData['status'], ['Tes Tulis', 'Tes Wawancara'])) {
                 $where['kursus_jadwal.nama_jadwal'] = $status;
                 $nama_jadwal = $status;
+
                 $kursus_sesi_tersedia = DB::table('kursus_sesi')
                     ->join('kursus_jadwal', 'kursus_jadwal.id', '=', 'kursus_sesi.id_kursus_jadwal')
-                    ->leftJoin('kursus_sesi_enrollment', 'kursus_sesi_enrollment.id_kursus_sesi', '=', 'kursus_sesi.id')
+                    // ->leftJoin('kursus_sesi_enrollment', 'kursus_sesi_enrollment.id_kursus_sesi', '=', 'kursus_sesi.id')
                     ->where($where)
                     ->where('id_kursus', $course_id)
                     ->whereNull('kursus_jadwal.deleted_at')->whereNull('kursus_sesi.deleted_at')
-                    ->whereNull('kursus_sesi_enrollment.id_enrollment')
-                    ->selectRaw('kursus_sesi.*, kursus_jadwal.*, kursus_sesi.id as id, kursus_sesi_enrollment.id_enrollment as id_sesi_enrollment')
+                    // ->whereNull('kursus_sesi_enrollment.id_enrollment')
+                    // ->selectRaw('kursus_sesi.*, kursus_jadwal.*, kursus_sesi.id as id, kursus_sesi_enrollment.id_enrollment as id_sesi_enrollment')
+                    ->whereRaw("(SELECT count(id_kursus_sesi) FROM kursus_sesi_enrollment WHERE id_kursus_sesi = kursus_sesi.id) < kursus_jadwal.jumlah_peserta_persesi")
+                    ->selectRaw('kursus_sesi.*, kursus_jadwal.*, kursus_sesi.id as id')
+                    ->selectRaw('(SELECT count(id_kursus_sesi) FROM kursus_sesi_enrollment WHERE id_kursus_sesi = kursus_sesi.id) as total_kursus_sesi_enrolled')
                     ->orderBy('kursus_sesi.tanggal_sesi', 'ASC')
                     ->orderBy('kursus_sesi.jam_sesi', 'ASC')
                     ->first();
 
                 // dd($kursus_sesi_tersedia);
 
-
-                $kursus_sesi_enrollment = KursusSesiEnrollment::where('id_enrollment', $enrollment_id)->where('nama_jadwal', $nama_jadwal);
-                if ($kursus_sesi_enrollment->count() < 1 && $kursus_sesi_tersedia !== null) {
-                    KursusSesiEnrollment::create([
-                        'id_kursus_sesi' => $kursus_sesi_tersedia->id,
-                        'id_enrollment' => $enrollment_id,
-                        'nama_jadwal' => $kursus_sesi_tersedia->nama_jadwal,
-                        'nama_sesi' => $kursus_sesi_tersedia->nama_sesi,
-                        'tanggal_sesi' => $kursus_sesi_tersedia->tanggal_sesi,
-                        'jam_sesi' => $kursus_sesi_tersedia->jam_sesi,
-                        'lokasi_sesi' => $kursus_sesi_tersedia->lokasi_sesi,
-                    ]);
+                if($kursus_sesi_tersedia != null) {
+    
+                    $kursus_sesi_enrollment = KursusSesiEnrollment::where('id_enrollment', $enrollment_id)->where('nama_jadwal', $nama_jadwal);
+                    
+                    if ($kursus_sesi_enrollment->count() < 1) {
+                        KursusSesiEnrollment::create([
+                            'id_kursus_sesi' => $kursus_sesi_tersedia->id,
+                            'id_enrollment' => $enrollment_id,
+                            'nama_jadwal' => $kursus_sesi_tersedia->nama_jadwal,
+                            'nama_sesi' => $kursus_sesi_tersedia->nama_sesi,
+                            'tanggal_sesi' => $kursus_sesi_tersedia->tanggal_sesi,
+                            'jam_sesi' => $kursus_sesi_tersedia->jam_sesi,
+                            'lokasi_sesi' => $kursus_sesi_tersedia->lokasi_sesi,
+                        ]);
+                    }
                 }
+
             }
 
             Enrollment::find($enrollment_id)->update(['status' => $status]);

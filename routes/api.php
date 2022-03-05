@@ -11,6 +11,7 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -216,8 +217,8 @@ Route::group(
         // delete kursus sesi
         Route::delete('courses/sesi/{id}/delete', 'CourseApiController@deleteKursusSesi');
 
-         // delete logbook
-         Route::delete('courses/logbook/{id}/delete', 'CourseApiController@deleteLogbook');
+        // delete logbook
+        Route::delete('courses/logbook/{id}/delete', 'CourseApiController@deleteLogbook');
 
 
         //single course
@@ -240,6 +241,23 @@ Route::group(
 
         /*single page*/
         Route::get('single/page/{id}', 'SettingApiController@singlePage');
+
+        // API WILAYAH
+        // Provinsi
+        Route::get('wilayah/provinsi', 'WilayahApiController@getProvinsi');
+        Route::get('wilayah/provinsi/{id_provinsi}', 'WilayahApiController@getDetailProvinsi');
+
+        // Kota Kabupaten
+        Route::get('wilayah/kota', 'WilayahApiController@getKota');
+        Route::get('wilayah/kota/{id_kota}', 'WilayahApiController@getDetailKota');
+
+        // Kecamatan
+        Route::get('wilayah/kecamatan', 'WilayahApiController@getKecamatan');
+        Route::get('wilayah/kecamatan/{id_kecamatan}', 'WilayahApiController@getDetailKecamatan');
+
+        // Kelurahan
+        Route::get('wilayah/kelurahan', 'WilayahApiController@getKelurahan');
+        Route::get('wilayah/kelurahan/{id_kelurahan}', 'WilayahApiController@getDetailKelurahan');
     }
 );
 

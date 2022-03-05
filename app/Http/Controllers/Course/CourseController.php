@@ -126,6 +126,8 @@ class CourseController extends Controller
 
         foreach ($reqData['enrollment_id'] as $key => $enrollment_id) {
             $status = $reqData['status'];
+
+            $allowed_update = true;
             if (in_array($reqData['status'], ['Tes Tulis', 'Tes Wawancara'])) {
                 $where['kursus_jadwal.nama_jadwal'] = $status;
                 $nama_jadwal = $status;
@@ -161,12 +163,16 @@ class CourseController extends Controller
                             'jam_sesi' => $kursus_sesi_tersedia->jam_sesi,
                             'lokasi_sesi' => $kursus_sesi_tersedia->lokasi_sesi,
                         ]);
+                    } else {
+                        $allowed_update = false;
                     }
                 }
 
             }
 
-            Enrollment::find($enrollment_id)->update(['status' => $status]);
+            if($allowed_update) {
+                Enrollment::find($enrollment_id)->update(['status' => $status]);
+            }
         }
 
         return redirect()->back()->with('succss', 'Status pelatihan siswa berhasil diperbarui!');

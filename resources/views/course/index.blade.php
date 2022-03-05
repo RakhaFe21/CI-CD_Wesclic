@@ -123,10 +123,10 @@
                                             href="{{ route('course.pel',[$course->id,$course->slug])}}">
                                             <i class="feather icon-users mr-2"></i>@translate(Peserta)
                                         </a>
-                                        <a class="dropdown-item font-13"
+                                        {{-- <a class="dropdown-item font-13"
                                            href="{{ route('course.show',[$course->id,$course->slug])}}">
                                            <i class="feather flaticon-earth-globe mr-2"></i>@translate(Details)
-                                        </a>
+                                        </a> --}}
                                         <a class="dropdown-item font-13"
                                            href="{{ route('course.edit',[$course->id,$course->slug])}}">
                                            <i class="feather icon-edit-2 mr-2"></i>@translate(Edit)

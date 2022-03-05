@@ -575,6 +575,176 @@
 
                 </div>
 
+                {{-- Pendaftaran Ulang --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="has_pendaftaran_ulang">Pendaftaran Ulang</label>
+                    <div class="col-lg-9">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" name="has_pendaftaran_ulang"
+                                id="has_pendaftaran_ulang" v-model="pendul_enable">
+                            <label class="custom-control-label" for="has_pendaftaran_ulang"></label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="auto_hide3-2" v-if="pendul_enable" style="display: block">
+
+                    {{-- PENDUL - Jumlah Sesi Per Hari --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jumlah Sesi Per Hari)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="pendul_jumlah_sesi_perhari" id="pendul_jumlah_sesi_perhari"
+                                    v-model="pendul_jumlah_sesi_perhari" />
+                                @error('pendul_jumlah_sesi_perhari')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- PENDUL - Durasi Per Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Durasi Per Sesi) (Menit)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="pendul_durasi_per_sesi" id="pendul_durasi_per_sesi"
+                                    v-model="pendul_durasi_per_sesi" />
+                                @error('pendul_durasi_per_sesi')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- PENDUL - Jumlah Perserta Per Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jumlah Peserta Per Sesi)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="number" name="pendul_jumlah_peserta_persesi" id="pendul_jumlah_peserta_persesi"
+                                    v-model="pendul_jumlah_peserta_persesi" />
+                                @error('pendul_jumlah_peserta_persesi')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- PENDUL - Tanggal Mulai --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Tanggal Mulai)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="date" name="pendul_tanggal_mulai" id="pendul_tanggal_mulai"
+                                    v-model="pendul_tanggal_mulai" />
+                                @error('pendul_tanggal_mulai')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- PENDUL - Jam Mulai --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" for="">
+                            @translate(Jam Mulai)</label>
+                        <div class="col-lg-9">
+                            <div class="switchery-list">
+                                <input type="time" name="pendul_jam_mulai" id="pendul_jam_mulai" v-model="pendul_jam_mulai" />
+                                @error('pendul_jam_mulai')
+                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <button class="btn btn-sm btn-primary mt-3" type="button"
+                                @click.prevent="generateJadwalPendul">Generate Sesi</button>
+                        </div>
+                    </div>
+
+                    {{-- Pendaftaran Ulang Sesi --}}
+                    <div class="pendaftaran-ulang pendaftaran-ulang-row" v-for="(sesi, s_index) in pendul_data_sesi" :key="s_index">
+
+                        <div class="text-h6" v-text="sesi.nama_sesi"></div>
+
+                        {{-- Nama Sesi --}}
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label text-right">
+                                @translate(Nama Sesi)</label>
+                            <div class="col-lg-9">
+                                <div class="input-group mb-3">
+                                    <input type="text" v-model="sesi.nama_sesi" name="pendul_sesi_nama[]"
+                                        class="form-control">
+                                    <input type="hidden" v-model="sesi.id" name="pendul_sesi_id[]" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Tanggal --}}
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label text-right">
+                                @translate(Tanggal)</label>
+                            <div class="col-lg-9">
+                                <div class="input-group mb-3">
+                                    <input type="date" v-model="sesi.tanggal_sesi" name="pendul_sesi_tanggal[]"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Jam --}}
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label text-right">
+                                @translate(Jam)</label>
+                            <div class="col-lg-9">
+                                <div class="input-group mb-3">
+                                    <input type="time" v-model="sesi.jam_sesi" name="pendul_sesi_jam[]"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Lokasi --}}
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label text-right">
+                                @translate(Lokasi)</label>
+                            <div class="col-lg-7">
+                                <div class="input-group mb-3">
+                                    <input type="text" v-model="sesi.lokasi_sesi" name="pendul_sesi_lokasi[]"
+                                        class="form-control">
+                                    {{-- <input type="hidden" v-model="sesi.nama_sesi" name="testu_sesi_nama[]" class="form-control"> --}}
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-sm btn-danger" type="button"
+                                    @click.prevent="deleteSesi(sesi, s_index)">
+                                    <i class="fa fa-spin fa-spinner fa-fw" v-if="loading"></i>
+                                    <i class="fa fa-trash fa-fw" v-else></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 row mb-4" v-if="pendul_data_sesi && pendul_data_sesi.length > 0">
+                        {{-- <div class="mt-3 row mb-4" v-if="teswa_data_sesi"> --}}
+                        <div class="col-lg-3 col-form-label"></div>
+                        <div class="col-lg-9">
+                            <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiPendul"><i
+                                    class="fa fa-plus"></i> Tambah Sesi</button>
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="field_wrapper">
                     <div class="form-group row" v-for="(log, l_index) in logbook" :key="'L'+l_index">
                         <label class="col-lg-3 col-form-label" for="val-logbook">
@@ -633,12 +803,18 @@
         const hasTesTulis = {{ $each_course->has_tes_tulis }};
         let dataJadwalTesTulis = {!! $jadwal_tes_tulis !!};
         dataJadwalTesTulis = dataJadwalTesTulis != null ? dataJadwalTesTulis : {}
+
         const hasTesWawancara = {{ $each_course->has_tes_wawancara }};
         let dataJadwalTesWawancara = {!! $jadwal_tes_wawancara !!};
         dataJadwalTesWawancara = dataJadwalTesWawancara != null ? dataJadwalTesWawancara : {}
 
+        const hasPendul = {{ $each_course->has_pendaftaran_ulang }};
+        let dataJadwalPendul = {!! $jadwal_pendaftaran_ulang !!};
+        dataJadwalPendul = dataJadwalPendul != null ? dataJadwalPendul : {}
+
         console.log(dataJadwalTesTulis)
         console.log(dataJadwalTesWawancara)
+        console.log(dataJadwalPendul)
 
         let dataLogbook = {!! $logbook !!};
         dataLogbook = dataLogbook != null ? dataLogbook : []
@@ -648,6 +824,8 @@
                     title: 'Hello Vue!',
                     loading: false,
                     jumlah_peserta: {{ $each_course->jumlah_peserta }},
+
+                    // tes tulis
                     testu_enable: false,
                     testu_jumlah_sesi_perhari: dataJadwalTesTulis.jumlah_sesi_perhari,
                     testu_durasi_per_sesi: dataJadwalTesTulis.durasi_persesi,
@@ -656,6 +834,8 @@
                     testu_jam_mulai: dataJadwalTesTulis.jam_mulai,
                     testu_data_sesi: [],
                     tes_tulis_show: false,
+
+                    // tes wawancara
                     // jumlah_peserta_wawancara: 50,
                     teswa_enable: hasTesWawancara,
                     teswa_jumlah_sesi_perhari: dataJadwalTesWawancara.jumlah_sesi_perhari,
@@ -664,6 +844,16 @@
                     teswa_tanggal_mulai: dataJadwalTesWawancara.tanggal_mulai,
                     teswa_jam_mulai: dataJadwalTesWawancara.jam_mulai,
                     teswa_data_sesi: [],
+
+                    // pendaftaran_ulang
+                    // jumlah_peserta_pendul: 50,
+                    pendul_enable: hasPendul,
+                    pendul_jumlah_sesi_perhari: dataJadwalPendul.jumlah_sesi_perhari,
+                    pendul_durasi_per_sesi: dataJadwalPendul.durasi_persesi,
+                    pendul_jumlah_peserta_persesi: dataJadwalPendul.jumlah_peserta_persesi,
+                    pendul_tanggal_mulai: dataJadwalPendul.tanggal_mulai,
+                    pendul_jam_mulai: dataJadwalPendul.jam_mulai,
+                    pendul_data_sesi: [],
 
                     logbook: dataLogbook
                 }
@@ -675,14 +865,21 @@
                 // });
                 this.testu_enable = hasTesTulis == 1 ? true : false
                 this.testu_data_sesi = dataJadwalTesTulis.sesi ? dataJadwalTesTulis.sesi : []
+
                 this.teswa_enable = hasTesWawancara == 1 ? true : false
                 this.teswa_data_sesi = dataJadwalTesWawancara.sesi ? dataJadwalTesWawancara.sesi : []
+
+                this.pendul_enable = hasPendul == 1 ? true : false
+                this.pendul_data_sesi = dataJadwalPendul.sesi ? dataJadwalPendul.sesi : []
             },
             watch: {
                 testu_enable: function(value) {
                     console.log(value)
                 },
                 teswa_enable: function(value) {
+                    console.log(value)
+                },
+                pendul_enable: function(value) {
                     console.log(value)
                 }
             },
@@ -845,20 +1042,107 @@
 
                 },
 
+                generateJadwalPendul() {
+
+                    if (this.jumlah_peserta < 1) {
+                        return alert('Jumlah Peserta wajib diisi!');
+                    }
+
+                    const jumlah_hari = Math.ceil(this.jumlah_peserta / (this.pendul_jumlah_sesi_perhari * this
+                        .pendul_jumlah_peserta_persesi))
+                    const jumlah_peserta_sisa = this.jumlah_peserta % (this.pendul_jumlah_sesi_perhari * this
+                        .pendul_jumlah_peserta_persesi)
+
+                    console.log('jumlah_hari', jumlah_hari)
+                    console.log('jumlah_peserta_sisa', jumlah_peserta_sisa)
+
+                    let hari = []
+                    let last_index = jumlah_hari - 1
+                    for (let i = 0; i < jumlah_hari; i++) {
+                        if (i !== last_index && jumlah_peserta_sisa > 0) {
+                            if (i == 0) {
+                                hari.push({
+                                    nomor: i + 1,
+                                    jumlah_peserta: this.pendul_jumlah_sesi_perhari * this
+                                        .pendul_jumlah_peserta_persesi,
+                                    tanggal: moment(this.pendul_tanggal_mulai).add(0, 'd').format(
+                                        'YYYY-MM-DD'),
+                                    jam_mulai: this.pendul_jam_mulai
+                                })
+                            } else {
+                                hari.push({
+                                    nomor: i + 1,
+                                    jumlah_peserta: this.pendul_jumlah_sesi_perhari * this
+                                        .pendul_jumlah_peserta_persesi,
+                                    tanggal: moment(this.pendul_tanggal_mulai).add(i, 'd').format(
+                                        'YYYY-MM-DD'),
+                                    jam_mulai: this.pendul_jam_mulai
+                                })
+                            }
+                        } else if (jumlah_hari == 1) {
+                            hari.push({
+                                nomor: i + 1,
+                                jumlah_peserta: this.pendul_jumlah_sesi_perhari * this
+                                    .pendul_jumlah_peserta_persesi,
+                                tanggal: moment(this.pendul_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                                jam_mulai: this.pendul_jam_mulai
+                            })
+                        } else {
+                            hari.push({
+                                nomor: i + 1,
+                                jumlah_peserta: jumlah_peserta_sisa,
+                                tanggal: moment(this.pendul_tanggal_mulai).add(i, 'd').format('YYYY-MM-DD'),
+                                jam_mulai: this.pendul_jam_mulai
+                            })
+                        }
+                    }
+                    console.log('hari', hari)
+
+                    let sesi = [],
+                        nomor = 1;
+                    for (let x = 0; x < hari.length; x++) {
+                        const perhari = hari[x];
+                        const sesi_per_hari = perhari.jumlah_peserta / this.pendul_jumlah_peserta_persesi
+                        let durasi = 0;
+                        for (let z = 0; z < sesi_per_hari; z++) {
+                            let tanggal = perhari.tanggal + ' ' + perhari.jam_mulai
+                            sesi.push({
+                                nama_sesi: `Hari ${x+1} Sesi ${z+1}`,
+                                tanggal_sesi: perhari.tanggal,
+                                jam_sesi: moment(tanggal).add(durasi, 'm').format('HH:mm'),
+                                lokasi_sesi: '-'
+                            })
+                            durasi += this.pendul_durasi_per_sesi
+                        }
+                    }
+
+                    console.log('sesi', sesi)
+                    this.pendul_data_sesi = sesi
+
+                },
+
                 tambahSesiTulis() {
                     this.testu_data_sesi.push({
                         nama_sesi: 'Sesi Baru',
-                        tanggal: null,
-                        jam: null,
-                        lokasi: '-'
+                        tanggal_sesi: null,
+                        jam_sesi: null,
+                        lokasi_sesi: '-'
                     })
                 },
                 tambahSesiWawancara() {
                     this.teswa_data_sesi.push({
                         nama_sesi: 'Sesi Baru',
-                        tanggal: null,
-                        jam: null,
-                        lokasi: '-'
+                        tanggal_sesi: null,
+                        jam_sesi: null,
+                        lokasi_sesi: '-'
+                    })
+                },
+                tambahSesiPendul() {
+                    this.pendul_data_sesi.push({
+                        nama_sesi: 'Sesi Baru',
+                        tanggal_sesi: null,
+                        jam_sesi: null,
+                        lokasi_sesi: '-'
                     })
                 },
 
@@ -876,10 +1160,23 @@
                         api.delete('/api/v1/courses/sesi/' + sesi.id + '/delete')
                             .then(response => {
                                 this.testu_data_sesi.splice(s_index, 1)
-                                notification('Sesi berhasil dihapus!', 'success')
+                                notification({
+                                    message: 'Sesi berhasil dihapus!',
+                                    type: 'success',
+                                })
                             }).catch(error => {
                                 console.log(error)
-                                notification('Sesi gagal dihapus!', 'danger')
+                                if(error.response && error.response && error.response.status == 500) {
+                                    notification({
+                                        message: 'Sesi tidak dapat dihapus karena sudah terdaftar di jadwal peserta!',
+                                        type: 'danger'
+                                    })
+                                } else {
+                                    notification({
+                                        message: 'Sesi gagal dihapus!',
+                                        type: 'danger'
+                                    })
+                                }
                             }).finally(() => {
                                 this.loading = false
                             })

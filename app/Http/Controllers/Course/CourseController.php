@@ -251,6 +251,10 @@ class CourseController extends Controller
                 $courses->has_tes_wawancara = true;
             }
 
+            if ($request->has('has_pendaftaran_ulang') && $request->has_pendaftaran_ulang == 'on') {
+                $courses->has_pendaftaran_ulang = true;
+            }
+
             $courses->save();
 
             // get last insert id
@@ -295,6 +299,28 @@ class CourseController extends Controller
                     $sesi_insert[$i]['tanggal_sesi'] = $request->teswa_sesi_tanggal[$i];
                     $sesi_insert[$i]['jam_sesi'] = $request->teswa_sesi_jam[$i];
                     $sesi_insert[$i]['lokasi_sesi'] = $request->teswa_sesi_lokasi[$i];
+                    $sesi_insert[$i]['created_at'] = date('Y-m-d H:i:s');
+                }
+                KursusSesi::insert($sesi_insert);
+            }
+
+            if ($request->has('has_pendaftaran_ulang') && $request->has_pendaftaran_ulang == 'on') {
+                $jadwal = KursusJadwal::create([
+                    'id_kursus' => $id_courses,
+                    'nama_jadwal' => 'Pendaftaran Ulang',
+                    'jumlah_sesi_perhari' => $request->pendul_jumlah_sesi_perhari,
+                    'durasi_persesi' => $request->pendul_durasi_per_sesi,
+                    'jumlah_peserta_persesi' => $request->pendul_jumlah_peserta_persesi,
+                    'tanggal_mulai' => $request->pendul_tanggal_mulai,
+                    'jam_mulai' => $request->pendul_jam_mulai,
+                ]);
+                $sesi_insert = [];
+                for ($i = 0; $i < count($request->pendul_sesi_tanggal); $i++) {
+                    $sesi_insert[$i]['id_kursus_jadwal'] = $jadwal->id;
+                    $sesi_insert[$i]['nama_sesi'] = $request->pendul_sesi_nama[$i];
+                    $sesi_insert[$i]['tanggal_sesi'] = $request->pendul_sesi_tanggal[$i];
+                    $sesi_insert[$i]['jam_sesi'] = $request->pendul_sesi_jam[$i];
+                    $sesi_insert[$i]['lokasi_sesi'] = $request->pendul_sesi_lokasi[$i];
                     $sesi_insert[$i]['created_at'] = date('Y-m-d H:i:s');
                 }
                 KursusSesi::insert($sesi_insert);
@@ -375,10 +401,14 @@ class CourseController extends Controller
         $categories = Category::all();
         $jadwal_tes_tulis = KursusJadwal::with(['sesi'])->where('id_kursus', $course_id)->where('nama_jadwal', 'Tes Tulis')->first();
         $jadwal_tes_tulis = $jadwal_tes_tulis ?? json_encode([]);
+
         $jadwal_tes_wawancara = KursusJadwal::with(['sesi'])->where('id_kursus', $course_id)->where('nama_jadwal', 'Tes Wawancara')->first();
         $jadwal_tes_wawancara = $jadwal_tes_wawancara ?? json_encode([]);
 
-        return view('course.edit', compact('each_course', 'categories', 'logbook', 'jadwal_tes_tulis', 'jadwal_tes_wawancara'));
+        $jadwal_pendaftaran_ulang = KursusJadwal::with(['sesi'])->where('id_kursus', $course_id)->where('nama_jadwal', 'Pendaftaran Ulang')->first();
+        $jadwal_pendaftaran_ulang = $jadwal_pendaftaran_ulang ?? json_encode([]);
+
+        return view('course.edit', compact('each_course', 'categories', 'logbook', 'jadwal_tes_tulis', 'jadwal_tes_wawancara', 'jadwal_pendaftaran_ulang'));
     }
 
     // course.update
@@ -451,6 +481,10 @@ class CourseController extends Controller
 
             if ($request->has('has_tes_wawancara') && $request->has_tes_wawancara == 'on') {
                 $courses->has_tes_wawancara = true;
+            }
+
+            if ($request->has('has_pendaftaran_ulang') && $request->has_pendaftaran_ulang == 'on') {
+                $courses->has_pendaftaran_ulang = true;
             }
 
             $courses->save();
@@ -530,6 +564,46 @@ class CourseController extends Controller
                             $sesi_insert['tanggal_sesi'] = $request->teswa_sesi_tanggal[$i];
                             $sesi_insert['jam_sesi'] = $request->teswa_sesi_jam[$i];
                             $sesi_insert['lokasi_sesi'] = $request->teswa_sesi_lokasi[$i];
+                            KursusSesi::create($sesi_insert);
+                        }
+                    }
+                }
+            }
+
+            if ($request->has('has_pendaftaran_ulang') && $request->has_pendaftaran_ulang == 'on') {
+                $cek_pendaftaran_ulang = KursusJadwal::where('id_kursus', $course_id)->where('nama_jadwal', 'Pendaftaran Ulang');
+
+                if ($cek_pendaftaran_ulang->count() < 1) {
+                    $jadwal = KursusJadwal::create([
+                        'id_kursus' => $course_id,
+                        'nama_jadwal' => 'Pendaftaran Ulang',
+                        'jumlah_sesi_perhari' => $request->pendul_jumlah_sesi_perhari,
+                        'durasi_persesi' => $request->pendul_durasi_per_sesi,
+                        'jumlah_peserta_persesi' => $request->pendul_jumlah_peserta_persesi,
+                        'tanggal_mulai' => $request->pendul_tanggal_mulai,
+                        'jam_mulai' => $request->pendul_jam_mulai,
+                    ]);
+                    $id_jadwal = $jadwal->id;
+                } else {
+                    $id_jadwal = $cek_pendaftaran_ulang->first()->id;
+                }
+                $sesi_insert = [];
+                for ($i = 0; $i < count($request->pendul_sesi_tanggal); $i++) {
+                    if (isset($request->pendul_sesi_id[$i]) && !empty($request->pendul_sesi_id[$i])) {
+                        $id_sesi = $request->pendul_sesi_id[$i];
+                        $sesi_update['id_kursus_jadwal'] = $id_jadwal;
+                        $sesi_update['nama_sesi'] = $request->pendul_sesi_nama[$i];
+                        $sesi_update['tanggal_sesi'] = $request->pendul_sesi_tanggal[$i];
+                        $sesi_update['jam_sesi'] = $request->pendul_sesi_jam[$i];
+                        $sesi_update['lokasi_sesi'] = $request->pendul_sesi_lokasi[$i];
+                        KursusSesi::where('id', $id_sesi)->update($sesi_update);
+                    } else {
+                        if (!empty($request->pendul_sesi_nama[$i]) && !empty($request->pendul_sesi_tanggal[$i]) && !empty($request->pendul_sesi_jam[$i]) && !empty($request->pendul_sesi_lokasi[$i])) {
+                            $sesi_insert['id_kursus_jadwal'] = $id_jadwal;
+                            $sesi_insert['nama_sesi'] = $request->pendul_sesi_nama[$i];
+                            $sesi_insert['tanggal_sesi'] = $request->pendul_sesi_tanggal[$i];
+                            $sesi_insert['jam_sesi'] = $request->pendul_sesi_jam[$i];
+                            $sesi_insert['lokasi_sesi'] = $request->pendul_sesi_lokasi[$i];
                             KursusSesi::create($sesi_insert);
                         }
                     }

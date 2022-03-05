@@ -122,13 +122,14 @@ class CourseController extends Controller
 
         $where = [];
 
-
+        // dd($reqData);
 
         foreach ($reqData['enrollment_id'] as $key => $enrollment_id) {
             $status = $reqData['status'];
+            $detailEnrollment = Enrollment::with('course')->find($enrollment_id);
 
             $allowed_update = true;
-            if (in_array($reqData['status'], ['Tes Tulis', 'Tes Wawancara'])) {
+            if (in_array($reqData['status'], ['Tes Tulis', 'Tes Wawancara', 'Pendaftaran Ulang'])) {
                 $where['kursus_jadwal.nama_jadwal'] = $status;
                 $nama_jadwal = $status;
 
@@ -149,12 +150,14 @@ class CourseController extends Controller
 
                 // dd($kursus_sesi_tersedia);
 
-                if($kursus_sesi_tersedia != null) {
-    
-                    $kursus_sesi_enrollment = KursusSesiEnrollment::where('id_enrollment', $enrollment_id)->where('nama_jadwal', $nama_jadwal);
-                    
+                if ($kursus_sesi_tersedia != null) {
+
+                    $kursus_sesi_enrollment = KursusSesiEnrollment::with('enrollment.user')->where('id_enrollment', $enrollment_id)->where('nama_jadwal', $nama_jadwal);
+
+                    // dd($kursus_sesi_enrollment->first());
+
                     if ($kursus_sesi_enrollment->count() < 1) {
-                        KursusSesiEnrollment::create([
+                        $enrollmentSesi = KursusSesiEnrollment::create([
                             'id_kursus_sesi' => $kursus_sesi_tersedia->id,
                             'id_enrollment' => $enrollment_id,
                             'nama_jadwal' => $kursus_sesi_tersedia->nama_jadwal,
@@ -163,14 +166,26 @@ class CourseController extends Controller
                             'jam_sesi' => $kursus_sesi_tersedia->jam_sesi,
                             'lokasi_sesi' => $kursus_sesi_tersedia->lokasi_sesi,
                         ]);
-                    } else {
-                        $allowed_update = false;
-                    }
-                }
 
+                        $detail = $kursus_sesi_enrollment->first();
+                        $detailEnrollmentFromSesi = $detail->enrollment;
+                        $detailEnrollmentUser = $detailEnrollmentFromSesi->user;
+                        $this->userNotify($detailEnrollmentFromSesi->user_id, [
+                            'body' => "$detailEnrollmentUser->name, anda diundang untuk menghadiri $enrollmentSesi->nama_jadwal pada tanggal " . date('d M Y', strtotime($enrollmentSesi->tanggal_sesi)) . " - Pk. $enrollmentSesi->jam_sesi di $enrollmentSesi->lokasi_sesi."
+                        ]);
+                    } 
+                    // else {
+                    //     $allowed_update = false;
+                    // }
+                } else {
+                    $allowed_update = false;
+                }
             }
 
-            if($allowed_update) {
+            if ($allowed_update) {
+                $this->userNotify($detailEnrollment->user_id, [
+                    'body' => "Status Anda pada pelatihan ". $detailEnrollment->course->title . " telah berubah. Silakan cek di menu Pelatihan Saya."
+                ]);
                 Enrollment::find($enrollment_id)->update(['status' => $status]);
             }
         }

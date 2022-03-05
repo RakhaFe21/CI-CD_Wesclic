@@ -55,6 +55,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Hash;
 use Alert;
+use App\Http\Controllers\API\V1\WilayahApiController;
 use Validator;
 
 class FrontendController extends Controller
@@ -371,14 +372,15 @@ class FrontendController extends Controller
     public function my_profile()
     {
         $student = User::where('id', Auth::user()->id)->with('student')->first();
-        $url = 'https://wilayah.conect.id/static/api/provinces.json';
-        $options = array('http' => array(
-            'method'  => 'GET'
-        ));
-        $context  = stream_context_create($options);
-        $response1 = file_get_contents($url, false, $context);
-        $provinsi = json_decode($response1, TRUE);
-        return view($this->theme . '.profile.index', compact('student', 'provinsi'));
+        // $url = 'https://wilayah.conect.id/static/api/provinces.json';
+        // $options = array('http' => array(
+        //     'method'  => 'GET'
+        // ));
+        // $context  = stream_context_create($options);
+        // $response1 = file_get_contents($url, false, $context);
+        // $provinsi = json_decode($response1, TRUE);
+    
+        return view($this->theme . '.profile.index', compact('student'));
     }
 
     //enrolled_course
@@ -487,14 +489,16 @@ class FrontendController extends Controller
     // student_edit
     public function student_edit()
     {
-        $student = User::where('id', Auth::user()->id)->first();
-        $url = 'https://wilayah.conect.id/static/api/provinces.json';
-        $options = array('http' => array(
-            'method'  => 'GET'
-        ));
-        $context  = stream_context_create($options);
-        $response1 = file_get_contents($url, false, $context);
-        $provinsi = json_decode($response1, TRUE);
+        $student = Student::where('user_id', Auth::user()->id)->first();
+        // $url = 'https://wilayah.conect.id/static/api/provinces.json';
+        // $options = array('http' => array(
+        //     'method'  => 'GET'
+        // ));
+        // $context  = stream_context_create($options);
+        // $response1 = file_get_contents($url, false, $context);
+        // $provinsi = json_decode($response1, TRUE);
+        $provinsi = [];
+
         return view($this->theme . '.profile.update', compact('student', 'provinsi'));
     }
 
@@ -528,29 +532,48 @@ class FrontendController extends Controller
 
 
         //create student
+        $user = User::where('id', Auth::id())->firstOrFail();
+        $user->name = $request->name;
+        $user->email = $request->email;
+
         $student = Student::where('user_id', Auth::id())->firstOrFail();
         $student->name = $request->name;
-
         $student->phone = $request->phone;
+        $student->email = $request->email;
         $student->address = $request->address;
         $student->fb = $request->fb;
         $student->tw = $request->tw;
         $student->linked = $request->linked;
         $student->about = $request->about;
+        $student->is_disable = $request->is_disable == 'on' ? true : false;
+        $student->dtks = $request->dtks;
+
+        // api wilayah
+        $student->id_provinsi = $request->id_provinsi;
+        $student->nama_provinsi = $request->nama_provinsi;
+        $student->id_kota = $request->id_kota;
+        $student->nama_kota = $request->nama_kota;
+        $student->id_kecamatan = $request->id_kecamatan;
+        $student->nama_kecamatan = $request->nama_kecamatan;
+        $student->id_kelurahan = $request->id_kelurahan;
+        $student->nama_kelurahan = $request->nama_kelurahan;
 
         if ($request->file('image')) {
+            $user->image = fileUpload($request->file('image'), 'student');
             $student->image = fileUpload($request->file('image'), 'student');
         } else {
+            $user->image = $request->oldImage;
             $student->image = $request->oldImage;
         }
 
+        $user->save();
         $student->save();
 
         //create user for login
-        $user = User::where('id', Auth::id())->firstOrFail();
-        $user->name = $request->name;
-        $user->image = $student->image;
-        $user->save();
+        // $user = User::where('id', Auth::id())->firstOrFail();
+        // $user->name = $request->name;
+        // $user->image = $student->image;
+        // $user->save();
 
         return back();
     }

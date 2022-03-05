@@ -78,7 +78,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-sm-6">
+                                                        {{-- <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(Nama Lengkap)<span
                                                                         class="primary-color-2 ml-1">*</span></label>
@@ -88,30 +88,36 @@
                                                                     <span class="la la-user input-icon"></span>
                                                                 </div>
                                                             </div>
-                                                        </div><!-- end col-lg-6 -->
+                                                        </div> --}}
+                                                        <!-- end col-lg-6 -->
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(Provinsi)</label>
                                                                 <div class="form-group">
                                                                     <select class="form-control provinsi-asal"
-                                                                        name="province_origin">
-                                                                        <option value="0">-- select provinces --
+                                                                        name="id_provinsi">
+                                                                        @if (!empty($student->id_provinsi) && !empty($student->nama_provinsi))
+                                                                        <option value="{{ $student->id_provinsi }}" selected>{{ $student->nama_provinsi }}</option>
+                                                                        @else
+                                                                        <option value="">-- Pilih Provinsi --
                                                                         </option>
-                                                                        @foreach ($provinsi as $provinsis)
-                                                                        <option value="{{ $provinsis['id']  }}">{{
-                                                                            $provinsis['name'] }}</option>
-                                                                        @endforeach
+                                                                        @endif
+                                                                        {{-- @foreach ($provinsi as $key => $prov)
+                                                                        <option value="{{ $prov['id']  }}">{{
+                                                                            $prov['nama'] }}</option>
+                                                                        @endforeach --}}
                                                                     </select>
-                                                                    <!-- <select id="select_province" name="province_origin" data-placeholder="Select" class="custom-select w-100">
+                                                                    <!-- <select id="select_province" name="id_provinsi" data-placeholder="Select" class="custom-select w-100">
               
-                                                                    @foreach ($provinsi as $provinsis)
+                                                                    {{-- @foreach ($provinsi as $prov)
                                                                         <option
-                                                                            value="{{ $provinsis['id']}}">{{ $provinsis['name']}}</option>
-                                                                    @endforeach
+                                                                            value="{{ $prov['id']}}">{{ $prov['nama']}}</option>
+                                                                    @endforeach --}}
                                                                 </select> -->
                                                                     <span class="la la-map-marker input-icon"></span>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="nama_provinsi" value="{{$student->nama_provinsi}}">
                                                         </div><!-- end col-lg-6 -->
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
@@ -119,33 +125,51 @@
                                                                     class="label-text">@translate(Kabupaten/kota)</label>
                                                                 <div class="form-group">
                                                                     <select class="form-control kota-asal"
-                                                                        name="city_origin">
-                                                                        <option value="">-- select regencies --</option>
+                                                                        name="id_kota" {{ !empty($student->id_kota) && !empty($student->nama_kota) ? 'disabled' : '' }}>
+                                                                        @if (!empty($student->id_kota) && !empty($student->nama_kota))
+                                                                        <option value="{{ $student->id_kota }}" selected>{{ $student->nama_kota }}</option>
+                                                                        @else
+                                                                        <option value="">-- Pilih Kota/Kabupaten --</option>
+                                                                        @endif
                                                                     </select>
+                                                                    <span class="la la-map-marker input-icon"></span>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="nama_kota" value="{{$student->nama_kota}}">
                                                         </div><!-- end col-lg-6 -->
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(Kecamatan)</label>
                                                                 <div class="form-group">
-                                                                    <select class="form-control kota-asal"
-                                                                        name="kecamatan">
-                                                                        <option value="">-- select districts --</option>
+                                                                    <select class="form-control kecamatan-asal"
+                                                                        name="id_kecamatan" {{ !empty($student->id_kecamatan) && !empty($student->nama_kecamatan) ? 'disabled' : '' }}>
+                                                                        @if (!empty($student->id_kecamatan) && !empty($student->nama_kecamatan))
+                                                                        <option value="{{ $student->id_kecamatan }}" selected>{{ $student->nama_kecamatan }}</option>
+                                                                        @else
+                                                                        <option value="">-- Pilih Kecamatan --</option>
+                                                                        @endif
                                                                     </select>
+                                                                    <span class="la la-map-marker input-icon"></span>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="nama_kecamatan" value="{{$student->nama_kecamatan}}">
                                                         </div>
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(Kelurahan)</label>
                                                                 <div class="form-group">
-                                                                    <select class="form-control kota-asal"
-                                                                        name="kelurahan">
-                                                                        <option value="">-- select villages --</option>
+                                                                    <select class="form-control kelurahan-asal"
+                                                                        name="id_kelurahan" {{ !empty($student->id_kelurahan) && !empty($student->nama_kelurahan) ? 'disabled' : '' }}>
+                                                                        @if (!empty($student->id_kelurahan) && !empty($student->nama_kelurahan))
+                                                                        <option value="{{ $student->id_kelurahan }}" selected>{{ $student->nama_kelurahan }}</option>
+                                                                        @else
+                                                                        <option value="">-- Pilih Kelurahan --</option>
+                                                                        @endif
                                                                     </select>
+                                                                    <span class="la la-map-marker input-icon"></span>
                                                                 </div>
                                                             </div>
+                                                            <input type="hidden" name="nama_kelurahan" value="{{$student->nama_kelurahan}}">
                                                         </div><!-- end col-lg-6 -->
                                                         <!-- end col-lg-6 -->
                                                         <div class="col-lg-12">
@@ -164,32 +188,30 @@
                                                                     Difabel)</label>
                                                                 <div class="form-group">
                                                                     <div class="switchery-list">
-                                                                        <input type="checkbox" name="difable"
-                                                                            class="js-switch-success"
-                                                                            id="val-is_free3" />
-                                                                        @error('is_free') <span class="invalid-feedback"
-                                                                            role="alert"> <strong>{{ $message
-                                                                                }}</strong> </span> @enderror
+                                                                        <input type="checkbox" name="is_disable"
+                                                                            class="js-switch-success" {{$student->is_disable ? 'checked' : ''}} />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div id="auto_hide3">
                                                             <div class="col-lg-6 col-sm-6">
-                                                                <div class="input-box">
+                                                                {{-- <div class="input-box">
                                                                     <label class="label-text"></label>
                                                                     <div class="form-group">
                                                                         <input type="text" name="npwp" value="">
                                                                     </div>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">
                                                                 <label class="label-text">@translate(DTKS)</label>
                                                                 <div class="form-group">
-                                                                    <input class="form-control" type="text" name="tks"
+                                                                    <input class="form-control" type="text" name="dtks"
                                                                         value="{{ $student->dtks }}">
+                                                                    <span class="la la-file input-icon"></span>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -312,32 +334,152 @@
       END DASHBOARD AREA
   ================================= -->
 @endsection
-@push('javascript-internal')
-<script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script>
+@push('script')
+{{-- <script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script> --}}
 <script type="text/javascript">
+    var base_url = "{{url('')}}";
+
+    $.ajax({
+        url: base_url + '/api/v1/wilayah/provinsi',
+        type: "GET",
+        dataType: "json",
+        success:function(response) {
+
+            const data = response.data
+            // console.log(data)
+            if (!$('select[name="id_provinsi"]').val()) {
+                $('select[name="id_provinsi"]').empty();  
+                $('select[name="id_provinsi"]').append('<option value="">-- Pilih Provinsi --</option>');
+            } 
+            $.each(data, function(key, value) {
+                // console.log(key,value)
+                $('select[name="id_provinsi"]').append('<option value="'+ value.id +'">'+ value.nama +'</option>');
+            });
+
+
+        }
+    });
+
     $(document).ready(function() {
-        $('select[name="state"]').on('change', function() {
-            var stateID = $(this).val();
-            if(stateID) {
+
+        $('select[name="id_provinsi"]').on('change', function() {
+            var provinsiID = $(this).val();
+            var provinsiName = $("option:selected", this).text()
+            $('[name=nama_provinsi]').val(provinsiName)
+
+            //reset other selection
+            $('select[name="id_kota"]').empty();
+            $('select[name="id_kota"]').prop('disabled', false);
+            $('select[name="nama_kota"]').empty();
+
+            $('select[name="id_kecamatan"]').empty();
+            $('select[name="nama_kecamatan"]').empty();
+            $('select[name="id_kecamatan"]').prop('disabled', false);
+            
+            $('select[name="id_kelurahan"]').empty();
+            $('select[name="id_kelurahan"]').prop('disabled', false);
+            $('select[name="nama_kelurahan"]').empty();
+
+            if(provinsiID) {
                 $.ajax({
-                    url: 'https://emsifa.github.io/api-wilayah-indonesia/api/regencies/11'.json',
+                    url: base_url + '/api/v1/wilayah/kota?id_provinsi=' + provinsiID,
                     type: "GET",
                     dataType: "json",
-                    success:function(data) {
+                    success:function(response) {
 
+                        const data = response.data
                         
-                        $('select[name="city"]').empty();
+                        $('select[name="id_kota"]').empty();
+                        $('select[name="id_kota"]').append('<option value="">-- Pilih Kota/Kabupaten --</option>');
                         $.each(data, function(key, value) {
-                            $('select[name="city"]').append('<option value="'+ name +'">'+ name +'</option>');
+                            $('select[name="id_kota"]').append('<option value="'+ value.id +'">'+ value.nama +'</option>');
                         });
 
 
                     }
                 });
             }else{
-                $('select[name="city"]').empty();
+                $('select[name="id_kota"]').empty();
             }
         });
+
+        $('select[name="id_kota"]').on('change', function() {
+            var kotaID = $(this).val();
+            var kotaName = $("option:selected", this).text()
+            $('[name=nama_kota]').val(kotaName)
+
+            //reset other selection
+            $('select[name="id_kecamatan"]').empty();
+            $('select[name="id_kecamatan"]').prop('disabled', false);
+            $('select[name="nama_kecamatan"]').empty();
+            
+            $('select[name="id_kelurahan"]').empty();
+            $('select[name="id_kelurahan"]').prop('disabled', false);
+            $('select[name="nama_kelurahan"]').empty();
+            
+
+            if(kotaID) {
+                $.ajax({
+                    url: base_url + '/api/v1/wilayah/kecamatan?id_kota=' + kotaID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(response) {
+
+                        const data = response.data
+                        
+                        $('select[name="id_kecamatan"]').empty();
+                        $('select[name="id_kecamatan"]').append('<option value="">-- Pilih Kecamatan --</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="id_kecamatan"]').append('<option value="'+ value.id +'">'+ value.nama +'</option>');
+                        });
+
+
+                    }
+                });
+            }else{
+                $('select[name="id_kecamatan"]').empty();
+            }
+        });
+
+        $('select[name="id_kecamatan"]').on('change', function() {
+            var kecamatanID = $(this).val();
+            var kecamatanName = $("option:selected", this).text()
+            $('[name=nama_kecamatan]').val(kecamatanName)
+
+            //reset other selection
+            $('select[name="id_kelurahan"]').empty();
+            $('select[name="id_kelurahan"]').prop('disabled', false);
+            $('select[name="nama_kelurahan"]').empty();
+
+            if(kecamatanID) {
+                $.ajax({
+                    url: base_url + '/api/v1/wilayah/kelurahan?id_kecamatan=' + kecamatanID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(response) {
+
+                        const data = response.data
+                        
+                        $('select[name="id_kelurahan"]').empty();
+                        $('select[name="id_kelurahan"]').append('<option value="">-- Pilih Kelurahan --</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="id_kelurahan"]').append('<option value="'+ value.id +'">'+ value.nama +'</option>');
+                        });
+
+
+                    }
+                });
+            }else{
+                $('select[name="id_kelurahan"]').empty();
+            }
+        });
+
+        $('select[name="id_kelurahan"]').on('change', function() {
+            var kelurahanID = $(this).val();
+            var kelurahanName = $("option:selected", this).text()
+            $('[name=nama_kelurahan]').val(kelurahanName)
+        });
+
     });
 </script>
 

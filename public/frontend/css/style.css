@@ -16673,3 +16673,10 @@ body {
 .as-play-icon:hover {
     color: #f1f2f6;
 }
+
+
+/* tambahan */
+select.form-control:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+}

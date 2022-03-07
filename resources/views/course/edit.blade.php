@@ -126,7 +126,7 @@
                                     <strong>{{ $message }}</strong> </span>
                             @enderror
                         @else
-                            {!! $each_course->big_description($each_course->big_description) !!}
+                            {!! $each_course->big_description !!}
                         @endif
 
                     </div>
@@ -145,7 +145,8 @@
                                     <strong>{{ $message }}</strong> </span>
                             @enderror
                         @else
-                            {!! $each_course->big_description($each_course->tahapan_pelatihan) !!}
+                            {{-- {!! $each_course->big_description($each_course->tahapan_pelatihan) !!} --}}
+                            {!! $each_course->tahapan_pelatihan !!}
                         @endif
 
                     </div>

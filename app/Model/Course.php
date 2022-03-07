@@ -17,7 +17,8 @@ class Course extends Model
     /*Check the course is published*/
     public function scopePublished($query)
     {
-        return $query->where('is_published', true)->where('level', 'Terbuka');
+        $today = date('Y-m-d');
+        return $query->where('is_published', true)->where('level', 'Terbuka')->whereRaw("DATE(berakhir_pendaftaran) <= $today");
     }
 
 

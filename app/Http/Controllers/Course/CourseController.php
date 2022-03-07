@@ -45,6 +45,8 @@ class CourseController extends Controller
     */
     public function index(Request $request)
     {
+        Course::whereNotIn('level', ['Terbuka', 'Tertutup'])->update(['level' => 'Terbuka']);
+        
         if ($request->has('search')) {
             if (Auth::user()->user_type == "Admin") {
                 $courses = Course::where('title', 'like', '%' . $request->search . '%')->latest()->paginate(10);

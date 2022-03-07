@@ -190,6 +190,7 @@ class FrontendController extends Controller
             DB::statement("ALTER TABLE `class_contents` CHANGE content_type content_type ENUM('Video','Document','Quiz')");
         }
 
+        Course::whereNotIn('level', ['Terbuka', 'Tertutup'])->update(['level' => 'Terbuka']);
 
 
 
@@ -211,7 +212,9 @@ class FrontendController extends Controller
         $courses = collect();
         foreach ($enroll_courser_count as $e) {
             $co = Course::Published()->find($e->course_id);
-            $courses->push($co);
+            if($co) {
+                $courses->push($co);
+            }
         }
         $top_courses = $courses->take(6);
 
@@ -245,6 +248,8 @@ class FrontendController extends Controller
         $latestCourses = Course::Published()->with('relationBetweenInstructorUser')->latest()->take(10)->get();
 
         $subscriptions = Subscription::Published()->get();
+        
+        // dd($course);
 
         // dd($latestCourses);
         return view($this->theme . '.homepage.index', compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count'));

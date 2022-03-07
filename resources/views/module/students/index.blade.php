@@ -61,7 +61,7 @@
                         </td>
                         <td>{{$item->name}}</td>
                         <td>
-                            {{$item->nik ?? 'N/A'}}
+                            {{$item->user && $item->user->nik ? $item->user->nik : 'N/A'}}
                         </td>
                         <td>
                             <a class="btn btn-primary" 

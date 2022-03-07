@@ -33,11 +33,11 @@ class StudentController extends Controller
         if (Auth::user()->user_type == "Admin") {
             /*if Authenticated  user is admin , admin can show all students */
             if ($request->get('search')) {
-                $students = Student::where('name', 'like', '%' . $request->get('search') . '%')
+                $students = Student::with('user')->where('name', 'like', '%' . $request->get('search') . '%')
                     ->orWhere('email', 'like', '%' . $request->get('search') . '%')
                     ->orderBydesc('id')->paginate(10);
             } else {
-                $students = Student::orderBydesc('id')->paginate(10);
+                $students = Student::with('user')->orderBydesc('id')->paginate(10);
             }
 
 
@@ -55,11 +55,12 @@ class StudentController extends Controller
             }
 
             if ($request->get('search')) {
-                $students = Student::where('name', 'like', '%' . $request->get('search') . '%')
+                $students = Student::with('user')->where('name', 'like', '%' . $request->get('search') . '%')
                     ->orWhere('email', 'like', '%' . $request->get('search') . '%')
                     ->whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(10);
             } else {
-                $students = Student::whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(10);
+                // $students = Student::with('user')->whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(10);
+                $students = Student::with('user')->orderBydesc('id')->paginate(10);
             }
         }
         return view('module.students.index', compact('students'));
@@ -108,19 +109,24 @@ class StudentController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'nik' => 'required',
+                // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'username' => ['required', 'string', 'max:255', 'unique:users,email'],
                 'password' => ['required', 'string', 'min:8'],
                 'confirmed' => 'required|required_with:password|same:password',
             ],
             [
                 'name.required' => translate('Name is required'),
-                'email.required' => translate('Email is required'),
-                'email.unique' => translate('Email is already register'),
+                'nik.required' => translate('NIK is required'),
+                // 'email.required' => translate('Email is required'),
+                // 'email.unique' => translate('Email is already register'),
+                'username.required' => translate('Username is required'),
+                'username.unique' => translate('Username is already register'),
                 'password.required' => translate('Password is required'),
-                'password.min' => translate('Password  must be 8 character '),
+                'password.min' => translate('Password must be 8 character '),
                 'password.string' => translate('Password is required'),
                 'confirmed.required' => translate('Please confirm your password'),
-                'confirmed.same' => translate('Password did not match'),
+                'confirmed.same' => translate('Password does not match'),
             ]
 
         );
@@ -128,8 +134,9 @@ class StudentController extends Controller
         //create user for login
         $user = new User();
         $user->name = $request->name;
+        $user->nik = $request->nik;
         $user->slug = Str::slug($request->name);
-        $user->email = $request->email;
+        $user->email = $request->username;
         $user->password = Hash::make($request->password);
         $user->user_type = 'Student';
         $user->save();
@@ -137,7 +144,8 @@ class StudentController extends Controller
         //create student
         $student = new Student();
         $student->name = $request->name;
-        $student->email = $request->email;
+        $student->email = $request->username;
+        $student->phone = $request->phone;
         $student->user_id = $user->id;
         $student->save();
 

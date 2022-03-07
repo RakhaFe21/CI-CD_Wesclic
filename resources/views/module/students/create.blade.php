@@ -4,23 +4,33 @@
 
 
         <div class="form-group">
-            <label>@translate(Nama Lengkap) <span class="text-danger">*</span></label>
-            <input class="form-control" name="name" placeholder="@translate(Isi name)" required>
+            <label>Nama Lengkap <span class="text-danger">*</span></label>
+            <input class="form-control" name="name" placeholder="" required>
         </div>
 
         <div class="form-group">
-            <label>@translate(Username) <span class="text-danger">*</span></label>
-            <input class="form-control" name="email" placeholder="@translate(Username)" required>
+            <label>NIK <span class="text-danger">*</span></label>
+            <input class="form-control" name="nik" placeholder="" required>
+        </div>
+
+        <div class="form-group">
+            <label>Username <span class="text-danger">*</span></label>
+            <input class="form-control" name="username" placeholder="" required>
+        </div>
+
+        <div class="form-group">
+            <label>No. HP/Telp <span class="text-danger">*</span></label>
+            <input class="form-control" name="phone" placeholder="" required>
         </div>
 
         <div class="form-group">
             <label>@translate(Password) <span class="text-danger">*</span></label>
-            <input class="form-control" type="password" name="password" placeholder="@translate(Password)" required>
+            <input class="form-control" type="password" name="password" placeholder="" required>
         </div>
 
         <div class="form-group">
             <label>@translate(Confirm password) <span class="text-danger">*</span></label>
-            <input class="form-control" type="password" name="confirmed" placeholder="@translate(Confirm password)" required>
+            <input class="form-control" type="password" name="confirmed" placeholder="" required>
         </div>
        
       

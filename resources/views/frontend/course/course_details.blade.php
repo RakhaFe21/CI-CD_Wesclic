@@ -117,7 +117,7 @@
                         @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                             {{-- <a href="#!" class="theme-btn w-100 mb-3 addToCart-{{ $s_course->id }}"
                                 onclick="addToCart({{ $s_course->id }},'{{ route('add.to.cart') }}')">Daftar</a> --}}
-                            @if (countEnrollmentProgress(auth()->user()->id) < 1)
+                            @if (countEnrollmentProgress(auth()->user() && auth()->user()->id) < 1)
                                 <form action="{{ route('enroll.course', ['id' => $s_course->id]) }}" method="post">
                                     @csrf
                                     <button type="submit" class="theme-btn w-100 mb-3">Daftar</button>
@@ -408,7 +408,7 @@
                                                         @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                                                             {{-- <a href="#!" class="text-btn addToCart-{{ $course->id }}"
                                                                 onclick="addToCart({{ $course->id }},'{{ route('add.to.cart') }}')">Daftar</a> --}}
-                                                            @if (countEnrollmentProgress(auth()->user()->id) < 1)
+                                                            @if (countEnrollmentProgress(auth()->user() && auth()->user()->id) < 1)
                                                                 <form
                                                                     action="{{ route('enroll.course', ['id' => $s_course->id]) }}"
                                                                     method="post">
@@ -591,7 +591,7 @@
                                     </div>
                                     <div class="preview-course-content">
 
-                                        @if (enrollmentCourse($s_course->slug, auth()->user()->id) < 1)
+                                        @if (enrollmentCourse($s_course->slug, auth()->user() && auth()->user()->id) < 1)
                                         <div class="preview-course-incentives">
 
                                             <div class="section-block"></div>
@@ -624,7 +624,7 @@
                                                 @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
                                                     {{-- <a href="#!" class="theme-btn w-100 mb-3 addToCart-{{ $s_course->id }}"
                                                         onclick="addToCart({{ $s_course->id }},'{{ route('add.to.cart') }}')">Daftar</a> --}}
-                                                    @if (countEnrollmentProgress(auth()->user()->id) < 1)
+                                                    @if (countEnrollmentProgress(auth()->user() && auth()->user()->id) < 1)
                                                         <form action="{{ route('enroll.course', ['id' => $s_course->id]) }}"
                                                             method="post">
                                                             @csrf

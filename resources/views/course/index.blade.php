@@ -82,7 +82,7 @@
                                                         <div class="d-flex justify-content-between">
                                                             {{-- <div> --}}
                                                                 <span
-                                                                class="badge badge-{{ $course->level == 'Terbuka' ? 'success' : 'primary' }} p-2">{{ $course->level == 'Terbuka' ? 'Terbuka' : 'Tertutup' }}</span>
+                                                                class="badge badge-{{ $course->level == 'Terbuka' ? 'success' : 'danger' }} p-2">{{ $course->level == 'Terbuka' ? 'Terbuka' : 'Tertutup' }}</span>
                                                                 <span
                                                                 class="badge badge-{{ $course->is_published ? 'primary' : 'secondary' }} p-2">{{ $course->is_published ? 'Terbit' : 'Draft' }}</span>
                                                             {{-- </div> --}}

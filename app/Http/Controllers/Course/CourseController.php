@@ -46,7 +46,7 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         Course::whereNotIn('level', ['Terbuka', 'Tertutup'])->update(['level' => 'Terbuka']);
-        
+
         if ($request->has('search')) {
             if (Auth::user()->user_type == "Admin") {
                 $courses = Course::where('title', 'like', '%' . $request->search . '%')->latest()->paginate(10);
@@ -67,6 +67,11 @@ class CourseController extends Controller
     public function peserta_pel(Request $request, $course_id)
     {
         $course = Course::findOrFail($course_id);
+
+        $studentEnrolledOrNotList = User::selectRaw('users.id, users.name')
+            ->selectRaw('IF((SELECT e.id FROM enrollments e WHERE e.user_id = users.id AND e.course_id = ' . $course_id . ' LIMIT 1), true, false) as enrolled')->get();
+
+        // dd($studentEnrolledOrNotList);
 
         $search = $request->get('search');
 
@@ -110,7 +115,7 @@ class CourseController extends Controller
             ->where('e.status', 'Peserta Cadangan')
             ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
-        return view('course.peserta.list', compact('students', 'course_id', 'course'));
+        return view('course.peserta.list', compact('students', 'course_id', 'course', 'studentEnrolledOrNotList'));
     }
 
     public function enrollmentStatusUpdate(Request $request, $course_id)
@@ -175,7 +180,7 @@ class CourseController extends Controller
                         $this->userNotify($detailEnrollmentFromSesi->user_id, [
                             'body' => "$detailEnrollmentUser->name, anda diundang untuk menghadiri $enrollmentSesi->nama_jadwal pada tanggal " . date('d M Y', strtotime($enrollmentSesi->tanggal_sesi)) . " - Pk. $enrollmentSesi->jam_sesi di $enrollmentSesi->lokasi_sesi."
                         ]);
-                    } 
+                    }
                     // else {
                     //     $allowed_update = false;
                     // }
@@ -186,13 +191,42 @@ class CourseController extends Controller
 
             if ($allowed_update) {
                 $this->userNotify($detailEnrollment->user_id, [
-                    'body' => "Status Anda pada pelatihan ". $detailEnrollment->course->title . " telah berubah. Silakan cek di menu Pelatihan Saya."
+                    'body' => "Status Anda pada pelatihan " . $detailEnrollment->course->title . " telah berubah. Silakan cek di menu Pelatihan Saya."
                 ]);
                 Enrollment::find($enrollment_id)->update(['status' => $status]);
             }
         }
 
         return redirect()->back()->with('succss', 'Status pelatihan siswa berhasil diperbarui!');
+    }
+
+    public function enrollmentAddStudent(Request $request, $course_id)
+    {
+        $userNameList = [];
+        $totalSuccess = 0;
+        foreach ($request->input('student_add') as $key => $user_id) {
+            $check = Enrollment::where('course_id', $course_id)->where('user_id', $user_id);
+            if ($check->count() < 1) {
+                Enrollment::create([
+                    'course_id' => $course_id,
+                    'user_id' => $user_id,
+                    'status' => 'Pending'
+                ]);
+                $totalSuccess += 1;
+                $user = User::find($user_id);
+                $userNameList[] = ucwords($user->name);
+            } else {
+                continue;
+            }
+        }
+
+        if ($totalSuccess > 0) {
+            $successMessage = implode(', ', $userNameList);
+            $successMessage .= '; berhasil ditambahkan ke pelatihan ini.';
+        } else {
+            $successMessage = 'Peserta berhasil ditambahkan ke pelatihan ini.';
+        }
+        return redirect()->back()->with('success', $successMessage);
     }
 
     // course.create

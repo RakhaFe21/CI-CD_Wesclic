@@ -35,28 +35,37 @@
                 @if (session('error'))
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('error') }}</div>
-                @endif
+                {{-- @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif --}}
 
-                <div class="row" style="display: none" v-show="mounted">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="status">Perbarui Status</label>
-                            <select name="status" id="status" class="form-control" v-model="status">
-                                <option value="">-- Pilih --</option>
-                                <option :value="statusItem" v-for="(statusItem, sIndex) in statusOption" :key="'s'+sIndex"
-                                    v-text="statusItem"></option>
-                                {{-- <option value="Tes Wawancara">Tes Wawancara</option> --}}
-                                {{-- <option value="Pendaftaran Ulang">Pendaftaran Ulang</option> --}}
-                                {{-- <option value="Terdaftar">Terdaftar</option> --}}
-                            </select>
+                <div class="row align-items-end" style="display: none" v-show="mounted">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="status">Perbarui Status</label>
+                                    <select name="status" id="status" class="form-control" v-model="status">
+                                        <option value="">-- Pilih --</option>
+                                        <option :value="statusItem" v-for="(statusItem, sIndex) in statusOption"
+                                            :key="'s'+sIndex" v-text="statusItem"></option>
+                                        {{-- <option value="Tes Wawancara">Tes Wawancara</option> --}}
+                                        {{-- <option value="Pendaftaran Ulang">Pendaftaran Ulang</option> --}}
+                                        {{-- <option value="Terdaftar">Terdaftar</option> --}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <label for="">&nbsp;</label>
+                                <button type="button" class="btn btn-primary d-block" id="apply-button"
+                                    :disabled="!allowApply" data-toggle="modal" data-target="#modalApply"
+                                    @click.prevent>Terapkan</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <label for="">&nbsp;</label>
-                        <button type="button" class="btn btn-primary d-block" id="apply-button" :disabled="!allowApply"
-                            data-toggle="modal" data-target="#modalApply" @click.prevent>Terapkan</button>
+                    <div class="col-md-4 text-right">
+                        <button type="button" class="btn btn-primary d-inline-block" id="invite-button" data-toggle="modal"
+                            data-target="#modal-invite"><i class="fa fa-user-plus fa-fw"></i> Tambah Peserta</button>
                     </div>
                 </div>
 
@@ -412,8 +421,8 @@
                                 @forelse($students['pendaftaran_ulang'] as $item)
                                     <tr>
                                         <td><input type="checkbox" :value="{{ $item->enrollment_id }}"
-                                                name="enrollment_id[]" v-model="enrollmentSelected" class="form-check-input"
-                                                id="checkbox-{{ $item->id }}"
+                                                name="enrollment_id[]" v-model="enrollmentSelected"
+                                                class="form-check-input" id="checkbox-{{ $item->id }}"
                                                 @if (strtotime($course->berakhir_pendaftaran) > time()) disabled @endif>
                                         </td>
                                         <td>
@@ -603,6 +612,40 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" id="modal-invite" tabindex="-1" role="dialog" aria-labelledby="modal-inviteLabel"
+        aria-hidden="true">
+        <form action="{{ route('course.enrollment.add-student', ['course_id' => $course_id]) }}" method="post">
+            @csrf
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-inviteLabel">Tambah Peserta ke Pelatihan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-unstyled">
+                            @foreach ($studentEnrolledOrNotList as $item)
+                                <li>
+                                    <label class="mb-0" for="check-{{ $item->id }}" {!! $item->enrolled ? 'style="text-decoration: line-through; color: #007bff"' : '' !!}>
+                                        <input id="check-{{ $item->id }}" type="checkbox" name="student_add[]"
+                                            value="{{ $item->id }}" {{$item->enrolled ? 'disabled checked' : ''}} class="mr-1">
+                                        {{ $item->name }}
+                                    </label>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
 

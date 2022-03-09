@@ -46,15 +46,15 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         Course::whereNotIn('level', ['Terbuka', 'Tertutup'])->update(['level' => 'Terbuka']);
-
+        $user = Auth::user();
         if ($request->has('search')) {
-            if (Auth::user()->user_type == "Admin") {
+            if (in_array($user->user_type, ["Admin", 'Executive'])) {
                 $courses = Course::where('title', 'like', '%' . $request->search . '%')->latest()->paginate(10);
             } else {
                 $courses = Course::where("user_id", Auth::id())->where('title', 'like', '%' . $request->search . '%')->latest()->paginate(10);
             }
         } else {
-            if (Auth::user()->user_type == "Admin") {
+            if (in_array($user->user_type, ["Admin", 'Executive'])) {
                 $courses = Course::latest()->paginate(10);
             } else {
                 $courses = Course::where("user_id", Auth::id())->latest()->paginate(10);

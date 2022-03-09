@@ -29,3 +29,10 @@
 
     </form>
 </div>
+
+<style>
+    .form-check-input:checked + .form-check-label {
+        font-weight: 600;
+        color: royalblue;
+    }
+</style>

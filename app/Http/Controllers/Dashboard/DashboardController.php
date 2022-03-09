@@ -35,7 +35,7 @@ class DashboardController extends Controller
         $prev_start = Carbon::parse(date('d-M-y'))->startOfMonth()->subMonth()->toDateTimeString();
         $prev_end = Carbon::parse(date('d-M-y'))->endOfMonth()->subMonth()->toDateTimeString();
 
-        if (Auth::user()->user_type == "Admin") {
+        if (Auth::user()->user_type == "Admin" || Auth::user()->user_type == "Executive") {
 
             //all instructor
             /*Top instructor get bay most enroll courses*/

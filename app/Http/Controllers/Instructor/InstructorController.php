@@ -46,7 +46,7 @@ class InstructorController extends Controller
     public function index(Request $request)
     {
         //there are the check the admin or
-        if (Auth::user()->user_type == "Admin") {
+        if (in_array(Auth::user()->user_type, ["Admin",'Executive'])) {
             if ($request->has('search')) {
                 $instructors = Instructor::where("name", 'LIKE', '%'. $request->search.'%')
                     ->paginate(10);

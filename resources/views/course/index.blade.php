@@ -27,6 +27,16 @@
                 </form>
             </div>
         </div>
+
+        @if (auth()->user()->user_type != 'Executive')
+            <div class="text-right mt-3">
+                <a href="{{ route('course.create') }}" class="btn btn-primary">
+                    <i class="la la-plus"></i>
+                    @translate(Tambah data baru)
+                </a>
+            </div>
+        @endif
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table foo-filtering-table text-center">
@@ -55,12 +65,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <div class="float-right">
-                            <a href="{{ route('course.create') }}" class="btn btn-primary">
-                                <i class="la la-plus"></i>
-                                @translate(Tambah data baru)
-                            </a>
-                        </div>
                         @forelse ($courses as $course)
                             <tr>
                                 <td class="footable-first-visible">
@@ -163,10 +167,12 @@
                                                     href="{{ route('course.show', [$course->id, $course->slug]) }}">
                                                     @translate(Details)
                                                 </a>
-                                                <a class="dropdown-item font-13"
-                                                    href="{{ route('course.edit', [$course->id, $course->slug]) }}">
-                                                    {{ Auth::user()->user_type == 'Admin' ? '@translate(Details)' : '@translate(Edit)' }}
-                                                </a>
+                                                @if (auth()->user()->user_type != 'Executive')
+                                                    <a class="dropdown-item font-13"
+                                                        href="{{ route('course.edit', [$course->id, $course->slug]) }}">
+                                                        {{ Auth::user()->user_type == 'Admin' ? '@translate(Details)' : '@translate(Edit)' }}
+                                                    </a>
+                                                @endif
                                                 @if ($s < 0)
                                                     <a class="dropdown-item font-13"
                                                         onclick="confirm_modal('{{ route('course.destroy', [$course->id, $course->slug]) }}"

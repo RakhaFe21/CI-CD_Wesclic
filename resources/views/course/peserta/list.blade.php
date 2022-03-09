@@ -38,7 +38,8 @@
                 {{-- @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif --}}
-
+            
+                @if (auth()->user()->user_type != 'Executive')
                 <div class="row align-items-end" style="display: none" v-show="mounted">
                     <div class="col-md-8">
                         <div class="row">
@@ -68,6 +69,7 @@
                             data-target="#modal-invite"><i class="fa fa-user-plus fa-fw"></i> Tambah Peserta</button>
                     </div>
                 </div>
+                @endif
 
                 <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                     <li class="nav-item">

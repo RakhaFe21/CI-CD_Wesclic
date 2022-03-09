@@ -44,6 +44,10 @@
                                 </ul>
                             </li>
                             @endif
+
+                            {{-- display sidebar menu if not executive --}}
+                            @if (auth()->user()->user_type != 'Executive')
+                                
                             <li><a href="javaScript:void();">
                                     <i class="fa fa-user"></i>
                                     <span>@translate(Pendaftar Baru)</span>
@@ -108,7 +112,6 @@
                                 </ul>
                             </li>
 
-
                             {{-- Coupon manager --}}
                             @if (couponActive() && \Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
 
@@ -136,9 +139,6 @@
                             </li>
                             @endif
                             {{-- Coupon manager::END --}}
-
-
-
 
                             {{-- Zoom manager --}}
                             @if (zoomActive() && \Illuminate\Support\Facades\Auth::user()->user_type != "Admin")
@@ -207,10 +207,6 @@
                             @endif
                             {{--Certificate end--}}
 
-
-
-
-
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Instructor")
 
                             <li><a href="{{route('students.index')}}"
@@ -229,6 +225,11 @@
                                     <i class="fa fa-comments-o"></i> <span>@translate(Komentar)</span>
                                 </a>
                             </li>
+
+                            @endif 
+                            {{-- end check if not executive --}}
+
+
                             {{-- Payment request area 
                             <li><a href="{{route('payments.index')}}"
                                     class="{{request()->is('dashboard/payment*') ?'active':null}}">
@@ -318,6 +319,9 @@
                                     @endif
                                 @endif
                             @endif -->
+                            
+                             {{-- display sidebar menu if not executive --}}
+                             @if (auth()->user()->user_type != 'Executive')
 
                             {{-- Support Ticket --}}
                             <li><a href="{{route('tickets.index')}}"
@@ -395,6 +399,9 @@
                                     @endif
                                 </ul>
                             </li>
+
+                            @endif
+                             {{-- end check if not executive --}}
                          
                             @if(env('FORUM_PANEL') == "YES")
                             {{-- Forum manager --}}

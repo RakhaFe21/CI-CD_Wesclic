@@ -40,18 +40,33 @@
                                                 <div class="user-profile-action-wrap mb-5">
                                                     <h3 class="widget-title font-size-18 padding-bottom-40px">
                                                         @translate(Profile Settings)</h3>
-                                                    <div class="user-profile-action d-flex align-items-center">
-                                                        <div class="user-pro-img">
-                                                            <img src="{{ filePath($student->image) }}"
-                                                                alt="{{ $student->name }}"
-                                                                class="img-fluid radius-round border">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="user-profile-action d-flex align-items-center">
+                                                                    <div class="user-pro-img">
+                                                                        <img src="{{ filePath($student->image) }}"
+                                                                            alt="{{ $student->name }}"
+                                                                            class="img-fluid radius-round border">
+                                                                    </div>
+                                                                    <div class="upload-btn-box course-photo-btn">
+                                                                        <input type="hidden" name="oldImage"
+                                                                            value="{{ $student->image }}">
+                                                                        <input type="file" name="image" value="">
+                                                                    </div>
+                                                                </div><!-- end user-profile-action -->
+                                                            </div>
+                                                            <div class="col-lg-6 col-sm-6 contact-form-action">
+                                                                <div class="input-box">
+                                                                    <label class="label-text">Tanggal Lahir<span
+                                                                            class="primary-color-2 ml-1">*</span></label>
+                                                                    <div class="form-group">
+                                                                        <input class="form-control" type="date" name="tgl_lahir"
+                                                                            value="{{ $student->tgl_lahir }}">
+                                                                        <span class="la la-calendar input-icon"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- end col-lg-6 -->
                                                         </div>
-                                                        <div class="upload-btn-box course-photo-btn">
-                                                            <input type="hidden" name="oldImage"
-                                                                value="{{ $student->image }}">
-                                                            <input type="file" name="image" value="">
-                                                        </div>
-                                                    </div><!-- end user-profile-action -->
                                                 </div><!-- end user-profile-action-wrap -->
                                                 <div class="contact-form-action">
                                                     <div class="row">

@@ -552,6 +552,7 @@ class FrontendController extends Controller
         $student->about = $request->about;
         $student->is_disable = $request->is_disable == 'on' ? true : false;
         $student->dtks = $request->dtks;
+        $student->tgl_lahir = $request->tgl_lahir;
 
         // api wilayah
         $student->id_provinsi = $request->id_provinsi;

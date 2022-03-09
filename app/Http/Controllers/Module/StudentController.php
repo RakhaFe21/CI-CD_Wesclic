@@ -176,7 +176,6 @@ class StudentController extends Controller
     public function student_enroll_courses($id)
     {
         $enrollments = Enrollment::where('user_id', $id)->select('course_id')->get();
-        dd($enrollments);
         return view('module.students.enroll_course', compact('enrollments', 'id'));
     }
 

@@ -400,6 +400,11 @@ function course()
     return \App\Model\Course::Published()->get();
 }
 
+function courseAdmin()
+{
+    return \App\Model\Course::all();
+}
+
 //delete file
 function fileDelete($file)
 {

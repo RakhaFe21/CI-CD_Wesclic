@@ -139,6 +139,8 @@ class StudentController extends Controller
         $user->email = $request->username;
         $user->password = Hash::make($request->password);
         $user->user_type = 'Student';
+        $user->verified = true;
+        $user->email_verified_at = date('Y-m-d');
         $user->save();
 
         //create student
@@ -174,6 +176,7 @@ class StudentController extends Controller
     public function student_enroll_courses($id)
     {
         $enrollments = Enrollment::where('user_id', $id)->select('course_id')->get();
+        dd($enrollments);
         return view('module.students.enroll_course', compact('enrollments', 'id'));
     }
 

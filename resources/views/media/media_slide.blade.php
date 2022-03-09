@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-md-3">
                 <a href="javascript:void()"
-                    onclick="forMediaModal('{{ route('media.create') }}', '@translate(Upload media)')"
+                    onclick="forMediaModal('{{ route('media.create') }}', 'Unggah Media')"
                     class="btn-sm btn-primary ml-2 text-white text-center">Upload Media <i
                         class="fa fa-cloud-upload ml-2" aria-hidden="true"></i></a>
             </div>

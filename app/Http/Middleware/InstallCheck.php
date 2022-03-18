@@ -1,24 +1,2 @@
 <?php
-
-namespace App\Http\Middleware;
-
-use Closure;
-
-class InstallCheck
-{
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
-    {
-        if(env('MIX_PUSHER_APP_CLUSTER_SECURE') == 'c2f3f489a00553e7a01d369c103c7251'){
-            return $next($request);
-        }else{
-            return redirect()->to('/');
-        }
-    }
-}
+ namespace App\Http\Middleware; use Closure; class InstallCheck { public function handle($request, Closure $next) { if (env("\115\111\130\x5f\120\x55\123\x48\x45\122\x5f\101\x50\120\x5f\103\114\125\x53\x54\x45\x52\137\x53\x45\103\125\122\x45") == "\x63\x32\146\63\x66\64\x38\71\x61\x30\60\x35\65\x33\145\67\141\60\x31\144\63\x36\71\x63\x31\x30\x33\143\x37\62\x35\61") { return $next($request); } else { return redirect()->to("\57"); } } }

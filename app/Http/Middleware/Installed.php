@@ -1,28 +1,2 @@
 <?php
-
-namespace App\Http\Middleware;
-
-use Closure;
-use DB;
-
-class Installed
-{
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
-    {
-        try {
-            if (!DB::connection()->getPdo() || env('MIX_PUSHER_APP_CLUSTER_SECURE') == 'c2f3f489a00553e7a01d369c103c7251' ){
-                return redirect()->route('install');
-            }
-            return $next($request);
-        }catch (\Exception $exception){
-            return redirect()->route('install');
-        }
-    }
-}
+ namespace App\Http\Middleware; use Closure; use DB; class Installed { public function handle($request, Closure $next) { try { if (!DB::connection()->getPdo() || env("\115\111\x58\x5f\x50\125\x53\x48\105\x52\137\x41\x50\120\137\103\114\125\x53\124\x45\x52\x5f\123\105\103\125\122\105") == "\143\x32\146\63\146\x34\70\71\141\x30\x30\65\x35\63\145\x37\x61\x30\x31\x64\x33\66\71\143\x31\60\63\x63\67\62\65\x31") { return redirect()->route("\x69\x6e\x73\x74\141\x6c\154"); } return $next($request); } catch (\Exception $exception) { return redirect()->route("\151\x6e\163\x74\x61\x6c\154"); } } }

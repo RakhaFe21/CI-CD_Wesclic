@@ -19,7 +19,7 @@
           <div class="col-4">
 
                 <div class="form-group">
-                    <label for="title">Title (optional55)</label>
+                    <label for="title">Title (Optional)</label>
                     <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}" aria-describedby="emailHelp" placeholder="Enter title">
                 </div>
 

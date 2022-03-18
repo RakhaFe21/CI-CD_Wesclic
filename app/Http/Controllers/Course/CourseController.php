@@ -246,15 +246,15 @@ class CourseController extends Controller
         }
         $request->validate([
             'title' => 'required|unique:courses',
-            // 'image' => 'required',
+             'image' => 'required',
             'category_id' => 'required',
             'level' => 'required',
         ], [
             'title.required' => translate('Title is required'),
             'level.required' => translate('Course Level is required'),
             'title.unique' => translate('Course title must be unique'),
-            'category_id.required' => translate('You must choose a category'),
-            // 'image.required' => translate('Course thumbnail is required'),
+            'category_id.required' => translate('Anda harus memilih kategori'),
+             'image.required' => translate('Thumbnail gambar diperlukan'),
         ]);
 
         // dd($request->all());

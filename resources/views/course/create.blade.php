@@ -65,7 +65,7 @@
                         <input type="hidden" required value="{{ old('image') }}"
                             class="form-control course_image @error('image') is-invalid @enderror" id="val-img"
                             name="image">
-                        <img class="w-50 course_thumb_preview rounded shadow-sm d-none" src="" alt="#Course thumbnail">
+                        <img class="w-50 course_thumb_preview rounded shadow-sm d-none" src="" alt="#Thumbnail Pelatihan">
                         @error('image')
                             <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
                         @enderror

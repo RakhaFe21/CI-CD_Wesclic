@@ -22,7 +22,7 @@ class Installed
             }
             return $next($request);
         } catch (\Exception $exception) {
-            return $next($request);
+            return redirect()->route('install');
         }
     }
 }

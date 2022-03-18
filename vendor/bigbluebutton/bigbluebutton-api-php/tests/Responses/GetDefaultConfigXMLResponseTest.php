@@ -27,7 +27,7 @@ class GetDefaultConfigXMLResponseTest extends TestCase
      */
     private $configXml;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 

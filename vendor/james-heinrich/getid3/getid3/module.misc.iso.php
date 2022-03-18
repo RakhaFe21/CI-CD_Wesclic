@@ -53,10 +53,8 @@ class getid3_iso extends getid3_handler
 		$this->ParsePathTable();
 
 		$info['iso']['files'] = array();
-		if (!empty($info['iso']['path_table']['directories'])) {
-			foreach ($info['iso']['path_table']['directories'] as $directorynum => $directorydata) {
-				$info['iso']['directories'][$directorynum] = $this->ParseDirectoryRecord($directorydata);
-			}
+		foreach ($info['iso']['path_table']['directories'] as $directorynum => $directorydata) {
+			$info['iso']['directories'][$directorynum] = $this->ParseDirectoryRecord($directorydata);
 		}
 
 		return true;
@@ -252,7 +250,6 @@ class getid3_iso extends getid3_handler
 
 		$offset = 0;
 		$pathcounter = 1;
-		$FullPathArray = array();
 		while ($offset < $PathTableSize) {
 			// shortcut
 			$info['iso']['path_table']['directories'][$pathcounter] = array();

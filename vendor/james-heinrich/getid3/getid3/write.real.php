@@ -282,7 +282,6 @@ class getid3_write_real
 				fclose($fp_source);
 				return false;
 			}
-			$oldChunkInfo = array();
 			foreach ($OldThisFileInfo['real']['chunks'] as $chunknumber => $chunkarray) {
 				$oldChunkInfo[$chunkarray['name']] = $chunkarray;
 			}

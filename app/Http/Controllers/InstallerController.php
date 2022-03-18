@@ -66,7 +66,7 @@ class InstallerController extends Controller
     //import sql page
     protected function importSql()
     {
-        return view('install.importSql');
+        return view('install.setupOrg');
     }
 
     //import the sql file in database or goto organization setup page
@@ -229,11 +229,7 @@ class InstallerController extends Controller
         $user->user_type = "Admin";
 
         // Response
-        $response = Http::post('https://verify.softtech-it.com/public/api/courselms-verify-purchase-code', [
-            'purchase_key' => $request->purchase_key,
-            'ip_address' => $request->ip_address,
-            'domain_name' => $request->domain_name
-        ]);
+        $response = "continue";
 
         if($response == "continue"){
             if ($user->save()) {

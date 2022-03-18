@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 trait InitMeeting
 {
     /**
-     * @param  array  $parameters
+     * @param array $parameters
      *
      * required fields
      * meetingID
@@ -20,6 +20,7 @@ trait InitMeeting
      * optional fields
      * moderatorPW
      * attendeePW
+     *
      * @return CreateMeetingParameters
      */
     public function initCreateMeeting(array $parameters)
@@ -32,9 +33,6 @@ trait InitMeeting
         $meetingParams->setRecord($request->get('record', config('bigbluebutton.create.record', false)));
         $meetingParams->setMaxParticipants($request->get('maxParticipants', config('bigbluebutton.create.maxParticipants', 0)));
         $meetingParams->setLogoutUrl($request->get('logoutUrl', config('bigbluebutton.create.logoutUrl', null)));
-        $meetingParams->setGuestPolicy(
-            $request->get('guestPolicy', config('bigbluebutton.create.guestPolicy', 'ALWAYS_ACCEPT'))
-        );
         $meetingParams->setWelcomeMessage(
             $request->get('welcomeMessage', config('bigbluebutton.create.welcomeMessage', null))
         );
@@ -121,11 +119,12 @@ trait InitMeeting
     }
 
     /**
-     * @param  array  $parameters
+     * @param array $parameters
      *
      * required fields:
      * meetingID
      * moderatorPW close meeting must be there moderator password
+     *
      * @return EndMeetingParameters
      */
     public function initCloseMeeting(array $parameters)
@@ -136,13 +135,14 @@ trait InitMeeting
     }
 
     /**
-     * @param  array  $parameters
+     * @param array $parameters
      *
      *  required fields
      *
      *  meetingID
      *  userName join by name
      *  password which role want to join
+     *
      * @return JoinMeetingParameters
      */
     public function initJoinMeeting(array $parameters)
@@ -181,6 +181,7 @@ trait InitMeeting
      *
      * required fields
      * meetingID
+     *
      * @return IsMeetingRunningParameters
      */
     public function initIsMeetingRunning($parameters)
@@ -201,6 +202,7 @@ trait InitMeeting
      * required fields
      * meetingID
      * moderatorPW must be there moderator password
+     *
      * @return GetMeetingInfoParameters
      */
     public function initGetMeetingInfo($parameters)
@@ -222,20 +224,11 @@ trait InitMeeting
             $pass['redirect'] = $parameters['redirect'];
         }
 
-        $exceptParameters = ['meetingID', 'moderatorPW', 'userName', 'meetingName', 'redirect'];
-        if (is_array($parameters)) {
-            foreach ($parameters as $key => $value) {
-                if (! empty($key) && is_string($key) && ! empty($value) && ! in_array($key, $exceptParameters)) {
-                    $pass[$key] = $value;
-                }
-            }
-        }
-
         return $pass;
     }
 
     /**
-     * @param  array  $parameters
+     * @param array $parameters
      *
      * required fields
      * meetingID
@@ -243,6 +236,7 @@ trait InitMeeting
      * userName
      * attendeePW
      * moderatorPW
+     *
      * @return mixed
      */
     public function initStart(array $parameters)

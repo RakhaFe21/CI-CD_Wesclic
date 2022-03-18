@@ -98,13 +98,13 @@ class ControllerResolver implements ControllerResolverInterface
     /**
      * Returns a callable for the given controller.
      *
-     * @return callable
+     * @return callable A PHP callable
      *
      * @throws \InvalidArgumentException When the controller cannot be created
      */
     protected function createController(string $controller)
     {
-        if (!str_contains($controller, '::')) {
+        if (false === strpos($controller, '::')) {
             $controller = $this->instantiateController($controller);
 
             if (!\is_callable($controller)) {
@@ -150,7 +150,7 @@ class ControllerResolver implements ControllerResolverInterface
     private function getControllerError($callable): string
     {
         if (\is_string($callable)) {
-            if (str_contains($callable, '::')) {
+            if (false !== strpos($callable, '::')) {
                 $callable = explode('::', $callable, 2);
             } else {
                 return sprintf('Function "%s" does not exist.', $callable);
@@ -191,7 +191,7 @@ class ControllerResolver implements ControllerResolverInterface
         foreach ($collection as $item) {
             $lev = levenshtein($method, $item);
 
-            if ($lev <= \strlen($method) / 3 || str_contains($item, $method)) {
+            if ($lev <= \strlen($method) / 3 || false !== strpos($item, $method)) {
                 $alternatives[] = $item;
             }
         }

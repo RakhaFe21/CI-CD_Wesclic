@@ -58,7 +58,7 @@ class Stripe
     /** @var float Initial delay between retries, in seconds */
     private static $initialNetworkRetryDelay = 0.5;
 
-    const VERSION = '7.104.0';
+    const VERSION = '7.67.0';
 
     /**
      * @return string the API key used for requests
@@ -176,7 +176,7 @@ class Stripe
     }
 
     /**
-     * @return null|string The Stripe account ID for connected account
+     * @return string | null The Stripe account ID for connected account
      *   requests
      */
     public static function getAccountId()
@@ -194,7 +194,7 @@ class Stripe
     }
 
     /**
-     * @return null|array The application's information
+     * @return array | null The application's information
      */
     public static function getAppInfo()
     {

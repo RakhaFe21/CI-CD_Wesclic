@@ -8,7 +8,7 @@ use BigBlueButton\Parameters\HooksDestroyParameters;
 trait InitHooks
 {
     /**
-     * @param  array  $parameters
+     * @param array $parameters
      *
      * require fields
      * callbackURL
@@ -16,6 +16,7 @@ trait InitHooks
      * optional fields
      * meetingID
      * getRaw
+     *
      * @return HooksCreateParameters
      */
     public function initHooksCreate(array $parameters)
@@ -31,7 +32,8 @@ trait InitHooks
     }
 
     /**
-     * @param  mixed  $parameters
+     * @param mixed $parameters
+     *
      * @return HooksDestroyParameters
      */
     public function initHooksDestroy($parameters)

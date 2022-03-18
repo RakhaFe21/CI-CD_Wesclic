@@ -12,13 +12,10 @@ use function array_key_exists;
 use function count;
 use function explode;
 use function is_array;
-use function is_numeric;
-use function number_format;
+use function strpos;
 
 final class Parser implements ParserInterface
 {
-    private const MICROSECOND_PRECISION = 6;
-
     private Decoder $decoder;
 
     public function __construct(Decoder $decoder)
@@ -108,29 +105,23 @@ final class Parser implements ParserInterface
                 continue;
             }
 
-            $claims[$claim] = $this->convertDate($claims[$claim]);
+            $claims[$claim] = $this->convertDate((string) $claims[$claim]);
         }
 
         return $claims;
     }
 
-    /**
-     * @param int|float|string $timestamp
-     *
-     * @throws InvalidTokenStructure
-     */
-    private function convertDate($timestamp): DateTimeImmutable
+    /** @throws InvalidTokenStructure */
+    private function convertDate(string $value): DateTimeImmutable
     {
-        if (! is_numeric($timestamp)) {
-            throw InvalidTokenStructure::dateIsNotParseable($timestamp);
+        if (strpos($value, '.') === false) {
+            return new DateTimeImmutable('@' . $value);
         }
 
-        $normalizedTimestamp = number_format((float) $timestamp, self::MICROSECOND_PRECISION, '.', '');
-
-        $date = DateTimeImmutable::createFromFormat('U.u', $normalizedTimestamp);
+        $date = DateTimeImmutable::createFromFormat('U.u', $value);
 
         if ($date === false) {
-            throw InvalidTokenStructure::dateIsNotParseable($normalizedTimestamp);
+            throw InvalidTokenStructure::dateIsNotParseable($value);
         }
 
         return $date;

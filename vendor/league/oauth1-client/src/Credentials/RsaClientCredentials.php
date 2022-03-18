@@ -2,8 +2,6 @@
 
 namespace League\OAuth1\Client\Credentials;
 
-use OpenSSLAsymmetricKey;
-
 class RsaClientCredentials extends ClientCredentials
 {
     /**
@@ -17,12 +15,12 @@ class RsaClientCredentials extends ClientCredentials
     protected $rsaPrivateKeyFile;
 
     /**
-     * @var resource|OpenSSLAsymmetricKey|null
+     * @var resource|null
      */
     protected $rsaPublicKey;
 
     /**
-     * @var resource|OpenSSLAsymmetricKey|null
+     * @var resource|null
      */
     protected $rsaPrivateKey;
 
@@ -61,7 +59,7 @@ class RsaClientCredentials extends ClientCredentials
      *
      * @throws CredentialsException when the key could not be loaded.
      *
-     * @return resource|OpenSSLAsymmetricKey
+     * @return resource
      */
     public function getRsaPublicKey()
     {
@@ -87,7 +85,7 @@ class RsaClientCredentials extends ClientCredentials
      *
      * @throws CredentialsException when the key could not be loaded.
      *
-     * @return resource|OpenSSLAsymmetricKey
+     * @return resource
      */
     public function getRsaPrivateKey()
     {
@@ -106,5 +104,16 @@ class RsaClientCredentials extends ClientCredentials
         }
 
         return $this->rsaPrivateKey;
+    }
+
+    public function __destruct()
+    {
+        if ($this->rsaPublicKey) {
+            openssl_free_key($this->rsaPublicKey);
+        }
+
+        if ($this->rsaPrivateKey) {
+            openssl_free_key($this->rsaPrivateKey);
+        }
     }
 }

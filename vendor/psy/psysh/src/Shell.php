@@ -48,7 +48,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Shell extends Application
 {
-    const VERSION = 'v0.10.12';
+    const VERSION = 'v0.10.5';
 
     const PROMPT = '>>> ';
     const BUFF_PROMPT = '... ';
@@ -74,7 +74,6 @@ class Shell extends Application
     private $matchers = [];
     private $commandsMatcher;
     private $lastExecSuccess = true;
-    private $nonInteractive = false;
 
     /**
      * Create a new Psy Shell.
@@ -109,18 +108,8 @@ class Shell extends Application
      */
     public static function isIncluded(array $trace)
     {
-        $isIncluded = isset($trace[0]['function']) &&
+        return isset($trace[0]['function']) &&
           \in_array($trace[0]['function'], ['require', 'include', 'require_once', 'include_once']);
-
-        // Detect Composer PHP bin proxies.
-        if ($isIncluded && \array_key_exists('_composer_autoload_path', $GLOBALS) && \preg_match('{[\\\\/]psysh$}', $trace[0]['file'])) {
-            // If we're in a bin proxy, we'll *always* see one include, but we
-            // care if we see a second immediately after that.
-            return isset($trace[1]['function']) &&
-                \in_array($trace[1]['function'], ['require', 'include', 'require_once', 'include_once']);
-        }
-
-        return $isIncluded;
     }
 
     /**
@@ -401,8 +390,6 @@ class Shell extends Application
      */
     private function doNonInteractiveRun($rawOutput)
     {
-        $this->nonInteractive = true;
-
         // If raw output is enabled (or output is piped) we don't want startup messages.
         if (!$rawOutput && !$this->config->outputIsPiped()) {
             $this->output->writeln($this->getHeader());
@@ -426,7 +413,6 @@ class Shell extends Application
         }
 
         $this->afterRun();
-        $this->nonInteractive = false;
 
         return 0;
     }
@@ -1132,18 +1118,8 @@ class Shell extends Application
      */
     public function writeException(\Exception $e)
     {
-        // No need to write the break exception during a non-interactive run.
-        if ($e instanceof BreakException && $this->nonInteractive) {
-            $this->resetCodeBuffer();
-
-            return;
-        }
-
-        // Break exceptions don't count :)
-        if (!$e instanceof BreakException) {
-            $this->lastExecSuccess = false;
-            $this->context->setLastException($e);
-        }
+        $this->lastExecSuccess = false;
+        $this->context->setLastException($e);
 
         $output = $this->output;
         if ($output instanceof ConsoleOutput) {
@@ -1356,7 +1332,7 @@ class Shell extends Application
     /**
      * Get the current input prompt.
      *
-     * @return string|null
+     * @return string | null
      */
     protected function getPrompt()
     {

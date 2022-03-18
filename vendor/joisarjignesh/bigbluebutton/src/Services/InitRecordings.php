@@ -5,17 +5,17 @@ namespace JoisarJignesh\Bigbluebutton\Services;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
-use BigBlueButton\Parameters\UpdateRecordingsParameters;
 
 trait InitRecordings
 {
     /**
-     * @param  mixed  $parameters
+     * @param mixed $parameters
      *
      * optional fields
      * meetingID
      * recordID
      * state
+     *
      * @return GetRecordingsParameters
      */
     public function initGetRecordings($parameters)
@@ -31,10 +31,11 @@ trait InitRecordings
     }
 
     /**
-     * @param  mixed  $parameters
+     * @param mixed $parameters
      *
      * required fields
      * recordID
+     *
      * @return PublishRecordingsParameters
      */
     public function initPublishRecordings($parameters)
@@ -47,10 +48,11 @@ trait InitRecordings
     }
 
     /**
-     * @param  mixed  $recording
+     * @param mixed $recording
      *
      * required fields
      * recordID
+     *
      * @return DeleteRecordingsParameters
      */
     public function initDeleteRecordings($recording)
@@ -58,19 +60,5 @@ trait InitRecordings
         $request = Fluent($recording);
 
         return new DeleteRecordingsParameters(implode(',', (array) $request->get('recordID')));
-    }
-
-    /**
-     * @param  mixed  $recording
-     *
-     * required fields
-     * recordID
-     * @return UpdateRecordingsParameters
-     */
-    public function initUpdateRecordings($recording)
-    {
-        $request = Fluent($recording);
-
-        return new UpdateRecordingsParameters(implode(',', (array) $request->get('recordID')));
     }
 }

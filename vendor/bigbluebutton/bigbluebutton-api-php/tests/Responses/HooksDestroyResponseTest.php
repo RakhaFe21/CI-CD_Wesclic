@@ -28,7 +28,7 @@ class HooksDestroyResponseTest extends TestCase
      */
     private $destroyResponse;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 

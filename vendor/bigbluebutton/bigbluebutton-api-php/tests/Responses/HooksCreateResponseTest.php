@@ -28,7 +28,7 @@ class HooksCreateResponseTest extends TestCase
      */
     private $createResponse;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 

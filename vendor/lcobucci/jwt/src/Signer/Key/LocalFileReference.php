@@ -9,14 +9,12 @@ use function file_exists;
 use function strpos;
 use function substr;
 
-/** @deprecated please use {@see InMemory} instead */
 final class LocalFileReference implements Key
 {
     private const PATH_PREFIX = 'file://';
 
     private string $path;
     private string $passphrase;
-    private string $contents;
 
     private function __construct(string $path, string $passphrase)
     {
@@ -40,11 +38,7 @@ final class LocalFileReference implements Key
 
     public function contents(): string
     {
-        if (! isset($this->contents)) {
-            $this->contents = InMemory::file($this->path)->contents();
-        }
-
-        return $this->contents;
+        return self::PATH_PREFIX . $this->path;
     }
 
     public function passphrase(): string

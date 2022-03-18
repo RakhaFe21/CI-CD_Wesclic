@@ -28,7 +28,7 @@ class UpdateRecordingsResponseTest extends TestCase
      */
     private $update;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 

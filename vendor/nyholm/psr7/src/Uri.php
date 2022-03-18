@@ -14,11 +14,11 @@ use Psr\Http\Message\UriInterface;
  * @author Matthew Weier O'Phinney
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Martijn van der Ven <martijn@vanderven.se>
- *
- * @final This class should never be extended. See https://github.com/Nyholm/psr7/blob/master/doc/final.md
  */
-class Uri implements UriInterface
+final class Uri implements UriInterface
 {
+    use LowercaseTrait;
+
     private const SCHEMES = ['http' => 80, 'https' => 443];
 
     private const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
@@ -50,13 +50,13 @@ class Uri implements UriInterface
     {
         if ('' !== $uri) {
             if (false === $parts = \parse_url($uri)) {
-                throw new \InvalidArgumentException(\sprintf('Unable to parse URI: "%s"', $uri));
+                throw new \InvalidArgumentException("Unable to parse URI: $uri");
             }
 
             // Apply parse_url parts to a URI.
-            $this->scheme = isset($parts['scheme']) ? \strtr($parts['scheme'], 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') : '';
+            $this->scheme = isset($parts['scheme']) ? self::lowercase($parts['scheme']) : '';
             $this->userInfo = $parts['user'] ?? '';
-            $this->host = isset($parts['host']) ? \strtr($parts['host'], 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') : '';
+            $this->host = isset($parts['host']) ? self::lowercase($parts['host']) : '';
             $this->port = isset($parts['port']) ? $this->filterPort($parts['port']) : null;
             $this->path = isset($parts['path']) ? $this->filterPath($parts['path']) : '';
             $this->query = isset($parts['query']) ? $this->filterQueryAndFragment($parts['query']) : '';
@@ -131,7 +131,7 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Scheme must be a string');
         }
 
-        if ($this->scheme === $scheme = \strtr($scheme, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')) {
+        if ($this->scheme === $scheme = self::lowercase($scheme)) {
             return $this;
         }
 
@@ -165,7 +165,7 @@ class Uri implements UriInterface
             throw new \InvalidArgumentException('Host must be a string');
         }
 
-        if ($this->host === $host = \strtr($host, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')) {
+        if ($this->host === $host = self::lowercase($host)) {
             return $this;
         }
 

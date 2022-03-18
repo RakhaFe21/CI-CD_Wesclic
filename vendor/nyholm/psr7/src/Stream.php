@@ -12,10 +12,8 @@ use Symfony\Component\ErrorHandler\ErrorHandler as SymfonyErrorHandler;
  * @author Michael Dowling and contributors to guzzlehttp/psr7
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Martijn van der Ven <martijn@vanderven.se>
- *
- * @final This class should never be extended. See https://github.com/Nyholm/psr7/blob/master/doc/final.md
  */
-class Stream implements StreamInterface
+final class Stream implements StreamInterface
 {
     /** @var resource|null A resource reference */
     private $stream;
@@ -29,7 +27,7 @@ class Stream implements StreamInterface
     /** @var bool */
     private $writable;
 
-    /** @var array|mixed|void|bool|null */
+    /** @var array|mixed|void|null */
     private $uri;
 
     /** @var int|null */
@@ -81,6 +79,7 @@ class Stream implements StreamInterface
             $new->seekable = $meta['seekable'] && 0 === \fseek($new->stream, 0, \SEEK_CUR);
             $new->readable = isset(self::READ_WRITE_HASH['read'][$meta['mode']]);
             $new->writable = isset(self::READ_WRITE_HASH['write'][$meta['mode']]);
+            $new->uri = $new->getMetadata('uri');
 
             return $new;
         }
@@ -149,15 +148,6 @@ class Stream implements StreamInterface
         return $result;
     }
 
-    private function getUri()
-    {
-        if (false !== $this->uri) {
-            $this->uri = $this->getMetadata('uri') ?? false;
-        }
-
-        return $this->uri;
-    }
-
     public function getSize(): ?int
     {
         if (null !== $this->size) {
@@ -169,8 +159,8 @@ class Stream implements StreamInterface
         }
 
         // Clear the stat cache if the stream has a URI
-        if ($uri = $this->getUri()) {
-            \clearstatcache(true, $uri);
+        if ($this->uri) {
+            \clearstatcache(true, $this->uri);
         }
 
         $stats = \fstat($this->stream);
@@ -209,7 +199,7 @@ class Stream implements StreamInterface
         }
 
         if (-1 === \fseek($this->stream, $offset, $whence)) {
-            throw new \RuntimeException('Unable to seek to stream position "' . $offset . '" with whence ' . \var_export($whence, true));
+            throw new \RuntimeException('Unable to seek to stream position ' . $offset . ' with whence ' . \var_export($whence, true));
         }
     }
 

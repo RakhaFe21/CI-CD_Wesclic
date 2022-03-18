@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Carbon\Traits;
 
 use Carbon\CarbonInterface;
@@ -57,7 +56,6 @@ trait Rounding
             'microsecond' => [0, 999999],
         ]);
         $factor = 1;
-        $initialMonth = $this->month;
 
         if ($normalizedUnit === 'week') {
             $normalizedUnit = 'day';
@@ -108,19 +106,16 @@ trait Rounding
         }
 
         [$value, $minimum] = $arguments;
-        $normalizedValue = floor($function(($value - $minimum) / $precision) * $precision + $minimum);
-
         /** @var CarbonInterface $result */
-        $result = $this->$normalizedUnit($normalizedValue);
+        $result = $this->$normalizedUnit(
+            floor($function(($value - $minimum) / $precision) * $precision + $minimum)
+        );
 
         foreach ($changes as $unit => $value) {
             $result = $result->$unit($value);
         }
 
-        return $normalizedUnit === 'month' && $precision <= 1 && abs($result->month - $initialMonth) === 2
-            // Re-run the change in case an overflow occurred
-            ? $result->$normalizedUnit($normalizedValue)
-            : $result;
+        return $result;
     }
 
     /**
@@ -195,10 +190,7 @@ trait Rounding
      */
     public function roundWeek($weekStartsAt = null)
     {
-        return $this->closest(
-            $this->avoidMutation()->floorWeek($weekStartsAt),
-            $this->avoidMutation()->ceilWeek($weekStartsAt)
-        );
+        return $this->closest($this->copy()->floorWeek($weekStartsAt), $this->copy()->ceilWeek($weekStartsAt));
     }
 
     /**
@@ -223,7 +215,7 @@ trait Rounding
     public function ceilWeek($weekStartsAt = null)
     {
         if ($this->isMutable()) {
-            $startOfWeek = $this->avoidMutation()->startOfWeek($weekStartsAt);
+            $startOfWeek = $this->copy()->startOfWeek($weekStartsAt);
 
             return $startOfWeek != $this ?
                 $this->startOfWeek($weekStartsAt)->addWeek() :
@@ -234,6 +226,6 @@ trait Rounding
 
         return $startOfWeek != $this ?
             $startOfWeek->addWeek() :
-            $this->avoidMutation();
+            $this->copy();
     }
 }

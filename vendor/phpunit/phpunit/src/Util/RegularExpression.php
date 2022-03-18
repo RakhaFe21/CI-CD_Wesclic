@@ -9,8 +9,6 @@
  */
 namespace PHPUnit\Util;
 
-use function preg_match;
-
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
@@ -22,9 +20,8 @@ final class RegularExpression
     public static function safeMatch(string $pattern, string $subject)
     {
         return ErrorHandler::invokeIgnoringWarnings(
-            static function () use ($pattern, $subject)
-            {
-                return preg_match($pattern, $subject);
+            static function () use ($pattern, $subject) {
+                return \preg_match($pattern, $subject);
             }
         );
     }

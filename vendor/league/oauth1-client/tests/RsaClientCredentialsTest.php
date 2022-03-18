@@ -4,7 +4,6 @@ namespace League\OAuth1\Client\Tests;
 
 use League\OAuth1\Client\Credentials\CredentialsException;
 use League\OAuth1\Client\Credentials\RsaClientCredentials;
-use OpenSSLAsymmetricKey;
 use PHPUnit\Framework\TestCase;
 
 class RsaClientCredentialsTest extends TestCase
@@ -14,9 +13,8 @@ class RsaClientCredentialsTest extends TestCase
         $credentials = new RsaClientCredentials();
         $credentials->setRsaPublicKey(__DIR__ . '/test_rsa_publickey.pem');
 
-        /** @var resource|OpenSSLAsymmetricKey $key */
         $key = $credentials->getRsaPublicKey();
-        $this->assertFalse(is_null($key));
+        $this->assertTrue(is_resource($key));
 
         $this->assertEquals($key, $credentials->getRsaPublicKey());
     }
@@ -46,9 +44,8 @@ class RsaClientCredentialsTest extends TestCase
         $credentials = new RsaClientCredentials();
         $credentials->setRsaPrivateKey(__DIR__ . '/test_rsa_privatekey.pem');
 
-        /** @var resource|OpenSSLAsymmetricKey $key */
         $key = $credentials->getRsaPrivateKey();
-        $this->assertFalse(is_null($key));
+        $this->assertTrue(is_resource($key));
 
         $this->assertEquals($key, $credentials->getRsaPrivateKey());
     }

@@ -28,7 +28,7 @@ class SetConfigXMLResponseTest extends TestCase
      */
     private $config;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 

@@ -45,7 +45,7 @@ class ResponseHeaderBag extends HeaderBag
     /**
      * Returns the headers, with original capitalizations.
      *
-     * @return array
+     * @return array An array of headers
      */
     public function allPreserveCase()
     {
@@ -174,7 +174,7 @@ class ResponseHeaderBag extends HeaderBag
      */
     public function getCacheControlDirective(string $key)
     {
-        return $this->computedCacheControl[$key] ?? null;
+        return \array_key_exists($key, $this->computedCacheControl) ? $this->computedCacheControl[$key] : null;
     }
 
     public function setCookie(Cookie $cookie)

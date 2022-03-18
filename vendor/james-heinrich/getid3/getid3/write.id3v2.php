@@ -1984,8 +1984,8 @@ class getid3_write_id3v2
 		if (is_array($var)) {
 			$keys = array_keys($var);
 			$all_num = true;
-			foreach ($keys as $key) {
-				if (is_string($key)) {
+			for ($i = 0; $i < count($keys); $i++) {
+				if (is_string($keys[$i])) {
 					return true;
 				}
 			}

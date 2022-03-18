@@ -20,11 +20,6 @@ if (!defined('GETID3_INCLUDEPATH')) { // prevent path-exposing attacks that acce
 
 class getid3_swf extends getid3_handler
 {
-	/**
-	 * return all parsed tags if true, otherwise do not return tags not parsed by getID3
-	 *
-	 * @var bool
-	 */
 	public $ReturnAllTagData = false;
 
 	/**
@@ -120,7 +115,7 @@ class getid3_swf extends getid3_handler
 				$CurrentOffset += 4;
 			}
 
-			$TagData           = array();
+			unset($TagData);
 			$TagData['offset'] = $CurrentOffset;
 			$TagData['size']   = $TagLength;
 			$TagData['id']     = $TagID;

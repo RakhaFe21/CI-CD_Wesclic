@@ -42,7 +42,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp() : void
+    public function setUp()
     {
         parent::setUp();
 
@@ -288,6 +288,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     // Additional assertions
+
+    public function assertIsString($actual, $message = '')
+    {
+        if (empty($message)) {
+            $message = 'Got a ' . gettype($actual) . ' instead of a string';
+        }
+        $this->assertTrue(is_string($actual), $message);
+    }
 
     public function assertIsInteger($actual, $message = '')
     {

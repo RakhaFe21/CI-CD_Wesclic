@@ -32,7 +32,7 @@ class HooksCreateParameters extends BaseParameters
     private $meetingId;
 
     /**
-     * @var boolean
+     * @var string
      */
     private $getRaw;
 
@@ -85,7 +85,7 @@ class HooksCreateParameters extends BaseParameters
     }
 
     /**
-     * @return boolean
+     * @return string
      */
     public function getRaw()
     {
@@ -93,7 +93,7 @@ class HooksCreateParameters extends BaseParameters
     }
 
     /**
-     * @param  boolean               $getRaw
+     * @param  string                $getRaw
      * @return HooksCreateParameters
      */
     public function setGetRaw($getRaw)
@@ -111,7 +111,7 @@ class HooksCreateParameters extends BaseParameters
         $queries = [
             'callbackURL' => $this->callbackUrl,
             'meetingID'   => $this->meetingId,
-            'getRaw'      => $this->getRaw ? 'true' : 'false'
+            'getRaw'      => $this->getRaw
         ];
 
         return $this->buildHTTPQuery($queries);

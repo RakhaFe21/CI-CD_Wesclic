@@ -28,7 +28,7 @@ class GetMeetingsResponseTest extends TestCase
      */
     private $meetings;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 

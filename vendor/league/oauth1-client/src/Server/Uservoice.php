@@ -72,11 +72,13 @@ class Uservoice extends Server
         $user->email = $data['user']['email'];
 
         if ($data['user']['name']) {
-            $parts = explode(' ', $data['user']['name'], 2);
+            $parts = explode(' ', $data['user']['name']);
 
-            $user->firstName = $parts[0];
+            if (count($parts) > 0) {
+                $user->firstName = $parts[0];
+            }
 
-            if (2 === count($parts)) {
+            if (count($parts) > 1) {
                 $user->lastName = $parts[1];
             }
         }

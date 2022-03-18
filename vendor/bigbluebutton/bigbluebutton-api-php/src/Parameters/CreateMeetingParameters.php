@@ -23,10 +23,6 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
-    const ALWAYS_DENY   = 'ALWAYS_DENY';
-    const ASK_MODERATOR = 'ASK_MODERATOR';
-    
     /**
      * @var string
      */
@@ -196,11 +192,6 @@ class CreateMeetingParameters extends MetaParameters
      * @var boolean
      */
     private $freeJoin;
-    
-    /**
-     * @var string
-     */
-    private $guestPolicy = self::ALWAYS_ACCEPT;
 
     /**
      * CreateMeetingParameters constructor.
@@ -879,25 +870,6 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return string
-     */
-    public function getGuestPolicy()
-    {
-        return $this->guestPolicy;
-    }
-
-    /**
-     * @param  bool                    $guestPolicy
-     * @return CreateMeetingParameters
-     */
-    public function setGuestPolicy($guestPolicy)
-    {
-        $this->guestPolicy = $guestPolicy;
-
-        return $this;
-    }
-    
-    /**
      * @return array
      */
     public function getPresentations()
@@ -979,7 +951,6 @@ class CreateMeetingParameters extends MetaParameters
             'logo'                               => $this->logo,
             'copyright'                          => $this->copyright,
             'muteOnStart'                        => $this->muteOnStart ? 'true' : 'false',
-            'guestPolicy'                        => $this->guestPolicy,
             'lockSettingsDisableCam'             => $this->isLockSettingsDisableCam() ? 'true' : 'false',
             'lockSettingsDisableMic'             => $this->isLockSettingsDisableMic() ? 'true' : 'false',
             'lockSettingsDisablePrivateChat'     => $this->isLockSettingsDisablePrivateChat() ? 'true' : 'false',

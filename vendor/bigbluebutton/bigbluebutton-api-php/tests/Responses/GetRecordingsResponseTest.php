@@ -28,7 +28,7 @@ class GetRecordingsResponseTest extends TestCase
      */
     private $records;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 

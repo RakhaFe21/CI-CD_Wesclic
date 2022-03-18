@@ -11,9 +11,6 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-die('For security reasons, this demo has been disabled. It can be enabled by removing line '.__LINE__.' in demos/'.basename(__FILE__));
-
-
 if (!function_exists('PrintHexBytes')) {
 	function PrintHexBytes($string) {
 		$returnstring = '';
@@ -474,8 +471,8 @@ if (!function_exists('Dec2Bin')) {
 		}
 		$bytes[] = $number;
 		$binstring = '';
-		foreach ($bytes as $i => $byte) {
-			$binstring = (($i == count($bytes) - 1) ? decbin($byte) : str_pad(decbin($byte), 8, '0', STR_PAD_LEFT)).$binstring;
+		for ($i = 0; $i < count($bytes); $i++) {
+			$binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(decbin($bytes[$i]), 8, '0', STR_PAD_LEFT)).$binstring;
 		}
 		return $binstring;
 	}
@@ -586,8 +583,8 @@ if (!function_exists('is_hash')) {
 		if (is_array($var)) {
 			$keys = array_keys($var);
 			$all_num = true;
-			foreach ($keys as $key) {
-				if (is_string($key)) {
+			for ($i = 0; $i < count($keys); $i++) {
+				if (is_string($keys[$i])) {
 					return true;
 				}
 			}

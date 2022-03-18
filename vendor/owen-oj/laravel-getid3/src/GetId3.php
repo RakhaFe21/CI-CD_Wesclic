@@ -3,38 +3,15 @@
 namespace Owenoj\LaravelGetId3;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class GetId3
 {
     protected $file;
 
-    protected $filesize;
-
-    protected $fp;
-
-    private $_info;
-
-    public function __construct($filename, $filesize = null, $fp = null)
+    public function __construct(UploadedFile $file)
     {
-        $this->file = $filename;
-        $this->filesize = $filesize;
-        $this->fp = $fp;
-    }
-
-    public static function fromUploadedFile(UploadedFile $file)
-    {
-        return new static($file);
-    }
-
-    public static function fromDiskAndPath($disk, $path)
-    {
-        return new static(
-            $path,
-            Storage::disk($disk)->getSize($path),
-            Storage::disk($disk)->readStream($path)
-        );
+        $this->file = $file;
     }
 
     /**
@@ -55,18 +32,9 @@ class GetId3
      */
     public function extractInfo()
     {
-        if (! isset($this->_info)) {
-            $this->_info = $this->analyze();
-        }
-
-        return $this->_info;
-    }
-
-    private function analyze()
-    {
         $comments = ['comments' => []];
 
-        $info = $this->getId3()->analyze($this->file, $this->filesize, '', $this->fp);
+        $info = $this->getId3()->analyze($this->file);
 
         //if comments doesn't exist, we will add it ourselves
         isset($info['comments']) ? $info['comments'] : ($info + $comments);

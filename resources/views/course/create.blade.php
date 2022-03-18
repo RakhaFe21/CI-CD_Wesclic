@@ -73,6 +73,10 @@
                         <input type="hidden" name="course_thumb_url" class="course_thumb_url" value="">
                         <br>
 
+                        {{-- <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')"
+                                class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i
+                                    class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a> --}}
+
                         @if (MediaActive())
                             {{-- media --}}
                             <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')"

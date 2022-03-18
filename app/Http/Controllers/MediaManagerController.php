@@ -130,31 +130,40 @@ class MediaManagerController extends Controller
             }
 
             if ($extension == "png" || $extension == 'jpg' || $extension == 'jpeg') {
-
                 if ($request->hasFile('image')) {
-                    $photo_upload        =  $request->image;
-                    $photo_extension     =  $photo_upload->getClientOriginalExtension();
-                    $photo_name          =  $media->id . "." . $photo_extension;
-
-                    $filename = fileUpload($request->image, 'media_manager');
-                    $width = getimagesize($filename)[0];
-                    $height = getimagesize($filename)[1];
-                    $size = $photo_upload->getSize();
-                    MediaManager::find($media->id)->update([
-                        'image'          => $filename,
-                        'size'           => round($size / 1024),
-                        'resolution'     => $width . 'x' . $height,
-                        'alt'            => 'image'
-                    ]);
-                }
-            }
-
-            notify()->success(translate('Uploaded successfully.'));
-            return back();
-        } catch (\Throwable $th) {
-            notify()->error(translate('Something went wrong!'));
-            return back();
-        }
+                   $photo_upload        =  $request->image;
+                   $photo_extension     =  $photo_upload -> getClientOriginalExtension();
+                   $photo_name          =  $media->id . "." . $photo_extension;
+   
+                   $storeDirectory = 'public/uploads/media_manager/';
+                   $DBstoreDirectory = '/uploads/media_manager/';
+   
+                   if (! \File::isDirectory($storeDirectory)) {
+                       $dir = \File::makeDirectory($storeDirectory, true);
+                       $img = Image::make($photo_upload)->save(base_path($dir.$photo_name),100);
+                   }else{
+                       $img = Image::make($photo_upload)->save(base_path($storeDirectory.$photo_name),100);
+                   }
+   
+                   $size = $img->filesize();
+                   $height = Image::make($photo_upload)->height();
+                   $width = Image::make($photo_upload)->width();
+                   MediaManager::find($media->id)->update([
+                   'image'          => $DBstoreDirectory.$photo_name,
+                   'size'           => round($size/1024),
+                   'resolution'     => $width .'x' . $height,
+                   'alt'            => 'image'
+                   ]);
+                   }
+           }
+   
+           notify()->success(translate('Uploaded successfully.'));
+           return back();
+   
+           } catch (\Throwable $th) {
+               notify()->error(translate('Something went wrong!'));
+               return back();
+           }
     }
 
     /**

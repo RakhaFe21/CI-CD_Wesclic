@@ -14,7 +14,6 @@ use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\SetConfigXMLParameters;
-use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use JoisarJignesh\Bigbluebutton\Bigbluebutton as BigBlueButtonServer;
 use JoisarJignesh\Bigbluebutton\Services\InitConfigXml;
 use JoisarJignesh\Bigbluebutton\Services\InitExtra;
@@ -42,7 +41,7 @@ class Bbb
     /**
      * Bbb constructor.
      *
-     * @param  BigBlueButton  $bbb
+     * @param BigBlueButton $bbb
      */
     public function __construct(BigBlueButton $bbb)
     {
@@ -53,8 +52,8 @@ class Bbb
      * for specific server instance.
      *
      * @param $serverName
-     * @return Bbb
      *
+     * @return Bbb
      * @throws \Exception
      */
     public function server($serverName)
@@ -89,7 +88,6 @@ class Bbb
 
     /**
      * check url and secret is working.
-     *
      * @return bool
      */
     public function isConnect()
@@ -111,7 +109,7 @@ class Bbb
     {
         $this->response = $this->bbb->getMeetings();
         if ($this->response->success()) {
-            if (! is_null($this->response->getRawXml()->meetings->meeting) && count($this->response->getRawXml()->meetings->meeting) > 0) {
+            if (count($this->response->getRawXml()->meetings->meeting) > 0) {
                 $meetings = [];
                 foreach ($this->response->getRawXml()->meetings->meeting as $meeting) {
                     $meetings[] = XmlToArray($meeting);
@@ -132,6 +130,7 @@ class Bbb
      * required fields
      * meetingID
      * meetingName
+     *
      * @return mixed
      */
     public function create($meeting)
@@ -153,6 +152,7 @@ class Bbb
      *
      * required fields:
      * meetingID
+     *
      * @return bool
      */
     public function isMeetingRunning($meeting)
@@ -181,6 +181,7 @@ class Bbb
      *  meetingID
      *  userName join by name
      *  password which role want to join
+     *
      * @return string
      */
     public function join($meeting)
@@ -203,6 +204,7 @@ class Bbb
      * required fields
      * meetingID
      * moderatorPW must be there moderator password
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getMeetingInfo($meeting)
@@ -228,6 +230,7 @@ class Bbb
      * userName
      * attendeePW
      * moderatorPW
+     *
      * @return mixed
      */
     public function start($parameters)
@@ -239,9 +242,10 @@ class Bbb
      *  Close meeting.
      *
      * @param  $meeting
-     *                   required fields:
-     *                   meetingID
-     *                   moderatorPW close meeting must be there moderator password
+     * required fields:
+     * meetingID
+     * moderatorPW close meeting must be there moderator password
+     *
      * @return bool
      */
     public function close($meeting)
@@ -266,6 +270,7 @@ class Bbb
      * optional fields
      * recordID
      * state
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getRecordings($recording)
@@ -275,7 +280,7 @@ class Bbb
         }
 
         $this->response = $this->bbb->getRecordings($recording);
-        if ($this->response->success() && ! is_null($this->response->getRawXml()->recordings->recording) && count($this->response->getRawXml()->recordings->recording) > 0) {
+        if (count($this->response->getRawXml()->recordings->recording) > 0) {
             $recordings = [];
             foreach ($this->response->getRawXml()->recordings->recording as $r) {
                 $recordings[] = XmlToArray($r);
@@ -291,6 +296,7 @@ class Bbb
      * @param $recording
      * recordID as string(separated by comma)
      * publish as bool
+     *
      * @return bool
      */
     public function publishRecordings($recording)
@@ -315,6 +321,7 @@ class Bbb
      *
      * required fields
      * recordingID
+     *
      * @return \Illuminate\Support\Collection
      */
     public function deleteRecordings($recording)
@@ -329,27 +336,9 @@ class Bbb
     }
 
     /**
-     * @param $recording
-     *
-     * required fields
-     * recordingID
-     * @return \Illuminate\Support\Collection
-     */
-    public function updateRecordings($recording)
-    {
-        if (! $recording instanceof UpdateRecordingsParameters) {
-            $recording = $this->initUpdateRecordings($recording);
-        }
-
-        $this->response = $this->bbb->updateRecordings($recording);
-
-        return collect(XmlToArray($this->response->getRawXml()));
-    }
-
-    /**
      * @param $configXml
-     * @return \Illuminate\Support\Collection
      *
+     * @return \Illuminate\Support\Collection
      * @throws \Exception
      */
     public function setConfigXml($configXml)
@@ -385,6 +374,7 @@ class Bbb
 
     /**
      * @param $hooks
+     *
      * @return \Illuminate\Support\Collection
      */
     public function hooksCreate($hooks)
@@ -400,7 +390,8 @@ class Bbb
 
     /**
      * @param $hooks
-     * @return \Illuminate\Support\Collection
+     *
+     * @return  \Illuminate\Support\Collection
      */
     public function hooksDestroy($hooks)
     {

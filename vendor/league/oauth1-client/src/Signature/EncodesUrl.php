@@ -17,7 +17,7 @@ trait EncodesUrl
      */
     protected function createUrl($uri)
     {
-        return Psr7\Utils::uriFor($uri);
+        return Psr7\uri_for($uri);
     }
 
     /**
@@ -43,11 +43,15 @@ trait EncodesUrl
 
         $baseString .= rawurlencode($schemeHostPath) . '&';
 
+        $data = [];
         parse_str($url->getQuery(), $query);
         $data = array_merge($query, $parameters);
 
         // normalize data key/values
-        $data = $this->normalizeArray($data);
+        array_walk_recursive($data, function (&$key, &$value) {
+            $key = rawurlencode(rawurldecode($key));
+            $value = rawurlencode(rawurldecode($value));
+        });
         ksort($data);
 
         $baseString .= $this->queryStringFromData($data);
@@ -56,32 +60,8 @@ trait EncodesUrl
     }
 
     /**
-     * Return a copy of the given array with all keys and values rawurlencoded.
-     *
-     * @param array $array Array to normalize
-     *
-     * @return array Normalized array
-     */
-    protected function normalizeArray(array $array = [])
-    {
-        $normalizedArray = [];
-
-        foreach ($array as $key => $value) {
-            $key = rawurlencode(rawurldecode($key));
-
-            if (is_array($value)) {
-                $normalizedArray[$key] = $this->normalizeArray($value);
-            } else {
-                $normalizedArray[$key] = rawurlencode(rawurldecode($value));
-            }
-        }
-
-        return $normalizedArray;
-    }
-
-    /**
      * Creates an array of rawurlencoded strings out of each array key/value pair
-     * Handles multi-dimensional arrays recursively.
+     * Handles multi-demensional arrays recursively.
      *
      * @param array      $data        Array of parameters to convert.
      * @param array|null $queryParams Array to extend. False by default.

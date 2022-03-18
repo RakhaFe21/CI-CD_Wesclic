@@ -22,14 +22,16 @@
                         </form>
                     </div>
 
-                    <div class="col">
-                        <a href="#!"
-                           onclick="forModal('{{ route("student.create.modal") }}', '@translate(Tambah Siswa)')"
-                           class="btn btn-primary">
+                    @if (auth()->user()->user_type != 'Executive') 
+                        <div class="col">
+                            <a href="#!"
+                            onclick="forModal('{{ route("student.create.modal") }}', '@translate(Tambah Siswa)')"
+                            class="btn btn-primary">
                             <i class="la la-plus"></i>
                             @translate(Tambah Siswa Baru)
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    @endif
 
                 </div>
             </div>
@@ -44,8 +46,9 @@
                     <th>@translate(Nama)</th>
                     <th>@translate(NIK)</th>
                     <th>@translate(Pelatihan)</th>
+                    @if (auth()->user()->user_type != 'Executive') 
                     <th>@translate(Ubah Password)</th>
-                    <th>@translate(Status)</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
@@ -61,7 +64,7 @@
                         </td>
                         <td>{{$item->name}}</td>
                         <td>
-                            {{$item->nik ?? 'N/A'}}
+                            {{$item->user && $item->user->nik ? $item->user->nik : 'N/A'}}
                         </td>
                         <td>
                             <a class="btn btn-primary" 
@@ -69,65 +72,13 @@
                                 onclick="forModal('{{ route('student.enroll.courses.modal', $item->user_id) }}', '@translate(Pelatihan yang diikuti)')">
                             @translate(Lihat)</a>
                         </td>
+                        @if (auth()->user()->user_type != 'Executive') 
                         <td>
                             <a class="btn btn-primary" 
                                 href="{{ route('student.ganti_password', $item->user_id) }}">
                             @translate(Ubah Password)</a>
                         </td>
-                        <td>
-                        <div class="dropdown">
-                                <a class="dropdown-toggle" href="#" role="button" id="profilelink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                   
-                                    <span class="live-icon">Pendaftaran</span>
-                                   </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profilelink">
-                                   
-                                   
-                                    
-                                    <div class="userbox">
-                                        <ul class="list-unstyled mb-0">
-
-                                         
-                                                <li class="media dropdown-item">
-                                                    <a href=""
-                                                       class="profile-icon">
-                                                        @translate(Pendaftaran)</a>
-                                                </li>
-                                         
-                                            <li class="media dropdown-item">
-                                                {{-- Todo::raw logout script code--}}
-                                                <a href=""
-                                                  
-                                                   class="profile-icon">
-                                                    
-                                                    @translate(Pelatihan)
-                                                    
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="kanban-menu"> -->
-                                <!-- <div class="dropdown">
-                                    <button class="btn btn-primary" type="button"
-                                            id="KanbanBoardButton1" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">Pendaftaran</button>
-                                    <div class="dropdown-menu dropdown-menu-right action-btn"
-                                         aria-labelledby="KanbanBoardButton1" x-placement="bottom-end">
-                                        <a class="dropdown-item" href="{{ route('students.show', $item->user_id) }}">
-                                            <i class="feather icon-edit-2 mr-2"></i>@translate(Details)</a>
-
-                                            <a class="dropdown-item" 
-                                                href="javascript:;"
-                                                onclick="forModal('{{ route('student.enroll.courses.modal', $item->user_id) }}', '@translate(Pelatihan yang diikuti)')">
-                                            <i class="feather icon-edit-2 mr-2"></i>@translate(Pelatihan)</a>
-                                    </div>
-
-                                </div> -->
-                            <!-- </div> -->
-                        </td>
+                        @endif
                     </tr>
                 @empty
                     <tr></tr>

@@ -62,8 +62,6 @@ class LoginController extends Controller
                 return redirect()->route('instructor.payment',$user->slug);
             }
         }
-
-
     }
 
 

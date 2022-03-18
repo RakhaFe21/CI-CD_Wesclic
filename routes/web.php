@@ -10,6 +10,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => 'install.check', 'prefix' => 'install'], function () {
     Route::get('/', 'InstallerController@welcome')->name('install');
     Route::get('server/permission', 'InstallerController@permission')->name('permission');
@@ -58,6 +60,9 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::get('course/trash/{course_id}/{slug}', 'Course\CourseController@destroy')->name('course.destroy');
     Route::get('course/published', 'Course\CourseController@published')->name('course.publish');
     Route::get('course/rating', 'Course\CourseController@rating')->name('course.rating');
+
+    Route::put('course/{course_id}/enrollment-status-update', 'Course\CourseController@enrollmentStatusUpdate')->name('course.enrollment.status-update');
+    Route::post('course/{course_id}/enrollment-add-student', 'Course\CourseController@enrollmentAddStudent')->name('course.enrollment.add-student');
 
     // class
     Route::get('class/create/{id}', 'Course\ClassController@create')->name('classes.create');
@@ -238,7 +243,11 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
 
     Route::get('student/enroll/courses/{id}', 'Module\StudentController@student_enroll_courses')->name('student.enroll.courses.modal');
     Route::post('student/enroll/courses/{id}/store', 'Module\StudentController@student_enroll_courses_store')->name('student.enroll.courses.modal.store');
-
+    
+    // logbook
+    Route::get('student/logbook/courses/{course_id}/{user_id}', 'Module\StudentController@student_logbook_courses')->name('student.logbook.courses.modal');
+    Route::post('student/logbook/courses/{user_id}', 'Module\StudentController@student_logbook_courses_store')->name('student.logbook.courses.modal.store');
+    
     //all pages
     Route::get('pages/index', 'Module\PageController@index')->name('pages.index');
     Route::get('pages/create', 'Module\PageController@create')->name('pages.create');

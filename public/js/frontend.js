@@ -23,9 +23,9 @@ $(document).ready(function () {
         $('#custom_toggle_bar').removeClass('d-flex');
     }
 
-    cartList();
-    wishList();
-    enrollCourse();
+    // cartList();
+    // wishList();
+    // enrollCourse();
     // console.clear();
 })
 

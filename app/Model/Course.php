@@ -17,7 +17,12 @@ class Course extends Model
     /*Check the course is published*/
     public function scopePublished($query)
     {
-        return $query->where('is_published', true);
+        $today = date('Y-m-d');
+        return $query->where(function ($query) use ($today) {
+            $query->where('is_published', true)->whereRaw("DATE(berakhir_pendaftaran) >= $today");
+        })->orWhere(function ($query) use ($today) {
+            $query->where('level', 'Terbuka')->whereRaw("DATE(berakhir_pendaftaran) >= $today");
+        });
     }
 
 
@@ -82,13 +87,19 @@ class Course extends Model
     // meeting
     public function meeting()
     {
-    	return $this->hasOne('App\Meeting','course_id','id');
+        return $this->hasOne('App\Meeting', 'course_id', 'id');
     }
 
     // subscription
     public function subscription()
     {
-    	return $this->hasOne('App\SubscriptionCourse','course_id','id');
+        return $this->hasOne('App\SubscriptionCourse', 'course_id', 'id');
+    }
+
+    // logbook
+    public function logbook()
+    {
+        return $this->hasMany(Logbook::class, 'course_id', 'id');
     }
 
     //END

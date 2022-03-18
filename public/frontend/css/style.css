@@ -2684,6 +2684,11 @@ body {
     color: #fff
 }
 
+.theme-btn-light:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
 .theme-btn-hover-light:hover {
     background-color: transparent;
     border-color: #fff;
@@ -16667,4 +16672,11 @@ body {
 
 .as-play-icon:hover {
     color: #f1f2f6;
+}
+
+
+/* tambahan */
+select.form-control:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
 }

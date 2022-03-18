@@ -55,6 +55,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Hash;
 use Alert;
+use App\Http\Controllers\API\V1\WilayahApiController;
 use Validator;
 
 class FrontendController extends Controller
@@ -67,7 +68,7 @@ class FrontendController extends Controller
         $this->middleware(['installed']);
     }
 
-    function userNotify($user_id,$details)
+    function userNotify($user_id, $details)
     {
         $notify = new NotificationUser();
         $notify->user_id = $user_id;
@@ -101,7 +102,6 @@ class FrontendController extends Controller
                     $demo->link = route('course.single', $item->slug);
                     $search->push($demo);
                 }
-
             } else {
                 $demo = new Demo();
                 $demo->title = translate('No Course Found');
@@ -111,7 +111,6 @@ class FrontendController extends Controller
             }
         }
         return response(['data' => $search], 200);
-
     }
 
     /*filer courses and show all course*/
@@ -133,9 +132,7 @@ class FrontendController extends Controller
             } elseif ($cost == "free") {
                 $conditions = array_merge($conditions, ['is_free' => true]);
             } else {
-
             }
-
         }
         /*single language*/
         if ($request->input('language')) {
@@ -151,14 +148,11 @@ class FrontendController extends Controller
                 $conditions = array_merge($conditions, ['level' => $request->input('level')]);
                 $breadcrumb = $request->input('level');
             }
-
-
         }
         /*categories*/
         if ($request->input('categories')) {
             $conditions = array_merge($conditions, ['category_id' => $request->input('categories')]);
             $breadcrumb = Category::where('id', $request->input('categories'))->first()->name;
-
         }
         $courses = Course::Published()->where($conditions)->latest()->paginate(8);
         $languages = Language::all();
@@ -172,7 +166,6 @@ class FrontendController extends Controller
             if ($cat->parent_category_id == 0) {
                 //this is parent category
                 $categories = Category::where('parent_category_id', $cat->id)->Published()->get();
-
             } else {
                 //this is child category
                 $categories = Category::where('parent_category_id', $cat->parent_category_id)->Published()->get();
@@ -180,9 +173,10 @@ class FrontendController extends Controller
         }
 
 
-        return view($this->theme.'.course.course_grid',
-            compact('categories', 'courses', 'languages', 'breadcrumb'));
-
+        return view(
+            $this->theme . '.course.course_grid',
+            compact('categories', 'courses', 'languages', 'breadcrumb')
+        );
     }
 
     /*this is the home page*/
@@ -196,6 +190,7 @@ class FrontendController extends Controller
             DB::statement("ALTER TABLE `class_contents` CHANGE content_type content_type ENUM('Video','Document','Quiz')");
         }
 
+        Course::whereNotIn('level', ['Terbuka', 'Tertutup'])->update(['level' => 'Terbuka']);
 
 
 
@@ -207,32 +202,35 @@ class FrontendController extends Controller
 
 
         //top courses it's depend op enroll courses
-        $enroll_courser_count = DB::table('enrollments')->select('enrollments.course_id',
-            DB::raw('count(enrollments.course_id) as total_course'))
+        $enroll_courser_count = DB::table('enrollments')->select(
+            'enrollments.course_id',
+            DB::raw('count(enrollments.course_id) as total_course')
+        )
             ->orderByDesc('total_course')
             ->groupBy('course_id')->get();
 
         $courses = collect();
         foreach ($enroll_courser_count as $e) {
             $co = Course::Published()->find($e->course_id);
-            $courses->push($co);
+            if($co) {
+                $courses->push($co);
+            }
         }
         $top_courses = $courses->take(6);
 
         //here the calculation for top category with top courses
         $course = collect();
         $cat = collect();
-        if (env('ACTIVE_THEME') == 'frontend'){
+        if (env('ACTIVE_THEME') == 'frontend') {
             $course->push($top_courses->take(6));
         }
         $cat->push('Pelatihan Terpopuler');
-        
+
         foreach (Category::Published()->where('top', 1)->get() as $item) {
             $cat->push($item->name);
             $course->push($courses->where('category_id', $item->id)->take(6));
-
         }
-     
+
         //trading course week
         $start = Carbon::today()->toDateTimeString();
         $end = Carbon::today()->subDays(7)->toDateTimeString();
@@ -242,17 +240,19 @@ class FrontendController extends Controller
         if ($trading_courses->count() == 0) {
             $trading_courses = $courses->shuffle()->take(12);
         }
-      
+
 
         $packages = Package::where('is_published', true)->get();
-      
+
 
         $latestCourses = Course::Published()->with('relationBetweenInstructorUser')->latest()->take(10)->get();
 
         $subscriptions = Subscription::Published()->get();
+        
+        // dd($course);
 
-// dd($latestCourses);
-        return view($this->theme.'.homepage.index', compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count'));
+        // dd($latestCourses);
+        return view($this->theme . '.homepage.index', compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count'));
     }
 
 
@@ -272,7 +272,6 @@ class FrontendController extends Controller
             foreach ($categories as $item) {
                 $catId = array_merge($catId, [$item->id]);
             }
-
         } else {
             //this is child category
             $categories = Category::where('parent_category_id', $cat->parent_category_id)->Published()->get();
@@ -300,8 +299,10 @@ class FrontendController extends Controller
         }
 
 
-        return view($this->theme.'.course.course_grid',
-            compact('categories', 'courses', 'languages', 'rating', 'breadcrumb'));
+        return view(
+            $this->theme . '.course.course_grid',
+            compact('categories', 'courses', 'languages', 'rating', 'breadcrumb')
+        );
     }
 
     /*Single course details*/
@@ -309,16 +310,17 @@ class FrontendController extends Controller
     {
         $l_courses = Course::Published()->latest()->take(3)->get(); // single course details
         $sug_courses = Course::Published()->take(8)->get()->shuffle(); // suggession courses
-        $s_course = Course::Published()->where('slug', $slug)->with('classes')->first(); // single course details
-        return view($this->theme.'.course.course_details', compact('s_course', 'l_courses', 'sug_courses'));
+        // $s_course = Course::Published()->where('slug', $slug)->with('classes')->first(); // single course details
+        $s_course = Course::Published()->where('slug', $slug)->with(['logbook'])->first(); // single course details
 
+        return view($this->theme . '.course.course_details', compact('s_course', 'l_courses', 'sug_courses'));
     }
 
     /*Content preview*/
     public function contentPreview($id)
     {
         $content = ClassContent::findOrFail($id);
-        return view($this->theme.'.course.preview', compact('content'));
+        return view($this->theme . '.course.preview', compact('content'));
     }
 
 
@@ -342,9 +344,9 @@ class FrontendController extends Controller
     //lesson_details
     public function lesson_details($slug)
     {
-        if (zoomActive()){
+        if (zoomActive()) {
             $s_course = Course::Published()->where('slug', $slug)->with('classes')->with('meeting')->first(); // single course details
-        }else{
+        } else {
             $s_course = Course::Published()->where('slug', $slug)->with('classes')->first(); // single course details
         }
         /*check enroll this course*/
@@ -354,41 +356,42 @@ class FrontendController extends Controller
         }
         $comments = CourseComment::latest()->with('user')->get();
 
-        return view($this->theme.'.course.lesson.lesson_details', compact('s_course', 'comments','enroll'));
+        return view($this->theme . '.course.lesson.lesson_details', compact('s_course', 'comments', 'enroll'));
     }
 
 
     //cart
     public function cart()
     {
-        return view($this->theme.'.cart.index');
+        return view($this->theme . '.cart.index');
     }
 
     //dashboard
     public function dashboard()
     {
         $notifications = NotificationUser::latest()->where('user_id', Auth::user()->id)->get();
-        return view($this->theme.'.dashboard.index', compact('notifications'));
+        return view($this->theme . '.dashboard.index', compact('notifications'));
     }
 
     //my_profile
     public function my_profile()
     {
         $student = User::where('id', Auth::user()->id)->with('student')->first();
-        $url ='https://wilayah.conect.id/static/api/provinces.json';
-        $options = array('http' => array(
-            'method'  => 'GET'
-        ));
-        $context  = stream_context_create($options);
-        $response1 = file_get_contents($url, false, $context);
-        $provinsi = json_decode($response1, TRUE); 
-        return view($this->theme.'.profile.index', compact('student','provinsi'));
+        // $url = 'https://wilayah.conect.id/static/api/provinces.json';
+        // $options = array('http' => array(
+        //     'method'  => 'GET'
+        // ));
+        // $context  = stream_context_create($options);
+        // $response1 = file_get_contents($url, false, $context);
+        // $provinsi = json_decode($response1, TRUE);
+    
+        return view($this->theme . '.profile.index', compact('student'));
     }
 
     //enrolled_course
     public function enrolled_course()
     {
-        return view($this->theme.'.enrolled.index');
+        return view($this->theme . '.enrolled.index');
     }
 
 
@@ -396,14 +399,14 @@ class FrontendController extends Controller
     public function purchase_history()
     {
         $p_histories = Enrollment::where('user_id', Auth::user()->id)->with('history')->get();
-        return view($this->theme.'.purchase_history.index', compact('p_histories'));
+        return view($this->theme . '.purchase_history.index', compact('p_histories'));
     }
 
 
     //login
     public function login()
     {
-        return view($this->theme.'.auth.login');
+        return view($this->theme . '.auth.login');
     }
 
     //register
@@ -414,14 +417,14 @@ class FrontendController extends Controller
 
     //register
     public function create(Request $request)
-    { 
-        Validator::extend('without_spaces', function($attr, $value){
+    {
+        Validator::extend('without_spaces', function ($attr, $value) {
             return preg_match('/^\S*$/u', $value);
         });
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         // registration validation
         $request->validate(
@@ -465,50 +468,50 @@ class FrontendController extends Controller
         $student->save();
 
         /*here is the student */
-            VerifyUser::create([
-                'user_id' => $user->id,
-                'token' => sha1(time())
-            ]);
-            
+        VerifyUser::create([
+            'user_id' => $user->id,
+            'token' => sha1(time())
+        ]);
+
 
         Session::flash('message', translate("Registration done successfully. Please login."));
         return redirect()->route('login');
-
-
     }
 
     /*page with content*/
     public function page($slug)
     {
         $page = Page::with('content')->where('slug', $slug)->firstOrFail();
-        return view($this->theme.'.page.index', compact('page'));
+        return view($this->theme . '.page.index', compact('page'));
     }
 
     // password reset
     public function password_reset()
     {
-        return view($this->theme.'.auth.email');
+        return view($this->theme . '.auth.email');
     }
 
     // student_edit
     public function student_edit()
     {
-        $student = User::where('id', Auth::user()->id)->first();
-        $url ='https://wilayah.conect.id/static/api/provinces.json';
-        $options = array('http' => array(
-            'method'  => 'GET'
-        ));
-        $context  = stream_context_create($options);
-        $response1 = file_get_contents($url, false, $context);
-        $provinsi = json_decode($response1, TRUE); 
-        return view($this->theme.'.profile.update', compact('student','provinsi'));
+        $student = Student::where('user_id', Auth::user()->id)->first();
+        // $url = 'https://wilayah.conect.id/static/api/provinces.json';
+        // $options = array('http' => array(
+        //     'method'  => 'GET'
+        // ));
+        // $context  = stream_context_create($options);
+        // $response1 = file_get_contents($url, false, $context);
+        // $provinsi = json_decode($response1, TRUE);
+        $provinsi = [];
+
+        return view($this->theme . '.profile.update', compact('student', 'provinsi'));
     }
 
     public function ganti_password($id)
-    { 
-        $student = User::where('id',$id)->first();
-        
-        return view($this->theme.'.profile.reset_password', compact('student'));
+    {
+        $student = User::where('id', $id)->first();
+
+        return view($this->theme . '.profile.reset_password', compact('student'));
     }
 
     // update
@@ -516,9 +519,9 @@ class FrontendController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         // registration validation
         $request->validate(
@@ -534,51 +537,70 @@ class FrontendController extends Controller
 
 
         //create student
+        $user = User::where('id', Auth::id())->firstOrFail();
+        $user->name = $request->name;
+        $user->email = $request->email;
+
         $student = Student::where('user_id', Auth::id())->firstOrFail();
         $student->name = $request->name;
-
         $student->phone = $request->phone;
+        $student->email = $request->email;
         $student->address = $request->address;
         $student->fb = $request->fb;
         $student->tw = $request->tw;
         $student->linked = $request->linked;
         $student->about = $request->about;
+        $student->is_disable = $request->is_disable == 'on' ? true : false;
+        $student->dtks = $request->dtks;
+        $student->tgl_lahir = $request->tgl_lahir;
+
+        // api wilayah
+        $student->id_provinsi = $request->id_provinsi;
+        $student->nama_provinsi = $request->nama_provinsi;
+        $student->id_kota = $request->id_kota;
+        $student->nama_kota = $request->nama_kota;
+        $student->id_kecamatan = $request->id_kecamatan;
+        $student->nama_kecamatan = $request->nama_kecamatan;
+        $student->id_kelurahan = $request->id_kelurahan;
+        $student->nama_kelurahan = $request->nama_kelurahan;
 
         if ($request->file('image')) {
+            $user->image = fileUpload($request->file('image'), 'student');
             $student->image = fileUpload($request->file('image'), 'student');
         } else {
+            $user->image = $request->oldImage;
             $student->image = $request->oldImage;
         }
 
+        $user->save();
         $student->save();
 
         //create user for login
-        $user = User::where('id', Auth::id())->firstOrFail();
-        $user->name = $request->name;
-        $user->image = $student->image;
-        $user->save();
+        // $user = User::where('id', Auth::id())->firstOrFail();
+        // $user->name = $request->name;
+        // $user->image = $student->image;
+        // $user->save();
 
         return back();
-
     }
 
     public function student_reset_password(Request $request)
-    { 
-          /*User*/
-          $user = User::findOrFail($request->user_id);
-          $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+    {
+        /*User*/
+        $user = User::findOrFail($request->user_id);
+        $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
 
-          $user->save();
+        $user->save();
 
-          $details = [
+        $details = [
             'body' => $user->name . translate(' password updated '),
         ];
 
         /* sending instructor notification */
-        $notify = $this->userNotify(Auth::user()->id,$details);
+        $notify = $this->userNotify(Auth::user()->id, $details);
 
-          notify()->success(translate('Profile updated successfully'));
-          return redirect('/');
+        notify()->success(translate('Profile updated successfully'));
+        return redirect('/');
     }
 
 
@@ -587,9 +609,9 @@ class FrontendController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $all_read = NotificationUser::where('user_id', Auth::user()->id)->get();
 
@@ -609,7 +631,7 @@ class FrontendController extends Controller
     /*check out*/
     public function enrollCourses()
     {
-        
+
         if (Auth::user()->user_type != "Student") {
             \auth()->logout();
             return response('Your credentials does not match.', 403);
@@ -709,7 +731,6 @@ class FrontendController extends Controller
                 } else {
                     $carts->price = formatPrice($cart->course->price == null ? 0 : $cart->course->price);
                 }
-
             }
             $carts->image = filePath($cart->course->image);
             $carts->link = route('course.single', $cart->course->slug);
@@ -719,6 +740,28 @@ class FrontendController extends Controller
         $link = route('shopping.cart');
 
         return response(['data' => $cartList, 'message' => $message, 'link' => $link], 200);
+    }
+
+    // pelatihan enroll per id
+    public function enrollCourse(Request $request, $id_pelatihan)
+    {
+        $id_siswa = auth()->user()->id;
+        $lastEnrollment = Enrollment::where('user_id', $id_siswa)
+        ->whereNotIn('status', ['Lulus', 'Gagal'])->orderByDesc('created_at');
+        if($lastEnrollment->count() > 0) {
+            notify()->error('Pendaftaran pelatihan tidak dapat dilakukan karena masih ada pelatihan yang terdaftar dan belum lulus!', 'Error');
+            return redirect()->back()->with('error', 'Pendaftaran pelatihan tidak dapat dilakukan karena masih ada pelatihan yang terdaftar dan belum lulus!');
+        }
+        
+        $enroll = Enrollment::create([
+            'course_id' => $id_pelatihan,
+            'user_id' => $id_siswa,
+            'status' => 'Pending'
+        ]);
+        
+        notify()->success('Berhasil mendaftar pelatihan.', 'Sukses');
+        return redirect()->route('my.courses')->with('success', 'Berhasil mendaftar pelatihan.');
+
     }
 
     /*cart the course*/
@@ -750,7 +793,6 @@ class FrontendController extends Controller
                 } else {
                     $cart->course_price = $course->price == null ? 0 : $course->price;
                 }
-
             }
             $cart->save();
         }
@@ -774,16 +816,15 @@ class FrontendController extends Controller
     public function shoppingCart(Request $request)
     {
 
-        if ($request->courses != null){
+        if ($request->courses != null) {
             $carts = Cart::with('course')->where('user_id', \Illuminate\Support\Facades\Auth::id())->get();
             if ($carts->count() > 0) {
-                return view($this->theme.'.cart.index', compact('carts'));
+                return view($this->theme . '.cart.index', compact('carts'));
             }
             return redirect()->route('my.courses');
-        }else{
-            return  redirect()->route('shopping.cart',['courses'=>'ok']);
+        } else {
+            return  redirect()->route('shopping.cart', ['courses' => 'ok']);
         }
-
     }
 
 
@@ -799,9 +840,9 @@ class FrontendController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $amount = 0;
 
@@ -827,7 +868,7 @@ class FrontendController extends Controller
                     //todo::there are calculate the Instructor balance Calculate the admin or Instructor commission
                     $course = Course::findOrFail($cart->course_id); //get course
                     $instructor = Instructor::where('user_id', $course->user_id)->first(); //get instructor
-                    $package = Package::findOrFail($instructor->package_id);//get instructor package commission
+                    $package = Package::findOrFail($instructor->package_id); //get instructor package commission
                     $admin_get = 0;
                     $instructor_get = 0;
                     if ($cart->course_price != 0 && $cart->course_price != null) {
@@ -892,14 +933,11 @@ class FrontendController extends Controller
                         //student
                         $user = User::find($enrollment->user_id);
                         $user->notify(new EnrolmentCourse());
-
                     } catch (\Exception $exception) {
                     }
 
                     //delete from cart
                     $cart->delete();
-
-
                 }
 
                 /*todo::affiliate commission calculate*/
@@ -921,15 +959,15 @@ class FrontendController extends Controller
                     try {
                         $user = User::where('id', $affiliate->user_id)->first();
                         $user->notify(new AffiliateCommission());
-                    }catch (\Exception $exception){}
+                    } catch (\Exception $exception) {
+                    }
                 }
             } else {
                 /*empty the session*/
                 $request->session()->forget('payment');
 
 
-                if(subscriptionActive())
-                {
+                if (subscriptionActive()) {
 
                     $subscriptionCarts = SubscriptionCart::where('user_id', \Illuminate\Support\Facades\Auth::id())->first();
 
@@ -972,7 +1010,8 @@ class FrontendController extends Controller
 
                     try {
                         $this->userNotify($subscriptionEnrollment->user_id, $details);
-                    }catch (\Exception $exception){}
+                    } catch (\Exception $exception) {
+                    }
 
                     Session::flash('message', translate('Congratulations, Your subscription is done successfully.'));
                     return redirect()->route('my.subscription.package.course', $subscriptionEnrollment->subscription_package);
@@ -982,25 +1021,23 @@ class FrontendController extends Controller
             }
 
             /*empty the session*/
-if (walletActive()) {
-        if($payment_type)
-        {
+            if (walletActive()) {
+                if ($payment_type) {
 
-            try {
-                 
-                // Paid Course Point
-                $request->session()->forget(walletName());
-                addWallet(paidPoint(), translate('Paid Course Enroll point'));
-            } catch (\Throwable $th) {
-                //throw $th;
+                    try {
+
+                        // Paid Course Point
+                        $request->session()->forget(walletName());
+                        addWallet(paidPoint(), translate('Paid Course Enroll point'));
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                    }
+                }
             }
 
-        }
-    }
 
-            
-            
-           
+
+
 
             $request->session()->forget('payment');
         } else {
@@ -1008,44 +1045,45 @@ if (walletActive()) {
         }
         Session::flash('message', translate('Congratulations, Your enrollment is done successfully.'));
         return redirect()->route('my.courses');
-
-
     }
 
 
 
     /*affiliate this is common feature*/
     /*affiliate page view*/
-    public function affiliateCreate(){
+    public function affiliateCreate()
+    {
 
-        
+
         /*here show affiliate history table*/
-        $history =null;
-        $payment =null;
-        $affiliate= \App\Model\Affiliate::where('user_id',Auth::id())->first();
-        if ($affiliate){
-            $history = AffiliateHistory::where('refer_id',$affiliate->refer_id)->with('user')->paginate(5);//there student id is user id
-            $payment =AffiliatePayment::where('status','Confirm')->where('user_id',Auth::id())->paginate(5);
+        $history = null;
+        $payment = null;
+        $affiliate = \App\Model\Affiliate::where('user_id', Auth::id())->first();
+        if ($affiliate) {
+            $history = AffiliateHistory::where('refer_id', $affiliate->refer_id)->with('user')->paginate(5); //there student id is user id
+            $payment = AffiliatePayment::where('status', 'Confirm')->where('user_id', Auth::id())->paginate(5);
         }
-        return view($this->theme.'.homepage.affiliate.index',compact('affiliate','history','payment'));
+        return view($this->theme . '.homepage.affiliate.index', compact('affiliate', 'history', 'payment'));
     }
 
     /*affiliate request modal screen*/
-    public function affiliateRequest(){
+    public function affiliateRequest()
+    {
         $account = StudentAccount::where('user_id', Auth::id())->first();
         if ($account == null) {
-            return view($this->theme.'.homepage.affiliate.request', compact('account'));
+            return view($this->theme . '.homepage.affiliate.request', compact('account'));
         }
-        return view($this->theme.'.homepage.affiliate.request', compact('account'));
+        return view($this->theme . '.homepage.affiliate.request', compact('account'));
     }
 
     /*account save */
-    public function affiliateStore(Request $request){
+    public function affiliateStore(Request $request)
+    {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         if ($request->has('id')) {
             $account = StudentAccount::where('id', $request->id)->where('user_id', Auth::id())->first();
@@ -1060,7 +1098,6 @@ if (walletActive()) {
             $account->stripe_card_holder_name = $request->stripe_card_holder_name;
             $account->stripe_card_number = $request->stripe_card_number;
             $account->save();
-
         } else {
             $account = new StudentAccount();
             $account->bank_name = $request->bank_name;
@@ -1083,49 +1120,51 @@ if (walletActive()) {
             $af->save();
         }
 
-        alert(translate('Success'),translate('Wait for confirmation'),'success');
+        alert(translate('Success'), translate('Wait for confirmation'), 'success');
         return back();
     }
 
     /*affiliatePaymentRequest*/
-    public function affiliatePaymentRequest(){
+    public function affiliatePaymentRequest()
+    {
 
         $affiliate = \App\Model\Affiliate::where('user_id', Auth::id())->firstOrFail();
-        return view($this->theme.'.homepage.affiliate.create',compact('affiliate'));
+        return view($this->theme . '.homepage.affiliate.create', compact('affiliate'));
     }
 
     /*affiliate payment store*/
-    public function affiliatePaymentStore(Request $request){
+    public function affiliatePaymentStore(Request $request)
+    {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
 
-        if (!$request->has('amount')){
-            alert(translate('warning'),translate('Amount must be required'),'info');
+        if (!$request->has('amount')) {
+            alert(translate('warning'), translate('Amount must be required'), 'info');
             return back();
         }
 
         if ($request->amount < withdrawLimit()) {
-            alert(translate('warning'),translate('You minimum Withdrawal is').withdrawLimit(),'info');
+            alert(translate('warning'), translate('You minimum Withdrawal is') . withdrawLimit(), 'info');
             return back();
         }
 
         $account = StudentAccount::where('user_id', Auth::id())->first();
         if ($account == null) {
-            alert(translate('warning'),translate('Please Insert the withdrawal method '),'info');
+            alert(translate('warning'), translate('Please Insert the withdrawal method '), 'info');
             return back();
         }
         $ins = \App\Model\Affiliate::where('user_id', Auth::id())->first();
         if ($ins->balance < $request->amount) {
-            alert(translate('warning'),translate('Please insert the valid withdrawal amount '),'info');
+            alert(translate('warning'), translate('Please insert the valid withdrawal amount '), 'info');
             return back();
         }
 
         /*minus from */
-        $ins->balance -=(int)$request->amount;
+        $ins->balance -= (int)$request->amount;
         $ins->save();
 
         $payment = new AffiliatePayment();
@@ -1145,7 +1184,7 @@ if (walletActive()) {
 
         /* sending instructor notification */
         $this->userNotify(Auth::id(), $details);
-        \alert(translate('success'),translate('Payment request sent successfully'),'success');
+        \alert(translate('success'), translate('Payment request sent successfully'), 'success');
         return back();
     }
 
@@ -1155,21 +1194,21 @@ if (walletActive()) {
     // Instructor details
     public function instructorDetails($slug)
     {
-        $user = User::where('id', $slug)->first(); 
+        $user = User::where('id', $slug)->first();
         if ($user == null) {
             Session::flash('message', translate('404 Not Found'));
             return back();
         }
         $courses = Course::Published()->where('user_id', $user->id)->paginate(9);
         $instructor = Instructor::where('user_id', $user->id)->first();
-        return view($this->theme.'.instructor.index', compact('instructor', 'courses'));
+        return view($this->theme . '.instructor.index', compact('instructor', 'courses'));
     }
 
     /*register view*/
     public function registerView()
     {
         $packages = Package::where('is_published', true)->get();
-        return view($this->theme.'.instructor.register', compact('packages'));
+        return view($this->theme . '.instructor.register', compact('packages'));
     }
 
     /*register create*/
@@ -1177,9 +1216,9 @@ if (walletActive()) {
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $request->validate([
             'package_id' => 'required',
@@ -1205,7 +1244,7 @@ if (walletActive()) {
         /*check the sulg */
         $users = User::where('slug', $slug_name)->get();
         if ($users->count() > 0) {
-            $slug_name = $slug_name.($users->count() + 1);
+            $slug_name = $slug_name . ($users->count() + 1);
         }
         $user = new User();
         $user->slug = $slug_name;
@@ -1256,7 +1295,6 @@ if (walletActive()) {
                 //send verify mail
                 $user->notify(new VerifyNotifications($user));
             } catch (\Exception $exception) {
-
             }
         }
 
@@ -1279,7 +1317,7 @@ if (walletActive()) {
         if ($history != null) {
             return redirect()->route('login');
         } else {
-            return view($this->theme.'.instructor.payment', compact('user'));
+            return view($this->theme . '.instructor.payment', compact('user'));
         }
     }
 
@@ -1289,14 +1327,18 @@ if (walletActive()) {
     public function my_courses()
     {
         //enroll courses
-        $enrolls = Enrollment::with('enrollCourse')->where('user_id', Auth::id())->paginate(6);
-        return view($this->theme.'.course.my_courses', compact('enrolls'));
+        $enrolls = Enrollment::with('enrollCourse')
+        ->with('sesi_enroll_tes_tulis')
+        ->with('sesi_enroll_tes_wawancara')
+        ->where('user_id', Auth::id())->paginate(6);
+        return view($this->theme . '.course.my_courses', compact('enrolls'));
     }
 
-    public function my_wishlist(){
+    public function my_wishlist()
+    {
         //wishlist courses
         $wishlists = Wishlist::with('course')->where('user_id', Auth::id())->paginate(6);
-        return view($this->theme.'.course.wishlist', compact( 'wishlists'));
+        return view($this->theme . '.course.wishlist', compact('wishlists'));
     }
 
     /*Calculate the seen course percentage enroll course*/
@@ -1312,7 +1354,7 @@ if (walletActive()) {
 
 
         // calculate the % done this enroll course
-        if ($seen_content > 0 && $total_content!= 0) {
+        if ($seen_content > 0 && $total_content != 0) {
             $percentage = ($seen_content / $total_content) * 100;
             $percentage = $percentage > 100 ? 100 : $percentage;
         } else {
@@ -1327,9 +1369,9 @@ if (walletActive()) {
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         if ($request->comment_id != null) {
             $comment = new CourseComment();
@@ -1366,7 +1408,7 @@ if (walletActive()) {
     public function messageCreate($id)
     {
         $enroll = Enrollment::where('course_id', $id)->where('user_id', Auth::id())->first();
-        return view($this->theme.'.message.create', compact('enroll'));
+        return view($this->theme . '.message.create', compact('enroll'));
     }
 
     /*Send message to instructor inbox*/
@@ -1374,9 +1416,9 @@ if (walletActive()) {
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $message = new Massage();
         $message->enroll_id = $request->enroll_id;
@@ -1395,12 +1437,11 @@ if (walletActive()) {
         foreach ($enrolls as $item) {
             if ($item->messages->count() > 0) {
                 $ids = array_merge($ids, [$item->id]);
-
             }
         }
         $messages = Enrollment::whereIn('id', $ids)->with('enrollCourse')
             ->with('messages')->get();
-        return view($this->theme.'.message.index', compact('messages'));
+        return view($this->theme . '.message.index', compact('messages'));
     }
 
 
@@ -1409,7 +1450,7 @@ if (walletActive()) {
     {
         $content = ClassContent::find($id);
         $demo = new Demo();
-        if($content->content_type == 'Video'){
+        if ($content->content_type == 'Video') {
             $demo->provider = $content->provider;
             $demo->description = $content->description;
             if ($content->provider == "Youtube") {
@@ -1420,25 +1461,24 @@ if (walletActive()) {
                 $demo->url = asset($content->video_url);
             } elseif ($content->provider == "Live") {
                 $demo->url = $content->video_url;
-            } else{
+            } else {
                 $demo->provider = "HTML5";
                 $demo->url = $content->video_url;
             }
-        }elseif ($content->content_type == 'Quiz'){
+        } elseif ($content->content_type == 'Quiz') {
             /*if quiz is done then show the score*/
-            $scores = QuizScore::where('quiz_id',$content->quiz_id)
-                ->where('content_id',$content->id)
-                ->where('user_id',Auth::id())->first();
+            $scores = QuizScore::where('quiz_id', $content->quiz_id)
+                ->where('content_id', $content->id)
+                ->where('user_id', Auth::id())->first();
 
-            if ($scores != null){
+            if ($scores != null) {
                 $demo->provider = $content->content_type;
-                $demo->url = route('quiz.score.show',$scores->id);
-            }else{
+                $demo->url = route('quiz.score.show', $scores->id);
+            } else {
                 $demo->provider = $content->content_type;
-                $demo->url = route('start',[$content->quiz_id,$content->id]);
+                $demo->url = route('start', [$content->quiz_id, $content->id]);
             }
-        }
-        else{
+        } else {
             $demo->provider = $content->content_type;
             $demo->description = $content->description;
             $demo->item1 = translate('Content document');
@@ -1450,9 +1490,9 @@ if (walletActive()) {
         $course_id = Classes::where('id', $content->class_id)->first()->course_id;
 
 
-        if(!request()->is('subscription/*')){
+        if (!request()->is('subscription/*')) {
             $enroll_id = Enrollment::where('course_id', $course_id)->where('user_id', Auth::id())->first()->id;
-        }else{
+        } else {
             $enroll_id = SubscriptionEnrollment::where('user_id', Auth::id())->first()->id;
         }
 
@@ -1473,27 +1513,29 @@ if (walletActive()) {
 
 
     /*seen list*/
-    public function seenList($id){
-        $seen = SeenContent::where('course_id',$id)->where('user_id',Auth::id())->get();
+    public function seenList($id)
+    {
+        $seen = SeenContent::where('course_id', $id)->where('user_id', Auth::id())->get();
         return response()->json($seen);
     }
 
     /*delete seen by content id*/
-    public function seenRemove($id){
-        $seen = SeenContent::where('content_id',$id)->where('user_id',Auth::id())->first();
-        if ($seen){
+    public function seenRemove($id)
+    {
+        $seen = SeenContent::where('content_id', $id)->where('user_id', Auth::id())->first();
+        if ($seen) {
             $seen->delete();
         }
-        return response('ok done',200);
+        return response('ok done', 200);
     }
 
     /*single blog*/
     public function singleBlog($id)
     {
         $blog = Blog::findOrFail($id);
-        $blogs = Blog::where('is_active',1)->where('category_id',$blog->category_id)->get();
+        $blogs = Blog::where('is_active', 1)->where('category_id', $blog->category_id)->get();
         $categories = Category::where('is_published', 1)->get();
-        return view($this->theme . '.blog.details', compact('blog','categories','blogs'));
+        return view($this->theme . '.blog.details', compact('blog', 'categories', 'blogs'));
     }
 
     /*all posts*/
@@ -1503,9 +1545,9 @@ if (walletActive()) {
         $blogs = null;
         if ($request->get('search')) {
             $search = $request->search;
-            $blogs = Blog::where('is_active',1)->where('name', 'like', '%' . $search . '%')->get();
+            $blogs = Blog::where('is_active', 1)->where('name', 'like', '%' . $search . '%')->get();
         } else {
-            $blogs = Blog::where('is_active',1)->paginate(5);
+            $blogs = Blog::where('is_active', 1)->paginate(5);
         }
 
         return view($this->theme . '.blog.posts', compact('blogs', 'categories'));
@@ -1515,7 +1557,7 @@ if (walletActive()) {
     public function categoryBlog($id)
     {
         $categories = Category::where('is_published', 1)->get();
-        $blogs = Blog::where('is_active',1)->where('category_id', $id)->paginate(5);
+        $blogs = Blog::where('is_active', 1)->where('category_id', $id)->paginate(5);
         return view($this->theme . '.blog.posts', compact('blogs', 'categories'));
     }
 
@@ -1523,7 +1565,7 @@ if (walletActive()) {
     public function tagBlog($tag)
     {
         $categories = Category::where('is_published', 1)->get();
-        $blogs = Blog::where('is_active',1)->where('tags', 'like', '%' . $tag . '%')->paginate(5);
+        $blogs = Blog::where('is_active', 1)->where('tags', 'like', '%' . $tag . '%')->paginate(5);
         return view($this->theme . '.blog.posts', compact('blogs', 'categories'));
     }
 }

@@ -55,28 +55,28 @@
                             </li>
                             <li><span class="profile-name">@translate(Nama Lengkap):</span><span class="profile-desc">{{
                                     $student->name }}</span></li>
-                            <li><span class="profile-name">@translate(Email):</span><span class="profile-desc">{{
+                            <li><span class="profile-name">Usename</span><span class="profile-desc">{{
                                     $student->email }}</span></li>
                             <li><span class="profile-name">@translate(Phone Number):</span><span class="profile-desc">{{
                                     $student->student->phone ?? '' }}</span></li>
                             <li><span class="profile-name">@translate(Provinsi):</span><span class="profile-desc">{{
-                                    $student->student->address ?? '' }}</span></li>
+                                    $student->student->nama_provinsi ?? '' }}</span></li>
                             <li><span class="profile-name">@translate(Kab/Kota):</span><span class="profile-desc">{{
-                                    $student->student->address ?? '' }}</span></li>
+                                    $student->student->nama_kota ?? '' }}</span></li>
                             <li><span class="profile-name">@translate(Kecamatan):</span><span class="profile-desc">{{
-                                    $student->student->fb ?? '' }}</span></li>
+                                    $student->student->nama_kecamatan ?? '' }}</span></li>
                             <li><span class="profile-name">@translate(Kelurahan):</span><span class="profile-desc">{{
-                                    $student->student->tw ?? '' }}</span></li>
+                                    $student->student->nama_kelurahan ?? '' }}</span></li>
                             <li><span class="profile-name">@translate(Alamat):</span><span class="profile-desc">{{
-                                    $student->student->tw ?? '' }}</span></li>
+                                    $student->student->address ?? '' }}</span></li>
                             <li><span class="profile-name">@translate(KTP):</span><span class="profile-desc">{!!
-                                    $student->student->about !!}</span></li>
-                            <li><span class="profile-name">@translate(NPWP):</span><span class="profile-desc">{!!
+                                    $student->nik !!}</span></li>
+                            {{-- <li><span class="profile-name">@translate(NPWP):</span><span class="profile-desc">{!!
                                     $student->student->about !!}</span></li>
                             <li><span class="profile-name">@translate(Ijazah):</span><span class="profile-desc">{!!
                                     $student->student->about !!}</span></li>
                             <li><span class="profile-name">@translate(Skck):</span><span class="profile-desc">{!!
-                                    $student->student->about !!}</span></li>
+                                    $student->student->about !!}</span></li> --}}
 
                         </ul>
                     </div>

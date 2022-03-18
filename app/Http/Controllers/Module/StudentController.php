@@ -9,6 +9,8 @@ use App\User;
 use App\Model\Student;
 use App\Notifications\StudentRegister;
 use Alert;
+use App\Model\Logbook;
+use App\Model\LogbookStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -31,11 +33,11 @@ class StudentController extends Controller
         if (Auth::user()->user_type == "Admin") {
             /*if Authenticated  user is admin , admin can show all students */
             if ($request->get('search')) {
-                $students = Student::where('name', 'like', '%' . $request->get('search') . '%')
+                $students = Student::with('user')->where('name', 'like', '%' . $request->get('search') . '%')
                     ->orWhere('email', 'like', '%' . $request->get('search') . '%')
                     ->orderBydesc('id')->paginate(10);
             } else {
-                $students = Student::orderBydesc('id')->paginate(10);
+                $students = Student::with('user')->orderBydesc('id')->paginate(10);
             }
 
 
@@ -53,11 +55,12 @@ class StudentController extends Controller
             }
 
             if ($request->get('search')) {
-                $students = Student::where('name', 'like', '%' . $request->get('search') . '%')
+                $students = Student::with('user')->where('name', 'like', '%' . $request->get('search') . '%')
                     ->orWhere('email', 'like', '%' . $request->get('search') . '%')
                     ->whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(10);
             } else {
-                $students = Student::whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(10);
+                // $students = Student::with('user')->whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(10);
+                $students = Student::with('user')->orderBydesc('id')->paginate(10);
             }
         }
         return view('module.students.index', compact('students'));
@@ -106,19 +109,24 @@ class StudentController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'nik' => 'required',
+                // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'username' => ['required', 'string', 'max:255', 'unique:users,email'],
                 'password' => ['required', 'string', 'min:8'],
                 'confirmed' => 'required|required_with:password|same:password',
             ],
             [
                 'name.required' => translate('Name is required'),
-                'email.required' => translate('Email is required'),
-                'email.unique' => translate('Email is already register'),
+                'nik.required' => translate('NIK is required'),
+                // 'email.required' => translate('Email is required'),
+                // 'email.unique' => translate('Email is already register'),
+                'username.required' => translate('Username is required'),
+                'username.unique' => translate('Username is already register'),
                 'password.required' => translate('Password is required'),
-                'password.min' => translate('Password  must be 8 character '),
+                'password.min' => translate('Password must be 8 character '),
                 'password.string' => translate('Password is required'),
                 'confirmed.required' => translate('Please confirm your password'),
-                'confirmed.same' => translate('Password did not match'),
+                'confirmed.same' => translate('Password does not match'),
             ]
 
         );
@@ -126,16 +134,20 @@ class StudentController extends Controller
         //create user for login
         $user = new User();
         $user->name = $request->name;
+        $user->nik = $request->nik;
         $user->slug = Str::slug($request->name);
-        $user->email = $request->email;
+        $user->email = $request->username;
         $user->password = Hash::make($request->password);
         $user->user_type = 'Student';
+        $user->verified = true;
+        $user->email_verified_at = date('Y-m-d');
         $user->save();
 
         //create student
         $student = new Student();
         $student->name = $request->name;
-        $student->email = $request->email;
+        $student->email = $request->username;
+        $student->phone = $request->phone;
         $student->user_id = $user->id;
         $student->save();
 
@@ -181,6 +193,36 @@ class StudentController extends Controller
         Session::flash('message', translate("Course enrolled for student."));
         return back();
 
+    }
+
+    // Logbook Student
+
+    public function student_logbook_courses($course_id, $user_id)
+    {
+        $course = Course::find($course_id);
+        $logbooks = Logbook::with(['course'])->where('course_id', $course_id)->get();
+        $logbook_students = LogbookStudent::leftJoin('logbook as l', 'l.id', '=', 'logbook_students.logbook_id')
+        ->where('l.course_id', $course_id)
+        ->where('user_id', $user_id)->pluck('logbook_id')->toArray();
+        $student = Student::where('user_id', $user_id)->first();
+        return view('module.students.logbook_course', compact('logbooks', 'logbook_students', 'student', 'course_id', 'user_id', 'course'));
+    }
+
+    public function student_logbook_courses_store(Request $request, $user_id)
+    {
+        $logbooks = $request->logbook_id;
+
+        LogbookStudent::where('user_id', $user_id)->delete();
+        foreach($logbooks as $id){
+            $logStudent = new LogbookStudent();
+            $logStudent->logbook_id = $id;
+            $logStudent->user_id = $user_id;
+            $logStudent->save();
+
+        }
+
+        notify()->success('Student logbook updated successfully!');
+        return redirect()->back()->with('success', 'Student logbook updated successfully!');
     }
 
     //END

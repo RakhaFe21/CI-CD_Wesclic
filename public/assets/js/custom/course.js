@@ -28,23 +28,23 @@
         */
         $(function () {
 
-            $("#val-is_free").ready(function () {
-               var att = $('#val-is_free').is(":checked");
-                if (att) {
-                    $("#auto_hide").show();
-                } else {
-                    $("#auto_hide").hide();
-                }
+            // $("#val-is_free").ready(function () {
+            //    var att = $('#val-is_free').is(":checked");
+            //     if (att) {
+            //         $("#auto_hide").show();
+            //     } else {
+            //         $("#auto_hide").hide();
+            //     }
 
-            });
+            // });
 
-            $("#val-is_free").change(function () {
-                if ($(this).is(":checked")) {
-                    $("#auto_hide").show();
-                } else {
-                    $("#auto_hide").hide();
-                }
-            });
+            // $("#val-is_free").change(function () {
+            //     if ($(this).is(":checked")) {
+            //         $("#auto_hide").show();
+            //     } else {
+            //         $("#auto_hide").hide();
+            //     }
+            // });
         });
 
         $(function () {

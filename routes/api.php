@@ -12,11 +12,10 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
 
-
-
-
-Route::group(['namespace' => 'API\V1', 'prefix' => 'v1' ,'middleware'=>'install.check'],
+Route::group(
+    ['namespace' => 'API\V1', 'prefix' => 'v1', 'middleware' => 'install.check'],
     function () {
 
         /*Api Documentation*/
@@ -170,13 +169,13 @@ Route::group(['namespace' => 'API\V1', 'prefix' => 'v1' ,'middleware'=>'install.
         *@user_id
         *@message
         */
-        Route::post('message/send','EnrollmentApiController@sendMessage')->middleware('auth:api');
+        Route::post('message/send', 'EnrollmentApiController@sendMessage')->middleware('auth:api');
 
 
         /*Enroll course ways messages list
         *@enroll_id
         */
-        Route::get('message/inbox/{id}','EnrollmentApiController@inboxMessage')->middleware('auth:api');
+        Route::get('message/inbox/{id}', 'EnrollmentApiController@inboxMessage')->middleware('auth:api');
 
 
         /*Commenting
@@ -185,13 +184,13 @@ Route::group(['namespace' => 'API\V1', 'prefix' => 'v1' ,'middleware'=>'install.
         * @comments
         * @comment_id //if replay
          * */
-        Route::post('course/comment','EnrollmentApiController@comments');
+        Route::post('course/comment', 'EnrollmentApiController@comments');
 
 
         /*all Commenting against course id
         * @course_id
          * */
-        Route::get('all/comments/{id}','EnrollmentApiController@allComments');
+        Route::get('all/comments/{id}', 'EnrollmentApiController@allComments');
 
 
         /*Course ,Class, Class Content Seen Listed*/
@@ -200,7 +199,7 @@ Route::group(['namespace' => 'API\V1', 'prefix' => 'v1' ,'middleware'=>'install.
         //@course_id
         //@enroll_id
         //@user_id
-        Route::post('/course/seen','CourseApiController@seenCourseListed')->middleware('auth:api');
+        Route::post('/course/seen', 'CourseApiController@seenCourseListed')->middleware('auth:api');
 
 
         /*Course ,Class, Class Content Seen History*/
@@ -209,11 +208,17 @@ Route::group(['namespace' => 'API\V1', 'prefix' => 'v1' ,'middleware'=>'install.
         //@course_id
         //@enroll_id required
         //@user_id required
-        Route::post('/seen/history','CourseApiController@seenHistory')->middleware('auth:api');
+        Route::post('/seen/history', 'CourseApiController@seenHistory')->middleware('auth:api');
 
 
         //show all courses
         Route::get('all/courses', 'CourseApiController@allCourses');
+
+        // delete kursus sesi
+        Route::delete('courses/sesi/{id}/delete', 'CourseApiController@deleteKursusSesi');
+
+        // delete logbook
+        Route::delete('courses/logbook/{id}/delete', 'CourseApiController@deleteLogbook');
 
 
         //single course
@@ -229,20 +234,32 @@ Route::group(['namespace' => 'API\V1', 'prefix' => 'v1' ,'middleware'=>'install.
         Route::get('content/{id}', 'CourseApiController@singleContent');
 
         /*all language*/
-        Route::get('languages','SettingApiController@languages');
+        Route::get('languages', 'SettingApiController@languages');
 
         /*ALl Pages*/
-        Route::get('all/pages','SettingApiController@allPages');
+        Route::get('all/pages', 'SettingApiController@allPages');
 
         /*single page*/
-        Route::get('single/page/{id}','SettingApiController@singlePage');
+        Route::get('single/page/{id}', 'SettingApiController@singlePage');
 
+        // API WILAYAH
+        // Provinsi
+        Route::get('wilayah/provinsi', 'WilayahApiController@getProvinsi');
+        Route::get('wilayah/provinsi/{id_provinsi}', 'WilayahApiController@getDetailProvinsi');
 
-        
+        // Kota Kabupaten
+        Route::get('wilayah/kota', 'WilayahApiController@getKota');
+        Route::get('wilayah/kota/{id_kota}', 'WilayahApiController@getDetailKota');
 
+        // Kecamatan
+        Route::get('wilayah/kecamatan', 'WilayahApiController@getKecamatan');
+        Route::get('wilayah/kecamatan/{id_kecamatan}', 'WilayahApiController@getDetailKecamatan');
 
+        // Kelurahan
+        Route::get('wilayah/kelurahan', 'WilayahApiController@getKelurahan');
+        Route::get('wilayah/kelurahan/{id_kelurahan}', 'WilayahApiController@getDetailKelurahan');
+    }
+);
 
-    });
-
-    Route::post('new/pages/create', 'Module\PageController@apiContentStore')
-                ->name('api.page.content.create');
+Route::post('new/pages/create', 'Module\PageController@apiContentStore')
+    ->name('api.page.content.create');

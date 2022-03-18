@@ -3,6 +3,7 @@
 /*all front end route here
  *
  * */
+use Illuminate\Support\Facades\Route;
 
  Route::get('x', function () {
     return checkRedeem(9);
@@ -127,6 +128,11 @@ Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']
         /*all enroll course ajax*/
         Route::get('enroll/courses', 'FrontendController@enrollCourses')
             ->name('enroll.courses');
+
+        // Enroll on course
+        Route::post('enroll/course/{id}', 'FrontendController@enrollCourse')
+            ->name('enroll.course');
+
         /*cart list*/
         Route::get('cart/list', 'FrontendController@cartList')
             ->name('cart.list');

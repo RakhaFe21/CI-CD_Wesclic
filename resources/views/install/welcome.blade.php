@@ -34,7 +34,7 @@
     <h6>Wesclic Studiow</h6>
 
     <div class="center">
-        <a href="{{route('permission')}}" class="btn btn-block btn-primary"> Mulai Proses Insalasti</a>
+        <a href="{{route('permission')}}" class="btn btn-block btn-primary"> Mulai Proses Instalasi</a>
     </div>
 </div>
 

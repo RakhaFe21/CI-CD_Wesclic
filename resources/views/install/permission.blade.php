@@ -1,8 +1,8 @@
 @extends('install.app')
 @section('content')
     <div class="text-center">
-        <h1 class="ont-weight-bold">Checking file permissions</h1>
-        <h5>We ran diagnosis on your server. Review the items that have a red mark on it. <br> If everything is green, you are good to go to the next step.</h5>
+        <h1 class="ont-weight-bold">Menganalisa Izin File di Server</h1>
+        <h5>Kami menganalisa apakah server anda telah sesuai. Review kembali apabila ada tanda merah di poin berikut. <br> Jika semuanya hijau, kamu bisa melanjutkan ke tahap selanjutnya.</h5>
     </div>
 
     <div class="m-5">
@@ -43,7 +43,7 @@
 
     <p class="m-2">
         @if ($permission['curl_enabled'] == 1 && $permission['db_file_write_perm'] == 1 &&  $phpVersion >= 7.20)
-            <a href = "{{ route('create') }}" class="btn btn-block btn-info">Go To Next Step</a>
+            <a href = "{{ route('create') }}" class="btn btn-block btn-info">Lanjut ke tahap selanjutnya</a>
         @endif
     </p>
 

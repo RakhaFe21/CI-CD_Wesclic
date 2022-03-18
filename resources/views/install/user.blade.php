@@ -10,12 +10,11 @@
     @endif
 
     @if($message = Session::get('invalidKey'))
-    <div class="alert alert-danger">This purchase key is not valid</div>
+    <div class="alert alert-danger">Kunci Website tidak valid</div>
     @endif
 
     @if($message = Session::get('notManyvendor'))
-    <div class="alert alert-danger">You inserted a wrong purchase code, Please purchase our item from CODECANYON for a
-        valid code</div>
+    <div class="alert alert-danger">Kamu memasukkan kunci website yang salah, silahkan kontak Wesclic Studiow untuk mendapatkan kuncinya</div>
     @endif
 
     @if($message = Session::get('used'))
@@ -72,7 +71,7 @@
                     <strong>{{ $message }}</strong>
                 </span>
                 @enderror
-                <small class="text-info">Minimum 8 characters</small>
+                <small class="text-info">Minimal 8 characters</small>
             </div>
 
         </div>
@@ -84,47 +83,41 @@
             <div class="col-md-6">
                 <input id="password-confirm" placeholder=" Confirm Password" type="password" class="form-control"
                     name="password_confirmation" required autocomplete="new-password">
-                <small class="text-info">Minimum 8 characters</small>
+                <small class="text-info">Minimal 8 characters</small>
             </div>
         </div>
 
 
         <div class="form-group mt-4 mb-0">
-            <label class="text-md-right">@translate(Important information)</label>
+            <label class="text-md-right">@translate(Informasi Penting)</label>
         </div>
         <div className="form-group row mb-3">
             <label className="col-md-4 col-form-label text-md-right"></label>
             <div className="col-md-6">
                 <ul className="list-group ml-0 pl-0">
                     <li className="list-group-item text-semibold border-0 pl-0 sm-text">
-                        You can use this
+                        Kamu hanya bisa menggunakan
                         <span className="text-danger">
-                            purchase code
+                            kunci website
                         </span>
-                        only in one domain. Once used, you can only
-                        transfer the website in it's subdomains. The
-                        main domain can not be changed unless you
-                        verify your purchase code from the support
-                        team of this software. And this support will
-                        not be free.
+                        hanya di satu domain. Setelah kamu menggunakannya kamu tidak bisa 
+                        menggunakannya lagi di domain website yang berbeda.
                     </li>
                     <li className="list-group-item text-semibold border-0 pl-0 sm-text">
-                        You can install in localhost, it will not
-                        affect your live server installation with the
-                        same purchase code.
+                        Apabila kamu ingin mengganti domain website kamu, kamu harus 
+                        menghubungi kami (Wesclic Studio) melalui kontak kami yang tersedia (wesclic.studio atau wesclic.com)
                     </li>
 
                     <li className="list-group-item text-semibold text-secondary border-0 pl-0 sm-text">
-                        <i className="fa fa-info mr-2"></i>You need
-                        internet connection to save these information
+                        <i className="fa fa-info mr-2"></i>Kamu perlu menghubungkan dengan koneksi internet untuk menyelesaikan instalasi ini.
                     </li>
                 </ul>
             </div>
         </div>
 
         <div class="form-group mt-3">
-            <label for="purchase_key" class="text-md-right">@translate(Purchase code)</label>
-            <input placeholder="Enter purchase code" id="purchase_key" type="text" class="form-control"
+            <label for="purchase_key" class="text-md-right">@translate(Kunci Website)</label>
+            <input placeholder="Masukkan Kunci Website" id="purchase_key" type="text" class="form-control"
                 name="purchase_key" value="{{ old('purchase_key') }}" required>
         </div>
 
@@ -134,7 +127,7 @@
         <div class=>
             <div class="">
                 <button type="submit" class="btn btn-block btn-primary">
-                    @translate(Register)
+                    @translate(Daftar)
                 </button>
             </div>
         </div>

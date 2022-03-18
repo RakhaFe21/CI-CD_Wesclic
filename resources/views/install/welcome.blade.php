@@ -1,8 +1,8 @@
 @extends('install.app')
 @section('content')
 <div class="text-center">
-    <h1 class="font-weight-bold">Learning Management System Installation</h1>
-    <h5>You will need to know the following items before proceeding</h5>
+    <h1 class="font-weight-bold">Instalasi Sistem BLK Wonosobo</h1>
+    <h5>Tidak perlu khawatir, proses ini hanya berlangsung diawal implementasi sistem saja</h5>
 
 </div>
 <div class="m-5">
@@ -27,14 +27,14 @@
 </div>
 
 <div class="m-2">
-    <p>During the installation process. we will check if the files there needed to be written (<strong>.env file</strong>)
-        have <strong>write permission</strong>. We Will also check if
-        <strong>curl</strong> are enabled on your server or not.</p>
+    <p>Selama proses instalasi, kami akan mengecek apakah<strong> (.env file) </strong> memiliki <strong>akses ke server</strong>. Kami juga mengecek apakah
+        <strong>plugin curl</strong> tersedia di server anda atau tidak. Proses ini aman, tidak akan mengambil data-data anda</p>
     <br>
-    <p>Gather the information mentioned above before hitting the start installation button. if you are ready...</p>
+    <p>Klik tombol dibawah jika sudah siap untuk instalasi. Proses ini sebaiknya dilakukan melalui seseorang yang paham tentang sistem ini</p>
+    <h6>Wesclic Studiow</h6>
 
     <div class="center">
-        <a href="{{route('permission')}}" class="btn btn-block btn-primary"> Start Installation Process</a>
+        <a href="{{route('permission')}}" class="btn btn-block btn-primary"> Mulai Proses Insalasti</a>
     </div>
 </div>
 

@@ -2,7 +2,7 @@
 @section('content')
 
     <div class="card-body">
-        <h3 class="text-lg-center p-3">@translate(Setup Database)</h3>
+        <h3 class="text-lg-center p-3">@translate(Penyiapan Database)</h3>
         <form action="{{route('db.setup')}}" method="post">
             @csrf
             <div class="form-group">
@@ -29,7 +29,7 @@
             </div>
 
             <div class="">
-                <button class="btn btn-primary btn-block" type="submit">@translate(Save The Configuration)</button>
+                <button class="btn btn-primary btn-block" type="submit">@translate(Simpan Konfigurasi Database)</button>
             </div>
         </form>
 

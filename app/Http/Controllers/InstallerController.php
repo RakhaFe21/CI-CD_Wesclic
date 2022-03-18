@@ -55,9 +55,9 @@ class InstallerController extends Controller
             //check the database connection for import the sql file
             DB::connection()->getPdo();
 
-            return redirect()->route('sql.setup')->with('success', 'Your database connection done successfully');
+            return redirect()->route('sql.setup')->with('success', 'Koneksi database berhasil dilakukan');
         } catch (\Exception $e) {
-            return redirect()->route('sql.setup')->with('wrong', 'Could not connect to the database. Please check your configuration');
+            return redirect()->route('sql.setup')->with('wrong', 'Tidak bisa melakukan koneksi ke database. Silahkan cek kembali konfigurasi database');
 
         }
     }
@@ -66,7 +66,7 @@ class InstallerController extends Controller
     //import sql page
     protected function importSql()
     {
-        return view('install.setupOrg');
+        return view('install.importSql');
     }
 
     //import the sql file in database or goto organization setup page
@@ -74,11 +74,11 @@ class InstallerController extends Controller
     {
         try {
             //import the sql file in database
-            $sql_path = base_path('install.sql');
+            $sql_path = base_path('blk.sql');
             DB::unprepared(file_get_contents($sql_path));
             return view('install.setupOrg');
         } catch (Exception $e) {
-            die("There are some problems, Please check your configuration. error:" . $e);
+            die("Terdapat masalah, Silahkan cek kembali konfigurasi database. error:" . $e);
         }
     }
 
@@ -229,7 +229,12 @@ class InstallerController extends Controller
         $user->user_type = "Admin";
 
         // Response
-        $response = "continue";
+        $response = Http::post('https://verify.wesclic.studio/api/webauthstudiow', [
+            'purchase_key' => $request->purchase_key,
+            'ip_address' => $request->ip_address,
+            'domain_name' => $request->domain_name,
+            'produk' => 'SIPBLK'
+        ]);
 
         if($response == "continue"){
             if ($user->save()) {
@@ -240,14 +245,12 @@ class InstallerController extends Controller
                 overWriteEnvFile('APP_URL', $se);
                 return view('install.done');
             } else {
-                return redirect()->back()->with('failed', translate('Something is not appropriate! Try again.'));
+                return redirect()->back()->with('failed', translate('Ada yang bermasalah! Coba Lagi.'));
             }
         }elseif ($response == "invalidKey"){
-            return redirect()->back()->with('invalidKey', translate('Something is not appropriate! Try again.'));
-        }elseif($response == "notCourseLMS"){
-            return redirect()->back()->with('notCourseLMS', translate('Something is not appropriate! Try again.'));
+            return redirect()->back()->with('invalidKey', translate('Mohon maaf, key yang dimasukkan tidak valid'));
         }else{
-            return redirect()->back()->with('used', "This purchase key has already been used in ". $response .", contact the support team to transfer domain");
+            return redirect()->back()->with('used', "Produk ini telah digunakan di domain ". $response .", kontak Wesclic Studiow untuk mengganti domain");
         }
 
     }

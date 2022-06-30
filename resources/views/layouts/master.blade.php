@@ -30,7 +30,7 @@
     <link href="{{ asset('assets/plugins/colorpicker/bootstrap-colorpicker.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/dropify.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('asset_rumbok/css/icofont.css') }}">
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
     @yield('css-link')
 
@@ -44,6 +44,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
     <!-- End css -->
     @notifyCss
@@ -58,7 +59,6 @@
 
 
 <body class="vertical-layout">
-
 
     <!-- Start Containerbar -->
     <div id="containerbar">
@@ -151,6 +151,7 @@
     <!-- Core js -->
     <script src="{{ asset('assets/js/core.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
     {{-- Vue --}}
     <script src="https://unpkg.com/vue@3"></script>
@@ -192,7 +193,7 @@
 
         $('.dropify').dropify();
 
-        $('#datetimepicker1').datetimepicker();
+        // $('#datetimepicker1').datetimepicker();
     </script>
 
 </body>

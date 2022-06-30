@@ -117,9 +117,10 @@
                                 </div>
                                 <div class="col-12 col-sm-7 p-0">
                                     <div class="tab-content" id="v-pills-ticket-tabContent">
-                                        <div class="tab-pane fade show active" id="v-pills-support" role="tabpanel"
+                                        {{-- <div class="tab-pane fade show active" id="v-pills-support" role="tabpanel"
                                             aria-labelledby="v-pills-support-tab">
                                             <div id="apex-operation-course-chart"></div>
+                                           
                                         </div>
                                         <div class="tab-pane fade" id="v-pills-sales" role="tabpanel"
                                             aria-labelledby="v-pills-sales-tab">
@@ -132,10 +133,45 @@
                                         <div class="tab-pane fade" id="v-pills-hiring" role="tabpanel"
                                             aria-labelledby="v-pills-hiring-tab">
                                             <div id="apex-operation-student-chart"></div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
-                            </div>
+                                <div class="col-12 col-sm-5 p-0 mb-4">
+                                    <form id="searchForm" class="form-inline">
+                                        <div class="form-group ml-3">
+                                            <input type="text" class="form-control" placeholder="cari tanggal pelatihan..." name="search" id="search" autocomplete="off"/>
+                                        </div>
+                                        <div class="form-group ml-3">
+                                            <button type="submit" class="btn btn-primary">oke</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <br/>
+                                {{-- <div class="row justify-content-center mb-4">
+                                    <h6>Grafik Pelatihan</h6>
+                                    <canvas id="chartPelatihanSearch" class="chartjs" width="undefined" height="undefined"></canvas>
+                                    <div id="countData"></div>
+                                </div> --}}
+                                <div class="row justify-content-center mb-4">
+                                    <h6>Grafik Pelatihan pada bulan {{$monthName}}</h6>
+                                    <canvas id="chartPelatihan" class="chartjs" width="undefined" height="undefined"></canvas>
+                                    {{-- <div id="df"></div> --}}
+                                </div>
+                                <br/>
+                                <div class="row justify-content-center mb-4">
+                                    <h6>Grafik Pendaftaran pada bulan {{$monthName}}</h6>
+                                    <canvas id="chartPendaftaran" class="chartjs" width="undefined" height="undefined"></canvas>
+                                </div>
+                                <br/>
+                                <div class="row justify-content-center mb-4">
+                                    <h6>Grafik Dinas pada bulan {{$monthName}}</h6>
+                                    <canvas id="chartDinas" class="chartjs" width="undefined" height="undefined"></canvas>
+                                </div>
+                                <br/>
+                                <div class="row justify-content-center mb-4">
+                                    <h6>Grafik Siswa pada bulan {{$monthName}}</h6>
+                                    <canvas id="chartSiswa" class="chartjs" width="undefined" height="undefined"></canvas>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -215,302 +251,142 @@
 
 @section('page-script')
     <script>
-        "use strict"
-
-        var options = {
-            chart: {
-                height: 300,
-                type: 'bar',
-                toolbar: {
-                    show: false
-                }
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '25%',
-                    endingShape: 'rounded'
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            colors: ['#506fe4', '#43d187', '#8B0000'],
-            series: [{
-                name: 'Total Earning',
-                @foreach ($t_earning as $i)
-                    '{{ $i }}',
-                @endforeach]
-            }, {
-                name: 'Instructor Earning',
-                @foreach ($instructor_earning as $m)
-                    '{{ $m }}',
-                @endforeach]
-            }, {
-                name: 'Admin Earning',
-                @foreach ($admin_earning as $a)
-                    '{{ $a }}',
-                @endforeach]
-            }],
-            legend: {
-                show: false,
-            },
-            xaxis: {
-                @foreach ($months as $m)
-                    '{{ $m }}',
-                @endforeach],
-                axisBorder: {
-                    show: true,
-                    color: 'rgba(0,0,0,0.05)'
-                },
-                axisTicks: {
-                    show: true,
-                    color: 'rgba(0,0,0,0.05)'
-                }
-            },
-            grid: {
-                row: {
-                    colors: ['transparent', 'transparent'],
-                    opacity: .2
-                },
-                borderColor: 'rgba(0,0,0,0.05)'
-            },
-            fill: {
-                opacity: 1,
-            },
-            tooltip: {
-                y: {
-                    formatter: function(val) {
-                        return "$ " + val
-                    }
-                }
+       $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }
-        var chart = new ApexCharts(
-            document.querySelector("#apexs-bar-chart"),
-            options
-        );
-        chart.render();
+        });
 
-        /* ----- Apex Operation Status1 Chart ----- */
-        var options = {
-            chart: {
-                height: 260,
-                type: 'radialBar',
-                offsetY: -10
-            },
-            plotOptions: {
-                radialBar: {
-                    startAngle: -135,
-                    endAngle: 135,
-                    dataLabels: {
-                        name: {
-                            fontSize: '18px',
-                            fontFamily: 'Mukta Vaani',
-                            color: '#8A98AC',
-                            offsetY: 120
-                        },
-                        value: {
-                            offsetY: 76,
-                            fontSize: '24px',
-                            fontFamily: 'Mukta Vaani',
-                            color: '#141d46',
-                            formatter: function(val) {
-                                return val;
-                            }
+       $( "#search" ).datepicker({
+         locale:'id',
+         dateFormat: 'yy-mm-dd'
+       });
+
+        // $(document).on('submit', '#searchForm', function(event){  
+        //     event.preventDefault();  
+        //     var search_date = $('#search').val(); 
+            
+        //     $.ajax({
+        //         url: "{{ route('dashboard.search') }}",
+        //         cache: false,  
+        //         method:'POST',  
+        //         data: {'search': search_date},
+        //         success: function(data){
+        //             $('#countData').html(data);
+        //             var pelatihan_search = document.getElementById("chartPelatihanSearch").getContext('2d');
+        //             var myChart = new Chart(pelatihan_search, {
+        //                 type: 'radar',
+        //                 data: {
+        //                     datasets: [{
+        //                         label: 'Total Pelatihan : ' + data,
+        //                         backgroundColor: '#ffc200',
+        //                         borderColor: '#ffc200',
+        //                         data: data
+        //                     }],
+        //                     options: {
+        //                         animation: {
+        //                             onProgress: function(animation) {
+        //                                 progress.value = animation.animationObject.currentStep / animation.animationObject.numSteps;
+        //                             }
+        //                         }
+        //                     }
+        //                 },
+        //             });   
+        //         },
+        //         error:function (xhr) {
+        //             console.log(xhr.responseText);
+        //         }
+        //     })
+        // }); 
+
+        var pelatihan = document.getElementById("chartPelatihan").getContext('2d');
+        var myChart = new Chart(pelatihan, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode($label); ?>,
+                datasets: [{
+                    label: 'Total Pelatihan : ' + <?php echo json_encode($total_course); ?>,
+                    backgroundColor: '#FFC200',
+                    borderColor: '#FFC200',
+                    data: <?php echo json_encode($jumlah_pelatihan); ?>
+                }],
+                options: {
+                    animation: {
+                        onProgress: function(animation) {
+                            progress.value = animation.animationObject.currentStep / animation.animationObject.numSteps;
                         }
                     }
                 }
             },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    shadeIntensity: 0.15,
-                    inverseColors: false,
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 50, 65, 91]
-                },
-            },
-            stroke: {
-                dashArray: 4
-            },
-            colors: ["#506fe4"],
-            series: [{{ $total_course }}],
-            labels: ['@translate(Total Pelatihan)'],
-        }
-        var chart = new ApexCharts(
-            document.querySelector("#apex-operation-course-chart"),
-            options
-        );
-        chart.render();
+        });
 
-        /* ----- Apex Operation Status2 Chart ----- */
-        var options = {
-            chart: {
-                height: 260,
-                type: 'radialBar',
-                offsetY: -10
-            },
-            plotOptions: {
-                radialBar: {
-                    startAngle: -135,
-                    endAngle: 135,
-                    dataLabels: {
-                        name: {
-                            fontSize: '18px',
-                            fontFamily: 'Mukta Vaani',
-                            color: '#8A98AC',
-                            offsetY: 120
-                        },
-                        value: {
-                            offsetY: 76,
-                            fontSize: '24px',
-                            fontFamily: 'Mukta Vaani',
-                            color: '#141d46',
-                            formatter: function(val) {
-                                return val;
-                            }
+        var pendaftaran = document.getElementById("chartPendaftaran").getContext('2d');
+        var myChart = new Chart(pendaftaran, {
+            type: 'line',
+            data: {
+                labels: <?php echo json_encode($label); ?>,
+                datasets: [{
+                    label: 'Total Pendaftaran : ' + <?php echo json_encode($total_enrollments); ?>,
+                    backgroundColor: '#FFBC51',
+                    borderColor: '#FFBC51',
+                    data: <?php echo json_encode($jumlah_pendaftaran); ?>
+                }],
+                options: {
+                    animation: {
+                        onProgress: function(animation) {
+                            progress.value = animation.animationObject.currentStep / animation.animationObject.numSteps;
                         }
                     }
                 }
             },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    shadeIntensity: 0.15,
-                    inverseColors: false,
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 50, 65, 91]
-                },
-            },
-            stroke: {
-                dashArray: 4
-            },
-            colors: ["#506fe4"],
-            series: [{{ $total_enrollments }}],
-            labels: ['@translate(Total Enrollments)'],
-        }
-        var chart = new ApexCharts(
-            document.querySelector("#apex-operation-enrollment-chart"),
-            options
-        );
-        chart.render();
+        });
 
-        /* ----- Apex Operation Status3 Chart ----- */
-        var options = {
-            chart: {
-                height: 260,
-                type: 'radialBar',
-                offsetY: -10
-            },
-            plotOptions: {
-                radialBar: {
-                    startAngle: -135,
-                    endAngle: 135,
-                    dataLabels: {
-                        name: {
-                            fontSize: '18px',
-                            fontFamily: 'Mukta Vaani',
-                            color: '#8A98AC',
-                            offsetY: 120
-                        },
-                        value: {
-                            offsetY: 76,
-                            fontSize: '24px',
-                            fontFamily: 'Mukta Vaani',
-                            color: '#141d46',
-                            formatter: function(val) {
-                                return val;
-                            }
+        var dinas = document.getElementById("chartDinas").getContext('2d');
+        var myChart = new Chart(dinas, {
+            type: 'bar',
+            data: {
+                labels: <?php echo json_encode($label); ?>,
+                datasets: [{
+                    label: 'Total Dinas : ' + <?php echo json_encode($total_instructor); ?>,
+                    color: '#4E4637',
+                    backgroundColor: '#FFBB84',
+                    borderColor: '#FFBB84',
+                    borderRadius: 3,
+                    font: {
+                        size: 18,
+                    },
+                    data: <?php echo json_encode($jumlah_dinas); ?>
+                }],
+                options: {
+                    elements: {
+                        line: {
+                            borderWidth: 3
                         }
                     }
                 }
             },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    shadeIntensity: 0.15,
-                    inverseColors: false,
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 50, 65, 91]
-                },
-            },
-            stroke: {
-                dashArray: 4
-            },
-            colors: ["#506fe4"],
-            series: [{{ $total_instructor }}],
-            labels: ['@translate(Total Instructor)'],
-        }
-        var chart = new ApexCharts(
-            document.querySelector("#apex-operation-instructor-chart"),
-            options
-        );
-        chart.render();
+        });
 
-        /* ----- Apex Operation Status4 Chart ----- */
-        var options = {
-            chart: {
-                height: 260,
-                type: 'radialBar',
-                offsetY: -10
-            },
-            plotOptions: {
-                radialBar: {
-                    startAngle: -135,
-                    endAngle: 135,
-                    dataLabels: {
-                        name: {
-                            fontSize: '18px',
-                            fontFamily: 'Mukta Vaani',
-                            color: '#8A98AC',
-                            offsetY: 120
-                        },
-                        value: {
-                            offsetY: 76,
-                            fontSize: '24px',
-                            fontFamily: 'Mukta Vaani',
-                            color: '#141d46',
-                            formatter: function(val) {
-                                return val;
-                            }
-                        }
+        var siswa = document.getElementById("chartSiswa").getContext('2d');
+        var myChart = new Chart(siswa, {
+            type: 'line',
+            data: {
+                labels: <?php echo json_encode($label); ?>,
+                datasets: [{
+                    label: 'Total Siswa : ' + <?php echo json_encode($total_students); ?>,
+                    backgroundColor: '#FFC1B2',
+                    borderColor: '#FFC1B2',
+                    data: <?php echo json_encode($jumlah_siswa); ?>
+                }],
+                options: {
+                    scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    }
                     }
                 }
             },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    shadeIntensity: 0.15,
-                    inverseColors: false,
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 50, 65, 91]
-                },
-            },
-            stroke: {
-                dashArray: 4
-            },
-            colors: ["#506fe4"],
-            series: [{{ $total_students }}],
-            labels: ['@translate(Total Student)'],
-        }
-        var chart = new ApexCharts(
-            document.querySelector("#apex-operation-student-chart"),
-            options
-        );
-        chart.render();
+        });
     </script>
 @endsection

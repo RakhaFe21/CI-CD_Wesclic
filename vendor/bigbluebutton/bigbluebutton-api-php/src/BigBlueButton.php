@@ -19,6 +19,7 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Exceptions\BadResponseException;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -60,11 +61,17 @@ class BigBlueButton
     protected $urlBuilder;
     protected $jSessionId;
 
-    public function __construct()
+    /**
+     * BigBlueButton constructor.
+     * @param null $baseUrl
+     * @param null $secret
+     */
+    public function __construct($baseUrl = null, $secret = null)
     {
         // Keeping backward compatibility with older deployed versions
-        $this->securitySecret   = (getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT');
-        $this->bbbServerBaseUrl = getenv('BBB_SERVER_BASE_URL');
+        // BBB_SECRET is the new variable name and have higher priority against the old named BBB_SECURITY_SALT
+        $this->securitySecret   = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT');
+        $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL');
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
     }
 
@@ -478,6 +485,10 @@ class BigBlueButton
             $data = curl_exec($ch);
             if ($data === false) {
                 throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+            }
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($httpcode < 200 || $httpcode >= 300) {
+                throw new BadResponseException('Bad response, HTTP code: ' . $httpcode);
             }
             curl_close($ch);
 

@@ -48,11 +48,12 @@
                                     <label for="status">Perbarui Status</label>
                                     <select name="status" id="status" class="form-control" v-model="status">
                                         <option value="">-- Pilih --</option>
-                                        <option :value="statusItem" v-for="(statusItem, sIndex) in statusOption"
-                                            :key="'s'+sIndex" v-text="statusItem"></option>
-                                        {{-- <option value="Tes Wawancara">Tes Wawancara</option> --}}
-                                        {{-- <option value="Pendaftaran Ulang">Pendaftaran Ulang</option> --}}
-                                        {{-- <option value="Terdaftar">Terdaftar</option> --}}
+                                        {{-- <option :value="statusItem" v-for="(statusItem, sIndex) in statusOption"
+                                            :key="'s'+sIndex" v-text="statusItem"></option> --}}
+                                        <option value="Tes Tulis" @if($course['has_tes_tulis'] == false) hidden @endif>Tes Tulis</option>
+                                        <option value="Tes Wawancara" @if($course['has_tes_wawancara'] == false) hidden @endif>Tes Wawancara</option>
+                                        <option value="Pendaftaran Ulang" @if($course['has_pendaftaran_ulang'] == false) hidden @endif>Pendaftaran Ulang</option>
+                                        <option value="Terdaftar">Terdaftar</option>
                                     </select>
                                 </div>
                             </div>
@@ -77,17 +78,21 @@
                             aria-controls="pending" aria-selected="true" @click="changeTab('Pending')">Pending <span
                                 class="badge badge-pills badge-warning">{{ $students['pending']->count() }}</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="tes_tulis-tab" data-toggle="tab" href="#tes_tulis" role="tab"
-                            aria-controls="tes_tulis" aria-selected="false" @click="changeTab('Tes Tulis')">Tes Tulis <span
-                                class="badge badge-pills badge-info">{{ $students['tes_tulis']->count() }}</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="tes_wawancara-tab" data-toggle="tab" href="#tes_wawancara" role="tab"
-                            aria-controls="tes_wawancara" aria-selected="false" @click="changeTab('Tes Wawancara')">Tes
-                            Wawancara <span
-                                class="badge badge-pills badge-info">{{ $students['tes_wawancara']->count() }}</span></a>
-                    </li>
+                    @if ($course['has_tes_tulis'] == true)
+                        <li class="nav-item">
+                            <a class="nav-link" id="tes_tulis-tab" data-toggle="tab" href="#tes_tulis" role="tab"
+                                aria-controls="tes_tulis" aria-selected="false" @click="changeTab('Tes Tulis')">Tes Tulis <span
+                                    class="badge badge-pills badge-info">{{ $students['tes_tulis']->count() }}</span></a>
+                        </li>
+                    @endif
+                    @if ($course['has_tes_wawancara'] == true)
+                        <li class="nav-item">
+                            <a class="nav-link" id="tes_wawancara-tab" data-toggle="tab" href="#tes_wawancara" role="tab"
+                                aria-controls="tes_wawancara" aria-selected="false" @click="changeTab('Tes Wawancara')">Tes
+                                Wawancara <span
+                                    class="badge badge-pills badge-info">{{ $students['tes_wawancara']->count() }}</span></a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" id="gagal-tab" data-toggle="tab" href="#gagal" role="tab"
                             aria-controls="gagal" aria-selected="false" @click="changeTab('Gagal')">Gagal <span
@@ -99,12 +104,14 @@
                             @click="changeTab('Peserta Cadangan')">Peserta Cadangan <span
                                 class="badge badge-pills badge-warning">{{ $students['peserta_cadangan']->count() }}</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="pendaftaran_ulang-tab" data-toggle="tab" href="#pendaftaran_ulang"
-                            role="tab" aria-controls="pendaftaran_ulang" aria-selected="false"
-                            @click="changeTab('Pendaftaran Ulang')">Pendaftaran Ulang <span
-                                class="badge badge-pills badge-success">{{ $students['pendaftaran_ulang']->count() }}</span></a>
-                    </li>
+                    @if ($course['has_pendaftaran_ulang'] == true)
+                        <li class="nav-item">
+                            <a class="nav-link" id="pendaftaran_ulang-tab" data-toggle="tab" href="#pendaftaran_ulang"
+                                role="tab" aria-controls="pendaftaran_ulang" aria-selected="false"
+                                @click="changeTab('Pendaftaran Ulang')">Pendaftaran Ulang <span
+                                    class="badge badge-pills badge-success">{{ $students['pendaftaran_ulang']->count() }}</span></a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" id="terdaftar-tab" data-toggle="tab" href="#terdaftar" role="tab"
                             aria-controls="terdaftar" aria-selected="false" @click="changeTab('Terdaftar')">Terdaftar <span
@@ -660,6 +667,7 @@
         // e.relatedTarget // previous active tab
         // console.log(e.target)
         // })
+        
         Vue.createApp({
             data() {
                 return {

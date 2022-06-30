@@ -12,6 +12,7 @@ use App\Model\Student;
 use App\User;
 use Alert;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class DashboardController extends Controller
     }
 
     // dashboard
-    public function index()
+    public function index(Request $request)
     {
 
         //this month
@@ -56,10 +57,10 @@ class DashboardController extends Controller
             $top_instructor = Instructor::whereIn('user_id', array_unique($i_id))->take(10)->get()->shuffle();
 
             //
-            $total_instructor = User::where('user_type', 'Instructor')->count();
-            $total_students = User::where('user_type', 'Student')->count();
-            $total_course = Course::all()->count();
-            $total_enrollments = Enrollment::all()->count();
+            $total_instructor = User::where('user_type', 'Instructor')->whereRaw('month(created_at) = month(CURRENT_DATE)')->whereRaw('year(created_at) = year(CURRENT_DATE)')->count();
+            $total_students = User::where('user_type', 'Student')->whereRaw('month(created_at) = month(CURRENT_DATE)')->whereRaw('year(created_at) = year(CURRENT_DATE)')->count();
+            $total_course = Course::whereRaw('month(created_at) = month(CURRENT_DATE)')->whereRaw('year(created_at) = year(CURRENT_DATE)')->count();
+            $total_enrollments = Enrollment::whereRaw('month(created_at) = month(CURRENT_DATE)')->whereRaw('year(created_at) = year(CURRENT_DATE)')->count();
 
             //Admin Earning
             //this mount earning
@@ -68,6 +69,30 @@ class DashboardController extends Controller
             $prev_earning = AdminEarning::whereBetween('created_at', [$prev_start, $prev_end])->sum('amount');
             //total earning
             $total_earning = AdminEarning::all()->sum('amount');
+
+            Carbon::setLocale('id');
+            $monthName = Carbon::now()->isoFormat('MMMM');
+
+            $label         = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"];
+            for($hari=1;$hari < 31;$hari++){
+                $chartPelatihan     = collect(DB::SELECT("SELECT count(id) AS jumlah from courses where day(created_at)='$hari' and month(created_at) = month(CURRENT_DATE) and year(created_at) = year(CURRENT_DATE)"))->first();
+                $jumlah_pelatihan[] = $chartPelatihan->jumlah;
+            }
+
+            for($hari=1;$hari < 31;$hari++){
+                $chartPendaftaran  = collect(DB::SELECT("SELECT count(id) AS jumlah from enrollments where day(created_at)='$hari' and month(created_at) = month(CURRENT_DATE) and year(created_at) = year(CURRENT_DATE)"))->first();
+                $jumlah_pendaftaran[] = $chartPendaftaran->jumlah;
+            }
+
+            for($hari=1;$hari < 31;$hari++){
+                $chartDinas  = collect(DB::SELECT("SELECT count(user_id) AS jumlah from courses INNER JOIN users ON courses.user_id = users.id where users.user_type = 'Instructor' and day(users.created_at)='$hari' and month(users.created_at) = month(CURRENT_DATE) and year(users.created_at) = year(CURRENT_DATE)"))->first();
+                $jumlah_dinas[] = $chartDinas->jumlah;
+            }
+
+            for($hari=1;$hari < 31;$hari++){
+                $chartSiswa  = collect(DB::SELECT("SELECT count(id) AS jumlah from users where user_type = 'Student' and day(created_at)='$hari' and month(created_at) = month(CURRENT_DATE) and year(created_at) = year(CURRENT_DATE)"))->first();
+                $jumlah_siswa[] = $chartSiswa->jumlah;
+            }
 
             //month or labels
             $months = array();
@@ -94,6 +119,12 @@ class DashboardController extends Controller
                 compact('top_instructor',
                     'total_instructor',
                     'total_students',
+                    'jumlah_pelatihan',
+                    'jumlah_pendaftaran',
+                    'jumlah_dinas',
+                    'jumlah_siswa',
+                    'monthName',
+                    'label',
                     'months',
                     't_earning',
                     'admin_earning',
@@ -148,5 +179,10 @@ class DashboardController extends Controller
         }
     }
 
-
+    public function search(Request $request) {
+        if ($request->ajax()) {
+            $response = Course::whereRaw(DB::raw("CAST(created_at AS DATE) = '$request->search'"))->count();
+        }
+        return response()->json($response);
+    }
 }

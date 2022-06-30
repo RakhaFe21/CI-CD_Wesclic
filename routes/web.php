@@ -49,6 +49,8 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
 
     Route::get('/home', 'Dashboard\DashboardController@index')->name('dashboard');
 
+    Route::post('/home/search', 'Dashboard\DashboardController@search')->name('dashboard.search');
+
     //course
     Route::get('course/create', 'Course\CourseController@create')->name('course.create');
     Route::post('course/store', 'Course\CourseController@store')->name('course.store')->middleware('demo');

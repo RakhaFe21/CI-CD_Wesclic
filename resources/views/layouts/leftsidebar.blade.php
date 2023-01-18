@@ -47,12 +47,12 @@
 
                             {{-- display sidebar menu if not executive --}}
                             @if (auth()->user()->user_type != 'Executive')
-                                
-                            <li><a href="javaScript:void();">
+
+                            {{-- <li><a href="javaScript:void();">
                                     <i class="fa fa-user"></i>
                                     <span>@translate(Pendaftar Baru)</span>
                                 </a>
-                            </li>
+                            </li> --}}
 
                             <li class="{{request()->is('dashboard/media/manager*')
                                     ? 'active' : null}}">
@@ -226,11 +226,11 @@
                                 </a>
                             </li>
 
-                            @endif 
+                            @endif
                             {{-- end check if not executive --}}
 
 
-                            {{-- Payment request area 
+                            {{-- Payment request area
                             <li><a href="{{route('payments.index')}}"
                                     class="{{request()->is('dashboard/payment*') ?'active':null}}">
                                     <i class="fa fa-money"></i> <span>@translate(Request Payment)</span>
@@ -242,7 +242,7 @@
                                 </a>
                             </li>
 
-                            Instructor Earning area 
+                            Instructor Earning area
                             <li><a href="{{route('instructor.earning')}}"
                                     class="{{request()->is('dashboard/instructor*') ?'active':null}}">
                                     <i class="fa fa-history"></i> <span>@translate(Earning History)</span>
@@ -319,9 +319,9 @@
                                     @endif
                                 @endif
                             @endif -->
-                            
-                             {{-- display sidebar menu if not executive --}}
-                             @if (auth()->user()->user_type != 'Executive')
+
+                            {{-- display sidebar menu if not executive --}}
+                            @if (auth()->user()->user_type != 'Executive')
 
                             {{-- Support Ticket --}}
                             <li><a href="{{route('tickets.index')}}"
@@ -351,13 +351,13 @@
                                             class="{{request()->is('dashboard/app*') ?'active':null}}">@translate(Pengaturan
                                             Gerbang
                                             )</a></li>
-                                          
+
                                     <li><a href="{{route('currencies.index')}}"
                                             class="{{request()->is('dashboard/currency*') ?'active':null}}">@translate(Pengaturan
                                             Mata Uang
                                             )</a>
                                     </li>
-                                     --}}
+                                    --}}
                                     <li><a href="{{route('language.index')}}"
                                             class="{{request()->is('dashboard/language*') ?'active':null}}">@translate(Pengaturan
                                             Bahasa
@@ -389,20 +389,20 @@
 
 
                                     @else
-                                   {{--  -- Instructor Earning area 
+                                    {{-- -- Instructor Earning area
                                     <li><a href="{{route('account.create')}}"
                                             class="{{request()->is('dashboard/account*') ?'active':null}}">@translate(Payment
                                             Account Setup)
                                         </a>
                                     </li>
-                                       --}}
+                                    --}}
                                     @endif
                                 </ul>
                             </li>
 
                             @endif
-                             {{-- end check if not executive --}}
-                         
+                            {{-- end check if not executive --}}
+
                             @if(env('FORUM_PANEL') == "YES")
                             {{-- Forum manager --}}
                             @if(Auth::user()->user_type === "Admin" || Auth::user()->user_type === "Instructor")

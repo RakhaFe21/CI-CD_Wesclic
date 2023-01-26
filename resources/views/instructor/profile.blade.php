@@ -46,9 +46,9 @@
                         </div>
                         <h3 class="text-center mb-1">{{ $each_user->name }}</h3>
                         <p class="text-center">{{ $each_user->email }}</p>
-                        <p class="text-center">@translate(Balance) : <span class="text-primary">{{
-                                formatPrice($each_user->balance) }}</span></p>
-                        <div class="text-center">
+                        {{-- <p class="text-center">@translate(Balance) : <span class="text-primary">{{
+                                formatPrice($each_user->balance) }}</span></p> --}}
+                        {{-- <div class="text-center">
                             <h5>@translate(Package)</h5>
                             <img src="{{ filePath($each_user->relationBetweenPackage->image) }}"
                                 class="img-fluid rounded-sm package-img">
@@ -58,7 +58,7 @@
                             <div class="em-separator separator-dashed"></div>
                             @translate(Commission): <span
                                 class="text-primary">{{formatPrice($each_user->relationBetweenPackage->commission)}}</span>
-                        </div>
+                        </div> --}}
 
                         <div class="em-separator separator-dashed"></div>
                     </div>

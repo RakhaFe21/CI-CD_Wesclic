@@ -230,7 +230,7 @@
                                         </div>
                                     </div><!-- end col-md-12 -->
                                     <div class="col-lg-12">
-                                        <p class="mt-4">@translate(Belom punya akun)? <a
+                                        <p class="mt-4">@translate(Belum memiliki akun)? <a
                                                 href="{{ route('student.register') }}"
                                                 class="primary-color-2">@translate(Daftar)</a></p>
                                     </div><!-- end col-md-12 -->

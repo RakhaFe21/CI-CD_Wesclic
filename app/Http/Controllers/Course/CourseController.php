@@ -115,6 +115,12 @@ class CourseController extends Controller
             ->where('e.status', 'Peserta Cadangan')
             ->selectRaw("*, e.id as enrollment_id")->paginate(10);
 
+        $students['sertifikasi'] = User::leftjoin('enrollments AS e', 'users.id', 'e.user_id')->where('e.course_id', $course_id)->orderByDesc('users.id')
+            ->where('e.status', 'Sudah Ambil Sertifikat BLK')->orWhere('e.status', 'Sudah Ambil Sertifikat BNSP')->orWhere('e.status', 'Sudah Ambil Sertifikat BLK & BNSP')
+            ->selectRaw("*, e.id as enrollment_id")->paginate(10);
+
+
+
         return view('course.peserta.list', compact('students', 'course_id', 'course', 'studentEnrolledOrNotList'));
     }
 
@@ -246,7 +252,7 @@ class CourseController extends Controller
         }
         $request->validate([
             'title' => 'required|unique:courses',
-             'image' => 'required',
+            'image' => 'required',
             'category_id' => 'required',
             'level' => 'required',
         ], [
@@ -254,7 +260,7 @@ class CourseController extends Controller
             'level.required' => translate('Course Level is required'),
             'title.unique' => translate('Course title must be unique'),
             'category_id.required' => translate('Anda harus memilih kategori'),
-             'image.required' => translate('Thumbnail gambar diperlukan'),
+            'image.required' => translate('Thumbnail gambar diperlukan'),
         ]);
 
         // dd($request->all());

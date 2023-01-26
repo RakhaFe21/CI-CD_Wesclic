@@ -120,6 +120,8 @@ class FrontendController extends Controller
         $breadcrumb = null;
 
         $conditions = [];
+        // $conditions = array_merge($conditions, ['berakhir_pendaftaran', '<', Carbon::today()]);
+
         /*single instructor*/
         if ($request->input('instructor')) {
             $conditions = array_merge($conditions, ['user_id' => $request->input('instructor')]);
@@ -154,7 +156,8 @@ class FrontendController extends Controller
             $conditions = array_merge($conditions, ['category_id' => $request->input('categories')]);
             $breadcrumb = Category::where('id', $request->input('categories'))->first()->name;
         }
-        $courses = Course::Published()->where($conditions)->latest()->paginate(8);
+        $courses = Course::Published()->where($conditions)->whereDate('berakhir_pendaftaran', '>=', Carbon::today())->latest()->paginate(8);
+        // dd($courses);
         $languages = Language::all();
 
         //check the category in parent for chide
@@ -190,9 +193,7 @@ class FrontendController extends Controller
             DB::statement("ALTER TABLE `class_contents` CHANGE content_type content_type ENUM('Video','Document','Quiz')");
         }
 
-        Course::whereNotIn('level', ['Terbuka', 'Tertutup'])->update(['level' => 'Terbuka']);
-
-
+        Course::whereDate('berakhir_pendaftaran', '>=', Carbon::today())->whereNotIn('level', ['Terbuka', 'Tertutup'])->update(['level' => 'Terbuka']);
 
         //slider
         $sliders = Slider::where('is_published', 1)->get();
@@ -211,8 +212,8 @@ class FrontendController extends Controller
 
         $courses = collect();
         foreach ($enroll_courser_count as $e) {
-            $co = Course::Published()->find($e->course_id);
-            if($co) {
+            $co = Course::Published()->whereDate('berakhir_pendaftaran', '>=', Carbon::today())->find($e->course_id);
+            if ($co) {
                 $courses->push($co);
             }
         }
@@ -245,13 +246,11 @@ class FrontendController extends Controller
         $packages = Package::where('is_published', true)->get();
 
 
-        $latestCourses = Course::Published()->with('relationBetweenInstructorUser')->latest()->take(10)->get();
+        $latestCourses = Course::Published()->with('relationBetweenInstructorUser')->latest()->take(10)->whereDate('berakhir_pendaftaran', '>=', Carbon::today())->get();
 
         $subscriptions = Subscription::Published()->get();
-        
-        // dd($course);
 
-        // dd($latestCourses);
+
         return view($this->theme . '.homepage.index', compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count'));
     }
 
@@ -384,7 +383,7 @@ class FrontendController extends Controller
         // $context  = stream_context_create($options);
         // $response1 = file_get_contents($url, false, $context);
         // $provinsi = json_decode($response1, TRUE);
-    
+
         return view($this->theme . '.profile.index', compact('student'));
     }
 
@@ -747,21 +746,20 @@ class FrontendController extends Controller
     {
         $id_siswa = auth()->user()->id;
         $lastEnrollment = Enrollment::where('user_id', $id_siswa)
-        ->whereNotIn('status', ['Lulus', 'Gagal'])->orderByDesc('created_at');
-        if($lastEnrollment->count() > 0) {
+            ->whereNotIn('status', ['Lulus', 'Gagal'])->orderByDesc('created_at');
+        if ($lastEnrollment->count() > 0) {
             notify()->error('Pendaftaran pelatihan tidak dapat dilakukan karena masih ada pelatihan yang terdaftar dan belum lulus!', 'Error');
             return redirect()->back()->with('error', 'Pendaftaran pelatihan tidak dapat dilakukan karena masih ada pelatihan yang terdaftar dan belum lulus!');
         }
-        
+
         $enroll = Enrollment::create([
             'course_id' => $id_pelatihan,
             'user_id' => $id_siswa,
             'status' => 'Pending'
         ]);
-        
+
         notify()->success('Berhasil mendaftar pelatihan.', 'Sukses');
         return redirect()->route('my.courses')->with('success', 'Berhasil mendaftar pelatihan.');
-
     }
 
     /*cart the course*/
@@ -1328,9 +1326,9 @@ class FrontendController extends Controller
     {
         //enroll courses
         $enrolls = Enrollment::with('enrollCourse')
-        ->with('sesi_enroll_tes_tulis')
-        ->with('sesi_enroll_tes_wawancara')
-        ->where('user_id', Auth::id())->paginate(6);
+            ->with('sesi_enroll_tes_tulis')
+            ->with('sesi_enroll_tes_wawancara')
+            ->where('user_id', Auth::id())->paginate(6);
         return view($this->theme . '.course.my_courses', compact('enrolls'));
     }
 

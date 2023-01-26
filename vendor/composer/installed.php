@@ -3,7 +3,7 @@
         'name' => 'softtech-it/courselms',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '78f665ae23bd85335e88f8a8398fb8f92cba07e1',
+        'reference' => 'f6596ba5d5c84dbda2be569050694024dc0a3a8e',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -25,6 +25,15 @@
             'reference' => 'b9c31def6a83f84b4d4a40d35996d375755f0e08',
             'type' => 'library',
             'install_path' => __DIR__ . '/../asm89/stack-cors',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'barryvdh/laravel-debugbar' => array(
+            'pretty_version' => 'v3.7.0',
+            'version' => '3.7.0.0',
+            'reference' => '3372ed65e6d2039d663ed19aa699956f9d346271',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../barryvdh/laravel-debugbar',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -628,6 +637,15 @@
                 0 => '*',
             ),
         ),
+        'maximebf/debugbar' => array(
+            'pretty_version' => 'v1.18.1',
+            'version' => '1.18.1.0',
+            'reference' => 'ba0af68dd4316834701ecb30a00ce9604ced3ee9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../maximebf/debugbar',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'mckenziearts/laravel-notify' => array(
             'pretty_version' => 'v1.1.2',
             'version' => '1.1.2.0',
@@ -1028,8 +1046,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1212,7 +1230,7 @@
         'softtech-it/courselms' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '78f665ae23bd85335e88f8a8398fb8f92cba07e1',
+            'reference' => 'f6596ba5d5c84dbda2be569050694024dc0a3a8e',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

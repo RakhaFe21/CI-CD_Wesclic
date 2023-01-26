@@ -43,10 +43,10 @@ class VerifyNotifications extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Welcome to the site '.$this->user->name)
-                    ->line('Your registered email-id is '.$this->user->email.' Please click on the below link to verify your email account')
-                    ->action('Verify your account', route('user.verify', $this->user->verifyUser->token))
-                    ->line('Thank you for using our application!');
+            ->line('Selamat Datang ' . $this->user->name)
+            ->line('Your registered email-id is ' . $this->user->email . ' Please click on the below link to verify your email account')
+            ->action('Silahkan Verifikasi Akun Dinas Ini', route('user.verify', $this->user->verifyUser->token))
+            ->line('Thank you for using our application!');
     }
 
     /**

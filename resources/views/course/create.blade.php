@@ -2,831 +2,837 @@
 @section('title', 'Buat Pelatihan')
 @section('parentPageTitle', 'Pelatihan')
 @section('css-link')
-    @include('layouts.include.form.form_css')
+@include('layouts.include.form.form_css')
 @stop
 @section('page-style')
 @stop
 @section('content')
-    <!-- BEGIN:content -->
-    <form action="{{ route('course.store') }}" method="post" enctype="multipart/form-data">
-        <div class="card m-b-30" id="app">
-            <h4 class="card-header">@translate(Tambah pelatihan baru)</h4>
-            <div class="card-body mx-3">
-                @csrf
-                {{-- Course Title --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-title">
-                        @translate(Nama Pelatihan) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <input type="text" required value="{{ old('title') }}"
-                            class="form-control @error('title') is-invalid @enderror" id="val-title" name="title"
-                            placeholder="@translate(Masukkan Judul Pelatihan)" aria-required="true" autofocus>
-                        @error('title')
-                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
-                        @enderror
+<!-- BEGIN:content -->
+<form action="{{ route('course.store') }}" method="post" enctype="multipart/form-data">
+    <div class="card m-b-30" id="app">
+        <h4 class="card-header">@translate(Tambah pelatihan baru)</h4>
+        <div class="card-body mx-3">
+            @csrf
+            {{-- Course Title --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-title">
+                    @translate(Nama Pelatihan) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input type="text" required value="{{ old('title') }}"
+                        class="form-control @error('title') is-invalid @enderror" id="val-title" name="title"
+                        placeholder="@translate(Masukkan Judul Pelatihan)" aria-required="true" autofocus>
+                    @error('title')
+                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- Slug --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-slug">
+                    @translate(Slug) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input type="text" required value="{{ old('slug') }}"
+                        class="form-control @error('slug') is-invalid @enderror" id="val-slug" name="slug"
+                        aria-required="true">
+                    <span id="error_email"></span>
+                    @error('slug')
+                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- Description --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-suggestions">
+                    @translate(Deskripsi)<span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <textarea class="form-control summernote @error('short_description') is-invalid @enderror"
+                        name="short_description" rows="5" required value="{{ old('short_description') }}"
+                        aria-required="true">{!! old('short_description') !!}</textarea>
+                    @error('short_description')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong> </span>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- Course Thumbnail --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-img">
+                    @translate(Thumbnail Pelatihan) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <input type="hidden" required value="{{ old('image') }}"
+                        class="form-control course_image @error('image') is-invalid @enderror" id="val-img"
+                        name="image">
+                    <img class="w-50 course_thumb_preview rounded shadow-sm d-none" src="" alt="#Thumbnail Pelatihan">
+                    @error('image')
+                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                    @enderror
+
+                    <input type="hidden" name="course_thumb_url" class="course_thumb_url" value="">
+                    <br>
+
+                    {{-- <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')"
+                        class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i class="fa fa-cloud-upload ml-2"
+                            aria-hidden="true"></i> </a> --}}
+
+                    @if (MediaActive())
+                    {{-- media --}}
+                    <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')"
+                        class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i class="fa fa-cloud-upload ml-2"
+                            aria-hidden="true"></i> </a>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Category --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-category_id">
+                    @translate(Kategori) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select class="form-control lang @error('category_id') is-invalid @enderror" id="val-category_id"
+                        name="category_id" required>
+                        <option value="" class="mb-2">
+                            @translate(Kategori)</option>
+                        @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('category_id')
+                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+
+            {{-- tahapan & jadwal seleksi --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-suggestions">
+                    @translate(Tahapan & jadwal seleksi)<span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <textarea required="required"
+                        class="form-control summernote @error('big_description') is-invalid @enderror"
+                        name="big_description" rows="5">{{ old('big_description') }}</textarea>
+                    @error('big_description')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong> </span>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- tahapan pelatihan --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-suggestions">
+                    @translate(Tahapan pelatihan)<span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <textarea required="required"
+                        class="form-control summernote @error('tahapan_pelatihan') is-invalid @enderror"
+                        name="tahapan_pelatihan" rows="5">{{ old('tahapan_pelatihan') }}</textarea>
+                    @error('tahapan_pelatihan')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong> </span>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- Type pelatihan --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="val-level">
+                    @translate(Tipe pelatihan) <span class="text-danger">*</span></label>
+                <div class="col-lg-9">
+                    <select class="form-control lang @error('level') is-invalid @enderror" id="val-level" name="level"
+                        required>
+                        <option value="">
+                            @translate(Pilih Jenis Pelatihan)</option>
+                        <option value="Terbuka">
+                            @translate(Terbuka)</option>
+                        <option value="Tertutup">
+                            @translate(Tertutup)</option>
+                    </select>
+                </div>
+                @error('level')
+                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                @enderror
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    <strong>@translate(Jadwal Pendaftaran :)</label></strong>
+                <div class="col-lg-9">
+                    <div class="switchery-list">
+
                     </div>
                 </div>
-
-                {{-- Slug --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-slug">
-                        @translate(Slug) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <input type="text" required value="{{ old('slug') }}"
-                            class="form-control @error('slug') is-invalid @enderror" id="val-slug" name="slug"
-                            aria-required="true">
-                        <span id="error_email"></span>
-                        @error('slug')
-                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
-                        @enderror
-                    </div>
-                </div>
-
-                {{-- Description --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-suggestions">
-                        @translate(Deskripsi)</label>
-                    <div class="col-lg-9">
-                        <textarea required="required"
-                            class="form-control summernote @error('short_description') is-invalid @enderror"
-                            name="short_description" rows="5" aria-required="true">{!! old('short_description') !!}</textarea>
-                        @error('short_description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong> </span>
-                        @enderror
-                    </div>
-                </div>
-
-                {{-- Course Thumbnail --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-img">
-                        @translate(Thumbnail Pelatihan) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <input type="hidden" required value="{{ old('image') }}"
-                            class="form-control course_image @error('image') is-invalid @enderror" id="val-img"
-                            name="image">
-                        <img class="w-50 course_thumb_preview rounded shadow-sm d-none" src="" alt="#Thumbnail Pelatihan">
-                        @error('image')
-                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
-                        @enderror
-
-                        <input type="hidden" name="course_thumb_url" class="course_thumb_url" value="">
-                        <br>
-
-                        {{-- <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')"
-                                class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i
-                                    class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a> --}}
-
-                        @if (MediaActive())
-                            {{-- media --}}
-                            <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'thumbnail')"
-                                class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i
-                                    class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- Category --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-category_id">
-                        @translate(Kategori) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <select class="form-control lang @error('category_id') is-invalid @enderror" id="val-category_id"
-                            name="category_id" required>
-                            <option value="" class="mb-2">
-                                @translate(Kategori)</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @error('category_id')
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label">
+                    @translate(Mulai)</label>
+                <div class="col-lg-9">
+                    <div class="input-group mb-3">
+                        <input required type="date" value="{{ old('mulai_pendaftaran') }}" name="mulai_pendaftaran"
+                            class="form-control @error('mulai_pendaftaran') is-invalid @enderror">
+                        @error('mulai_pendaftaran')
                         <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
                         </span>
-                    @enderror
-                </div>
-
-                {{-- tahapan & jadwal seleksi --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-suggestions">
-                        @translate(Tahapan & jadwal seleksi)</label>
-                    <div class="col-lg-9">
-                        <textarea required="required"
-                            class="form-control summernote @error('big_description') is-invalid @enderror"
-                            name="big_description" rows="5">{{ old('big_description') }}</textarea>
-                        @error('big_description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong> </span>
                         @enderror
-                    </div>
-                </div>
-
-                {{-- tahapan pelatihan --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-suggestions">
-                        @translate(Tahapan pelatihan)</label>
-                    <div class="col-lg-9">
-                        <textarea required="required"
-                            class="form-control summernote @error('tahapan_pelatihan') is-invalid @enderror"
-                            name="tahapan_pelatihan" rows="5">{{ old('tahapan_pelatihan') }}</textarea>
-                        @error('tahapan_pelatihan')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong> </span>
-                        @enderror
-                    </div>
-                </div>
-
-                {{-- Type pelatihan --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="val-level">
-                        @translate(Tipe pelatihan) <span class="text-danger">*</span></label>
-                    <div class="col-lg-9">
-                        <select class="form-control lang @error('level') is-invalid @enderror" id="val-level" name="level"
-                            required>
-                            <option value="">
-                                @translate(Pilih Jenis Pelatihan)</option>
-                            <option value="Terbuka">
-                                @translate(Terbuka)</option>
-                            <option value="Tertutup">
-                                @translate(Tertutup)</option>
-                        </select>
-                    </div>
-                    @error('level')
-                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
-                    @enderror
-                </div>
-
-
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="">
-                        <strong>@translate(Jadwal Pendaftaran :)</label></strong>
-                    <div class="col-lg-9">
-                        <div class="switchery-list">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">
-                        @translate(Mulai)</label>
-                    <div class="col-lg-9">
-                        <div class="input-group mb-3">
-                            <input required type="date" value="{{ old('mulai_pendaftaran') }}" name="mulai_pendaftaran"
-                                class="form-control @error('mulai_pendaftaran') is-invalid @enderror">
-                            @error('mulai_pendaftaran')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">
-                        @translate(Berakhir)</label>
-                    <div class="col-lg-9">
-                        <div class="input-group mb-3">
-                            <input required type="date" value="{{ old('berakhir_pendaftaran') }}"
-                                name="berakhir_pendaftaran"
-                                class="form-control @error('berakhir_pendaftaran') is-invalid @enderror">
-                            @error('berakhir_pendaftaran')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Jumlah Peserta --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="">
-                        @translate(Jumlah Peserta)</label>
-                    <div class="col-lg-9">
-                        <div class="switchery-list">
-                            <input type="number" name="jumlah_peserta" id="jumlah_peserta" v-model="jumlah_peserta" required/>
-                            @error('jumlah_peserta')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="">
-                        <strong>@translate(Jadwal Seleksi :)</label></strong>
-                    <div class="col-lg-9">
-                        <div class="switchery-list">
-
-                        </div>
-                    </div>
-                </div>
-
-
-                {{-- Tes Tulis --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="is_free">
-                        @translate(Tes Tulis)</label>
-                    <div class="col-lg-9">
-                        {{-- <div class="switchery-list">
-                            <input type="checkbox" name="is_free" class="js-switch-success" id="val-is_free" />
-                            @error('is_free')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div> --}}
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" name="has_tes_tulis" id="has_tes_tulis"
-                                v-model="testu_enable">
-                            <label class="custom-control-label" for="has_tes_tulis"></label>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div id="auto_hide" v-if="testu_enable === true">
-
-                    {{-- TT - Jumlah Sesi Per Hari --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jumlah Sesi Per Hari)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="testu_jumlah_sesi_perhari" id="testu_jumlah_sesi_perhari"
-                                    v-model="testu_jumlah_sesi_perhari" required/>
-                                @error('testu_jumlah_sesi_perhari')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TT - Durasi Per Sesi --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Durasi Per Sesi) (Menit)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="testu_durasi_per_sesi" id="testu_durasi_per_sesi"
-                                    v-model="testu_durasi_per_sesi" required/>
-                                @error('testu_durasi_per_sesi')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TT - Jumlah Perserta Per Sesi --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jumlah Peserta Per Sesi)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="testu_jumlah_peserta_persesi" id="testu_jumlah_peserta_persesi"
-                                    v-model="testu_jumlah_peserta_persesi" required/>
-                                @error('testu_jumlah_peserta_persesi')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TT - Tanggal Mulai --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Tanggal Mulai)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="date" name="testu_tanggal_mulai" id="testu_tanggal_mulai"
-                                    v-model="testu_tanggal_mulai" required/>
-                                @error('testu_tanggal_mulai')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TT - Jam Mulai --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jam Mulai)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="time" name="testu_jam_mulai" id="testu_jam_mulai" v-model="testu_jam_mulai" required/>
-                                @error('testu_jam_mulai')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <button class="btn btn-sm btn-primary mt-3" type="button"
-                                @click.prevent="generateJadwalTulis">Generate Sesi</button>
-                        </div>
-                    </div>
-
-                    {{-- Tes Tulis Sesi --}}
-                    <div class="tes-tulis tes-tulis-row" v-for="(sesi, s_index) in testu_data_sesi" :key="s_index">
-
-                        <div class="text-h6" v-text="sesi.nama_sesi"></div>
-
-                        {{-- Nama Sesi --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Nama Sesi)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="text" v-model="sesi.nama_sesi" name="testu_sesi_nama[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Tanggal --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Tanggal)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="date" v-model="sesi.tanggal_sesi" name="testu_sesi_tanggal[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Jam --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Jam)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="time" v-model="sesi.jam_sesi" name="testu_sesi_jam[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Lokasi --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Lokasi)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="text" v-model="sesi.lokasi_sesi" name="testu_sesi_lokasi[]"
-                                        class="form-control" required>
-                                    {{-- <input type="hidden" v-model="sesi.nama_sesi" name="testu_sesi_nama[]" class="form-control"> --}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-3 row mb-4" v-if="testu_data_sesi && testu_data_sesi.length > 0">
-                        <div class="col-lg-3 col-form-label"></div>
-                        <div class="col-lg-9">
-                            <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiTulis"><i
-                                    class="fa fa-plus"></i> Tambah Sesi</button>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                {{-- Tes Wawancara --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="">
-                        @translate(Tes Wawancara)</label>
-                    <div class="col-lg-9">
-                        {{-- <div class="switchery-list">
-                            <input type="checkbox" name="c" class="js-switch-success" id="val-is_free2" />
-                            @error('wawancara')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
-                            @enderror
-                        </div> --}}
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" name="has_tes_wawancara"
-                                id="has_tes_wawancara" v-model="teswa_enable">
-                            <label class="custom-control-label" for="has_tes_wawancara"></label>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div id="auto_hide2" v-if="teswa_enable === true">
-
-                    {{-- TW - Jumlah Sesi Per Hari --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jumlah Sesi Per Hari)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="teswa_jumlah_sesi_perhari" id="teswa_jumlah_sesi_perhari"
-                                    v-model="teswa_jumlah_sesi_perhari" required/>
-                                @error('teswa_jumlah_sesi_perhari')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TW - Durasi Per Sesi --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Durasi Per Sesi) (Menit)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="teswa_durasi_per_sesi" id="teswa_durasi_per_sesi"
-                                    v-model="teswa_durasi_per_sesi" required/>
-                                @error('teswa_durasi_per_sesi')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TW - Jumlah Perserta Per Sesi --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jumlah Peserta Per Sesi)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="teswa_jumlah_peserta_persesi" id="teswa_jumlah_peserta_persesi"
-                                    v-model="teswa_jumlah_peserta_persesi" required/>
-                                @error('teswa_jumlah_peserta_persesi')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TW - Tanggal Mulai --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Tanggal Mulai)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="date" name="teswa_tanggal_mulai" id="teswa_tanggal_mulai"
-                                    v-model="teswa_tanggal_mulai" required/>
-                                @error('teswa_tanggal_mulai')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TW - Jam Mulai --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jam Mulai)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="time" name="teswa_jam_mulai" id="teswa_jam_mulai" v-model="teswa_jam_mulai" />
-                                @error('teswa_jam_mulai')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <button class="btn btn-sm btn-primary mt-3" type="button"
-                                @click.prevent="generateJadwalWawancara">Generate Sesi</button>
-                        </div>
-                    </div>
-
-                    {{-- Tes Wawancara Sesi --}}
-                    <div class="tes-wawancara tes-wawancara-row" v-for="(sesi, s_index) in teswa_data_sesi" :key="s_index">
-
-                        <div class="text-h6" v-text="sesi.nama_sesi"></div>
-
-                        {{-- Nama Sesi --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Nama Sesi)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="text" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Tanggal --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Tanggal)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="date" v-model="sesi.tanggal_sesi" name="teswa_sesi_tanggal[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Jam --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Jam)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="time" v-model="sesi.jam_sesi" name="teswa_sesi_jam[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Lokasi --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Lokasi)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="text" v-model="sesi.lokasi_sesi" name="teswa_sesi_lokasi[]"
-                                        class="form-control" required>
-                                    {{-- <input type="hidden" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]" class="form-control"> --}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-3 row mb-4" v-if="teswa_data_sesi && teswa_data_sesi.length > 0">
-                        <div class="col-lg-3 col-form-label"></div>
-                        <div class="col-lg-9">
-                            <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiWawancara"><i
-                                    class="fa fa-plus"></i> Tambah Sesi</button>
-                        </div>
-                    </div>
-
-                </div>
-
-                 {{-- Pendaftaran Ulang --}}
-                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="">Pendaftaran Ulang</label>
-                    <div class="col-lg-9">
-                        {{-- <div class="switchery-list">
-                            <input type="checkbox" name="c" class="js-switch-success" id="val-is_free2" />
-                            @error('wawancara')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
-                            @enderror
-                        </div> --}}
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" name="has_pendaftaran_ulang"
-                                id="has_pendaftaran_ulang" v-model="pendul_enable">
-                            <label class="custom-control-label" for="has_pendaftaran_ulang"></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="auto-hide3" v-if="pendul_enable">
-
-                    {{-- PENDUL - Jumlah Sesi Per Hari --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jumlah Sesi Per Hari)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="pendul_jumlah_sesi_perhari" id="pendul_jumlah_sesi_perhari"
-                                    v-model="pendul_jumlah_sesi_perhari" required/>
-                                @error('pendul_jumlah_sesi_perhari')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- PENDUL - Durasi Per Sesi --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Durasi Per Sesi) (Menit)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="pendul_durasi_per_sesi" id="pendul_durasi_per_sesi"
-                                    v-model="pendul_durasi_per_sesi" required/>
-                                @error('pendul_durasi_per_sesi')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- PENDUL - Jumlah Perserta Per Sesi --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jumlah Peserta Per Sesi)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="number" name="pendul_jumlah_peserta_persesi" id="pendul_jumlah_peserta_persesi"
-                                    v-model="pendul_jumlah_peserta_persesi" required/>
-                                @error('pendul_jumlah_peserta_persesi')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- PENDUL - Tanggal Mulai --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Tanggal Mulai)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="date" name="pendul_tanggal_mulai" id="pendul_tanggal_mulai"
-                                    v-model="pendul_tanggal_mulai" required/>
-                                @error('pendul_tanggal_mulai')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- PENDUL - Jam Mulai --}}
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="">
-                            @translate(Jam Mulai)</label>
-                        <div class="col-lg-9">
-                            <div class="switchery-list">
-                                <input type="time" name="pendul_jam_mulai" id="pendul_jam_mulai" v-model="pendul_jam_mulai" />
-                                @error('pendul_jam_mulai')
-                                    <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <button class="btn btn-sm btn-primary mt-3" type="button"
-                                @click.prevent="generateJadwalPendul">Generate Sesi</button>
-                        </div>
-                    </div>
-
-                    {{-- Pendaftaran Ulang Sesi --}}
-                    <div class="pendaftaran-ulang pendaftaran-ulang-row" v-for="(sesi, s_index) in pendul_data_sesi"
-                        :key="s_index">
-
-                        <div class="text-h6" v-text="sesi.nama_sesi"></div>
-
-                        {{-- Nama Sesi --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Nama Sesi)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="text" v-model="sesi.nama_sesi" name="pendul_sesi_nama[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Tanggal --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Tanggal)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="date" v-model="sesi.tanggal_sesi" name="pendul_sesi_tanggal[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Jam --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Jam)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="time" v-model="sesi.jam_sesi" name="pendul_sesi_jam[]"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Lokasi --}}
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label text-right">
-                                @translate(Lokasi)</label>
-                            <div class="col-lg-9">
-                                <div class="input-group mb-3">
-                                    <input type="text" v-model="sesi.lokasi_sesi" name="pendul_sesi_lokasi[]"
-                                        class="form-control" required>
-                                    {{-- <input type="hidden" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]" class="form-control"> --}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-3 row mb-4" v-if="pendul_data_sesi && pendul_data_sesi.length > 0">
-                        <div class="col-lg-3 col-form-label"></div>
-                        <div class="col-lg-9">
-                            <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiPendul"><i
-                                    class="fa fa-plus"></i> Tambah Sesi</button>
-                        </div>
-                    </div>
-
-
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="">
-                        <strong>@translate(Tambahan :)</label></strong>
-                    <div class="col-lg-9">
-                        <div class="switchery-list">
-
-                        </div>
-                    </div>
-                </div>
-                {{-- Tes Tulis --}}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="need_dtks">
-                        @translate(Perlu DTKS)</label>
-                    <div class="col-lg-9">
-                        {{-- <div class="switchery-list">
-                            <input type="checkbox" name="dtks" class="js-switch-success" id="dtks" />
-                            @error('dtks')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
-                            @enderror
-                        </div> --}}
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" name="need_dtks" id="need_dtks">
-                            <label class="custom-control-label" for="need_dtks"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="allow_disability">
-                        @translate(Disabilitas)</label>
-                    <div class="col-lg-9">
-                        {{-- <div class="switchery-list">
-                            <input type="checkbox" name="difabel" class="js-switch-success" id="difabel" />
-                            @error('difabel')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
-                            @enderror
-                        </div> --}}
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" name="allow_disability"
-                                id="allow_disability">
-                            <label class="custom-control-label" for="allow_disability"></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label" for="">
-                    </label>
-                    <div class="col-lg-9">
-                        <div class="switchery-list">
-                        </div>
-                    </div>
-                </div>
-                <div class="field_wrapper">
-                    <div class="form-group row">
-                        <label class="col-lg-3 col-form-label" for="val-title">
-                            @translate(Logbook) <span class="text-danger">*</span></label>
-                        <div class="col-lg-8">
-                            <input type="text" required value="{{ old('logbook') }}"
-                                class="form-control @error('logbook') is-invalid @enderror" id="val-logbook"
-                                name="logbook[]" aria-required="true" autofocus>
-                            @error('logbook')
-                                <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="col-lg-1"> <a class="btn btn-success" href="javascript:void(0);" id="add_button"
-                                title="Add field">
-                                <i class="la la-plus"></i></a>
-                        </div>
                     </div>
                 </div>
             </div>
-
-            {{-- Submit --}}
             <div class="form-group row">
-                <label class="col-lg-3 col-form-label"></label>
-                <div class="col-lg-8">
-                    <button type="submit" class="btn btn-primary">
-                        @translate(Submit)</button>
+                <label class="col-lg-3 col-form-label">
+                    @translate(Berakhir)</label>
+                <div class="col-lg-9">
+                    <div class="input-group mb-3">
+                        <input required type="date" value="{{ old('berakhir_pendaftaran') }}"
+                            name="berakhir_pendaftaran"
+                            class="form-control @error('berakhir_pendaftaran') is-invalid @enderror">
+                        @error('berakhir_pendaftaran')
+                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
                 </div>
             </div>
-            {{-- <div class="form-group row" style="display: none;">
+
+            {{-- Jumlah Peserta --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Jumlah Peserta)</label>
+                <div class="col-lg-9">
+                    <div class="switchery-list">
+                        <input type="number" name="jumlah_peserta" id="jumlah_peserta" v-model="jumlah_peserta"
+                            required />
+                        @error('jumlah_peserta')
+                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    <strong>@translate(Jadwal Seleksi :)</label></strong>
+                <div class="col-lg-9">
+                    <div class="switchery-list">
+
+                    </div>
+                </div>
+            </div>
+
+
+            {{-- Tes Tulis --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="is_free">
+                    @translate(Tes Tulis)</label>
+                <div class="col-lg-9">
+                    {{-- <div class="switchery-list">
+                        <input type="checkbox" name="is_free" class="js-switch-success" id="val-is_free" />
+                        @error('is_free')
+                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div> --}}
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="has_tes_tulis" id="has_tes_tulis"
+                            v-model="testu_enable">
+                        <label class="custom-control-label" for="has_tes_tulis"></label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="auto_hide" v-if="testu_enable === true">
+
+                {{-- TT - Jumlah Sesi Per Hari --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jumlah Sesi Per Hari)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="testu_jumlah_sesi_perhari" id="testu_jumlah_sesi_perhari"
+                                v-model="testu_jumlah_sesi_perhari" required />
+                            @error('testu_jumlah_sesi_perhari')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TT - Durasi Per Sesi --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Durasi Per Sesi) (Menit)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="testu_durasi_per_sesi" id="testu_durasi_per_sesi"
+                                v-model="testu_durasi_per_sesi" required />
+                            @error('testu_durasi_per_sesi')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TT - Jumlah Perserta Per Sesi --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jumlah Peserta Per Sesi)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="testu_jumlah_peserta_persesi" id="testu_jumlah_peserta_persesi"
+                                v-model="testu_jumlah_peserta_persesi" required />
+                            @error('testu_jumlah_peserta_persesi')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TT - Tanggal Mulai --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Tanggal Mulai)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="date" name="testu_tanggal_mulai" id="testu_tanggal_mulai"
+                                v-model="testu_tanggal_mulai" required />
+                            @error('testu_tanggal_mulai')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TT - Jam Mulai --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jam Mulai)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="time" name="testu_jam_mulai" id="testu_jam_mulai" v-model="testu_jam_mulai"
+                                required />
+                            @error('testu_jam_mulai')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <button class="btn btn-sm btn-primary mt-3" type="button"
+                            @click.prevent="generateJadwalTulis">Generate Sesi</button>
+                    </div>
+                </div>
+
+                {{-- Tes Tulis Sesi --}}
+                <div class="tes-tulis tes-tulis-row" v-for="(sesi, s_index) in testu_data_sesi" :key="s_index">
+
+                    <div class="text-h6" v-text="sesi.nama_sesi"></div>
+
+                    {{-- Nama Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Nama Sesi)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="text" v-model="sesi.nama_sesi" name="testu_sesi_nama[]"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Tanggal --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Tanggal)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="date" v-model="sesi.tanggal_sesi" name="testu_sesi_tanggal[]"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Jam --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Jam)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="time" v-model="sesi.jam_sesi" name="testu_sesi_jam[]" class="form-control"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Lokasi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Lokasi)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="text" v-model="sesi.lokasi_sesi" name="testu_sesi_lokasi[]"
+                                    class="form-control" required>
+                                {{-- <input type="hidden" v-model="sesi.nama_sesi" name="testu_sesi_nama[]"
+                                    class="form-control"> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 row mb-4" v-if="testu_data_sesi && testu_data_sesi.length > 0">
+                    <div class="col-lg-3 col-form-label"></div>
+                    <div class="col-lg-9">
+                        <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiTulis"><i
+                                class="fa fa-plus"></i> Tambah Sesi</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            {{-- Tes Wawancara --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    @translate(Tes Wawancara)</label>
+                <div class="col-lg-9">
+                    {{-- <div class="switchery-list">
+                        <input type="checkbox" name="c" class="js-switch-success" id="val-is_free2" />
+                        @error('wawancara')
+                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                        @enderror
+                    </div> --}}
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="has_tes_wawancara"
+                            id="has_tes_wawancara" v-model="teswa_enable">
+                        <label class="custom-control-label" for="has_tes_wawancara"></label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="auto_hide2" v-if="teswa_enable === true">
+
+                {{-- TW - Jumlah Sesi Per Hari --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jumlah Sesi Per Hari)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="teswa_jumlah_sesi_perhari" id="teswa_jumlah_sesi_perhari"
+                                v-model="teswa_jumlah_sesi_perhari" required />
+                            @error('teswa_jumlah_sesi_perhari')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TW - Durasi Per Sesi --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Durasi Per Sesi) (Menit)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="teswa_durasi_per_sesi" id="teswa_durasi_per_sesi"
+                                v-model="teswa_durasi_per_sesi" required />
+                            @error('teswa_durasi_per_sesi')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TW - Jumlah Perserta Per Sesi --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jumlah Peserta Per Sesi)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="teswa_jumlah_peserta_persesi" id="teswa_jumlah_peserta_persesi"
+                                v-model="teswa_jumlah_peserta_persesi" required />
+                            @error('teswa_jumlah_peserta_persesi')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TW - Tanggal Mulai --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Tanggal Mulai)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="date" name="teswa_tanggal_mulai" id="teswa_tanggal_mulai"
+                                v-model="teswa_tanggal_mulai" required />
+                            @error('teswa_tanggal_mulai')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- TW - Jam Mulai --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jam Mulai)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="time" name="teswa_jam_mulai" id="teswa_jam_mulai" v-model="teswa_jam_mulai" />
+                            @error('teswa_jam_mulai')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <button class="btn btn-sm btn-primary mt-3" type="button"
+                            @click.prevent="generateJadwalWawancara">Generate Sesi</button>
+                    </div>
+                </div>
+
+                {{-- Tes Wawancara Sesi --}}
+                <div class="tes-wawancara tes-wawancara-row" v-for="(sesi, s_index) in teswa_data_sesi" :key="s_index">
+
+                    <div class="text-h6" v-text="sesi.nama_sesi"></div>
+
+                    {{-- Nama Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Nama Sesi)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="text" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Tanggal --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Tanggal)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="date" v-model="sesi.tanggal_sesi" name="teswa_sesi_tanggal[]"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Jam --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Jam)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="time" v-model="sesi.jam_sesi" name="teswa_sesi_jam[]" class="form-control"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Lokasi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Lokasi)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="text" v-model="sesi.lokasi_sesi" name="teswa_sesi_lokasi[]"
+                                    class="form-control" required>
+                                {{-- <input type="hidden" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]"
+                                    class="form-control"> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 row mb-4" v-if="teswa_data_sesi && teswa_data_sesi.length > 0">
+                    <div class="col-lg-3 col-form-label"></div>
+                    <div class="col-lg-9">
+                        <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiWawancara"><i
+                                class="fa fa-plus"></i> Tambah Sesi</button>
+                    </div>
+                </div>
+
+            </div>
+
+            {{-- Pendaftaran Ulang --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">Pendaftaran Ulang</label>
+                <div class="col-lg-9">
+                    {{-- <div class="switchery-list">
+                        <input type="checkbox" name="c" class="js-switch-success" id="val-is_free2" />
+                        @error('wawancara')
+                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                        @enderror
+                    </div> --}}
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="has_pendaftaran_ulang"
+                            id="has_pendaftaran_ulang" v-model="pendul_enable">
+                        <label class="custom-control-label" for="has_pendaftaran_ulang"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="auto-hide3" v-if="pendul_enable">
+
+                {{-- PENDUL - Jumlah Sesi Per Hari --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jumlah Sesi Per Hari)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="pendul_jumlah_sesi_perhari" id="pendul_jumlah_sesi_perhari"
+                                v-model="pendul_jumlah_sesi_perhari" required />
+                            @error('pendul_jumlah_sesi_perhari')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- PENDUL - Durasi Per Sesi --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Durasi Per Sesi) (Menit)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="pendul_durasi_per_sesi" id="pendul_durasi_per_sesi"
+                                v-model="pendul_durasi_per_sesi" required />
+                            @error('pendul_durasi_per_sesi')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- PENDUL - Jumlah Perserta Per Sesi --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jumlah Peserta Per Sesi)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="number" name="pendul_jumlah_peserta_persesi" id="pendul_jumlah_peserta_persesi"
+                                v-model="pendul_jumlah_peserta_persesi" required />
+                            @error('pendul_jumlah_peserta_persesi')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- PENDUL - Tanggal Mulai --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Tanggal Mulai)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="date" name="pendul_tanggal_mulai" id="pendul_tanggal_mulai"
+                                v-model="pendul_tanggal_mulai" required />
+                            @error('pendul_tanggal_mulai')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- PENDUL - Jam Mulai --}}
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="">
+                        @translate(Jam Mulai)</label>
+                    <div class="col-lg-9">
+                        <div class="switchery-list">
+                            <input type="time" name="pendul_jam_mulai" id="pendul_jam_mulai"
+                                v-model="pendul_jam_mulai" />
+                            @error('pendul_jam_mulai')
+                            <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <button class="btn btn-sm btn-primary mt-3" type="button"
+                            @click.prevent="generateJadwalPendul">Generate Sesi</button>
+                    </div>
+                </div>
+
+                {{-- Pendaftaran Ulang Sesi --}}
+                <div class="pendaftaran-ulang pendaftaran-ulang-row" v-for="(sesi, s_index) in pendul_data_sesi"
+                    :key="s_index">
+
+                    <div class="text-h6" v-text="sesi.nama_sesi"></div>
+
+                    {{-- Nama Sesi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Nama Sesi)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="text" v-model="sesi.nama_sesi" name="pendul_sesi_nama[]"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Tanggal --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Tanggal)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="date" v-model="sesi.tanggal_sesi" name="pendul_sesi_tanggal[]"
+                                    class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Jam --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Jam)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="time" v-model="sesi.jam_sesi" name="pendul_sesi_jam[]" class="form-control"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Lokasi --}}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label text-right">
+                            @translate(Lokasi)</label>
+                        <div class="col-lg-9">
+                            <div class="input-group mb-3">
+                                <input type="text" v-model="sesi.lokasi_sesi" name="pendul_sesi_lokasi[]"
+                                    class="form-control" required>
+                                {{-- <input type="hidden" v-model="sesi.nama_sesi" name="teswa_sesi_nama[]"
+                                    class="form-control"> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 row mb-4" v-if="pendul_data_sesi && pendul_data_sesi.length > 0">
+                    <div class="col-lg-3 col-form-label"></div>
+                    <div class="col-lg-9">
+                        <button class="btn btn-sm btn-primary" type="button" @click.prevent="tambahSesiPendul"><i
+                                class="fa fa-plus"></i> Tambah Sesi</button>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                    <strong>@translate(Tambahan :)</label></strong>
+                <div class="col-lg-9">
+                    <div class="switchery-list">
+
+                    </div>
+                </div>
+            </div>
+            {{-- Tes Tulis --}}
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="need_dtks">
+                    @translate(Perlu DTKS)</label>
+                <div class="col-lg-9">
+                    {{-- <div class="switchery-list">
+                        <input type="checkbox" name="dtks" class="js-switch-success" id="dtks" />
+                        @error('dtks')
+                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                        @enderror
+                    </div> --}}
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="need_dtks" id="need_dtks">
+                        <label class="custom-control-label" for="need_dtks"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="allow_disability">
+                    @translate(Disabilitas)</label>
+                <div class="col-lg-9">
+                    {{-- <div class="switchery-list">
+                        <input type="checkbox" name="difabel" class="js-switch-success" id="difabel" />
+                        @error('difabel')
+                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
+                        @enderror
+                    </div> --}}
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="allow_disability"
+                            id="allow_disability">
+                        <label class="custom-control-label" for="allow_disability"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-lg-3 col-form-label" for="">
+                </label>
+                <div class="col-lg-9">
+                    <div class="switchery-list">
+                    </div>
+                </div>
+            </div>
+            <div class="field_wrapper">
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-title">
+                        @translate(Logbook) <span class="text-danger">*</span></label>
+                    <div class="col-lg-8">
+                        <input type="text" required value="{{ old('logbook') }}"
+                            class="form-control @error('logbook') is-invalid @enderror" id="val-logbook"
+                            name="logbook[]" aria-required="true" autofocus>
+                        @error('logbook')
+                        <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="col-lg-1"> <a class="btn btn-success" href="javascript:void(0);" id="add_button"
+                            title="Add field">
+                            <i class="la la-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Submit --}}
+        <div class="form-group row">
+            <label class="col-lg-3 col-form-label"></label>
+            <div class="col-lg-8">
+                <button type="submit" class="btn btn-primary">
+                    @translate(Submit)</button>
+            </div>
+        </div>
+        {{-- <div class="form-group row" style="display: none;">
             <label class="col-lg-3 col-form-label" for="val-title"></label>
             <div class="col-lg-8">
                 <input type="text" required value="{{ old('logbook') }}"
-                class="form-control @error('logbook') is-invalid @enderror" id="val-logbook" name="logbook"
-                aria-required="true" autofocus>
+                    class="form-control @error('logbook') is-invalid @enderror" id="val-logbook" name="logbook"
+                    aria-required="true" autofocus>
                 @error('logbook')
                 <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span>
                 @enderror
             </div>
             <div class="col-lg-1"><button class="btn btn-success add-more" type="button"><i
-                class="la la-trash"></i></button>
+                        class="la la-trash"></i></button>
             </div>
         </div> --}}
-    </form>
-    </div>
+</form>
+</div>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
+<script type="text/javascript">
+    $(document).ready(function(){
             var maxField = 10; //Input fields increment limitation
             var addButton = $('#add_button'); //Add button selector
             var wrapper = $('.field_wrapper'); //Input field wrapper
@@ -852,18 +858,18 @@
                 x--; //Decrement field counter
             });
         });
-    </script>
+</script>
 
-    <!-- END:content -->
+<!-- END:content -->
 @endsection
 @section('js-link')
-    @include('layouts.include.form.form_js')
+@include('layouts.include.form.form_js')
 @stop
 @section('page-script')
-    <script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script>
-        // var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch-success2'));
+<script type="text/javascript" src="{{ asset('assets/js/custom/course.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+    // var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch-success2'));
         // elems.forEach(function(html) {
         //     console.log(html)
         //     var switchery = new Switchery(html, { color: '#43d187' });
@@ -1193,6 +1199,6 @@
 
             }
         }).mount('#app')
-    </script>
+</script>
 
 @stop

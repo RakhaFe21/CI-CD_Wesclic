@@ -140,8 +140,9 @@
                             <tr>
                                 <th></th>
                                 <th width="100">Gambar</th>
-                                <th>Name</th>
+                                <th>Nama</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -163,7 +164,11 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    {{ $item->nik ?? 'N/A' }}
+                                    {{ $item->nik ?? '-' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}"> {{ $item->phone ?? '-' }}</a>
+
                                 </td>
                                 <td>
                                     <span class="badge badge-secondary">{{ $item->status }}</span>
@@ -190,6 +195,7 @@
                                 <th width="100">Gambar</th>
                                 <th>Name</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Sesi Tes Tulis</th>
                                 <th>Status</th>
                             </tr>
@@ -212,7 +218,11 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    {{ $item->nik ?? 'N/A' }}
+                                    {{ $item->nik ?? '-' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}"> {{ $item->phone ?? '-' }}</a>
+
                                 </td>
                                 <td>
                                     @php
@@ -259,6 +269,7 @@
                                 <th width="100">Gambar</th>
                                 <th>Name</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Sesi Tes Wawancara</th>
                                 <th>Status</th>
                             </tr>
@@ -281,7 +292,11 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    {{ $item->nik ?? 'N/A' }}
+                                    {{ $item->nik ?? '-' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}"> {{ $item->phone ?? '-' }}</a>
+
                                 </td>
                                 <td>
                                     @php
@@ -329,6 +344,7 @@
                                 <th width="100">Gambar</th>
                                 <th>Name</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -350,7 +366,11 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    {{ $item->nik ?? 'N/A' }}
+                                    {{ $item->nik ?? '-' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}"> {{ $item->phone ?? '-' }}</a>
+
                                 </td>
                                 <td>
                                     <span class="badge badge-info">{{ $item->status }}</span>
@@ -377,6 +397,7 @@
                                 <th width="100">Gambar</th>
                                 <th>Name</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -398,7 +419,11 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    {{ $item->nik ?? 'N/A' }}
+                                    {{ $item->nik ?? '-' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}"> {{ $item->phone ?? '-' }}</a>
+
                                 </td>
                                 <td>
                                     <span class="badge badge-info">{{ $item->status }}</span>
@@ -426,6 +451,7 @@
                                 <th width="100">Gambar</th>
                                 <th>Name</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Sesi Pendaftaran Ulang</th>
                                 <th>Status</th>
                             </tr>
@@ -449,6 +475,10 @@
                                 <td>{{ $item->name }}</td>
                                 <td>
                                     {{ $item->nik ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}"> {{ $item->phone ?? '-' }}</a>
+
                                 </td>
                                 <td>
                                     @php
@@ -494,6 +524,7 @@
                                 <th width="100">Gambar</th>
                                 <th>Name</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Status</th>
                                 <th>Logbook</th>
                             </tr>
@@ -516,7 +547,11 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    {{ $item->nik ?? 'N/A' }}
+                                    {{ $item->nik ?? '-' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}"> {{ $item->phone ?? '-' }}</a>
+
                                 </td>
                                 <td>
                                     <span class="badge badge-secondary">{{ $item->status }}</span>
@@ -549,6 +584,7 @@
                                 <th width="100">Gambar</th>
                                 <th>Name</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Status</th>
                                 <th>Logbook</th>
                             </tr>
@@ -571,7 +607,11 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    {{ $item->nik ?? 'N/A' }}
+                                    {{ $item->nik ?? '-' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}"> {{ $item->phone ?? '-' }}</a>
+
                                 </td>
                                 <td>
                                     <span class="badge badge-secondary">{{ $item->status }}</span>
@@ -604,6 +644,7 @@
                                 <th width="100">Gambar</th>
                                 <th>Nama</th>
                                 <th>NIK</th>
+                                <th>No Telepon</th>
                                 <th>Status</th>
                                 <th>Logbook</th>
                             </tr>
@@ -626,7 +667,12 @@
                                 </td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    {{ $item->nik ?? 'N/A' }}
+                                    {{ $item->nik ?? '-' }}
+                                </td>
+                                <td>
+                                    <a href="https://wa.me/+62{{ $item->phone }}" target="_blank"> {{ $item->phone ??
+                                        '-' }}</a>
+
                                 </td>
                                 <td>
                                     <span class="badge badge-secondary">{{ $item->status }}</span>

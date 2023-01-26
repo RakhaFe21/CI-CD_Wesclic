@@ -41,9 +41,9 @@ class InstructorRegister extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Instructor Register Success')
-                    ->action(env('APP_NAME'), url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('Pendaftaran Akun Dinas Berhasil')
+            ->action(env('APP_NAME'), url('/'))
+            ->line('Terimakasih!');
     }
 
     /**

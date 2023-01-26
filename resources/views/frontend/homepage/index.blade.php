@@ -183,115 +183,31 @@
                                                 }}</span>
                                         </span>
                                     </div><!-- end rating-wrap -->
-                                    <div class="rating-wrap d-flex mt-2 mb-3">
-                                        <div class="card-price-wrap d-flex justify-content-between align-items-center">
-                                            <span class="card__price">
-                                                @translate(Jadwal Seleksi)
-                                            </span>
-                                        </div>
-                                    </div><!-- end rating-wrap -->
-                                    <!-- <div class="card-price-wrap d-flex justify-content-between align-items-center">
-                                                    <span class="card__price">@translate(Jadwal Seleksi)</span>
-                                                </div>end rating-wrap -->
-                                    <div class="card-action">
-                                        <ul class="card-duration d-flex justify-content-between align-items-center">
-                                            <li>
-                                                <span class="meta__date">
-                                                    Tes Tulis
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span class="meta__date">
-                                                    Wawancara
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div><!-- end card-action -->
-                                    <div class="card-action">
-                                        <ul class="card-duration d-flex justify-content-between align-items-center">
-                                            <li>
-                                                <span class="meta__date">
-                                                    <i class="la la-calendar"></i>
-                                                    {{ \Carbon\Carbon::parse($l_course->tanggaltulis)->format('d F Y')
-                                                    }}
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span class="meta__date">
-                                                    <i class="la la-calendar"></i>
-                                                    {{ \Carbon\Carbon::parse($l_course->tanggalwawancara)->format('d F
-                                                    Y') }}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div><!-- end card-action -->
-                                    <div class="card-action">
-                                        <ul class="card-duration d-flex justify-content-between align-items-center">
-                                            <li>
-                                                <span class="meta__date">
-                                                    <i class="la la-clock-o"></i>
-                                                    {{ \Carbon\Carbon::parse($l_course->jamtulis)->format('H:i') }}
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span class="meta__date">
-                                                    <i class="la la-clock-o"></i>
-                                                    {{ \Carbon\Carbon::parse($l_course->jamwawancara)->format('H:i') }}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div><!-- end card-action -->
-                                    <div class="card-action">
-                                        <ul class="card-duration d-flex justify-content-between align-items-center">
-                                            <li>
-                                                <span class="meta__date">
-                                                    <i class="la la-map-marker"></i> {{ $l_course->lokasitulis }}
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span class="meta__date">
-                                                    <i class="la la-map-marker"></i>
-                                                    {{ $l_course->lokasiwawancara }}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div><!-- end card-action -->
-                                    <div class="card-price-wrap d-flex justify-content-between align-items-center">
-                                        <!--if free-->
-                                        @if ($l_course->is_free)
-                                        <span class="card__price">@translate(Gratis)</span>
-                                        @else
-                                        @if ($l_course->is_discount)
-                                        <span class="card__price">{{ formatPrice($l_course->discount_price) }}</span>
-                                        <span class="card__price"><del>{{ formatPrice($l_course->price) }}</del></span>
-                                        @else
-                                        <span class="card__price">{{ formatPrice($l_course->price) }}</span>
-                                        @endif
-                                        @endif
-                                        <!--there are the login-->
-                                        @auth()
-                                        @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
-                                        <a href="#!" class="text-btn addToCart-{{ $l_course->id }}"
-                                            onclick="addToCart({{ $l_course->id }},'{{ route('add.to.cart') }}')">@translate(Daftar)</a>
-                                        @else
-                                        <a href="{{ route('login') }}" class="text-btn">@translate(Daftar)</a>
-                                        @endif
-                                        @endauth
 
-                                        @guest()
-                                        <a href="{{ route('login') }}" class="text-btn">@translate(Daftar)</a>
-                                        @endguest
+                                    <!--there are the login-->
+                                    @auth()
+                                    @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
+                                    <a href="#!" class="text-btn addToCart-{{ $l_course->id }}"
+                                        onclick="addToCart({{ $l_course->id }},'{{ route('add.to.cart') }}')">@translate(Daftar)</a>
+                                    @else
+                                    <a href="{{ route('login') }}" class="text-btn">@translate(Daftar)</a>
+                                    @endif
+                                    @endauth
+
+                                    @guest()
+                                    <a href="{{ route('login') }}" class="text-btn">@translate(Daftar)</a>
+                                    @endguest
 
 
-                                    </div><!-- end card-price-wrap -->
-                                </div><!-- end card-content -->
-                            </div>
-                            @endforeach
-                        </div><!-- end course-carousel -->
-                    </div><!-- end tab-content -->
-                </div><!-- end col-lg-12 -->
-            </div><!-- end row -->
-        </div><!-- end container -->
+                                </div><!-- end card-price-wrap -->
+                            </div><!-- end card-content -->
+                        </div>
+                        @endforeach
+                    </div><!-- end course-carousel -->
+                </div><!-- end tab-content -->
+            </div><!-- end col-lg-12 -->
+        </div><!-- end row -->
+    </div><!-- end container -->
     </div><!-- end course-wrapper -->
 </section><!-- end courses-area -->
 @foreach ($latestCourses as $l_c_tooltip)
@@ -524,108 +440,8 @@
                                                             Y') }}</span>
                                                     </span>
                                                 </div><!-- end rating-wrap -->
-                                                <div class="rating-wrap d-flex mt-2 mb-3">
-                                                    <div
-                                                        class="card-price-wrap d-flex justify-content-between align-items-center">
-                                                        <span class="card__price">
-                                                            @translate(Jadwal Seleksi)
-                                                        </span>
-                                                    </div>
-                                                </div><!-- end rating-wrap -->
-                                                <!-- <div class="card-price-wrap d-flex justify-content-between align-items-center">
-                                                <span class="card__price">@translate(Jadwal Seleksi)</span>
-                                            </div>end rating-wrap -->
-                                                <div class="card-action">
-                                                    <ul
-                                                        class="card-duration d-flex justify-content-between align-items-center">
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                Tes Tulis
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                Wawancara
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div><!-- end card-action -->
-                                                <div class="card-action">
-                                                    <ul
-                                                        class="card-duration d-flex justify-content-between align-items-center">
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                <i class="la la-calendar"></i>
-                                                                {{
-                                                                \Carbon\Carbon::parse($course->tanggaltulis)->format('d
-                                                                F Y')
-                                                                }}
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                <i class="la la-calendar"></i>
-                                                                {{
-                                                                \Carbon\Carbon::parse($course->tanggalwawancara)->format('d
-                                                                F
-                                                                Y') }}
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div><!-- end card-action -->
-                                                <div class="card-action">
-                                                    <ul
-                                                        class="card-duration d-flex justify-content-between align-items-center">
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                <i class="la la-clock-o"></i>
-                                                                {{
-                                                                \Carbon\Carbon::parse($course->jamtulis)->format('H:i')
-                                                                }}
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                <i class="la la-clock-o"></i>
-                                                                {{
-                                                                \Carbon\Carbon::parse($course->jamwawancara)->format('H:i')
-                                                                }}
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div><!-- end card-action -->
-                                                <div class="card-action">
-                                                    <ul
-                                                        class="card-duration d-flex justify-content-between align-items-center">
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                <i class="la la-map-marker"></i> {{ $course->lokasitulis
-                                                                }}
-                                                            </span>
-                                                        </li>
-                                                        <li>
-                                                            <span class="meta__date">
-                                                                <i class="la la-map-marker"></i>
-                                                                {{ $course->lokasiwawancara }}
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div><!-- end card-action -->
                                                 <div
                                                     class="card-price-wrap d-flex justify-content-between align-items-center">
-                                                    <!--if free-->
-                                                    @if ($course->is_free)
-                                                    <span class="card__price">@translate(Gratis)</span>
-                                                    @else
-                                                    @if ($course->is_discount)
-                                                    <span class="card__price">{{ formatPrice($course->discount_price)
-                                                        }}</span>
-                                                    <span class="card__price"><del>{{ formatPrice($course->price)
-                                                            }}</del></span>
-                                                    @else
-                                                    <span class="card__price">{{ formatPrice($course->price) }}</span>
-                                                    @endif
-                                                    @endif
                                                     <!--there are the login-->
                                                     @auth()
                                                     @if (\Illuminate\Support\Facades\Auth::user()->user_type ==
@@ -832,17 +648,17 @@
                                                 }}</span>
                                         </span>
                                     </div><!-- end rating-wrap -->
-                                    <div class="rating-wrap d-flex mt-2 mb-3">
+                                    {{-- <div class="rating-wrap d-flex mt-2 mb-3">
                                         <div class="card-price-wrap d-flex justify-content-between align-items-center">
                                             <span class="card__price">
                                                 @translate(Tahapan Seleksi)
                                             </span>
                                         </div>
-                                    </div><!-- end rating-wrap -->
+                                    </div><!-- end rating-wrap --> --}}
                                     <!-- <div class="card-price-wrap d-flex justify-content-between align-items-center">
                                                     <span class="card__price">@translate(Jadwal Seleksi)</span>
                                                 </div>end rating-wrap -->
-                                    <div class="card-action">
+                                    {{-- <div class="card-action">
                                         <ul class="card-duration d-flex justify-content-between align-items-center">
                                             <li>
                                                 <span class="meta__date">
@@ -856,10 +672,58 @@
                                             </li>
                                         </ul>
                                     </div><!-- end card-action -->
-
+                                    <div class="card-action">
+                                        <ul class="card-duration d-flex justify-content-between align-items-center">
+                                            <li>
+                                                <span class="meta__date">
+                                                    <i class="la la-calendar"></i>
+                                                    {{ \Carbon\Carbon::parse($t_courses->tanggaltulis)->format('d F Y')
+                                                    }}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="meta__date">
+                                                    <i class="la la-calendar"></i>
+                                                    {{ \Carbon\Carbon::parse($t_courses->tanggalwawancara)->format('d F
+                                                    Y') }}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div><!-- end card-action -->
+                                    <div class="card-action">
+                                        <ul class="card-duration d-flex justify-content-between align-items-center">
+                                            <li>
+                                                <span class="meta__date">
+                                                    <i class="la la-clock-o"></i>
+                                                    {{ \Carbon\Carbon::parse($t_courses->jamtulis)->format('H:i') }}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="meta__date">
+                                                    <i class="la la-clock-o"></i>
+                                                    {{ \Carbon\Carbon::parse($t_courses->jamwawancara)->format('H:i') }}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div><!-- end card-action -->
+                                    <div class="card-action">
+                                        <ul class="card-duration d-flex justify-content-between align-items-center">
+                                            <li>
+                                                <span class="meta__date">
+                                                    <i class="la la-map-marker"></i> {{ $t_courses->lokasitulis }}
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="meta__date">
+                                                    <i class="la la-map-marker"></i>
+                                                    {{ $t_courses->lokasiwawancara }}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div><!-- end card-action --> --}}
                                     <div class="card-price-wrap d-flex justify-content-between align-items-center">
                                         <!--if free-->
-                                        @if ($t_courses->is_free)
+                                        {{-- @if ($t_courses->is_free)
                                         <span class="card__price">@translate(Gratis)</span>
                                         @else
                                         @if ($t_courses->is_discount)
@@ -868,7 +732,7 @@
                                         @else
                                         <span class="card__price">{{ formatPrice($t_courses->price) }}</span>
                                         @endif
-                                        @endif
+                                        @endif --}}
                                         <!--there are the login-->
                                         @auth()
                                         @if (\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')

@@ -56,6 +56,7 @@ use Illuminate\Support\Str;
 use Hash;
 use Alert;
 use App\Http\Controllers\API\V1\WilayahApiController;
+use App\Model\KursusJadwal;
 use Validator;
 
 class FrontendController extends Controller
@@ -211,16 +212,42 @@ class FrontendController extends Controller
             ->groupBy('course_id')->get();
 
         $courses = collect();
+
+        // dd(KursusJadwal::select('tanggal_mulai')->where('id_kursus', 12)->first());
+
         foreach ($enroll_courser_count as $e) {
-            $co = Course::Published()->whereDate('berakhir_pendaftaran', '>=', Carbon::today())->find($e->course_id);
+
+            $co = Course::Published()->whereDate('berakhir_pendaftaran', '>', Carbon::today())->find($e->course_id);
+
+            // dd($e->course_id);
+            // dd(KursusJadwal::select('tanggal_mulai')->where('id_kursus', $e->course_id)->first());
+
+
+            $testulis = KursusJadwal::select('tanggal_mulai', 'jam_mulai')->where('id_kursus', ($e->course_id))->where('nama_jadwal', 'Tes Tulis')->first();
+            $wawancara = KursusJadwal::select('tanggal_mulai', 'jam_mulai')->where('id_kursus', ($e->course_id))->where('nama_jadwal', 'Tes Wawancara')->first();
+
+            if ($testulis != null) {
+                $co['tanggaltulis'] =  Carbon::parse($testulis['tanggal_mulai'])->format('d F Y');
+                $co['jamtulis'] =  Carbon::parse($testulis['jam_mulai'])->format('H:i');
+            } else if ($wawancara != null) {
+                $co['tanggalwawancara'] =  Carbon::parse($testulis['tanggal_mulai'])->format('d F Y');
+                $co['jamwawancara'] =  Carbon::parse($testulis['jam_mulai'])->format('H:i');
+            } else {
+            }
+
             if ($co) {
+
+
                 $courses->push($co);
             }
         }
+
+        // dd($courses);
         $top_courses = $courses->take(6);
 
         //here the calculation for top category with top courses
         $course = collect();
+
         $cat = collect();
         if (env('ACTIVE_THEME') == 'frontend') {
             $course->push($top_courses->take(6));
@@ -236,6 +263,7 @@ class FrontendController extends Controller
         $start = Carbon::today()->toDateTimeString();
         $end = Carbon::today()->subDays(7)->toDateTimeString();
         $trading_courses = $courses->whereBetween('created_at', [$end, $start])->skip(6)->take(12);
+        $trading_courses = $courses->whereBetween('created_at', [$end, $start])->skip(6)->take(12);
 
         //if trading_course is 0
         if ($trading_courses->count() == 0) {
@@ -248,7 +276,14 @@ class FrontendController extends Controller
 
         $latestCourses = Course::Published()->with('relationBetweenInstructorUser')->latest()->take(10)->whereDate('berakhir_pendaftaran', '>=', Carbon::today())->get();
 
+
+
+
+
         $subscriptions = Subscription::Published()->get();
+
+
+        // $trading_courses = $courses->whereBetween('created_at', [$end, $start])->skip(6)->take(12);
 
 
         return view($this->theme . '.homepage.index', compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count'));

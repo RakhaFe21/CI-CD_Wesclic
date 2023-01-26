@@ -29,7 +29,7 @@ use phpseclib\Crypt\Hash;
 class InstructorController extends Controller
 {
 
-    function userNotify($user_id,$details)
+    function userNotify($user_id, $details)
     {
         $notify = new NotificationUser();
         $notify->user_id = $user_id;
@@ -46,9 +46,9 @@ class InstructorController extends Controller
     public function index(Request $request)
     {
         //there are the check the admin or
-        if (in_array(Auth::user()->user_type, ["Admin",'Executive'])) {
+        if (in_array(Auth::user()->user_type, ["Admin", 'Executive'])) {
             if ($request->has('search')) {
-                $instructors = Instructor::where("name", 'LIKE', '%'. $request->search.'%')
+                $instructors = Instructor::where("name", 'LIKE', '%' . $request->search . '%')
                     ->paginate(10);
             } else {
                 $instructors = Instructor::latest()->paginate(10);
@@ -64,12 +64,12 @@ class InstructorController extends Controller
     like Package, Course , Enrolment Student list Get Payment History*/
     public function show($id)
     {
-        if(Auth::user()->user_type == "Instructor"){
+        if (Auth::user()->user_type == "Instructor") {
             $instructor = Instructor::where('user_id', Auth::id())
                 ->with('purchaseHistory')
                 ->with('courses')
                 ->first();
-        }else{
+        } else {
             $instructor = Instructor::where('user_id', $id)
                 ->with('purchaseHistory')
                 ->with('courses')
@@ -83,13 +83,14 @@ class InstructorController extends Controller
     public function delete($id)
     {
         $instructor = Instructor::where('user_id', $id)->delete();
+        $users = User::where('id', $id)->delete();
         $user = User::findOrFail($id);
         $details = [
             'body' => $user->name . translate(' profile delete '),
         ];
 
         /* sending instructor notification */
-        $notify = $this->userNotify(Auth::user()->id,$details);
+        $notify = $this->userNotify(Auth::user()->id, $details);
 
         notify()->success(translate('Profile Delete successfully'));
         return back();
@@ -98,7 +99,7 @@ class InstructorController extends Controller
     /*Update profile */
     public function edit($id)
     {
-        $each_user = Instructor::where('user_id',$id)->firstOrFail();
+        $each_user = Instructor::where('user_id', $id)->firstOrFail();
         return view('instructor.profile', compact('each_user'));
     }
 
@@ -106,9 +107,9 @@ class InstructorController extends Controller
     public function update(Request $request)
     {
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $instructor = Instructor::where('user_id', $request->user_id)->firstOrFail();
         $instructor->phone = $request->phone;
@@ -125,15 +126,15 @@ class InstructorController extends Controller
         $instructor->skype = $request->skype;
         $instructor->about = $request->about;
 
-        if ($request->hasFile('signature')){
-            $instructor->signature = fileUpload($request->signature,'instructor') ;
+        if ($request->hasFile('signature')) {
+            $instructor->signature = fileUpload($request->signature, 'instructor');
         }
         $instructor->save();
 
         /*User*/
         $user = User::findOrFail($request->user_id);
         $user->image = $instructor->image;
-        if ($request->password != null){
+        if ($request->password != null) {
             $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
         }
         $user->save();
@@ -143,7 +144,7 @@ class InstructorController extends Controller
         ];
 
         /* sending instructor notification */
-        $notify = $this->userNotify(Auth::user()->id,$details);
+        $notify = $this->userNotify(Auth::user()->id, $details);
 
         notify()->success(translate('Profile updated successfully'));
         return back();
@@ -154,15 +155,14 @@ class InstructorController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
         $user = User::findOrFail($request->id);
         if ($user->user_type == "Instructor" && $user->banned == true) {
             $user->banned = false;
             notify()->success(translate('This user is Active'));
-
         } elseif ($user->user_type == "Instructor" && $user->banned == false) {
             $user->banned = true;
             notify()->success(translate('This user is Banned'));
@@ -184,11 +184,11 @@ class InstructorController extends Controller
     public function instructor_store(Request $request)
     {
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+            Alert::warning('warning', 'This is demo purpose only');
+            return back();
+        }
 
-      $request->validate([
+        $request->validate([
             //'package_id' => 'required',
             'name' => 'required',
             'email' => ['required', 'unique:users'],
@@ -213,7 +213,7 @@ class InstructorController extends Controller
         /*check the sulg */
         $users = User::where('slug', $slug_name)->get();
         if ($users->count() > 0) {
-            $slug_name = $slug_name.($users->count() + 1);
+            $slug_name = $slug_name . ($users->count() + 1);
         }
         $user = new User();
         $user->slug = $slug_name;
@@ -232,35 +232,34 @@ class InstructorController extends Controller
         $instructor->save();
 
 
-            //add purchase history
-            $purchase = new PackagePurchaseHistory();
-            $purchase->amount = $package->price;
-            $purchase->payment_method = $request->payment_method;
-            $purchase->package_id = 1;
-            $purchase->user_id = $user->id;
-            $purchase->save();
+        //add purchase history
+        $purchase = new PackagePurchaseHistory();
+        $purchase->amount = $package->price;
+        $purchase->payment_method = $request->payment_method;
+        $purchase->package_id = 1;
+        $purchase->user_id = $user->id;
+        $purchase->save();
 
 
-            //todo::admin Earning calculation
-            $admin = new AdminEarning();
-            $admin->amount = $package->price;
-            $admin->purposes = "Sale Package";
-            $admin->save();
+        //todo::admin Earning calculation
+        $admin = new AdminEarning();
+        $admin->amount = $package->price;
+        $admin->purposes = "Sale Package";
+        $admin->save();
 
-            try {
+        try {
 
-                $user->notify(new InstructorRegister());
+            $user->notify(new InstructorRegister());
 
-                VerifyUser::create([
-                    'user_id' => $user->id,
-                    'token' => sha1(time())
-                ]);
-                //send verify mail
-                $user->notify(new VerifyNotifications($user));
-            } catch (\Exception $exception) {
+            VerifyUser::create([
+                'user_id' => $user->id,
+                'token' => sha1(time())
+            ]);
+            //send verify mail
+            $user->notify(new VerifyNotifications($user));
+        } catch (\Exception $exception) {
+        }
 
-            }
-        
 
         Session::flash('message', translate("Registration done successfully."));
         return back();

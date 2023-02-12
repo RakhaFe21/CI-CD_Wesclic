@@ -10,7 +10,7 @@
 <!-- BEGIN:content -->
 <form action="{{ route('course.store') }}" method="post" enctype="multipart/form-data">
     <div class="card m-b-30" id="app">
-        <h4 class="card-header">@translate(Tambah pelatihan baru)</h4>
+        <h4 class="card-header">@translate(Tambah Pelatihan Baru)</h4>
         <div class="card-body mx-3">
             @csrf
             {{-- Course Title --}}

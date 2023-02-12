@@ -191,7 +191,7 @@
                                                     value="{{ old('nik') }}">
                                                 <span class="la la-book input-icon"></span>
 
-                                                @error('name')
+                                                @error('nik')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -229,7 +229,7 @@
                                                     value="{{ old('telp') }}">
                                                 <span class="la la-phone input-icon"></span>
 
-                                                @error('email')
+                                                @error('phone')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>

@@ -201,13 +201,13 @@
 
                                 </div><!-- end card-price-wrap -->
                             </div><!-- end card-content -->
-                        </div>
-                        @endforeach
-                    </div><!-- end course-carousel -->
-                </div><!-- end tab-content -->
-            </div><!-- end col-lg-12 -->
-        </div><!-- end row -->
-    </div><!-- end container -->
+
+                            @endforeach
+                        </div><!-- end course-carousel -->
+                    </div><!-- end tab-content -->
+                </div><!-- end col-lg-12 -->
+            </div><!-- end row -->
+        </div><!-- end container -->
     </div><!-- end course-wrapper -->
 </section><!-- end courses-area -->
 @foreach ($latestCourses as $l_c_tooltip)

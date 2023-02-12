@@ -58,6 +58,7 @@ use Alert;
 use App\Http\Controllers\API\V1\WilayahApiController;
 use App\Model\KursusJadwal;
 use Validator;
+use Illuminate\Support\Facades\Notification;
 
 class FrontendController extends Controller
 {
@@ -157,7 +158,7 @@ class FrontendController extends Controller
             $conditions = array_merge($conditions, ['category_id' => $request->input('categories')]);
             $breadcrumb = Category::where('id', $request->input('categories'))->first()->name;
         }
-        $courses = Course::Published()->where($conditions)->whereDate('berakhir_pendaftaran', '>=', Carbon::today())->latest()->paginate(8);
+        $courses = Course::Published()->where($conditions)->where('is_published', true)->whereDate('berakhir_pendaftaran', '>=', Carbon::today())->latest()->paginate(8);
         // dd($courses);
         $languages = Language::all();
 
@@ -217,23 +218,23 @@ class FrontendController extends Controller
 
         foreach ($enroll_courser_count as $e) {
 
-            $co = Course::Published()->whereDate('berakhir_pendaftaran', '>', Carbon::today())->find($e->course_id);
+            $co = Course::Published()->where('is_published', true)->whereDate('berakhir_pendaftaran', '>', Carbon::today())->find($e->course_id);
 
             // dd($e->course_id);
             // dd(KursusJadwal::select('tanggal_mulai')->where('id_kursus', $e->course_id)->first());
 
 
-            $testulis = KursusJadwal::select('tanggal_mulai', 'jam_mulai')->where('id_kursus', ($e->course_id))->where('nama_jadwal', 'Tes Tulis')->first();
-            $wawancara = KursusJadwal::select('tanggal_mulai', 'jam_mulai')->where('id_kursus', ($e->course_id))->where('nama_jadwal', 'Tes Wawancara')->first();
+            // $testulis = KursusJadwal::select('tanggal_mulai', 'jam_mulai')->where('id_kursus', ($e->course_id))->where('nama_jadwal', 'Tes Tulis')->first();
+            // $wawancara = KursusJadwal::select('tanggal_mulai', 'jam_mulai')->where('id_kursus', ($e->course_id))->where('nama_jadwal', 'Tes Wawancara')->first();
 
-            if ($testulis != null) {
-                $co['tanggaltulis'] =  Carbon::parse($testulis['tanggal_mulai'])->format('d F Y');
-                $co['jamtulis'] =  Carbon::parse($testulis['jam_mulai'])->format('H:i');
-            } else if ($wawancara != null) {
-                $co['tanggalwawancara'] =  Carbon::parse($testulis['tanggal_mulai'])->format('d F Y');
-                $co['jamwawancara'] =  Carbon::parse($testulis['jam_mulai'])->format('H:i');
-            } else {
-            }
+            // if ($testulis != null) {
+            //     $co['tanggaltulis'] =  Carbon::parse($testulis['tanggal_mulai'])->format('d F Y');
+            //     $co['jamtulis'] =  Carbon::parse($testulis['jam_mulai'])->format('H:i');
+            // } else if ($wawancara != null) {
+            //     $co['tanggalwawancara'] =  Carbon::parse($testulis['tanggal_mulai'])->format('d F Y');
+            //     $co['jamwawancara'] =  Carbon::parse($testulis['jam_mulai'])->format('H:i');
+            // } else {
+            // }
 
             if ($co) {
 
@@ -274,7 +275,12 @@ class FrontendController extends Controller
         $packages = Package::where('is_published', true)->get();
 
 
-        $latestCourses = Course::Published()->with('relationBetweenInstructorUser')->latest()->take(10)->whereDate('berakhir_pendaftaran', '>=', Carbon::today())->get();
+        $latestCourses = Course::Published()->with('relationBetweenInstructorUser')
+            ->latest()
+            ->take(10)
+            ->where('is_published', true)
+            ->whereDate('berakhir_pendaftaran', '>=', Carbon::today())
+            ->get();
 
 
 
@@ -465,19 +471,24 @@ class FrontendController extends Controller
             [
                 'name' => 'required',
                 'email' => ['required', 'string', 'without_spaces', 'max:255', 'unique:users'],
+                'nik' => 'required', 'without_spaces', 'number', 'min:16', 'max:16', 'unique:users',
+                'telepon' => 'required', 'without_spaces', 'number', 'min:9', 'max:14', 'unique:users',
                 'password' => ['required', 'string', 'min:8'],
                 'confirmed' => 'required|required_with:password|same:password',
             ],
             [
-                'name.required' => translate('Name is required'),
-                'email.required' => translate('Email is required'),
-                'email.unique' => translate('Email is already register'),
-                'email.without_spaces' => translate('Username cannot contain spaces'),
-                'password.required' => translate('Password is required'),
-                'password.min' => translate('Password  must be 8 character '),
-                'password.string' => translate('Password is required'),
-                'confirmed.required' => translate('Please confirm your password'),
-                'confirmed.same' => translate('Password did not match'),
+                'name.required' => translate('Pastikan Nama Lengkap telah diisi'),
+                'nik.required' => translate('Pastikan NIK telah diisi'),
+                'nik.min' => translate('Pastikan NIK Kamu Sesuai'),
+                'nik.unique' => translate('Pastikan NIK kamu belum pernah terdaftar'),
+                'email.required' => translate('Pastikan username telah diisi'),
+                'email.unique' => translate('Pastikan username telah terdaftar'),
+                'email.without_spaces' => translate('Username tidak boleh memiliki spasi'),
+                'password.required' => translate('Password telah diisi'),
+                'password.min' => translate('Password minimal 8 karakter'),
+                'password.string' => translate('Pastikan Password telah diisi'),
+                'confirmed.required' => translate('Isi konfirmasi password terlebih dulu'),
+                'confirmed.same' => translate('Password konfirmasi tidak sesuai'),
             ]
 
         );
@@ -499,6 +510,7 @@ class FrontendController extends Controller
         $student->email     = $request->email;
         $student->phone     = $request->phone;
         $student->user_id   = $user->id;
+        $student->image   = 'uploads/user/user.png';
         $student->save();
 
         /*here is the student */
@@ -529,6 +541,7 @@ class FrontendController extends Controller
     public function student_edit()
     {
         $student = Student::where('user_id', Auth::user()->id)->first();
+
         // $url = 'https://wilayah.conect.id/static/api/provinces.json';
         // $options = array('http' => array(
         //     'method'  => 'GET'
@@ -589,14 +602,24 @@ class FrontendController extends Controller
         $student->tgl_lahir = $request->tgl_lahir;
 
         // api wilayah
-        $student->id_provinsi = $request->id_provinsi;
-        $student->nama_provinsi = $request->nama_provinsi;
-        $student->id_kota = $request->id_kota;
-        $student->nama_kota = $request->nama_kota;
-        $student->id_kecamatan = $request->id_kecamatan;
-        $student->nama_kecamatan = $request->nama_kecamatan;
-        $student->id_kelurahan = $request->id_kelurahan;
-        $student->nama_kelurahan = $request->nama_kelurahan;
+
+        if ($student->id_provinsi == null) {
+            $student->id_provinsi = $request->id_provinsi;
+            $student->nama_provinsi = $request->nama_provinsi;
+        }
+
+        if ($student->id_kota == null) {
+            $student->id_kota = $request->id_kota;
+            $student->nama_kota = $request->nama_kota;
+        }
+        if ($student->id_kecamatan == null) {
+            $student->id_kecamatan = $request->id_kecamatan;
+            $student->nama_kecamatan = $request->nama_kecamatan;
+        }
+        if ($student->id_kelurahan == null) {
+            $student->id_kelurahan = $request->id_kelurahan;
+            $student->nama_kelurahan = $request->nama_kelurahan;
+        }
 
         if ($request->file('image')) {
             $user->image = fileUpload($request->file('image'), 'student');
@@ -606,8 +629,8 @@ class FrontendController extends Controller
             $student->image = $request->oldImage;
         }
 
-        $user->save();
-        $student->save();
+        $user->update();
+        $student->update();
 
         //create user for login
         // $user = User::where('id', Auth::id())->firstOrFail();
@@ -615,13 +638,30 @@ class FrontendController extends Controller
         // $user->image = $student->image;
         // $user->save();
 
-        return back();
+        return back()->with(['success' => 'Profil Berhasil Diupdate']);;
     }
 
     public function student_reset_password(Request $request)
     {
+
+
+
+        $validate = $request->validate(
+            [
+                'password' => 'required|min:8',
+                'password_confirmation' => 'required|required_with:password|same:password'
+            ],
+            [
+                'password.required' => 'Password Wajib Diisi',
+                'password.min' => 'Minimal Password adalah 8 karakter',
+                'password_confirmation.same' => 'Pastikan Password Konfirmasi Sama'
+            ],
+        );
+
+
+
         /*User*/
-        $user = User::findOrFail($request->user_id);
+        $user = User::findOrFail(Auth::user()->id);
         $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
 
         $user->save();
@@ -634,7 +674,7 @@ class FrontendController extends Controller
         $notify = $this->userNotify(Auth::user()->id, $details);
 
         notify()->success(translate('Profile updated successfully'));
-        return redirect('/');
+        return back()->with(['success' => 'Password Berhasil Diubah']);
     }
 
 
@@ -681,6 +721,7 @@ class FrontendController extends Controller
             $demo->message = translate('Go to Lesson');
             $enrollCollection->push($demo);
         }
+
         return response(['data' => $enrollCollection], 200);
     }
 
@@ -783,9 +824,12 @@ class FrontendController extends Controller
         $lastEnrollment = Enrollment::where('user_id', $id_siswa)
             ->whereNotIn('status', ['Lulus', 'Gagal'])->orderByDesc('created_at');
         if ($lastEnrollment->count() > 0) {
-            notify()->error('Pendaftaran pelatihan tidak dapat dilakukan karena masih ada pelatihan yang terdaftar dan belum lulus!', 'Error');
+            notify()->success(translate('Course deleted successfully'));
+
+            // notify()->error('Pendaftaran pelatihan tidak dapat dilakukan karena masih ada pelatihan yang terdaftar dan belum lulus!', 'Error');
             return redirect()->back()->with('error', 'Pendaftaran pelatihan tidak dapat dilakukan karena masih ada pelatihan yang terdaftar dan belum lulus!');
         }
+
 
         $enroll = Enrollment::create([
             'course_id' => $id_pelatihan,

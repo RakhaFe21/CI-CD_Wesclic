@@ -236,6 +236,7 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::get('admin/earning', 'Module\EarningController@adminEarning')->name('admin.earning.index');
 
     //student
+
     Route::get('student/index', 'Module\StudentController@index')->name('students.index');
     Route::get('peserta/index', 'Module\StudentController@index')->name('peserta.index');
     Route::get('peserta/baru', 'Module\StudentController@peserta_baru')->name('peserta.baru');
@@ -245,11 +246,11 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
 
     Route::get('student/enroll/courses/{id}', 'Module\StudentController@student_enroll_courses')->name('student.enroll.courses.modal');
     Route::post('student/enroll/courses/{id}/store', 'Module\StudentController@student_enroll_courses_store')->name('student.enroll.courses.modal.store');
-    
+
     // logbook
     Route::get('student/logbook/courses/{course_id}/{user_id}', 'Module\StudentController@student_logbook_courses')->name('student.logbook.courses.modal');
     Route::post('student/logbook/courses/{user_id}', 'Module\StudentController@student_logbook_courses_store')->name('student.logbook.courses.modal.store');
-    
+
     //all pages
     Route::get('pages/index', 'Module\PageController@index')->name('pages.index');
     Route::get('pages/create', 'Module\PageController@create')->name('pages.create');

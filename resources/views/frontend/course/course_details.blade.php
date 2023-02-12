@@ -622,9 +622,10 @@
                                     {{-- <a href="#!" class="theme-btn w-100 mb-3 addToCart-{{ $s_course->id }}"
                                         onclick="addToCart({{ $s_course->id }},'{{ route('add.to.cart') }}')">Daftar</a>
                                     --}}
-                                    @if (countEnrollmentProgress(auth()->user() && auth()->user()->id) < 1) <form
+                                    @if (countEnrollmentProgress(auth()->user()->id) < 1) <form
                                         action="{{ route('enroll.course', ['id' => $s_course->id]) }}" method="post">
                                         @csrf
+
                                         <button type="submit" class="theme-btn w-100 mb-3">Daftar</button>
                                         </form>
                                         @else

@@ -52,6 +52,19 @@ class CreateCoursesTable extends Migration
                 ->on('categories')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
+            // tahapan pelatihan
+            $table->longText('tahapan_pelatihan');
+            // pendaftaran
+            $table->date('mulai_pendaftaran')->default(now());
+            $table->date('berakhir_pendaftaran')->default(now());
+            $table->integer('jumlah_peserta')->default(0);
+            $table->boolean('need_dtks')->default(false);
+            $table->boolean('allow_disability')->default(false);
+            $table->boolean('has_tes_tulis')->default(false);
+            $table->boolean('has_tes_wawancara')->default(false);
+            $table->boolean('has_pendaftaran_ulang')->default(false);
+
+
         });
     }
 

@@ -465,33 +465,42 @@ class FrontendController extends Controller
             Alert::warning('warning', 'This is demo purpose only');
             return back();
         }
+        // dd($request);
 
         // registration validation
-        $request->validate(
-            [
-                'name' => 'required',
-                'email' => ['required', 'string', 'without_spaces', 'max:255', 'unique:users'],
-                'nik' => 'required', 'without_spaces', 'number', 'min:16', 'max:16', 'unique:users',
-                'telepon' => 'required', 'without_spaces', 'number', 'min:9', 'max:14', 'unique:users',
-                'password' => ['required', 'string', 'min:8'],
-                'confirmed' => 'required|required_with:password|same:password',
-            ],
-            [
-                'name.required' => translate('Pastikan Nama Lengkap telah diisi'),
-                'nik.required' => translate('Pastikan NIK telah diisi'),
-                'nik.min' => translate('Pastikan NIK Kamu Sesuai'),
-                'nik.unique' => translate('Pastikan NIK kamu belum pernah terdaftar'),
-                'email.required' => translate('Pastikan username telah diisi'),
-                'email.unique' => translate('Pastikan username telah terdaftar'),
-                'email.without_spaces' => translate('Username tidak boleh memiliki spasi'),
-                'password.required' => translate('Password telah diisi'),
-                'password.min' => translate('Password minimal 8 karakter'),
-                'password.string' => translate('Pastikan Password telah diisi'),
-                'confirmed.required' => translate('Isi konfirmasi password terlebih dulu'),
-                'confirmed.same' => translate('Password konfirmasi tidak sesuai'),
-            ]
+        $request->validate([
+            'name' => 'required',
+            'email' => ['required', 'string', 'without_spaces', 'max:255', 'unique:users'],
+            'nik' => ['required', 'without_spaces', 'numeric',  'unique:users'],
+            'phone' => ['required', 'without_spaces', 'numeric', 'min:9', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'confirmed' => 'required|required_with:password|same:password',
+        ], [
+            'name.required' => translate('Pastikan Nama Lengkap telah diisi'),
+            'email.required' => translate('Pastikan username telah diisi'),
+            'email.string' => translate('Pastikan username berupa string'),
+            'email.without_spaces' => translate('Username tidak boleh memiliki spasi'),
+            'email.max' => translate('Panjang username maksimal 255 karakter'),
+            'email.unique' => translate('Username telah terdaftar'),
+            'nik.required' => translate('Pastikan NIK telah diisi'),
+            'nik.without_spaces' => translate('NIK tidak boleh memiliki spasi'),
+            'nik.numeric' => translate('NIK harus berupa angka'),
+            'nik.unique' => translate('NIK telah terdaftar'),
+            'nik.size' => translate('NIK harus memiliki panjang 16 karakter'),
+            'phone.required' => translate('Pastikan no telepon telah diisi'),
+            'phone.without_spaces' => translate('Telepon tidak boleh memiliki spasi'),
+            'phone.numeric' => translate('Telepon harus berupa angka'),
+            'phone.unique' => translate('Telepon telah terdaftar'),
+            'phone.min' => translate('Telepon harus minimal 9 digit'),
+            'phone.max' => translate('Telepon harus maksimal 14 digit'),
+            'password.required' => translate('Password telah diisi'),
+            'password.string' => translate('Password harus berupa string'),
+            'password.min' => translate('Password minimal 8 karakter'),
+            'confirmed.required' => translate('Isi konfirmasi password terlebih dulu'),
+            'confirmed.required_with' => translate('Isi konfirmasi password terlebih dulu'),
+            'confirmed.same' => translate('Password konfirmasi tidak sesuai dengan password'),
+        ]);
 
-        );
 
         //create user for login
         $user = new User();

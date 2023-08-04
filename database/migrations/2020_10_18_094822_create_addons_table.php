@@ -15,6 +15,11 @@ class CreateAddonsTable extends Migration
     {
         Schema::create('addons', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->default();
+            $table->string('unique_identifier')->default();
+            $table->string('version')->default();
+            $table->boolean('activated',1);
+            $table->longText('image');
             $table->timestamps();
         });
     }

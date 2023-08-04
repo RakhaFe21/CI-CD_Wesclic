@@ -13,6 +13,7 @@ class CreateForumsTable extends Migration
      */
     public function up()
     {
+        
         Schema::create('forums', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');

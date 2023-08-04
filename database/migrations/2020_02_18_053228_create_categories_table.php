@@ -23,6 +23,7 @@ class CreateCategoriesTable extends Migration
             $table->boolean('is_published')->default(true);
             $table->integer('parent_category_id')->default(0);
             $table->timestamps();
+            $table->boolean('is_item,1')->default(0);
         });
     }
 

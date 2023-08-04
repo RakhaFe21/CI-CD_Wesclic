@@ -48,7 +48,6 @@ class CreateStudentsTable extends Migration
                 ->references('id')->on('users');
             $table->string('nama_kelurahan')->default();
             $table->softDeletes();
-            $table->timestamps();
         });
     }
 

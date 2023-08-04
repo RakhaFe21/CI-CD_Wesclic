@@ -27,18 +27,26 @@ class CreateStudentsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')->on('users'); 
-            $table->string('nik')->collation('utf8mb4_unicode_ci ')->default();
-            $table->date('tgl_lahir')->default();
-            $table->string('dtks')->collation('utf8mb4_unicode_ci ')->default();
+            $table->string('nik')->default();
+            $table->date('tgl_lahir')->default(now());
+            $table->string('dtks')->default();
             $table->boolean('is_disable')->default(0);
-            $table->bigInteger('id_provinsi')->unsigned();
-            $table->string('nama_provinsi')->collation('utf8mb4_unicode_ci ')->default();
-            $table->bigInteger('id_kota')->unsigned();
-            $table->string('nama_kota')->collation('utf8mb4_unicode_ci ')->default();
-            $table->bigInteger('id_kecamatan')->default();
-            $table->string('nama_kecamatan')->collation('utf8mb4_unicode_ci')->default();
-            $table->bigInteger('id_kelurahan')->default();
-            $table->string('nama_kelurahan')->collation('utf8mb4_unicode_ci')->default();
+            $table->unsignedBigInteger('id_provinsi');
+            $table->foreign('id_provinsi')
+                ->references('id')->on('users');
+            $table->string('nama_provinsi')->default();
+            $table->unsignedBigInteger('id_kota');
+            $table->foreign('id_kota')
+                ->references('id')->on('users');
+            $table->string('nama_kota')->default();
+            $table->unsignedBigInteger('id_kecamatan');
+            $table->foreign('id_kecamatan')
+                ->references('id')->on('users');
+            $table->string('nama_kecamatan')->default();
+            $table->unsignedBigInteger('id_kelurahan');
+            $table->foreign('id_kelurahan')
+                ->references('id')->on('users');
+            $table->string('nama_kelurahan')->default();
             $table->softDeletes();
             $table->timestamps();
         });

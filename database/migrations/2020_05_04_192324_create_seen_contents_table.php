@@ -16,7 +16,7 @@ class CreateSeenContentsTable extends Migration
         Schema::create('seen_contents', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('enroll_id');
-            $table->unsignedBigInteger('subscription_enroll_id');
+            // $table->unsignedBigInteger('subscription_enroll_id');
             $table->foreign('enroll_id')
                 ->references('id')
                 ->on('enrollments')

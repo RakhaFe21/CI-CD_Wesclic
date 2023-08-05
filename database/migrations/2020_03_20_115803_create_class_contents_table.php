@@ -34,6 +34,7 @@ class CreateClassContentsTable extends Migration
             $table->boolean('is_published')->default(true);
             $table->boolean('is_preview')->default(false);
             $table->string('source_code')->nullable();
+            $table->bigInteger('quiz_id')->default();
             $table->softDeletes();
             $table->timestamps();
         });

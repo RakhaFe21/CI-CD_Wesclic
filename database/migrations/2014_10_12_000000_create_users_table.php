@@ -23,8 +23,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('verified')->default(false);
             $table->string('password')->nullable();
-            $table->boolean('banned')->default(false); // User cannot login if banned
-            $table->string('provider_id')->nullable(); // this is for login fb,g+ etc
+            $table->boolean('banned')->default(false);
+            $table->string('provider_id')->nullable();
             $table->string('image')->nullable()->default('uploads/user/user.png');
             $table->longText('zoom_email')->nullable();
             $table->longText('jwt_token')->nullable();

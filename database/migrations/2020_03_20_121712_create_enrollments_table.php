@@ -23,6 +23,7 @@ class CreateEnrollmentsTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')->onDelete('cascade');
+                $table->string('status')->default('Pending')->collation('utf8mb4_unicode_ci');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -13,7 +15,8 @@ class UserSeeder extends Seeder
     {
       DB::table('users')->insert([
           'name' => 'Admin',
-          'email' => 'admin@mail.com',
+          'nik' => '1234567',
+          'email' => 'admin@gmail.com',
           'password' => Hash::make('12345678'),
           'user_type' => 'Admin',
           'banned' => false,

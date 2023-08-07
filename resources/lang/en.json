@@ -1,8 +1,6 @@
 {
-<<<<<<< HEAD
-=======
     " password updated ": " password updated ",
->>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
+    " password updated ": " password updated ",
     "$item": "$item",
     "404 Not Found": "404 Tidak Ditemukan",
     "A blog post is an individual web page on your website that dives into a particular sub-topic of your blog.": "Posting blog adalah halaman web individu di situs web Anda yang mendalami subtopik tertentu dari blog Anda.",
@@ -63,6 +61,10 @@
     "Aksi": "Aksi",
     "Akun": "Akun",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    "Alamat": "Alamat",
+>>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
 =======
     "Alamat": "Alamat",
 >>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e

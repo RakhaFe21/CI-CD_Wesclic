@@ -15,13 +15,12 @@ class UserSeeder extends Seeder
     {
       DB::table('users')->insert([
           'name' => 'Admin',
-<<<<<<< HEAD
           'email' => 'admin@gmail.com',
           'nik' => '123456789',
-=======
           'nik' => '1234567',
           'email' => 'admin@gmail.com',
->>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
+          'nik' => '1234567',
+          'email' => 'admin@gmail.com',
           'password' => Hash::make('12345678'),
           'user_type' => 'Admin',
           'banned' => false,

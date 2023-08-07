@@ -10,6 +10,7 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'install.check', 'prefix' => 'install'], function () {

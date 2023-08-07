@@ -1,4 +1,8 @@
 {
+<<<<<<< HEAD
+=======
+    " password updated ": " password updated ",
+>>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
     "$item": "$item",
     "404 Not Found": "404 Tidak Ditemukan",
     "A blog post is an individual web page on your website that dives into a particular sub-topic of your blog.": "Posting blog adalah halaman web individu di situs web Anda yang mendalami subtopik tertentu dari blog Anda.",
@@ -58,6 +62,10 @@
     "Akses seumur hidup": "Akses seumur hidup",
     "Aksi": "Aksi",
     "Akun": "Akun",
+<<<<<<< HEAD
+=======
+    "Alamat": "Alamat",
+>>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
     "Alamat E-Mail": "Alamat E-Mail",
     "Alamat Email": "Alamat Email",
     "Alamatrn                                        Email": "Alamatrn                                        Email",
@@ -84,6 +92,7 @@
     "Anda harus memilih kategori": "Anda harus memilih kategori",
     "Answers": "Jawaban",
     "Apakah Anda Difabel": "Apakah Anda Difabel",
+    "Apakah Andarn                                                                    Difabel": "Apakah Andarn                                                                    Difabel",
     "Apply Coupon": "Gunakan Kupon",
     "Are you instructor?": "Apakah Anda pengajar?",
     "Are you student?": "Apakah Anda mahasiswa?",
@@ -614,6 +623,7 @@
     "Koki Internasional this course enrolled by dinar ranta": "Koki Internasional this course enrolled by dinar ranta",
     "Komentar": "Komentar",
     "Konfirmasi Password": "Konfirmasi Password",
+    "Konfirmasi Passwordrn                                                                    Baru": "Konfirmasi Passwordrn                                                                    Baru",
     "Konfirmasi Passwordrn                                                            Baru": "Konfirmasi Passwordrn                                                            Baru",
     "Konfirmasi password": "Konfirmasi password",
     "Konfirmasirn                                        Password": "Konfirmasirn                                        Password",
@@ -1405,6 +1415,7 @@
     "Twitter Link": "Twitter Link",
     "Type": "Type",
     "Type pelatihan": "Type pelatihan",
+    "Ubabrn                                                                    Password": "Ubabrn                                                                    Password",
     "Ubah Password": "Ubah Password",
     "Ubah password": "Ubah password",
     "Ubahrn                                                            Password": "Ubahrn                                                            Password",

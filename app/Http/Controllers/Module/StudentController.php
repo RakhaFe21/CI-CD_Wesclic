@@ -152,7 +152,7 @@ class StudentController extends Controller
         $student->id_provinsi = $user->id;
         $student->id_kota = $user->id;
         $student->id_kecamatan = $user->id;
-        // $student->user_id = $user->id;
+        $student->id_kelurahan = $user->id;
         // $student->user_id = $user->id;
         // $student->user_id = $user->id;
         $student->user_id = $user->id;

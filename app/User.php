@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'user_type', 'provider_id'
+        'name', 'email','phone','nik', 'password', 'user_type', 'provider_id'
     ];
 
     /**
@@ -68,6 +68,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeVerify($query){
         return $query->where('verified', true);
     }
+
+//    public function student()
+//     {
+//         return $this->hasOne(Student::class, 'id_user', 'id');
+//     }
 
 
       //END

@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers\Instructor;
 
-use App\Http\Controllers\Controller;
-use App\Model\Instructor;
 use App\User;
-use Alert;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\NotificationUser;
+use Carbon\Carbon;
 use App\Model\Package;
+use App\Model\Instructor;
+use App\Model\VerifyUser;
+use App\NotificationUser;
+use phpseclib\Crypt\Hash;
+use App\Model\AdminEarning;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Model\PackagePurchaseHistory;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use App\Model\AdminEarning;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Notifications\InstructorRegister;
-use App\Model\VerifyUser;
-use App\Notifications\VerifyNotifications;
+use Illuminate\Database\Schema\Blueprint;
 
-use phpseclib\Crypt\Hash;
+use App\Notifications\VerifyNotifications;
 
 class InstructorController extends Controller
 {

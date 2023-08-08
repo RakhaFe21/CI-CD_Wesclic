@@ -108,6 +108,17 @@
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-6 -->
+                                                        <div class="col-lg-6 col-sm-6">
+                                                            <div class="input-box">
+                                                                <label class="label-text">@translate(Nomor Handphone)<span
+                                                                        class="primary-color-2 ml-1">*</span></label>
+                                                                <div class="form-group">
+                                                                    <input class="form-control" type="text" name="phone"
+                                                                        value="{{ $student->phone }}">
+                                                                    <span class="la la-user input-icon"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- end col-lg-6 -->
 
                                                         <div class="col-lg-6 col-sm-6">
                                                             <div class="input-box">

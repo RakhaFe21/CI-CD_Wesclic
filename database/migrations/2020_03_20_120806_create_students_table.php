@@ -14,10 +14,10 @@ class CreateStudentsTable extends Migration
         public function up()
         {
             Schema::create('students', function (Blueprint $table) {
-                $table->id();
-                $table->string('name');
+                $table->bigInteger('id_user')->unsigned();
+                // $table->string('name');
                 $table->string('email')->unique();
-                $table->string('phone')->nullable();
+                // $table->string('phone')->nullable();
                 $table->string('address')->nullable();
                 $table->longtext('about')->nullable();
                 $table->string('image')->nullable();
@@ -51,10 +51,12 @@ class CreateStudentsTable extends Migration
                     ->references('id')->on('users')
                     ->nullable();
                 $table->string('nama_kelurahan')->nullable();
+                $table->foreign('id_user')->references('id')->on('users');
                 $table->softDeletes();
                 $table->timestamps();
 
             });
+
     }
 
     /**

@@ -69,6 +69,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->where('verified', true);
     }
 
+//    public function student()
+//     {
+//         return $this->hasOne(Student::class, 'id_user', 'id');
+//     }
+
 
       //END
 

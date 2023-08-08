@@ -16,17 +16,8 @@ class UserSeeder extends Seeder
     {
       DB::table('users')->insert([
           'name' => 'Admin',
-<<<<<<< HEAD
-          'email' => 'admin@gmail.com',
-          'nik' => '123456789',
-          'nik' => '1234567',
-          'email' => 'admin@gmail.com',
-          'nik' => '1234567',
-          'email' => 'admin@gmail.com',
-=======
           'email' => 'admin@mail.com',
           'nik' => '325634634',
->>>>>>> 1cc72048eea5031fe2f28e2acad819236a8b40a1
           'password' => Hash::make('12345678'),
           'user_type' => 'Admin',
           'banned' => false,

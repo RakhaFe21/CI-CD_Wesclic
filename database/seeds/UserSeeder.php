@@ -23,5 +23,6 @@ class UserSeeder extends Seeder
           'verified' => true,
           'image' => 'uploads/user/nfkUiXvcdhYfWol7esVLtUxZ0kOqTkvC2FMsYiNa.png',
       ]);
+      
     }
 }

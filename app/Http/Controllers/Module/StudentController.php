@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Module;
 
-use App\Http\Controllers\Controller;
-use App\Model\Course;
-use App\Model\Enrollment;
-use App\User;
-use App\Model\Student;
-use App\Notifications\StudentRegister;
 use Alert;
-use App\Model\Logbook;
-use App\Model\LogbookStudent;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Hash;
 use Session;
+use App\User;
+use App\Model\Course;
+use App\Model\Logbook;
+use App\Model\Student;
+use App\Model\Enrollment;
 use App\Model\VerifyUser;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Model\LogbookStudent;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\StudentRegister;
 use App\Notifications\VerifyNotifications;
 
 class StudentController extends Controller
@@ -137,6 +137,7 @@ class StudentController extends Controller
         $user->nik = $request->nik;
         $user->slug = Str::slug($request->name);
         $user->email = $request->username;
+        $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
         $user->user_type = 'Student';
         $user->verified = true;
@@ -149,13 +150,14 @@ class StudentController extends Controller
         $student->email = $request->username;
         $student->phone = $request->phone;
         $student->user_id = $user->id;
-        $student->id_provinsi = $user->id;
-        $student->id_kota = $user->id;
-        $student->id_kecamatan = $user->id;
-        $student->id_kelurahan = $user->id;
-        // $student->user_id = $user->id;
-        // $student->user_id = $user->id;
-        $student->user_id = $user->id;
+        $student->id_provinsi = $request->id_provinsi; // Ganti dengan nilai dari $request yang sesuai
+        $student->nama_provinsi = $request->nama_provinsi;
+        $student->id_kota = $request->id_kota; // Ganti dengan nilai dari $request yang sesuai
+        $student->nama_kota = $request->nama_kota;
+        $student->id_kecamatan = $request->id_kecamatan; // Ganti dengan nilai dari $request yang sesuai
+        $student->nama_kecamatan = $request->nama_kecamatan;
+        $student->id_kelurahan = $request->id_kelurahan; // Ganti dengan nilai dari $request yang sesuai
+        $student->nama_kelurahan = $request->nama_kelurahan;
         $student->save();
 
         /*here is the student */

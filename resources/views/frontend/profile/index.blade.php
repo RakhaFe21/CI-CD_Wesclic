@@ -50,9 +50,18 @@
                 <div class="col-lg-8">
                     <div class="profile-detail pb-5">
                         <ul class="list-items">
-                            <li><span class="profile-name">@translate(Tanggal Daftar):</span><span
-                                    class="profile-desc">{{ $student->created_at->format('D d M Y, h:i:s A') }}</span>
+                            <li>
+                                <span class="profile-name">@translate(Tanggal Daftar):</span>
+                                @if ($student->created_at)
+                                    <span class="profile-desc">{{ $student->created_at->format('D d M Y, h:i:s A') }}</span>
+                                @else
+                                    <span class="profile-desc">Created at error</span>
+                                @endif
                             </li>
+                            
+                            {{-- <li><span class="profile-name">@translate(Tanggal Daftar):</span><span
+                                    class="profile-desc">{{ $student->created_at->format('D d M Y, h:i:s A') }}</span>
+                            </li> --}}
                             <li><span class="profile-name">@translate(Nama Lengkap):</span><span class="profile-desc">{{
                                     $student->name }}</span></li>
                             <li><span class="profile-name">Usename</span><span class="profile-desc">{{

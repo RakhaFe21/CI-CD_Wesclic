@@ -146,9 +146,9 @@ class StudentController extends Controller
 
         //create student
         $student = new Student();
-        // $student->name = $request->name;
+        $student->name = $request->name;
         $student->email = $request->username;
-        // $student->phone = $request->phone;
+        $student->phone = $request->phone;
         $student->user_id = $user->id;
         $student->id_provinsi = $request->id_provinsi; // Ganti dengan nilai dari $request yang sesuai
         $student->nama_provinsi = $request->nama_provinsi;

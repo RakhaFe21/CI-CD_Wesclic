@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers\Course;
 
-use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Exception;
+use Carbon\Carbon;
 use App\Model\Course;
-use App\Model\Logbook;
-use Auth;
-use Alert;
-use App\Model\Category;
 use App\Model\Classes;
-use App\Model\ClassContent;
+use App\Model\Logbook;
+use App\Model\Student;
+use App\Model\Category;
 use App\Model\Language;
 use App\Model\Enrollment;
-use App\Model\KursusJadwal;
 use App\Model\KursusSesi;
-use App\Model\KursusSesiEnrollment;
-use App\Model\Student;
-use Carbon\Carbon;
 use App\NotificationUser;
-use DB;
+use App\Model\ClassContent;
+use App\Model\KursusJadwal;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Model\KursusSesiEnrollment;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Notification;
 
 class CourseController extends Controller

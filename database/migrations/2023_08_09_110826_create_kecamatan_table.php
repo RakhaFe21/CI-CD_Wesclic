@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKotaTable extends Migration
+class CreateKecamatanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateKotaTable extends Migration
      */
     public function up()
     {
-        Schema::create('kota', function (Blueprint $table) {
+        Schema::create('kecamatan', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('id_provinsi');
-            $table->foreign('id_provinsi')->references('id')->on('provinsi');
+            $table->string('nama_kecamatan')->nullable();
+            $table->unsignedBigInteger('id_kota')->nullable();
+            $table->foreign('id_kota')->references('id')->on('kota')->onDelete('cascade');
             $table->timestamps();
         });
-    }        
+        
+    }
 
     /**
      * Reverse the migrations.
@@ -29,6 +30,6 @@ class CreateKotaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kota');
+        Schema::dropIfExists('kecamatan');
     }
 }

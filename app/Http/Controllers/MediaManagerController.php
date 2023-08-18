@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\MediaManager;
-use Illuminate\Http\Request;
+use File;
 use Image;
+use App\MediaManager;
 use Illuminate\Support\Str;
-use Auth;
-use Alert;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Database\Schema\Blueprint;
 
 class MediaManagerController extends Controller
@@ -221,7 +222,7 @@ class MediaManagerController extends Controller
                 $filename = public_path() . $update_media->image;
 
                 if ($request->hasFile('image')) {
-                    \File::delete($filename);
+                    File::delete($filename);
                 }
 
                 if ($extension == 'pdf') {

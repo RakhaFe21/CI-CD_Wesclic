@@ -15,9 +15,9 @@ class CreateKelurahanTable extends Migration
     {
         Schema::create('kelurahan', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('id_kecamatan');
-            $table->foreign('id_kecamatan')->references('id')->on('kecamatan');
+            $table->string('nama_kelurahan')->nullable();
+            $table->unsignedBigInteger('id_kecamatan')->nullable();
+            $table->foreign('id_kecamatan')->references('id')->on('kecamatan')->onDelete('cascade');
             $table->timestamps();
         });
         

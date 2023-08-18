@@ -132,33 +132,35 @@ class StudentController extends Controller
         );
 
         //create user for login
-        $user = new User();
-        $user->name = $request->name;
-        $user->nik = $request->nik;
-        $user->slug = Str::slug($request->name);
-        $user->email = $request->username;
-        $user->phone = $request->phone;
-        $user->password = Hash::make($request->password);
-        $user->user_type = 'Student';
-        $user->verified = true;
-        $user->email_verified_at = date('Y-m-d');
-        $user->save();
-
-        //create student
-        $student = new Student();
-        $student->name = $request->name;
-        $student->email = $request->username;
-        $student->phone = $request->phone;
-        $student->user_id = $user->id;
-        $student->id_provinsi = $request->id_provinsi; // Ganti dengan nilai dari $request yang sesuai
-        $student->nama_provinsi = $request->nama_provinsi;
-        $student->id_kota = $request->id_kota; // Ganti dengan nilai dari $request yang sesuai
-        $student->nama_kota = $request->nama_kota;
-        $student->id_kecamatan = $request->id_kecamatan; // Ganti dengan nilai dari $request yang sesuai
-        $student->nama_kecamatan = $request->nama_kecamatan;
-        $student->id_kelurahan = $request->id_kelurahan; // Ganti dengan nilai dari $request yang sesuai
-        $student->nama_kelurahan = $request->nama_kelurahan;
-        $student->save();
+       // Simpan data user
+       $user = new User();
+       $user->name = $request->name;
+       $user->nik = $request->nik;
+       $user->slug = Str::slug($request->name);
+       $user->email = $request->username;
+       $user->phone = $request->phone; // Corrected this line
+       $user->password = Hash::make($request->password);
+       $user->user_type = 'Student';
+       $user->verified = true;
+       $user->email_verified_at = now(); // Use the now() function to get the current timestamp
+       $user->save();
+       
+       $student = new Student();
+       $student->name = $user->name;
+       $student->email = $user->email;
+       $student->phone = $request->phone;
+       $student->user_id = $user->id;
+       
+       $student->id_provinsi = $request->id_provinsi;
+       $student->nama_provinsi = $request->nama_provinsi;
+       $student->id_kota = $request->id_kota;
+       $student->nama_kota = $request->nama_kota;
+       $student->id_kecamatan = $request->id_kecamatan;
+       $student->nama_kecamatan = $request->nama_kecamatan;
+       $student->id_kelurahan = $request->id_kelurahan;
+       $student->nama_kelurahan = $request->nama_kelurahan;
+       
+       $student->save();
 
         /*here is the student */
         try {

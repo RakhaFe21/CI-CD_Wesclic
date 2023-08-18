@@ -3,7 +3,7 @@
         'name' => 'softtech-it/courselms',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'f6596ba5d5c84dbda2be569050694024dc0a3a8e',
+        'reference' => 'ae1a153517078ed29be561775ba05f03c4aafe64',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1230,7 +1230,7 @@
         'softtech-it/courselms' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'f6596ba5d5c84dbda2be569050694024dc0a3a8e',
+            'reference' => 'ae1a153517078ed29be561775ba05f03c4aafe64',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

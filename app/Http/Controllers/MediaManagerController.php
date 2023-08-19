@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\MediaManager;
-use Illuminate\Http\Request;
-use Image;
-use Illuminate\Support\Str;
-use Auth;
 use Alert;
+use Image;
+use App\MediaManager;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 

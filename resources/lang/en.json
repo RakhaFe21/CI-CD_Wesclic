@@ -1,5 +1,6 @@
 {
     " password updated ": " password updated ",
+    " password updated ": " password updated ",
     "$item": "$item",
     "'Icon/Image'": "'Icon/Image'",
     "'Name'": "'Name'",
@@ -64,7 +65,14 @@
     "Akses seumur hidup": "Akses seumur hidup",
     "Aksi": "Aksi",
     "Akun": "Akun",
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
     "Alamat": "Alamat",
+>>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
+=======
+    "Alamat": "Alamat",
+>>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
     "Alamat E-Mail": "Alamat E-Mail",
     "Alamat Email": "Alamat Email",
     "Alamatrn                                        Email": "Alamatrn                                        Email",

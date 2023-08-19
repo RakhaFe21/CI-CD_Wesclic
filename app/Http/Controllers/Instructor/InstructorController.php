@@ -8,13 +8,13 @@ use App\Model\Package;
 use App\Model\Instructor;
 use App\Model\VerifyUser;
 use App\NotificationUser;
-use phpseclib\Crypt\Hash;
 use App\Model\AdminEarning;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Model\PackagePurchaseHistory;
 use Illuminate\Support\Facades\Schema;
@@ -183,90 +183,70 @@ class InstructorController extends Controller
 
     public function instructor_store(Request $request)
     {
+        // Periksa apakah mode demo aktif
         if (env('DEMO') === "YES") {
-            Alert::warning('warning', 'This is demo purpose only');
+            Alert::warning('warning', 'This is for demo purposes only');
             return back();
         }
     
+        // Validasi input
         $request->validate([
             'name' => 'required',
-            'email' => ['required', 'unique:users'],
-            'password' => ['required', 'min:8'],
-            'confirm_password' => 'required|required_with:password|same:password',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|same:password',
+            'nik' => 'required|unique:instructors', // Pastikan NIK unik di tabel instructors
         ], [
             'name.required' => translate('Name is required'),
             'email.required' => translate('Email is required'),
-            'email.unique' => translate('Email is already exist.'),
+            'email.email' => translate('Invalid email format'),
+            'email.unique' => translate('Email already exists.'),
             'password.required' => translate('Password is required'),
-            'password.min' => translate('Password must be a minimum of 8 characters'),
+            'password.min' => translate('Password must be at least 8 characters'),
             'confirm_password.required' => translate('Please confirm your password'),
-            'confirm_password.same' => translate('Password did not match'),
+            'confirm_password.same' => translate('Passwords do not match'),
+            'nik.required' => translate('NIK is required'),
+            'nik.unique' => translate('NIK already exists.'),
         ]);
     
-        // Create a new User
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->nik = $request->nik;
-        $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
-        $user->user_type = 'Instructor';
-        $user->save();
+        try {
+            // Create a new user
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->nik = $request->nik;
+            $user->password = Hash::make($request->password);
+            $user->user_type = 'Instructor';
+            $user->save();
+
+            // Create a new instructor
+            $instructor = new Instructor();
+            $instructor->name = $request->name;
+            $instructor->email = $request->email;
+            $instructor->nik = $request->nik;
+            $instructor->user_id = $user->id;
+            $instructor->save();
+
+            // Create a purchase history (you might need to adjust this part)
+            $package = Package::find(1); // You need to replace 1 with the correct package ID
+            $purchase = new PackagePurchaseHistory();
+            $purchase->amount = $package->price; // Adjust this based on your logic
+            $purchase->payment_method = $request->payment_method; // Adjust this based on your logic
+            $purchase->package_id = $package->id; // Adjust this based on your logic
+            $purchase->user_id = $user->id;
+            $purchase->save();
     
-        // Create a new Instructor
-        $instructor = new Instructor();
-        $instructor->name = $request->name;
-        $instructor->email = $request->email;
-        $instructor->user_id = $user->id;
-        $instructor->save();
+            // Hitung pendapatan admin (Anda perlu mengimplementasikan ini)
     
-        // You can add additional logic here, such as sending notifications or creating related records.
+            // Kirim email verifikasi
+            $user->notify(new VerifyNotifications($user));
     
-        Session::flash('message', translate("Registration done successfully."));
-        return back();
-    }
-    {
-        if (env('DEMO') === "YES") {
-            Alert::warning('warning', 'This is demo purpose only');
+            Session::flash('message', translate("Registration done successfully."));
             return back();
+        } catch (\Exception $exception) {
+            // Tangani pengecualian jika diperlukan
+            // Misalnya, tampilkan pesan kesalahan atau log pesan kesalahan
+            return back()->withErrors(['error' => 'Registration failed. Please try again.']);
         }
-    
-        $request->validate([
-            'name' => 'required',
-            'email' => ['required', 'unique:users'],
-            'password' => ['required', 'min:8'],
-            'confirm_password' => 'required|required_with:password|same:password',
-        ], [
-            'name.required' => translate('Name is required'),
-            'email.required' => translate('Email is required'),
-            'email.unique' => translate('Email is already exist.'),
-            'password.required' => translate('Password is required'),
-            'password.min' => translate('Password must be a minimum of 8 characters'),
-            'confirm_password.required' => translate('Please confirm your password'),
-            'confirm_password.same' => translate('Password did not match'),
-        ]);
-    
-        // Create a new User
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        // $user->nik = $request->nik;
-        $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
-        $user->user_type = 'Instructor';
-        $user->save();
-    
-        // Create a new Instructor
-        $instructor = new Instructor();
-        $instructor->name = $request->name;
-        $instructor->email = $request->email;
-        $instructor->nik = $request->nik;
-        $instructor->user_id = $user->id;
-        $instructor->save();
-    
-        // You can add additional logic here, such as sending notifications or creating related records.
-    
-        Session::flash('message', translate("Registration done successfully."));
-        return back();
     }
-    
-    //END
-}
+}    

@@ -76,6 +76,26 @@
                                 </div>
                             </div>
                         </div><!-- end col-md-12 -->
+
+                        <div class="col-lg-12 ">
+                            <div class="input-box">
+                                <label class="label-text">@translate(NIK)<span
+                                        class="primary-color-2 ml-1">*</span></label>
+                                <div class="form-group">
+                                    <input class="form-control @error('nik') is-invalid @enderror" type="text"
+                                        name="nik" placeholder="Full name" required value="{{ old('nik') }}">
+                                    <span class="la la-user input-icon"></span>
+
+                                    @error('nik')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-lg-12">
                             <div class="input-box">
                                 <label class="label-text">@translate(Password)<span

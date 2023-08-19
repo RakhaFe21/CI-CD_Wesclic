@@ -612,23 +612,36 @@ class FrontendController extends Controller
 
         // api wilayah
 
-        if ($student->id_provinsi == null) {
-            $student->id_provinsi = $request->id_provinsi;
-            $student->nama_provinsi = $request->nama_provinsi;
-        }
+if ($request->has('id_provinsi')) {
+    if ($student->id_provinsi != $request->id_provinsi) {
+        $student->id_provinsi = $request->id_provinsi;
+        $student->nama_provinsi = $request->nama_provinsi;
+    }
+}
 
-        if ($student->id_kota == null) {
-            $student->id_kota = $request->id_kota;
-            $student->nama_kota = $request->nama_kota;
-        }
-        if ($student->id_kecamatan == null) {
-            $student->id_kecamatan = $request->id_kecamatan;
-            $student->nama_kecamatan = $request->nama_kecamatan;
-        }
-        if ($student->id_kelurahan == null) {
-            $student->id_kelurahan = $request->id_kelurahan;
-            $student->nama_kelurahan = $request->nama_kelurahan;
-        }
+if ($request->has('id_kota')) {
+    if ($student->id_kota != $request->id_kota) {
+        $student->id_kota = $request->id_kota;
+        $student->nama_kota = $request->nama_kota;
+    }
+}
+
+if ($request->has('id_kecamatan')) {
+    if ($student->id_kecamatan != $request->id_kecamatan) {
+        $student->id_kecamatan = $request->id_kecamatan;
+        $student->nama_kecamatan = $request->nama_kecamatan;
+    }
+}
+
+if ($request->has('id_kelurahan')) {
+    if ($student->id_kelurahan != $request->id_kelurahan) {
+        $student->id_kelurahan = $request->id_kelurahan;
+        $student->nama_kelurahan = $request->nama_kelurahan;
+    }
+}
+
+// ...
+
 
         if ($request->file('image')) {
             $user->image = fileUpload($request->file('image'), 'student');

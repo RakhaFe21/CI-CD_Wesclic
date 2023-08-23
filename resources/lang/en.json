@@ -1,5 +1,7 @@
 {
     " password updated ": " password updated ",
+    " profile delete ": " profile delete ",
+=======
     " password updated ": " password updated ",
     "$item": "$item",
     "'Icon/Image'": "'Icon/Image'",
@@ -65,14 +67,13 @@
     "Akses seumur hidup": "Akses seumur hidup",
     "Aksi": "Aksi",
     "Akun": "Akun",
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 =======
     "Alamat": "Alamat",
->>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
+
 =======
     "Alamat": "Alamat",
->>>>>>> a46021b1810337e5a7f07500ed5ae46f7855b13e
+
     "Alamat E-Mail": "Alamat E-Mail",
     "Alamat Email": "Alamat Email",
     "Alamatrn                                        Email": "Alamatrn                                        Email",
@@ -95,6 +96,7 @@
     "Allrn Courses": "Semua Pelatihan",
     "Already have an account": "Sudah memiliki akun",
     "Amount": "Jumlah",
+    "An error occurred during registration.": "An error occurred during registration.",
     "Anda bisa menerjemahkan ke segala bahasa dengan dua tahap,": "Anda bisa menerjemahkan ke segala bahasa dengan dua tahap,",
     "Anda harus memilih kategori": "Anda harus memilih kategori",
     "Answers": "Jawaban",
@@ -139,7 +141,6 @@
     "Blog search": "Pencarian Blog",
     "Body": "Isi",
     "Body Is Required": "Isi Diperlukan",
-    "Browsern                                            Forum": "Browsern                                            Forum",
     "Browse Our Top Courses": "Jelajahi Pelatihan Terbaik Kami",
     "Browse all Courses": "Jelajahi Semua Pelatihan",
     "Browse course": "Jelajahi pelatihan",
@@ -415,9 +416,12 @@
     "Enter Stripe Acc Name": "Enter Stripe Acc Name",
     "Enter Stripe Card Holder Name": "Enter Stripe Card Holder Name",
     "Enter Stripe Card Number": "Enter Stripe Card Number",
+    "Enter Sub Title": "Enter Sub Title",
     "Enter Subscription Package Name": "Enter Subscription Package Name",
     "Enter Subscription Package price": "Enter Subscription Package price",
     "Enter Tags": "Enter Tags",
+    "Enter Title": "Enter Title",
+    "Enter URL": "Enter URL",
     "Enter Video Url Link": "Enter Video Url Link",
     "Enter any URL from this website in the form below to generate a referral link!": "Enter any URL from this website in the form below to generate a referral link!",
     "Enter content duration in minutes": "Enter content duration in minutes",
@@ -737,6 +741,7 @@
     "Mark as all read": "Mark as all read",
     "Mark as read": "Mark as read",
     "Masuk": "Masuk",
+    "Masukrn                                                akun": "Masukrn                                                akun",
     "Masuk akun": "Masuk akun",
     "Masuk ke": "Masuk ke",
     "Masuk ke akun Anda": "Masuk ke akun Anda",

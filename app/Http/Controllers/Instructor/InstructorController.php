@@ -82,19 +82,38 @@ class InstructorController extends Controller
 
     public function delete($id)
     {
-        $instructor = Instructor::where('user_id', $id)->delete();
-        $users = User::where('id', $id)->delete();
-        $user = User::findOrFail($id);
+        // Find the instructor associated with the user and delete it
+        $instructor = Instructor::where('user_id', $id)->first();
+        if ($instructor) {
+            $instructor->delete();
+        }
+    
+        // Find the user and delete it
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+        } else {
+            // Handle the case where the user does not exist
+            abort(404); // You can return a 404 error or handle this as needed
+    
+            // If you want to stop execution and return a response here, use 'return' instead of 'abort(404)'
+            // return response('User not found', 404);
+        }
+    
         $details = [
             'body' => $user->name . translate(' profile delete '),
         ];
-
-        /* sending instructor notification */
+    
+        // Send instructor notification (assuming this function exists)
         $notify = $this->userNotify(Auth::user()->id, $details);
-
+    
+        // Notify user of successful profile deletion
         notify()->success(translate('Profile Delete successfully'));
+    
+        // Redirect back to where the user came from
         return back();
     }
+    
 
     /*Update profile */
     public function edit($id)
@@ -181,88 +200,94 @@ class InstructorController extends Controller
     }
 
 
+
     public function instructor_store(Request $request)
     {
         if (env('DEMO') === "YES") {
-            Alert::warning('warning', 'This is demo purpose only');
+            Alert::warning('warning', 'This is for demo purposes only');
             return back();
         }
-
+    
         $request->validate([
-            //'package_id' => 'required',
             'name' => 'required',
             'email' => ['required', 'unique:users'],
             'password' => ['required', 'min:8'],
             'confirm_password' => 'required|required_with:password|same:password',
         ], [
-            //'package_id.required' => translate('Please select a package'),
             'name.required' => translate('Name is required'),
             'email.required' => translate('Email is required'),
-            'email.unique' => translate('Email is already exist.'),
+            'email.unique' => translate('Email already exists.'),
             'password.required' => translate('Password is required'),
-            'password.min' => translate('Password must be minimum 8 characters'),
+            'password.min' => translate('Password must be at least 8 characters'),
             'confirm_password.required' => translate('Please confirm your password'),
-            'confirm_password.same' => translate('Password did not match'),
+            'confirm_password.same' => translate('Passwords do not match'),
         ]);
-        /*get package value*/
-        $package = Package::where('id', 1)->firstOrFail();
-        // $package = Package::where('id', $request->package_id)->firstOrFail();
-        //create user for login
-
+    
+        // $package = Package::where('id', 1)->firstOrFail();
+    
         $slug_name = Str::slug($request->name);
-        /*check the sulg */
         $users = User::where('slug', $slug_name)->get();
         if ($users->count() > 0) {
             $slug_name = $slug_name . ($users->count() + 1);
         }
+    
+        // Create a new user
         $user = new User();
         $user->slug = $slug_name;
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->nik = $request->nik;
         $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
         $user->user_type = 'Instructor';
         $user->save();
-
-        //save data in instructor
+    
+        // Save data in instructor
         $instructor = new Instructor();
         $instructor->name = $request->name;
         $instructor->email = $request->email;
-        $instructor->package_id = 1;
+        $instructor->nik = $request->nik;
+        // $instructor->package_id = $package->id; // Use the actual package ID here
         $instructor->user_id = $user->id;
         $instructor->save();
-
-
-        //add purchase history
-        $purchase = new PackagePurchaseHistory();
-        $purchase->amount = $package->price;
-        $purchase->payment_method = $request->payment_method;
-        $purchase->package_id = 1;
-        $purchase->user_id = $user->id;
-        $purchase->save();
-
-
-        //todo::admin Earning calculation
-        $admin = new AdminEarning();
-        $admin->amount = $package->price;
-        $admin->purposes = "Sale Package";
-        $admin->save();
-
+        
+    
+        // Add purchase history
+        // $purchase = new PackagePurchaseHistory();
+        // $purchase->amount = $package->price;
+        // $purchase->payment_method = $request->payment_method;
+        // $purchase->package_id = $package->id; // Use the actual package ID here
+        // $purchase->user_id = $user->id;
+        // $purchase->save();
+        
+    
+        // Admin Earning calculation
+        // $admin = new AdminEarning();
+        // $admin->amount = $package->price;
+        // $admin->purposes = "Sale Package";
+        // $admin->save();
+    
         try {
-
             $user->notify(new InstructorRegister());
-
+    
             VerifyUser::create([
                 'user_id' => $user->id,
                 'token' => sha1(time())
             ]);
-            //send verify mail
+    
+            // Send verification email
             $user->notify(new VerifyNotifications($user));
         } catch (\Exception $exception) {
+            // Handle any exceptions here
         }
-
-
+    
         Session::flash('message', translate("Registration done successfully."));
         return back();
     }
-    //END
 }
+
+    
+    
+    
+    
+    
+    

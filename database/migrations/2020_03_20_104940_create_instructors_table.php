@@ -29,7 +29,7 @@ class CreateInstructorsTable extends Migration
             $table->longText('about')->nullable();
 
             //fk here
-            $table->bigInteger('package_id')->unsigned();
+            $table->bigInteger('package_id')->unsigned()->nullable();
             $table->foreign('package_id')->
             references('id')->on('packages')->onDelete('cascade');
             //this fk for login instructor

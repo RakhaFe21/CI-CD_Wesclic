@@ -143,7 +143,10 @@ class StudentController extends Controller
        $user->user_type = 'Student';
        $user->verified = true;
        $user->email_verified_at = now(); // Use the now() function to get the current timestamp
-       $user->save();
+       if (!$user->save()) {
+        dd($user->getErrors());
+    }
+    
        
        $student = new Student();
        $student->name = $user->name;

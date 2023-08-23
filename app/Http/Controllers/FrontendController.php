@@ -508,6 +508,7 @@ class FrontendController extends Controller
         $user->slug         = Str::slug($request->name);
         $user->nik          = $request->nik;
         $user->email        = $request->email;
+        $user->phone        = $request->phone;
         $user->verified     = 1;
         $user->password     = Hash::make($request->password);
         $user->user_type    = 'Student';
@@ -596,6 +597,8 @@ class FrontendController extends Controller
         $user = User::where('id', Auth::id())->firstOrFail();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
 
         $student = Student::where('user_id', Auth::id())->firstOrFail();
         $student->name = $request->name;

@@ -104,11 +104,13 @@
     <script src="{{ asset('frontend/js/tooltipster.bundle.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    
     <script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.js') }}"></script>
     <!-- Switchery js -->
     <script src="{{asset('assets/plugins/switchery/switchery.js')}}"></script>
     <script src="{{asset('assets/js/custom/custom-switchery.js')}}"></script>
+
     <script src="{{ asset('js/jquery.lazyload.min.js') }}"></script>
     <script src="{{ asset('frontend/js/custom.js') }}"></script>
     <script src="{{ asset('js/frontend.js') }}"></script>

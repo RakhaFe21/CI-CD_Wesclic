@@ -88,7 +88,7 @@ Route::group(
         /*Student Login
         * @email
          * @password
-        */
+        */  
         Route::post('/student/login', 'StudentApiController@studentLogin');
 
         /*Student password reset

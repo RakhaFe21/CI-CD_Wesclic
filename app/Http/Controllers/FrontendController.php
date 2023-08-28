@@ -5,52 +5,49 @@ namespace App\Http\Controllers;
 
 use Hash;
 use App\Blog;
-use App\Page;
-use App\User;
-use Validator;
-use App\QuizScore;
-use Carbon\Carbon;
-use App\Model\Cart;
-use App\Model\Demo;
-use App\Model\Course;
-use App\Model\Slider;
-use App\Subscription;
-use App\Model\Classes;
-use App\Model\Massage;
-use App\Model\Package;
-use App\Model\Student;
-use GuzzleHttp\Client;
-use App\Model\Category;
-use App\Model\Language;
-use App\Model\Wishlist;
-use App\Model\Enrollment;
-use App\Model\Instructor;
-use App\Model\VerifyUser;
-use App\NotificationUser;
-use App\SubscriptionCart;
-use App\Model\SeenContent;
+use App\Http\Middleware\Affiliate;
 use App\Model\AdminEarning;
-use App\Model\ClassContent;
-use App\Model\KursusJadwal;
-use Illuminate\Support\Str;
-use App\Model\CourseComment;
-use Illuminate\Http\Request;
-use App\Model\StudentAccount;
 use App\Model\AffiliateHistory;
 use App\Model\AffiliatePayment;
-use App\SubscriptionEnrollment;
-use App\Model\InstructorEarning;
-use App\Http\Middleware\Affiliate;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
+use App\Model\Cart;
+use App\Model\Category;
+use App\Model\ClassContent;
+use App\Model\Classes;
+use App\Model\Course;
+use App\Model\CourseComment;
 use App\Model\CoursePurchaseHistory;
+use App\Model\Demo;
+use App\Model\Enrollment;
+use App\Model\Instructor;
+use App\Model\InstructorEarning;
+use App\Model\Language;
+use App\Model\Massage;
+use App\Model\Package;
+use App\Model\PackagePurchaseHistory;
+use App\Model\SeenContent;
+use App\Model\Slider;
+use App\Model\Student;
+use App\Model\StudentAccount;
+use App\Model\VerifyUser;
+use App\Model\Wishlist;
+use App\Notifications\AffiliateCommission;
+use App\Notifications\EnrolmentCourse;
+use App\Notifications\InstructorRegister;
+use App\Notifications\StudentRegister;
+use App\Notifications\VerifyNotifications;
+use App\NotificationUser;
+use App\Page;
+use App\QuizScore;
+use App\Subscription;
+use App\SubscriptionCart;
+use App\SubscriptionEnrollment;
+use App\User;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use App\Model\PackagePurchaseHistory;
-use App\Notifications\EnrolmentCourse;
-use App\Notifications\StudentRegister;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Notifications\InstructorRegister;
@@ -58,7 +55,17 @@ use Illuminate\Database\Schema\Blueprint;
 use App\Notifications\AffiliateCommission;
 use App\Notifications\VerifyNotifications;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Hash;
+use Alert;
 use App\Http\Controllers\API\V1\WilayahApiController;
+use App\Model\KursusJadwal;
+use Validator;
+use Illuminate\Support\Facades\Notification;
 
 class FrontendController extends Controller
 {
@@ -426,7 +433,6 @@ class FrontendController extends Controller
         // $provinsi = json_decode($response1, TRUE);
 
         return view($this->theme . '.profile.index', compact('student'));
-        // dd($student);
     }
 
     //enrolled_course
@@ -509,6 +515,7 @@ class FrontendController extends Controller
         $user->slug         = Str::slug($request->name);
         $user->nik          = $request->nik;
         $user->email        = $request->email;
+        $user->phone        = $request->phone;
         $user->verified     = 1;
         $user->password     = Hash::make($request->password);
         $user->user_type    = 'Student';
@@ -597,6 +604,8 @@ class FrontendController extends Controller
         $user = User::where('id', Auth::id())->firstOrFail();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
 
         $student = Student::where('user_id', Auth::id())->firstOrFail();
         $student->name = $request->name;
@@ -613,23 +622,36 @@ class FrontendController extends Controller
 
         // api wilayah
 
-        if ($student->id_provinsi == null) {
-            $student->id_provinsi = $request->id_provinsi;
-            $student->nama_provinsi = $request->nama_provinsi;
-        }
+if ($request->has('id_provinsi')) {
+    if ($student->id_provinsi != $request->id_provinsi) {
+        $student->id_provinsi = $request->id_provinsi;
+        $student->nama_provinsi = $request->nama_provinsi;
+    }
+}
 
-        if ($student->id_kota == null) {
-            $student->id_kota = $request->id_kota;
-            $student->nama_kota = $request->nama_kota;
-        }
-        if ($student->id_kecamatan == null) {
-            $student->id_kecamatan = $request->id_kecamatan;
-            $student->nama_kecamatan = $request->nama_kecamatan;
-        }
-        if ($student->id_kelurahan == null) {
-            $student->id_kelurahan = $request->id_kelurahan;
-            $student->nama_kelurahan = $request->nama_kelurahan;
-        }
+if ($request->has('id_kota')) {
+    if ($student->id_kota != $request->id_kota) {
+        $student->id_kota = $request->id_kota;
+        $student->nama_kota = $request->nama_kota;
+    }
+}
+
+if ($request->has('id_kecamatan')) {
+    if ($student->id_kecamatan != $request->id_kecamatan) {
+        $student->id_kecamatan = $request->id_kecamatan;
+        $student->nama_kecamatan = $request->nama_kecamatan;
+    }
+}
+
+if ($request->has('id_kelurahan')) {
+    if ($student->id_kelurahan != $request->id_kelurahan) {
+        $student->id_kelurahan = $request->id_kelurahan;
+        $student->nama_kelurahan = $request->nama_kelurahan;
+    }
+}
+
+// ...
+
 
         if ($request->file('image')) {
             $user->image = fileUpload($request->file('image'), 'student');
@@ -638,6 +660,7 @@ class FrontendController extends Controller
             $user->image = $request->oldImage;
             $student->image = $request->oldImage;
         }
+        
 
         $user->update();
         $student->update();

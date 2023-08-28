@@ -255,7 +255,7 @@
                                                                 <label class="label-text">@translate(Alamat)</label>
                                                                 <div class="form-group">
                                                                     <textarea class="message-control form-control"
-                                                                        name="about">{!! $student->about !!}</textarea>
+                                                                        name="address">{!! $student->address !!}</textarea>
                                                                     <span class="la la-pencil input-icon"></span>
                                                                 </div>
                                                             </div>

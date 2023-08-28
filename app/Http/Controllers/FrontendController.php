@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+// use Hash;
 use App\Blog;
 use App\Http\Middleware\Affiliate;
 use App\Model\AdminEarning;
@@ -48,6 +49,12 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+// use RealRashid\SweetAlert\Facades\Alert;
+// use App\Notifications\InstructorRegister;
+// use Illuminate\Database\Schema\Blueprint;
+// use App\Notifications\AffiliateCommission;
+// use App\Notifications\VerifyNotifications;
+// use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -550,7 +557,7 @@ class FrontendController extends Controller
     // student_edit
     public function student_edit()
     {
-        $student = Student::where('user_id', Auth::user()->id)->first();
+        $student = User::where('id', Auth::user()->id)->first();
 
         // $url = 'https://wilayah.conect.id/static/api/provinces.json';
         // $options = array('http' => array(
@@ -560,7 +567,7 @@ class FrontendController extends Controller
         // $response1 = file_get_contents($url, false, $context);
         // $provinsi = json_decode($response1, TRUE);
         $provinsi = [];
-
+        // dd($student);
         return view($this->theme . '.profile.update', compact('student', 'provinsi'));
     }
 
@@ -664,7 +671,13 @@ if ($request->has('id_kelurahan')) {
         // $user->image = $student->image;
         // $user->save();
 
-        return back()->with(['success' => 'Profil Berhasil Diupdate']);;
+        // Set pesan sukses dalam sesi atau data flash
+        session()->flash('success', 'Profil Berhasil Diupdate');
+
+        // // Mengalihkan pengguna kembali ke halaman profil
+        // return redirect($std_id)->route('student.profile');
+
+        return back()->with(['success' => 'Profil Berhasil Diupdate']);
     }
 
     public function student_reset_password(Request $request)

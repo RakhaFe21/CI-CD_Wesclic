@@ -1,6 +1,6 @@
 {{-- HEADER --}}
 
-<div class="card shadow-sm mb-3 bg-white rounded">
+<div class="card shadow-sm mb-3 bg-white rounded" style="position: relative; z-index: auto;">
     <div class="row">
         <div class="col-md-2">
             <div class="card-header">Media Manager</div>
@@ -18,7 +18,7 @@
 </div>
 
 {{-- ALl MEDIA --}}
-<div class="card mb-3">
+<div class="card mb-3" style="position: relative; z-index: auto;">
 
 
     <div class="card-header">

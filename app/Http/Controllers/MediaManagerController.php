@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use Alert;
 use File;
 use Image;
 use App\MediaManager;
@@ -9,8 +11,9 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
-use RealRashid\SweetAlert\Facades\Alert;
+// use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Database\Schema\Blueprint;
+use Artisan;
 
 class MediaManagerController extends Controller
 {
@@ -23,7 +26,7 @@ class MediaManagerController extends Controller
     {
 
         if (!Schema::hasTable('media_managers')) {
-            \Artisan::call('make:model MediaManager');
+            Artisan::call('make:model MediaManager');
 
             Schema::create('media_managers', function (Blueprint $table) {
                 $table->id();

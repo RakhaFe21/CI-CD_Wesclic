@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Module;
 
-use App\Http\Controllers\Controller;
-use App\Model\Category;
 use App\Model\Course;
-use Illuminate\Http\Request;
+use App\Model\Category;
 use Illuminate\Support\Str;
-use Alert;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {

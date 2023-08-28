@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use Hash;
+// use Hash;
 use App\Blog;
 use App\Http\Middleware\Affiliate;
 use App\Model\AdminEarning;
@@ -49,12 +49,12 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Notifications\InstructorRegister;
-use Illuminate\Database\Schema\Blueprint;
-use App\Notifications\AffiliateCommission;
-use App\Notifications\VerifyNotifications;
-use Illuminate\Support\Facades\Notification;
+// use RealRashid\SweetAlert\Facades\Alert;
+// use App\Notifications\InstructorRegister;
+// use Illuminate\Database\Schema\Blueprint;
+// use App\Notifications\AffiliateCommission;
+// use App\Notifications\VerifyNotifications;
+// use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use GuzzleHttp\Client;

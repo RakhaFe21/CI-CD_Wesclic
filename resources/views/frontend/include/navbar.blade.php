@@ -594,14 +594,14 @@
                     @endguest
 
 
-                    <!-- end logo-right-button -->
+                        <!-- end logo-right-button -->
                         <div class="side-nav-container">
-                            <div class="humburger-menu">
-                                <div class="humburger-menu-lines side-menu-close"></div>
-                                <!-- end humburger-menu-lines -->
-                            </div><!-- end humburger-menu -->
+                            <div class="hamburger-menu">
+                                <div class="hamburger-menu-lines side-menu-close"></div>
+                                <!-- end hamburger-menu-lines -->
+                            </div><!-- end hamburger-menu -->
                             {{-- responsive menu --}}
-                            <div class="side-menu-wrap">
+                            <div class="side-menu-wrap" >
                                 <ul class="side-menu-ul">
                                     <li class="sidenav__item">
                                         <a href="{{ route('homepage') }}">@translate(Home)</a>
@@ -636,15 +636,18 @@
                                         <li class="sidenav__item">
                                             <a href="{{route('student.dashboard')}}">@translate(Dashboard)</a>
                                         </li>
-                                        <li class="sidenav__item">
-                                            <a href="{{ route('logout') }}"
-                                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">@translate(Logout)</a>
-
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none" >
-                                                @csrf
-                                            </form>
-
+                                        <li class="sidenav__item dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@translate(Logout)</a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">@translate(Logout)</a>
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                        @csrf
+                                                    </form>
+                                                </li>
+                                            </ul>
                                         </li>
                                     @endauth
 
@@ -668,8 +671,6 @@
         </div>
     </div><!-- end container-fluid -->
 </div><!-- end header-menu-content -->
-
-
 @auth
 {{-- bottom responsive menu --}}
 <ul class="nav justify-content-center fixed-bottom bg-white btm-fixed-nav d-none">

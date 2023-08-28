@@ -35,9 +35,9 @@ class StudentController extends Controller
             if ($request->get('search')) {
                 $students = Student::with('user')->where('name', 'like', '%' . $request->get('search') . '%')
                     ->orWhere('email', 'like', '%' . $request->get('search') . '%')
-                    ->orderBydesc('id')->paginate(10);
+                    ->orderBydesc('id_user')->paginate(10);
             } else {
-                $students = Student::with('user')->orderBydesc('id')->paginate(10);
+                $students = Student::with('user')->orderBydesc('id_user')->paginate(10);
             }
 
 

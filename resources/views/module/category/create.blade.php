@@ -18,7 +18,7 @@
                 <input type="hidden" name="category_url" class="category_url" value="">
                 @if (MediaActive())
                     {{-- media --}}
-                    <a href="javascript:void(0)" onclick="openNav('{{ route('media.slide') }}', 'category')" class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>
+                    <a href="javascript:void(0)" onclick="openNav('{{ route('media.slide') }}', 'category')" class="btn btn-primary media-btn mt-2 p-2" >Upload From Media<i class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>
                 @endif
 
             </div>

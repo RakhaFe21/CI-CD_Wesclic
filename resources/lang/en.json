@@ -1,7 +1,6 @@
 {
     " password updated ": " password updated ",
     " profile delete ": " profile delete ",
-=======
     " password updated ": " password updated ",
     "$item": "$item",
     "'Icon/Image'": "'Icon/Image'",
@@ -67,13 +66,7 @@
     "Akses seumur hidup": "Akses seumur hidup",
     "Aksi": "Aksi",
     "Akun": "Akun",
-
-=======
     "Alamat": "Alamat",
-
-=======
-    "Alamat": "Alamat",
-
     "Alamat E-Mail": "Alamat E-Mail",
     "Alamat Email": "Alamat Email",
     "Alamatrn                                        Email": "Alamatrn                                        Email",
@@ -141,6 +134,7 @@
     "Blog search": "Pencarian Blog",
     "Body": "Isi",
     "Body Is Required": "Isi Diperlukan",
+    "Browsern                                            Forum": "Browsern                                            Forum",
     "Browse Our Top Courses": "Jelajahi Pelatihan Terbaik Kami",
     "Browse all Courses": "Jelajahi Semua Pelatihan",
     "Browse course": "Jelajahi pelatihan",
@@ -185,6 +179,7 @@
     "Category deleted successfully": "Category deleted successfully",
     "Category name is required": "Category name is required",
     "Category popular status is changed": "Category popular status is changed",
+    "Category top status is changed": "Category top status is changed",
     "Category updated successfully": "Category updated successfully",
     "Cek koneksi database": "Cek koneksi database",
     "Certificate Addon Upload": "Certificate Addon Upload",

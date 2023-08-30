@@ -20,11 +20,9 @@
 
                 <br>
 
-                <input type="hidden" name="category_url" class="category_url" value="">
-                @if (MediaActive())
-                    {{-- media --}}
-                    <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'category')" class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>
-                @endif
+                <div id="mediaPreview"></div> <!-- Ini adalah div untuk menampilkan media -->
+                <input type="file" id="mediaInput" class="d-none" accept="image/*"> <!-- Input file media yang tersembunyi -->
+                <a href="javascript:void(0)" onclick="openMediaPicker()" class="btn btn-primary media-btn mt-2 p-2">Choose Media <i class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>x
 
         </div>
         <div class="form-group">
@@ -45,3 +43,28 @@
 
     </form>
 </div>
+
+<script>
+    function openMediaPicker() {
+        // Ketika tombol "Choose Media" diklik, klik input file media secara otomatis
+        document.getElementById('mediaInput').click();
+    }
+
+    // Fungsi ini akan dipanggil ketika pengguna memilih file media
+    document.getElementById('mediaInput').addEventListener('change', function (event) {
+        var mediaPreview = document.getElementById('mediaPreview');
+        mediaPreview.innerHTML = ''; // Hapus tampilan media sebelumnya (jika ada)
+
+        var file = event.target.files[0];
+        if (file) {
+            // Buat elemen gambar untuk menampilkan media
+            var img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.width = 55;
+            img.className = 'rounded shadow-sm';
+
+            // Tambahkan gambar ke div tampilan media
+            mediaPreview.appendChild(img);
+        }
+    });
+</script>

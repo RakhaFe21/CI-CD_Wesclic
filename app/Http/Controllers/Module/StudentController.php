@@ -37,7 +37,7 @@ class StudentController extends Controller
                     ->orWhere('email', 'like', '%' . $request->get('search') . '%')
                     ->orderBydesc('id_user')->paginate(10);
             } else {
-                $students = Student::with('user')->orderBydesc('id_user')->paginate(10);
+                $students = Student::with('user')->orderBydesc('id')->paginate(20);
             }
 
 
@@ -57,10 +57,10 @@ class StudentController extends Controller
             if ($request->get('search')) {
                 $students = Student::with('user')->where('name', 'like', '%' . $request->get('search') . '%')
                     ->orWhere('email', 'like', '%' . $request->get('search') . '%')
-                    ->whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(10);
+                    ->whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(20);
             } else {
                 // $students = Student::with('user')->whereIn('user_id', $enroll_student_id)->orderBydesc('id')->paginate(10);
-                $students = Student::with('user')->orderBydesc('id')->paginate(10);
+                $students = Student::with('user')->orderBydesc('id')->paginate(20);
             }
         }
         return view('module.students.index', compact('students'));
@@ -109,7 +109,7 @@ class StudentController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'nik' => 'required',
+                'nik' => ['required', 'numeric', 'digits:16', 'unique:users', new \App\Rules\WithoutSpaces],
                 // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'username' => ['required', 'string', 'max:255', 'unique:users,email'],
                 'password' => ['required', 'string', 'min:8'],
@@ -117,7 +117,12 @@ class StudentController extends Controller
             ],
             [
                 'name.required' => translate('Name is required'),
-                'nik.required' => translate('NIK is required'),
+                'nik.required' => translate('Pastikan NIK telah diisi'),
+                'nik.without_spaces' => translate('NIK tidak boleh memiliki spasi'),
+                'nik.numeric' => translate('NIK harus berupa angka'),
+                'nik.digits' => translate(' NIK harus 16 karakter'),
+                'nik.unique' => translate('NIK telah terdaftar'),
+                'nik.size' => translate('NIK harus memiliki panjang 16 karakter'),
                 // 'email.required' => translate('Email is required'),
                 // 'email.unique' => translate('Email is already register'),
                 'username.required' => translate('Username is required'),

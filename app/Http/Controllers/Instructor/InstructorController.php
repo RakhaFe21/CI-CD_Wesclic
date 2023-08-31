@@ -202,70 +202,71 @@ class InstructorController extends Controller
 
 
     public function instructor_store(Request $request)
-    {
-        if (env('DEMO') === "YES") {
-            Alert::warning('warning', 'This is for demo purposes only');
-            return back();
-        }
+{
+    if (env('DEMO') === "YES") {
+        Alert::warning('warning', 'This is for demo purposes only');
+        return back();
+    }
+
+    $request->validate([
+        'name' => 'required',
+        'email' => ['required', 'unique:users'],
+        'nik' => ['required', 'numeric', 'digits:16', 'unique:users', new \App\Rules\WithoutSpaces],
+        'password' => ['required', 'min:8'],
+        'confirm_password' => 'required|required_with:password|same:password',
+    ], [
+        'name.required' => translate('Name is required'),
+        'email.required' => translate('Email is required'),
+        'email.unique' => translate('Email already exists.'),
+        'nik.numeric' => translate('NIK harus berupa angka'),
+        'nik.digits' => translate('NIK harus 16 karakter'),
+        'nik.unique' => translate('NIK telah terdaftar'),
+        'password.required' => translate('Password is required'),
+        'password.min' => translate('Password must be at least 8 characters'),
+        'confirm_password.required' => translate('Please confirm your password'),
+        'confirm_password.same' => translate('Passwords do not match'),
+    ]);
     
-        $request->validate([
-            'name' => 'required',
-            'email' => ['required', 'unique:users'],
-            'password' => ['required', 'min:8'],
-            'confirm_password' => 'required|required_with:password|same:password',
-        ], [
-            'name.required' => translate('Name is required'),
-            'email.required' => translate('Email is required'),
-            'email.unique' => translate('Email already exists.'),
-            'password.required' => translate('Password is required'),
-            'password.min' => translate('Password must be at least 8 characters'),
-            'confirm_password.required' => translate('Please confirm your password'),
-            'confirm_password.same' => translate('Passwords do not match'),
-        ]);
-    
-        // $package = Package::where('id', 1)->firstOrFail();
-    
-        $slug_name = Str::slug($request->name);
-        $users = User::where('slug', $slug_name)->get();
-        if ($users->count() > 0) {
-            $slug_name = $slug_name . ($users->count() + 1);
-        }
-    
-        // Create a new user
-        $user = new User();
-        $user->slug = $slug_name;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->nik = $request->nik;
-        $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
-        $user->user_type = 'Instructor';
-        $user->save();
-    
-        // Save data in instructor
-        $instructor = new Instructor();
-        $instructor->name = $request->name;
-        $instructor->email = $request->email;
-        $instructor->nik = $request->nik;
-        // $instructor->package_id = $package->id; // Use the actual package ID here
-        $instructor->user_id = $user->id;
-        $instructor->save();
-        
-    
-        // Add purchase history
-        // $purchase = new PackagePurchaseHistory();
-        // $purchase->amount = $package->price;
-        // $purchase->payment_method = $request->payment_method;
-        // $purchase->package_id = $package->id; // Use the actual package ID here
-        // $purchase->user_id = $user->id;
-        // $purchase->save();
-        
-    
-        // Admin Earning calculation
-        // $admin = new AdminEarning();
-        // $admin->amount = $package->price;
-        // $admin->purposes = "Sale Package";
-        // $admin->save();
-    
+
+
+    $slug_name = Str::slug($request->name);
+    $users = User::where('slug', $slug_name)->get();
+    if ($users->count() > 0) {
+        $slug_name = $slug_name . ($users->count() + 1);
+    }
+
+    // Create a new user
+    $user = new User();
+    $user->slug = $slug_name;
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->nik = $request->nik;
+    $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
+    $user->user_type = 'Instructor';
+    $user->save();
+
+    // Save data in instructor
+    $instructor = new Instructor();
+    $instructor->name = $request->name;
+    $instructor->email = $request->email;
+    $instructor->nik = $request->nik;
+    $instructor->user_id = $user->id;
+    $instructor->save();
+
+    // Add purchase history
+    // $purchase = new PackagePurchaseHistory();
+    // $purchase->amount = $package->price;
+    // $purchase->payment_method = $request->payment_method;
+    // $purchase->package_id = $package->id;
+    // $purchase->user_id = $user->id;
+    // $purchase->save();
+
+    // Admin Earning calculation
+    // $admin = new AdminEarning();
+    // $admin->amount = $package->price;
+    // $admin->purposes = "Sale Package";
+    // $admin->save();
+
         try {
             $user->notify(new InstructorRegister());
     

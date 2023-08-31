@@ -478,7 +478,7 @@ class FrontendController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => ['required', 'string', 'without_spaces', 'max:255', 'unique:users'],
-            'nik' => ['required', 'without_spaces', 'numeric',  'unique:users'],
+            'nik' => ['required', 'numeric', 'digits:16', 'unique:users', new \App\Rules\WithoutSpaces],
             'phone' => ['required', 'without_spaces', 'numeric', 'min:9', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'confirmed' => 'required|required_with:password|same:password',
@@ -492,6 +492,7 @@ class FrontendController extends Controller
             'nik.required' => translate('Pastikan NIK telah diisi'),
             'nik.without_spaces' => translate('NIK tidak boleh memiliki spasi'),
             'nik.numeric' => translate('NIK harus berupa angka'),
+            'nik.digits' => translate(' NIK harus 16 karakter'),
             'nik.unique' => translate('NIK telah terdaftar'),
             'nik.size' => translate('NIK harus memiliki panjang 16 karakter'),
             'phone.required' => translate('Pastikan no telepon telah diisi'),

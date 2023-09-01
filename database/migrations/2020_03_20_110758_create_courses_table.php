@@ -17,13 +17,14 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->enum('level',['Beginner','Advanced','All Levels']);
+            // $table->string('level')->nullable();
+            $table->enum('level',['Beginner','Advanced','All Levels','Terbuka','Tertutup']);
             $table->enum('rating',['1','2','3','4','5'])->default(1);
             $table->longText('short_description')->nullable();
             $table->longText('big_description')->nullable();
             $table->string('image');
-            $table->string('overview_url'); //there are course overview video
-            $table->enum('provider',['Youtube','HTML5','Vimeo']);
+            $table->string('overview_url')->nullable(); //there are course overview video
+            $table->enum('provider',['Youtube','HTMLS','Video'])->nullable();
             $table->json('requirement')->nullable(); //save all course requirement json
             $table->json('outcome')->nullable();
             $table->json('tag')->nullable();
@@ -55,6 +56,7 @@ class CreateCoursesTable extends Migration
             // tahapan pelatihan
             $table->longText('tahapan_pelatihan');
             // pendaftaran
+            
             $table->date('mulai_pendaftaran')->default(now());
             $table->date('berakhir_pendaftaran')->default(now());
             $table->integer('jumlah_peserta')->default(0);

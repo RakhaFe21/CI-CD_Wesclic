@@ -896,6 +896,7 @@ class ComposerStaticInitfaa5aeb820e22f4023d92c0c36795f6b
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Rules\\WithoutSpaces' => __DIR__ . '/../..' . '/app/Rules/WithoutSpaces.php',
         'App\\Subscription' => __DIR__ . '/../..' . '/app/Subscription.php',
         'App\\SubscriptionCart' => __DIR__ . '/../..' . '/app/SubscriptionCart.php',
         'App\\SubscriptionCourse' => __DIR__ . '/../..' . '/app/SubscriptionCourse.php',

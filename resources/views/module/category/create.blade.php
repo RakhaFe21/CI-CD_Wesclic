@@ -17,6 +17,33 @@
                 <a href="javascript:void(0)" onclick="openMediaPicker()" class="btn btn-primary media-btn mt-2 p-2">Choose Media <i class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>
             </div>
         </div>
+        <script>
+            function openMediaPicker() {
+                // Ketika tombol "Choose Media" diklik, klik input file media secara otomatis
+                document.getElementById('mediaInput').click();
+            }
+        
+            // Fungsi ini akan dipanggil ketika pengguna memilih file media
+            document.getElementById('mediaInput').addEventListener('change', function (event) {
+                var mediaPreview = document.getElementById('mediaPreview');
+                mediaPreview.innerHTML = ''; // Hapus tampilan media sebelumnya (jika ada)
+        
+                var file = event.target.files[0];
+                if (file) {
+                    // Buat elemen gambar untuk menampilkan media
+                    var img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.width = 55;
+                    img.className = 'rounded shadow-sm';
+        
+                    // Tambahkan gambar ke div tampilan media
+                    mediaPreview.appendChild(img);
+        
+                    // Update nilai input tersembunyi "icon" dengan nama file
+                    document.querySelector('.icon').value = file.name;
+                }
+            });
+        </script>
         
         
         
@@ -52,27 +79,3 @@
 
 
 
-<script>
-    function openMediaPicker() {
-        // Ketika tombol "Choose Media" diklik, klik input file media secara otomatis
-        document.getElementById('mediaInput').click();
-    }
-
-    // Fungsi ini akan dipanggil ketika pengguna memilih file media
-    document.getElementById('mediaInput').addEventListener('change', function (event) {
-        var mediaPreview = document.getElementById('mediaPreview');
-        mediaPreview.innerHTML = ''; // Hapus tampilan media sebelumnya (jika ada)
-
-        var file = event.target.files[0];
-        if (file) {
-            // Buat elemen gambar untuk menampilkan media
-            var img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.width = 55;
-            img.className = 'rounded shadow-sm';
-
-            // Tambahkan gambar ke div tampilan media
-            mediaPreview.appendChild(img);
-        }
-    });
-</script>

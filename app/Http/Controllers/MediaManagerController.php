@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 // use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Database\Schema\Blueprint;
-use Artisan;
+use Illuminate\Support\Facades\Artisan;
 
 class MediaManagerController extends Controller
 {

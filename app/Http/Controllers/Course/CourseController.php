@@ -198,13 +198,13 @@ class CourseController extends Controller
 
             if ($allowed_update) {
                 $this->userNotify($detailEnrollment->user_id, [
-                    'body' => "Status Anda pada pelatihan " . $detailEnrollment->course->title . " telah berubah. Silakan cek di menu Pelatihan Saya." , "Anda adalah siswa ke-$detailEnrollmentUser->id dalam daftar pendaftaran."
+                    'body' => "Status Anda pada pelatihan " . $detailEnrollment->course->title . " telah berubah." . " Silakan cek di menu Pelatihan Saya. Anda adalah siswa ke-" .$detailEnrollment->id. " dalam daftar pendaftaran."
                 ]);
                 Enrollment::find($enrollment_id)->update(['status' => $status]);
             }
         }
 
-        return redirect()->back()->with('succss', 'Status pelatihan siswa berhasil diperbarui!');
+        return redirect()->back()->with('success', 'Status pelatihan siswa berhasil diperbarui!');
     }
 
     public function enrollmentAddStudent(Request $request, $course_id)

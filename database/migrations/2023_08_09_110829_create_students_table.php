@@ -26,7 +26,7 @@ class CreateStudentsTable extends Migration
             $table->string('linked')->nullable();
             $table->unsignedBigInteger('user_id')->nullable(); // Ubah nullable sesuai kebutuhan
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('nik')->nullable();
+            $table->bigInteger('nik')->unique();
             $table->date('tgl_lahir')->nullable();
             $table->string('dtks')->nullable();
             $table->boolean('is_disable')->nullable();

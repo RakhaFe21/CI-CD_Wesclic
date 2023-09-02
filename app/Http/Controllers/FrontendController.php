@@ -528,6 +528,7 @@ class FrontendController extends Controller
         $student->email     = $request->email;
         $student->phone     = $request->phone;
         $student->user_id   = $user->id;
+        $student->nik       = $request->nik;
         $student->image   = 'uploads/user/user.png';
         $student->save();
 

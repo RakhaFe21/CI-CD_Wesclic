@@ -20,7 +20,10 @@ class CreateKursusSesiTable extends Migration
             $table->string('tanggal_sesi')->nullable();
             $table->string('jam_sesi')->nullable();
             $table->string('lokasi_sesi')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
+            
             $table->foreign('id_kursus_jadwal')
             ->references('id')
             ->on('kursus_jadwal')

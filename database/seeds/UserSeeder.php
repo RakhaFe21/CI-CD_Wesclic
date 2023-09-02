@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
           'nik' => '1234567',
           'email' => 'admin@gmail.com',
           // 'phone' => '083801160107',
-          'password' => Hash::make('12345678'),
+          'password' => Hash::make('123'),
           'user_type' => 'Admin',
           'banned' => false,
           'verified' => true,

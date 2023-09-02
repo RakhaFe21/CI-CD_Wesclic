@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Module;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Notification;
-use Illuminate\Notifications\Notifiable;
-use App\Notifications\UserNotification;
 use App\User;
-use Auth;
-use Alert;
+use Notification;
 use App\NotificationUser;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\UserNotification;
+use Illuminate\Notifications\Notifiable;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserNotificationController extends Controller
 {

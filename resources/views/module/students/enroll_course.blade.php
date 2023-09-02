@@ -3,7 +3,7 @@
         @csrf
         @forelse (courseAdmin() as $course)
             <div class="form-check">
-                <input disabled type="checkbox" 
+                <input true type="checkbox" 
                         name="course_id[]" 
                         value="{{ $course->id }}" 
                         class="form-check-input" 
@@ -23,9 +23,9 @@
         @endforelse
         
           
-        <!-- <div class="float-right">
-            <button class="btn btn-primary float-right" type="submit">@translate(Save)</button>
-        </div> -->
+        {{-- <div class="float-right">
+        <button class="btn btn-primary float-right" type="submit">@translate(Save)</button>
+    </div>  --}}
 
     </form>
 </div>

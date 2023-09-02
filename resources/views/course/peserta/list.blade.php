@@ -206,7 +206,7 @@
                                 <td><input type="checkbox" :value="{{ $item->enrollment_id }}" name="enrollment_id[]"
                                         v-model="enrollmentSelected" class="form-check-input"
                                         id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) >
-                                    time()) disabled @endif>
+                                    time()) true @endif>
                                 </td>
                                 <td>
                                     @if ($item->image != null)
@@ -280,7 +280,7 @@
                                 <td><input type="checkbox" :value="{{ $item->enrollment_id }}" name="enrollment_id[]"
                                         v-model="enrollmentSelected" class="form-check-input"
                                         id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) >
-                                    time()) disabled @endif>
+                                    time()) true @endif>
                                 </td>
                                 <td>
                                     @if ($item->image != null)
@@ -354,7 +354,7 @@
                                 <td><input type="checkbox" :value="{{ $item->enrollment_id }}" name="enrollment_id[]"
                                         v-model="enrollmentSelected" class="form-check-input"
                                         id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) >
-                                    time()) disabled @endif>
+                                    time()) true @endif>
                                 </td>
                                 <td>
                                     @if ($item->image != null)
@@ -407,7 +407,7 @@
                                 <td><input type="checkbox" :value="{{ $item->enrollment_id }}" name="enrollment_id[]"
                                         v-model="enrollmentSelected" class="form-check-input"
                                         id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) >
-                                    time()) disabled @endif>
+                                    time()) true @endif>
                                 </td>
                                 <td>
                                     @if ($item->image != null)
@@ -462,7 +462,7 @@
                                 <td><input type="checkbox" :value="{{ $item->enrollment_id }}" name="enrollment_id[]"
                                         v-model="enrollmentSelected" class="form-check-input"
                                         id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) >
-                                    time()) disabled @endif>
+                                    time()) true @endif>
                                 </td>
                                 <td>
                                     @if ($item->image != null)
@@ -535,7 +535,7 @@
                                 <td><input type="checkbox" :value="{{ $item->enrollment_id }}" name="enrollment_id[]"
                                         v-model="enrollmentSelected" class="form-check-input"
                                         id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) >
-                                    time()) disabled @endif>
+                                    time()) true @endif>
                                 </td>
                                 <td>
                                     @if ($item->image != null)
@@ -595,7 +595,7 @@
                                 <td><input type="checkbox" :value="{{ $item->enrollment_id }}" name="enrollment_id[]"
                                         v-model="enrollmentSelected" class="form-check-input"
                                         id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) >
-                                    time()) disabled @endif>
+                                    time()) true @endif>
                                 </td>
                                 <td>
                                     @if ($item->image != null)
@@ -655,7 +655,7 @@
                                 <td><input type="checkbox" :value="{{ $item->enrollment_id }}" e="enrollment_id[]"
                                         v-model="enrollmentSelected" class="form-check-input"
                                         id="checkbox-{{ $item->id }}" @if (strtotime($course->berakhir_pendaftaran) >
-                                    time()) disabled @endif>
+                                    time()) true @endif>
                                 </td>
                                 <td>
                                     @if ($item->image != null)

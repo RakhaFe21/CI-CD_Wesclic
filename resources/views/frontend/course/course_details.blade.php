@@ -406,18 +406,20 @@
                                                 onclick="addToCart({{ $course->id }},'{{ route('add.to.cart') }}')">Daftar</a>
                                             --}}
                                             @if (countEnrollmentProgress(auth()->user() && auth()->user()->id) < 1)
-                                                <form action="{{ route('enroll.course', ['id' => $s_course->id]) }}"
-                                                method="post">
+                                            <form action="{{ route('enroll.course', ['id' => $s_course->id]) }}" method="post">
                                                 @csrf
                                                 <button type="submit" class="theme-btn mb-3">Daftar</button>
-                                                </form>
-                                                @else
-                                                <button type="button" disabled
-                                                    class="theme-btn-light mb-3">Daftar</button>
-                                                {{-- <div class="small text-secondary">Anda masih memiliki pelatihan
-                                                    yang sedang berjalan.</div> --}}
-                                                @endif
-                                                @else
+                                            </form>
+                                        @else
+                                            @php
+                                                $enrollmentOrder = getEnrollmentOrder(auth()->user()->id); // Replace with your actual function to get enrollment order
+                                            @endphp
+                                            <button type="button" disabled class="theme-btn-light mb-3">Daftar</button>
+                                            <div class="small text-secondary">
+                                                Anda sudah terdaftar dengan urutan ke-{{ $enrollmentOrder }}.
+                                            </div>
+                                        @endif
+
                                                 <a href="{{ route('login') }}" class="text-btn">Daftar</a>
                                                 @endif
                                                 @endauth

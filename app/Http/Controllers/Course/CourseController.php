@@ -185,7 +185,7 @@ class CourseController extends Controller
                         $detailEnrollmentFromSesi = $detail->enrollment;
                         $detailEnrollmentUser = $detailEnrollmentFromSesi->user;
                         $this->userNotify($detailEnrollmentFromSesi->user_id, [
-                            'body' => "$detailEnrollmentUser->name, anda diundang untuk menghadiri $enrollmentSesi->nama_jadwal pada tanggal " . date('d M Y', strtotime($enrollmentSesi->tanggal_sesi)) . " - Pk. $enrollmentSesi->jam_sesi di $enrollmentSesi->lokasi_sesi."
+                            'body' => "$detailEnrollmentUser->name,  Anda adalah siswa ke-$detailEnrollmentUser->id dalam daftar pendaftaran, anda diundang untuk menghadiri $enrollmentSesi->nama_jadwal pada tanggal " . date('d M Y', strtotime($enrollmentSesi->tanggal_sesi)) . " - Pk. $enrollmentSesi->jam_sesi di $enrollmentSesi->lokasi_sesi."
                         ]);
                     }
                     // else {
@@ -198,7 +198,7 @@ class CourseController extends Controller
 
             if ($allowed_update) {
                 $this->userNotify($detailEnrollment->user_id, [
-                    'body' => "Status Anda pada pelatihan " . $detailEnrollment->course->title . " telah berubah. Silakan cek di menu Pelatihan Saya."
+                    'body' => "Status Anda pada pelatihan " . $detailEnrollment->course->title . " telah berubah. Silakan cek di menu Pelatihan Saya." , "Anda adalah siswa ke-$detailEnrollmentUser->id dalam daftar pendaftaran."
                 ]);
                 Enrollment::find($enrollment_id)->update(['status' => $status]);
             }

@@ -158,6 +158,7 @@ class StudentController extends Controller
        $student->email = $user->email;
        $student->phone = $request->phone;
        $student->user_id = $user->id;
+       $student->nik = $request->nik;
        
        $student->id_provinsi = $request->id_provinsi;
        $student->nama_provinsi = $request->nama_provinsi;

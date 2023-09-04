@@ -23,7 +23,7 @@
                                     @translate(Notifikasi)
                                     <a href="{{ route('mark_as_all_read', Auth::user()->id) }}"
                                         class="primary-color-3 ml-auto font-size-13">@translate(Tandai semua telah
-                                        dinbaca)</a>
+                                        di baca)</a>
                                 </h4>
                             </div><!-- end dashboard-title -->
                             @forelse ($notifications as $notification)
@@ -33,11 +33,14 @@
                                         <i class="la la-bolt"></i>
                                     </div>
                                     @foreach ($notification->data as $item)
-                                    <div class="content">
-                                        <span class="time">{{ $notification->created_at->diffForHumans() }}</span>
-                                        <p class="text">{{ @translate($item) }}</p>
-                                    </div>
+                                    <a href="{{ route('my.courses')}}" class="notification-link">
+                                        <div class="content">
+                                            <span class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                            <p class="text">{{ @translate($item) }}</p>
+                                        </div>
+                                    </a>
                                     @endforeach
+
                                 </div><!-- end mess__item -->
                             </div><!-- end mess__item -->
                             @empty

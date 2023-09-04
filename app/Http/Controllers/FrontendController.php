@@ -419,6 +419,16 @@ class FrontendController extends Controller
         $notifications = NotificationUser::latest()->where('user_id', Auth::user()->id)->get();
         return view($this->theme . '.dashboard.index', compact('notifications'));
     }
+    //detail notif
+    // public function detailNotifikasi()
+    // {
+    //     $notifications = NotificationUser::firstOrFail()->where('user_id', Auth::user()->id)->get();
+    //     return view($this->theme . '.dashboard.detailnotif', compact('notifications'));
+    // }
+
+
+    
+
 
     //my_profile
     public function my_profile()

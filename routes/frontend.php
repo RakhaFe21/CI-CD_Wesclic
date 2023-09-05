@@ -172,6 +172,12 @@ Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']
         Route::get('student/dashboard', 'FrontendController@dashboard')
             ->name('student.dashboard');
 
+        // detail notifikasi
+        // Route::get('/dashboard/detailnotif', 'FrontendController@detailNotifikasi')->name('frontend.courses.my_courses');
+        // Route::get('/dashboard/detailnotif/{id}', 'FrontendController@detailNotifikasi')->name('frontend.dashboard.detailnotif');
+
+
+
         //my_profile
         Route::get('student/profile', 'FrontendController@my_profile')
             ->name('student.profile');

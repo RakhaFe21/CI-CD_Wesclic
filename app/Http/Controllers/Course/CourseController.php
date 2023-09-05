@@ -198,7 +198,7 @@ class CourseController extends Controller
 
             if ($allowed_update) {
                 $this->userNotify($detailEnrollment->user_id, [
-                    'body' => "Status Anda pada pelatihan " . $detailEnrollment->course->title . " telah berubah." . " Silakan cek di menu Pelatihan Saya. Anda adalah siswa ke-" .$detailEnrollment->id. " dalam daftar pendaftaran."
+                    'body' => "Status Anda pada pelatihan " . $detailEnrollment->course->title . " telah berubah." . " Untuk detailnya silakan cek di menu Pelatihan Saya. Anda adalah siswa ke-" .$detailEnrollment->id. " dalam daftar pendaftaran."
                 ]);
                 Enrollment::find($enrollment_id)->update(['status' => $status]);
             }

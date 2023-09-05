@@ -185,10 +185,12 @@
                                                                         </div>
                                                                         <div class="content">
                                                                             @foreach ($notification->data as $item)
-                                                                                <span
-                                                                                    class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                                            <span class="time">{{ $notification->created_at->diffForHumans() }}</span>
+                                                                            <a href="{{ route('my.courses') }}" class="notification-link">
                                                                                 <p class="text">{{ $item }}</p>
-                                                                            @endforeach
+                                                                            </a>
+                                                                        @endforeach
+                                                                        
                                                                         </div>
 
                                                                     </div>

@@ -16,7 +16,7 @@
                 <li class="sidenav__item {{ request()->is('student/message') ? 'page-active' : '' }}"><a
                         href="{{ route('student.message') }}"><i class="la la-bell"></i>@translate(Pesan)</a></li>
                 <li class="sidenav__item {{ request()->is('student/dashboard') ? 'page-active' : '' }}"><a
-                        href="{{ route('student.dashboard') }}"><i
+                        href="{{ route('student.dashboard') }}"><i>
                             class="la la-dashboard"></i>@translate(Notifikasi)</a>
                 </li>
                 <li class="sidenav__item {{ request()->is('student/purchase/history') ? 'page-active' : '' }}"><a
